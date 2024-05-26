@@ -15,11 +15,20 @@ class EmployeeController extends Controller
 
     public function getPosts(){
 
-        $posts=Post::orderbyraw('is_follow','desc')->get();
+        $posts=Post::with(['Company','Review'])->orderbyraw('is_follow','desc')->get();
     
-        return $this->PostResource::collection($posts);
+        return $this->PostResource::collection($posts) ?? [];
         
         }
+
+        public function getPost(Post $post){
+
+        $post=Post::whereId($post->id)->load(['Company','Review'])->first();
+
+        return $this->PostResource::make($post) ?? [];
+            
+        }
+
 
 
 

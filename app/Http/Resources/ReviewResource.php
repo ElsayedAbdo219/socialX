@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\CompanyResource;
 use Carbon\Carbon;
 
-class PostResource extends JsonResource
+class ReviewResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,12 +18,8 @@ class PostResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'company' => CompanyResource::make($this->whenLoaded('Company')),
-            'content' => $this->content ?? '',
-            'file_name' => $this->file_name ?? '',
-            'is_follow' => $this->is_follow ==0 ? 'غير متابع' : 'متابع',
-            'file_name' => $this->file_name ?? '',
-            'review' =>  ReviewResource::make($this->whenLoaded('Review')),
+            'likes' => $this->likes ?? '',
+            'comments' => $this->comments ?? '',
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
         ];
     }

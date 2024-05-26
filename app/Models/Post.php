@@ -14,5 +14,11 @@ class Post extends Model
         return $this->belongsTo(Company::class,'company_id');
     }
 
+    public function Review(){
+        return $this->hasMany(Review::class,'post_id');
+    }
+
+
+
 
 }
