@@ -15,7 +15,7 @@ use App\Models\{
 };
 class AuthController extends Controller
 {
-    public function register(Request $request,$type)
+    public function register(Request $request, string $type)
     {
         if($type == UserTypeEnum::Employee){
            $data= $request->validate([
@@ -31,13 +31,11 @@ class AuthController extends Controller
     
             $employee = Employee::create([$data]);
     
-            $token = $employee->createToken('api_token')->plainTextToken;
-    
-            return response()->json(['token' => $token]);
+           return response()->json(['message' =>'Employee Updated Successfully','employee'=>$employee]);
         }
 
         elseif($type == UserTypeEnum::COMPANY){
-            $request->validate([
+            $data=$request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required',
@@ -48,23 +46,14 @@ class AuthController extends Controller
                 'bio' => 'string',
             ]);
     
-            $company = Company::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
+            $company = Company::create([$data]);
     
-            $token = $company->createToken('api_token')->plainTextToken;
-    
-            return response()->json(['token' => $token]);
+           return response()->json(['message' =>'Employee Updated Successfully','company'=>$company]);
         }
-
       
     }
 
-
-
-    public function login(Request $request,$type)
+    public function login(Request $request,string $type)
     {
         $request->validate([
             'email' => 'required|email',
@@ -127,6 +116,51 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out successfully']);
     }
 
+
+
+
+    public function update(Request $request,string $type,int $id)
+    {
+        if($type == UserTypeEnum::Employee){
+           $data= $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required',
+                'personal_photo' => 'string|image,mimes:jpeg,png,jpg',
+                'personal_info' => 'string',
+                'website' => 'string|url',
+                'experience' => 'string',
+                'coverletter' => 'image,mimes:jpeg,png,jpg',
+            ]);
+    
+            $employee = Employee::findOrFail($id);
+    
+            $employee->update($data);
+    
+            return response()->json(['message' =>'Employee Updated Successfully','employee'=>$employee]);
+        }
+
+        elseif($type == UserTypeEnum::COMPANY){
+            $data=$request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required',
+                'logo' => 'image,mimes:jpeg,png,jpg',
+                'slogo' => 'string',
+                'website' => 'url|string',
+                'address' => 'string',
+                'bio' => 'string',
+            ]);
+    
+            $company = Employee::findOrFail($id);
+    
+            $company->update($data);
+    
+            return response()->json(['message' =>'Company Updated Successfully','company'=>$company]);
+        }
+
+      
+    }
 
     
 

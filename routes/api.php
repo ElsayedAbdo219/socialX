@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/register/{type}', [AuthController::class, 'register']);
     Route::post('/login/{type}', [AuthController::class, 'login']);
     Route::post('/logout/{type}', [AuthController::class, 'register']);
+    Route::put('/update/{type}', [AuthController::class, 'update']);
 });
 
 });
@@ -32,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::post('addPost', [PostController::class, 'addPost']);
-    Route::get('addPosts', [PostController::class, 'getPosts']);
+    Route::get('getPosts', [PostController::class, 'getPosts']);
     Route::post('getPost', [PostController::class, 'getPost']);
 });
 
