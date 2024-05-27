@@ -52,8 +52,25 @@ class PostController extends Controller
 
         return $this->PostResource::make($post) ?? [];
             
-        }
+    }
 
+
+    public function searchPost(Request $request){
+
+      return Post::query()->when($request->filled('keyword'), function ($query) use ($request) {
+        $query->where('content', 'like', '%' . $request->keyword . '%')
+        ->orwhereHas('Company', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->keyword . '%');
+        });
+       })->get() ?? [];
+          
+  }
+
+
+
+
+
+    
     
 
 }
