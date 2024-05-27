@@ -15,11 +15,13 @@ use App\Models\{
 };
 class AuthController extends Controller
 {
-    public function register(Request $request, string $type)
+    public function register(Request $request, $type)
     {
+     
         if($type == UserTypeEnum::Employee){
            $data= $request->validate([
                 'name' => 'required|string|max:255',
+                'job' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required',
                 'personal_photo' => 'string|image,mimes:jpeg,png,jpg',
@@ -28,9 +30,8 @@ class AuthController extends Controller
                 'experience' => 'string',
                 'coverletter' => 'image,mimes:jpeg,png,jpg',
             ]);
-    
-            $employee = Employee::create([$data]);
-    
+            
+            $employee = Employee::create($data);
            return response()->json(['message' =>'Employee Updated Successfully','employee'=>$employee]);
         }
 
@@ -53,7 +54,7 @@ class AuthController extends Controller
       
     }
 
-    public function login(Request $request,string $type)
+    public function login(Request $request,$type)
     {
         $request->validate([
             'email' => 'required|email',

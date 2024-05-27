@@ -3,8 +3,8 @@ namespace App\Enums;
 
 enum UserTypeEnum: string
 {
-    case ADMIN = 'admin';
-    case Employee = 'employee';
-    case COMPANY = 'company';
+   public const ADMIN = 'admin';
+   public const Employee = 'employee';
+   public  const COMPANY = 'company';
 
 }

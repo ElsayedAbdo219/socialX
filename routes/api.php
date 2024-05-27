@@ -21,9 +21,11 @@ use App\Http\Controllers\User\{
 */
 Route::prefix("auth")->group(function(){
 
+Route::post('/register/{type}', [AuthController::class, 'register']);
+Route::post('/login/{type}', [AuthController::class, 'login']);
+
+
 Route::middleware('auth:sanctum')->group(function(){
-    Route::post('/register/{type}', [AuthController::class, 'register']);
-    Route::post('/login/{type}', [AuthController::class, 'login']);
     Route::post('/logout/{type}', [AuthController::class, 'register']);
     Route::put('/update/{type}', [AuthController::class, 'update']);
 });
