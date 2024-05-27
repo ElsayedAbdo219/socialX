@@ -34,7 +34,9 @@ Route::middleware('auth:sanctum')->group(function(){
 Route::middleware('auth:sanctum')->group(function(){
     Route::post('addPost', [PostController::class, 'addPost']);
     Route::get('getPosts', [PostController::class, 'getPosts']);
-    Route::post('getPost', [PostController::class, 'getPost']);
+    Route::post('searchPost', [PostController::class, 'searchPost']);
+
+    
 });
 
 
