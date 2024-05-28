@@ -9,12 +9,20 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Company;
 class PostController extends Controller
 {
-    public function __construct(protected PostResource $PostResource){}
+  // protected $postResource;
+
+  // public function __construct(PostResource $postResource)
+  // {
+  //     $this->postResource = $postResource;
+  // }
+
 
       public function addPost(Request $request){
-         
-        if(empty($request->content) || empty($request->file_name)){
-            return __('لم يتم انشاء المنشور  الرجاء المحاولة مرة اخرى ');
+
+       
+         return $request;
+        if(empty($request->content)){
+            return ('لم يتم انشاء المنشور  الرجاء المحاولة مرة اخرى ');
         }
 
         $companies=Company::pluck('id')->toArray();
@@ -26,12 +34,11 @@ class PostController extends Controller
             'company_id'=>auth()->user()->id,
         ]);
        
-        if(!empty($request->file_name)){
-            $fileName=uniqid().'.'.$request->file_name->getClientOriginalExtension();
-            $file_path=Storage::disk('local')->putFileAs('', $request->file_name, $fileName);
-        }
-
-        return $this->PostResource::make($post) ?? [];
+        $file = $request->file('file_name');
+        $fileName = uniqid().'.'.$file->getClientOriginalExtension();
+        $file_path = $file->storeAs('', $fileName, 'local');
+    
+    //    return $this->postResource::make($post) ?? [];
           
       }
 
@@ -42,7 +49,7 @@ class PostController extends Controller
 
         $posts=Post::with(['Company','Review'])->orderbyraw('is_follow','desc')->get();
     
-        return $this->PostResource::collection($posts) ?? [];
+        //return $this->postResource::collection($posts) ?? [];
         
         }
 
@@ -50,7 +57,7 @@ class PostController extends Controller
 
         $post=Post::whereId($post->id)->load(['Company','Review'])->first();
 
-        return $this->PostResource::make($post) ?? [];
+      //  return $this->postResource::make($post) ?? [];
             
     }
 

@@ -23,33 +23,37 @@ class AuthController extends Controller
                 'name' => 'required|string|max:255',
                 'job' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required',
+                'password' => 'required|string',
                 'personal_photo' => 'string|image,mimes:jpeg,png,jpg',
                 'personal_info' => 'string',
                 'website' => 'string|url',
                 'experience' => 'string',
                 'coverletter' => 'image,mimes:jpeg,png,jpg',
             ]);
-            
+            $data['password'] = Hash::make($request->password);
+
             $employee = Employee::create($data);
            return response()->json(['message' =>'Employee Updated Successfully','employee'=>$employee]);
         }
 
         elseif($type == UserTypeEnum::COMPANY){
-            $data=$request->validate([
+          
+                $data=$request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required',
+                'password' => 'required|string',
                 'logo' => 'image,mimes:jpeg,png,jpg',
                 'slogo' => 'string',
                 'website' => 'url|string',
                 'address' => 'string',
                 'bio' => 'string',
             ]);
+
+            $data['password'] = Hash::make($request->password);
     
-            $company = Company::create([$data]);
+            $company = Company::create($data);
     
-           return response()->json(['message' =>'Employee Updated Successfully','company'=>$company]);
+           return response()->json(['message' =>'Company Updated Successfully','company'=>$company]);
         }
       
     }
@@ -61,40 +65,34 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-
         if($type == UserTypeEnum::Employee){
+            $employee = Employee::where('email', $request->email)->first();
 
-        if (!Auth::guard('employee')->attempt($request->only('email', 'password'))) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
-
-        $employee = Employee::where('email', $request->email)->first();
-
-        $token = $employee->createToken('api_token')->plainTextToken;
-
-        return response()->json(['token' => $token]);
+            if (!$employee || !Hash::check($request->password, $employee->password)) {
+                return response()->json(['message' => 'Invalid credentials'], 401);
+            }
+    
+            $token = $employee->createToken('auth_token')->plainTextToken;
+    
+            return response()->json(['token' => $token], 200);
     }
 
 
-
-    elseif(!Auth::guard('company')->attempt($request->only('email', 'password'))){
-
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
-        ]);
-    }
-
+    elseif($type == UserTypeEnum::COMPANY){
     $company = Company::where('email', $request->email)->first();
 
-    $token = $company->createToken('api_token')->plainTextToken;
+    if (!$company || !Hash::check($request->password, $company->password)) {
+        return response()->json(['message' => 'Invalid credentials'], 401);
+    }
 
-    return response()->json(['token' => $token]);
+    $token = $company->createToken('auth_token')->plainTextToken;
+
+    return response()->json(['token' => $token], 200);
 
 
 
     }
+}
 
 
     /**
@@ -103,24 +101,23 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout(Request $request,$type)
+    public function logout($type)
     {
-       if($type == UserTypeEnum::Employee){
-        Auth::guard('employee')->user()->currentAccessToken()->delete();
-       }
-
-       elseif($type == UserTypeEnum::COMPANY){
-        Auth::guard('company')->user()->currentAccessToken()->delete();
-
-       }
-
+        $user = Auth::user();
+    
+        if ($type == UserTypeEnum::Employee) {
+            $user->tokens()->where('name', 'auth_token')->delete();
+        } elseif ($type == UserTypeEnum::COMPANY) {
+            $user->tokens()->where('name', 'auth_token')->delete();
+        }
+    
         return response()->json(['message' => 'Logged out successfully']);
     }
 
 
 
 
-    public function update(Request $request,string $type,int $id)
+    public function update(Request $request,string $type)
     {
         if($type == UserTypeEnum::Employee){
            $data= $request->validate([
@@ -134,11 +131,10 @@ class AuthController extends Controller
                 'coverletter' => 'image,mimes:jpeg,png,jpg',
             ]);
     
-            $employee = Employee::findOrFail($id);
     
-            $employee->update($data);
+            auth()->user()->update($data);
     
-            return response()->json(['message' =>'Employee Updated Successfully','employee'=>$employee]);
+            return response()->json(['message' =>'Employee Updated Successfully']);
         }
 
         elseif($type == UserTypeEnum::COMPANY){
@@ -153,7 +149,7 @@ class AuthController extends Controller
                 'bio' => 'string',
             ]);
     
-            $company = Employee::findOrFail($id);
+            $company = Company::findOrFail($id);
     
             $company->update($data);
     
