@@ -9,18 +9,10 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Company;
 class PostController extends Controller
 {
-  // protected $postResource;
-
-  // public function __construct(PostResource $postResource)
-  // {
-  //     $this->postResource = $postResource;
-  // }
-
+    protected $postResource=PostResource::class;
 
       public function addPost(Request $request){
-
-       
-         return $request;
+      
         if(empty($request->content)){
             return ('لم يتم انشاء المنشور  الرجاء المحاولة مرة اخرى ');
         }
@@ -38,7 +30,7 @@ class PostController extends Controller
         $fileName = uniqid().'.'.$file->getClientOriginalExtension();
         $file_path = $file->storeAs('', $fileName, 'local');
     
-    //    return $this->postResource::make($post) ?? [];
+       return $this->postResource::make($post) ?? [];
           
       }
 
@@ -57,7 +49,7 @@ class PostController extends Controller
 
         $post=Post::whereId($post->id)->load(['Company','Review'])->first();
 
-      //  return $this->postResource::make($post) ?? [];
+        return $this->postResource::make($post) ?? [];
             
     }
 

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('rates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id');
-            $table->text('content')->nullable();
-            $table->string('file_name')->nullable();
-            $table->string('is_Active')->default(0);
+            $table->foreignId('employee_id');
+            $table->integer('rate');
+            $table->string("comment")->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('rates');
     }
 };
