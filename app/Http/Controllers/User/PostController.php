@@ -13,22 +13,28 @@ class PostController extends Controller
 
       public function addPost(Request $request){
       
-        if(empty($request->content)){
+        if(empty($request->content) && empty($request->file_name)){
             return ('لم يتم انشاء المنشور  الرجاء المحاولة مرة اخرى ');
         }
 
         $companies=Company::pluck('id')->toArray();
         $user=auth()->user();
-        abort_if(!in_array($user->id, $companies), 403, __('ليس لديك صلاحيات لتنفيذ هذه العملية'));
+        abort_if(!in_array($user->email , $companies), 403, __('ليس لديك صلاحيات لتنفيذ هذه العملية'));
 
         $post=Post::create([
             'content'=>$request->content,
             'company_id'=>auth()->user()->id,
         ]);
+
+        if ($request->file('file_name')) {
+          $file = $request->file('file_name');
+          $fileName = uniqid() . '_' . $file->getClientOriginalName();
+          $filePath = $file->storeAs('posts', $fileName);
+           $post->update([
+            'file_name'=> $fileName,
+        ]);
        
-        $file = $request->file('file_name');
-        $fileName = uniqid().'.'.$file->getClientOriginalExtension();
-        $file_path = $file->storeAs('', $fileName, 'local');
+      }
     
        return $this->postResource::make($post) ?? [];
           
@@ -37,18 +43,22 @@ class PostController extends Controller
 
 
 
-    public function getPosts(){
+      public function getPosts(){
 
-        $posts=Post::with(['Company','Review'])->orderbyraw('is_follow','desc')->get();
-    
-        //return $this->postResource::collection($posts) ?? [];
+        $posts=Post::with(['Company','Review'])->get();
         
-        }
+        // ->orderbyrawDesc('is_follow','1')
+    
+       return $this->postResource::collection($posts) ?? [];
+        
+      }
 
         public function getPost(Post $post){
 
-        $post=Post::whereId($post->id)->load(['Company','Review'])->first();
-
+        $post=Post::whereId($post?->id)->first();
+       if (!$post) {
+           abort(404);
+       }
         return $this->postResource::make($post) ?? [];
             
     }
@@ -66,6 +76,16 @@ class PostController extends Controller
   }
 
 
+  public function getComments(Post $post){
+
+   
+        
+}
+
+
+
+
+  
 
 
 

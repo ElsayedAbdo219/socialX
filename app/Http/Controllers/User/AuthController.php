@@ -30,10 +30,12 @@ class AuthController extends Controller
                 'experience' => 'string',
                 'coverletter' => 'image,mimes:jpeg,png,jpg',
             ]);
+
+            
             $data['password'] = Hash::make($request->password);
 
             $employee = Employee::create($data);
-           return response()->json(['message' =>'Employee Updated Successfully','employee'=>$employee]);
+           return response()->json(['message' =>'Employee Regiseted Successfully','employee'=>$employee]);
         }
 
         elseif($type == UserTypeEnum::COMPANY){
@@ -53,7 +55,10 @@ class AuthController extends Controller
     
             $company = Company::create($data);
     
-           return response()->json(['message' =>'Company Updated Successfully','company'=>$company]);
+           return response()->json(['message' =>'Company Regiseted Successfully','company'=>$company]);
+        }
+        else{
+            return response()->json(['message' =>'Invalid credentials'], 401);
         }
       
     }
@@ -74,7 +79,7 @@ class AuthController extends Controller
     
             $token = $employee->createToken('auth_token')->plainTextToken;
     
-            return response()->json(['token' => $token], 200);
+            return response()->json(['token' => $token, 'employee' => $employee], 200);
     }
 
 
@@ -87,7 +92,7 @@ class AuthController extends Controller
 
     $token = $company->createToken('auth_token')->plainTextToken;
 
-    return response()->json(['token' => $token], 200);
+    return response()->json(['token' => $token , 'company' => $company ], 200);
 
 
 
