@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('traders', function (Blueprint $table) {
-           // $table->double('credit_balance')->default(0);
-          //  $table->double('debit_balance')->default(0);
+        Schema::create('rate_employees', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id');
+            $table->foreignId('employee_id');
+            $table->integer('rate');
+            $table->string("comment")->nullable();
+            $table->timestamps();
         });
     }
 
@@ -22,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('traders', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('rate_employees');
     }
 };

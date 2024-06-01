@@ -211,6 +211,19 @@ return [
     "nootbook_list"=>"قائمة الدفتر",
     "edit_notebook"=>"تعديل بيانات الدفتر",
     "edit_drawer"=>"تعديل بيانات الدرج",
+     "employees"=>"المستقلين",
+     "show_employees"=>"عرض المستقلين",
+     "news"=>"الاخبار",
+     "show_news"=>"عرض الاخبار",
+      "posts"=>"المنشورات",
+     "show_posts"=>"عرض المنشورات",
+     "posts_list"=>"عرض كل المنشورات",
+     "company"=>"الشركة",
+     "file_name"=>"الملف",
+     "is_Active"=>"الحالة",
+     "company"=>"الشركة",
+     "company"=>"الشركة",
+     "company"=>"الشركة",
 
 
 

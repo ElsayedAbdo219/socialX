@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             UserSeeder::class,
             SettingSeeder::class,
-            MakhzanySeeder::class,
+          
         ]);
         Schema::enableForeignKeyConstraints();
     }

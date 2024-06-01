@@ -4,25 +4,27 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class () extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('mobile')->unique();
-            $table->string('email')->nullable()->unique();
+            $table->string('job');
+            $table->string('personal_photo')->nullable();
+            $table->text('personal_info')->nullable();
+            $table->text('website')->nullable();
+            $table->text('experience')->nullable();
+            $table->string('coverletter')->nullable();
+            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('is_Active')->default(0);
             $table->string('password');
             $table->rememberToken();
-            $table->boolean('is_active')->default(0);
-            $table->string('fcm_token')->nullable();
-            $table->string('type')->nullable();
-            $table->string('balance')->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -32,6 +34,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('employees');
     }
 };

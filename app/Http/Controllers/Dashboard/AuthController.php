@@ -34,7 +34,7 @@ class AuthController extends Controller
     {
         $data=$request->validate([
          'email'=>'string|exists:users,email',
-         'password'=>'string|max:8',
+         'password'=>'string|max:10',
         ]);
         if (auth('web')->attempt($data)) {
             session()->regenerate();

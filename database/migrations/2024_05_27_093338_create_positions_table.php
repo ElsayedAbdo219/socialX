@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('whole_sales', function (Blueprint $table) {
-//            $table->dropColumn('ton_nolon_price');
+        Schema::create('positions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('employee_id');
+            $table->string('position');
+            $table->foreignId('company_id');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('whole_sales', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('positions');
     }
 };

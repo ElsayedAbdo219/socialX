@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('sectoral_sellings', function (Blueprint $table) {
-            $table->string('delivery_way');
-            $table->double('ton_nolon_price')->nullable();
+        Schema::create('posts', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('company_id');
+            $table->text('content')->nullable();
+            $table->string('file_name')->nullable();
+            $table->string('is_Active')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -22,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('sectoral_sellings', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('posts');
     }
 };

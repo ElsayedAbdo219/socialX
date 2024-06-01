@@ -59,7 +59,7 @@
 
 
 
-        <li class=" nav-item"><a href="#"><i class="feather icon-users"></i>
+        <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i>
             <span class="menu-title" data-i18n="Data List">{{ __('dashboard.posts') }}</span>
         </a>
         <ul class="menu-content">
@@ -76,7 +76,7 @@
     </li> 
 
 
-    <li class=" nav-item"><a href="#"><i class="feather icon-users"></i>
+    <li class=" nav-item"><a href="#"><i class="feather icon-activity"></i>
         <span class="menu-title" data-i18n="Data List">{{ __('dashboard.news') }}</span>
     </a>
     <ul class="menu-content">

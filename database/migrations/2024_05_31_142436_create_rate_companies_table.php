@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_reports', function (Blueprint $table) {
+        Schema::create('rate_companies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->double('amount')->default(0);
+            $table->foreignId('company_id');
+            $table->foreignId('employee_id');
+            $table->integer('rate');
+            $table->string("comment")->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_reports');
+        Schema::dropIfExists('rate_companies');
     }
 };

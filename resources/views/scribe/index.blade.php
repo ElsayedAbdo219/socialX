@@ -1140,7 +1140,6 @@ x-ratelimit-remaining: 55
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/vagrant/code/meshwary/app/Http/Middleware/UserActivation.php&quot;,
             &quot;line&quot;: 25,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
@@ -1150,7 +1149,6 @@ x-ratelimit-remaining: 55
             &quot;file&quot;: &quot;/home/vagrant/code/meshwary/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
             &quot;line&quot;: 180,
             &quot;function&quot;: &quot;handle&quot;,
-            &quot;class&quot;: &quot;App\\Http\\Middleware\\UserActivation&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
@@ -4617,7 +4615,6 @@ x-ratelimit-remaining: 59
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/vagrant/code/meshwary/app/Http/Middleware/UserActivation.php&quot;,
             &quot;line&quot;: 25,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
@@ -4627,7 +4624,6 @@ x-ratelimit-remaining: 59
             &quot;file&quot;: &quot;/home/vagrant/code/meshwary/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
             &quot;line&quot;: 180,
             &quot;function&quot;: &quot;handle&quot;,
-            &quot;class&quot;: &quot;App\\Http\\Middleware\\UserActivation&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {

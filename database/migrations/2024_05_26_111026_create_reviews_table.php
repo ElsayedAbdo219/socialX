@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('traders', function (Blueprint $table) {
-      //     $table->double('credit_balance_sectoral')->default(0);
-      //     $table->double('debit_balance_sectoral')->default(0);
+        Schema::create('reviews', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('post_id');
+            $table->foreignId('employee_id');
+            $table->string('likes')->nullable()->default(0);
+            $table->text('comments')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -22,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('traders', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('reviews');
     }
 };

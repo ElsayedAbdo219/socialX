@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('whole_sales', function (Blueprint $table) {
-//            $table->dropColumn('ton_colon_price');
-
+        Schema::create('news', function (Blueprint $table) {
+            $table->id();
+            $table->text('title')->nullable();
+            $table->text('contentNews')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -22,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('whole_sales', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('news');
     }
 };

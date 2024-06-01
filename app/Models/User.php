@@ -10,24 +10,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\Permission\Traits\HasRoles;
+// use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens;
+  
     use HasFactory;
     use Notifiable;
-    use SoftDeletes;
     use InteractsWithMedia;
-    use HasRoles;
-    use Walletable;
+   
     use ModelTrait;
 
     protected $guarded = ['avatar'];
@@ -36,8 +33,7 @@ class User extends Authenticatable implements HasMedia
         'name',
         'id',
         'email',
-        'mobile',
-        'status',
+       
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -87,53 +83,8 @@ class User extends Authenticatable implements HasMedia
         );
     }
 
-    # Relations
-    public function deviceTokens(): MorphMany
-    {
-        return $this->morphMany(DeviceToken::class, 'tokenable');
-    }
-
-    public function latestOTPToken(): MorphOne
-    {
-        return $this->morphOne(AuthenticatableOtp::class, 'authenticatable')->latestOfMany();
-    }
-
-    public function OTPTokens(): MorphMany
-    {
-        return $this->morphMany(AuthenticatableOtp::class, 'authenticatable')->whereActive(true)->latest();
-    }
 
 
-    public function trader()
-    {
-        return $this->hasMany(Trader::class, 'user_id');
-    }
-
-    public function purchasing()
-    {
-        return $this->hasMany(purchasing::class, 'user_id');
-    }
-
-    public function financial(): HasOne
-    {
-        return $this->hasOne(FinancialUser::class,'user_id');
-    }
-
-    public function reportUser()
-    {
-        return $this->hasMany(UserReport::class,'user_id');
-    }
-
-
-
-    public function sectoralSelling()
-    {
-        return $this->hasMany(SectoralSelling::class, 'user_id');
-    }
-    public function wholeSale()
-    {
-        return $this->hasMany(WholeSale::class, 'user_id');
-    }
 
 
 

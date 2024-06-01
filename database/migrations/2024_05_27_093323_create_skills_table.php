@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('custodies', function (Blueprint $table) {
-            $table->foreignId('user_id')->unsignedBigInteger();
+        Schema::create('skills', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('employee_id');
+            $table->string('skill');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('custodies', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('skills');
     }
 };
