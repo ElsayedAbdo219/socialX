@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Repositories\Concretes;
+
+use App\Models\[modelName];
+use App\Repositories\Contracts\[modelName]Contract;
+
+class [modelName]Concrete extends BaseConcrete implements [modelName]Contract
+{
+    /**
+     * [modelName]Concrete constructor.
+     * @param [modelName] $model
+     */
+    public function __construct([modelName] $model)
+    {
+        parent::__construct($model);
+    }
+}

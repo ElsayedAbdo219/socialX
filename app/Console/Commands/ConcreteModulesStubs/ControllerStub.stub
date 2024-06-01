@@ -1,0 +1,80 @@
+<?php
+
+namespace App\Http\Controllers\[namespace];
+
+use App\Http\Controllers\Api\BaseApiController;
+use App\Http\Requests\[namespace]\[modelName]Request;
+use App\Http\Resources\[namespace]\[modelName]Resource;
+use App\Models\[modelName] ;
+use App\Repositories\Contracts\[modelName]Contract;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
+
+class [modelName]Controller extends BaseApiController
+{
+    /**
+     * [modelName]Controller constructor.
+     * @param [modelName]Contract $repository
+     */
+    public function __construct([modelName]Contract $repository)
+    {
+        parent::__construct($repository, [modelName]Resource::class, '[modelName]');
+    }
+
+    /**
+     * @param [modelName]Request $request
+     * @return JsonResponse
+     */
+    public function store([modelName]Request $request): JsonResponse
+    {
+        $[modelName] = $this->repository->create($request->validated());
+        return $this->respondWithSuccess(__('[modelName] added successfully'), [
+            '[modelName]' => new [modelName]Resource($[modelName]),
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param [modelName] $[modelName]
+     * @return JsonResponse
+     */
+    public function show([modelName] $[modelName]): JsonResponse
+    {
+        return $this->respondWithSuccess(__('[modelName] details'), [
+            '[modelName]' => (new [modelName]Resource($[modelName])),
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param [modelName]Request $request
+     * @param [modelName] $[modelName]
+     * @return JsonResponse
+     */
+    public function update([modelName]Request $request, [modelName] $[modelName]): JsonResponse
+    {
+        $[modelName] = $this->repository->update($[modelName], $request->all());
+        return $this->respondWithSuccess(__('[modelName] updated successfully'), [
+            '[modelName]' => (new [modelName]Resource($[modelName])),
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param [modelName] $[modelName]
+     *
+     * @return JsonResponse
+     */
+    public function destroy([modelName] $[modelName]): JsonResponse
+    {
+        $status = $this->repository->remove($[modelName]);
+        if (!$status)
+            return $this->respondWithError(__('messages.responses.can_not_delete'));
+        return $this->respondWithSuccess(trans('messages.responses.deleted'));
+    }
+
+
+}

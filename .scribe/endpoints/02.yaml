@@ -1,0 +1,399 @@
+name: chat
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: dashboard-api/v1/chat/chats
+    metadata:
+      groupName: chat
+      groupDescription: ''
+      subgroup: Chat
+      subgroupDescription: 'Chat Apis'
+      title: 'List Chats'
+      description: 'an API which Offers a mean to list Chats'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+      Api-Key: xx
+      Api-Version: v1
+      Accept-Language: ar
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"status":401,"message":"Unauthenticated.","errors":{"message":["Unauthenticated."]}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer aa4cfvh6PV183gbkE5eZ6Dd'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: dashboard-api/v1/chat/chats/show-chat
+    metadata:
+      groupName: chat
+      groupDescription: ''
+      subgroup: Chat
+      subgroupDescription: 'Chat Apis'
+      title: 'show chat'
+      description: 'an API which Offers a mean to show chat'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+      Api-Key: xx
+      Api-Version: v1
+      Accept-Language: ar
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      chat_id:
+        name: chat_id
+        description: required.
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        custom: []
+      type:
+        name: type
+        description: 'in user_driver,provider_user,provider_driver.'
+        required: true
+        example: user_driver
+        type: string
+        enumValues: []
+        custom: []
+    cleanBodyParameters:
+      chat_id: 1
+      type: user_driver
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"status":401,"message":"Unauthenticated.","errors":{"message":["Unauthenticated."]}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6bv14PEh5a38dakeZgcfVD6'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'dashboard-api/v1/chat/chats/{chat_id}/send-message'
+    metadata:
+      groupName: chat
+      groupDescription: ''
+      subgroup: Chat
+      subgroupDescription: 'Chat Apis'
+      title: 'send message'
+      description: 'an API which Offers a mean to send message'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: multipart/form-data
+      Accept: application/json
+      Api-Key: xx
+      Api-Version: v1
+      Accept-Language: ar
+    urlParameters:
+      chat_id:
+        name: chat_id
+        description: 'The ID of the chat.'
+        required: true
+        example: 18
+        type: integer
+        enumValues: []
+        custom: []
+    cleanUrlParameters:
+      chat_id: 18
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      to_type:
+        name: to_type
+        description: 'in user,provider,driver.'
+        required: true
+        example: user
+        type: string
+        enumValues: []
+        custom: []
+      to_id:
+        name: to_id
+        description: required.
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        custom: []
+      message:
+        name: message
+        description: required.
+        required: false
+        example: dsbfjksdbk
+        type: string
+        enumValues: []
+        custom: []
+      images:
+        name: images
+        description: '[].'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        custom: []
+    cleanBodyParameters:
+      to_type: user
+      to_id: 2
+      message: dsbfjksdbk
+    fileParameters:
+      images: null
+    responses:
+      -
+        status: 401
+        content: '{"status":401,"message":"Unauthenticated.","errors":{"message":["Unauthenticated."]}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6c3vkfV5da6Dh14abPZ8Ege'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: client-api/v1/chat/chats
+    metadata:
+      groupName: chat
+      groupDescription: ''
+      subgroup: Chat
+      subgroupDescription: 'Chat Apis'
+      title: 'List Chats'
+      description: 'an API which Offers a mean to list Chats'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+      Api-Key: xx
+      Api-Version: v1
+      Accept-Language: ar
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"status":401,"message":"Unauthenticated.","errors":{"message":["Unauthenticated."]}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer aZ4bP1EvcfVdD663g85hkea'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: client-api/v1/chat/chats/show-chat
+    metadata:
+      groupName: chat
+      groupDescription: ''
+      subgroup: Chat
+      subgroupDescription: 'Chat Apis'
+      title: 'show chat'
+      description: 'an API which Offers a mean to show chat'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+      Api-Key: xx
+      Api-Version: v1
+      Accept-Language: ar
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      chat_id:
+        name: chat_id
+        description: required.
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        custom: []
+      type:
+        name: type
+        description: 'in user_driver,provider_user,provider_driver.'
+        required: true
+        example: user_driver
+        type: string
+        enumValues: []
+        custom: []
+    cleanBodyParameters:
+      chat_id: 1
+      type: user_driver
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"status":401,"message":"Unauthenticated.","errors":{"message":["Unauthenticated."]}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer DgE4ePhaka8dZbV166fv3c5'
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'client-api/v1/chat/chats/{chat_id}/send-message'
+    metadata:
+      groupName: chat
+      groupDescription: ''
+      subgroup: Chat
+      subgroupDescription: 'Chat Apis'
+      title: 'send message'
+      description: 'an API which Offers a mean to send message'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: multipart/form-data
+      Accept: application/json
+      Api-Key: xx
+      Api-Version: v1
+      Accept-Language: ar
+    urlParameters:
+      chat_id:
+        name: chat_id
+        description: 'The ID of the chat.'
+        required: true
+        example: 15
+        type: integer
+        enumValues: []
+        custom: []
+    cleanUrlParameters:
+      chat_id: 15
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      to_type:
+        name: to_type
+        description: 'in user,provider,driver.'
+        required: true
+        example: user
+        type: string
+        enumValues: []
+        custom: []
+      to_id:
+        name: to_id
+        description: required.
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        custom: []
+      message:
+        name: message
+        description: required.
+        required: false
+        example: dsbfjksdbk
+        type: string
+        enumValues: []
+        custom: []
+      images:
+        name: images
+        description: '[].'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        custom: []
+    cleanBodyParameters:
+      to_type: user
+      to_id: 2
+      message: dsbfjksdbk
+    fileParameters:
+      images: null
+    responses:
+      -
+        status: 401
+        content: '{"status":401,"message":"Unauthenticated.","errors":{"message":["Unauthenticated."]}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+        description: null
+        custom: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 8fd6aDVk345baeh1vg6ZPEc'
+    controller: null
+    method: null
+    route: null
+    custom: []

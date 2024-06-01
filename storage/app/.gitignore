@@ -1,0 +1,7 @@
+*
+!public/
+!api_key.json
+!fixed_otp_emails.json
+!fixed_otp_numbers.json
+!nationalities.json
+!.gitignore
