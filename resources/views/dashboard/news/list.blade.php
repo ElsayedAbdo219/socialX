@@ -3,7 +3,7 @@
     @stack('datatableStyles')
 @endsection
 @section('title')
-    {{__('dashboard.employees')}}
+    {{__('dashboard.news')}}
 @endsection
 <!-- BEGIN: Content-->
 @section('content')
@@ -16,7 +16,7 @@
             <div class="content-body">
                 <!-- users list start -->
                 <section class="users-list-wrapper">
-                    <x-dashboard.layouts.breadcrumb now="{{__('dashboard.employees_list')}}">
+                    <x-dashboard.layouts.breadcrumb  now="{{__('dashboard.news')}}">
                     </x-dashboard.layouts.breadcrumb>
                     <!-- Column selectors with Export Options and print table -->
                     <section id="column-selectors">
@@ -24,15 +24,16 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">{{__('dashboard.employees_list')}}</h4>
+                                        <h4 class="card-title">{{__('dashboard.news')}}</h4>
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body card-dashboard">
                                             <x-pages.datatable
-                                                :title="__('dashboard.employees_add')"
-                                                route="admin.employees"
+                                               
+                                                :title="__('dashboard.add')"
+                                                route="admin.news"
                                                 :datatable="$dataTable"
-                                                :create="true"
+                                                :create='true'
                                             />
                                         </div>
                                     </div>
@@ -53,4 +54,5 @@
     @stack('datatableScripts')
     <script>
     </script>
+
 @endsection

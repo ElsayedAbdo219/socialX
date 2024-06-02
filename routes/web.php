@@ -38,7 +38,6 @@ Route::middleware(['auth:web'])->group(function(){
     Route::get('/markered',[AuthController::class,'markered'])->name('notification.markAsRead');
     Route::get('/logout',[AuthController::class,'logout'])->name('logout');
     Route::get('/edit',[AuthController::class,'edit'])->name('profile.edit');
-
     
 
      # Settings

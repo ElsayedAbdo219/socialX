@@ -41,7 +41,7 @@
         </li> 
 
 
-           <li class=" nav-item"><a href="#"><i class="feather icon-users"></i>
+           <li class=" nav-item"><a href="#"><i class="feather icon-user"></i>
                 <span class="menu-title" data-i18n="Data List">{{ __('dashboard.employees') }}</span>
             </a>
             <ul class="menu-content">

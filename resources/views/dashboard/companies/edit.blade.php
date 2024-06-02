@@ -32,7 +32,7 @@
                                                 <option value="1">نشط</option>
                                                 <option value="0">غير نشط</option>
                                             </select>
-                                               @error('isActive')
+                                               @error('is_Active')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>

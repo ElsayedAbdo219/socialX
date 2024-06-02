@@ -225,6 +225,18 @@ return [
      "company"=>"الشركة",
      "company"=>"الشركة",
      "edit_company"=>"تعديل بيانات الشركة",
+     "employees_list"=>"قائمة المستقلين",
+     "add_employee"=>"اضافة مستقل جديد",
+     "edit_employee"=>"تعديل بيانات المستقل",
+     "news"=>"الاخبار",
+     "contentNews"=>"المحتوي",
+     "news_add"=>"اضافة خبر جديد",
+     "created_news"=>"تمت  اضافة خبر جديد بنجاح",
+     "updated_news"=>"تم  تحديث الخبر  بنجاح",
+
+
+
+
 
 ]
 

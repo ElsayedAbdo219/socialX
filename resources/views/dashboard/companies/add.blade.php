@@ -90,7 +90,7 @@
 
 
                                       <div class="form-group col-4">
-                                        <label class="w-100" for="slogo">تص تعريفي(اختياري)
+                                        <label class="w-100" for="slogo">نص  تعريفي(اختياري)
                                             <input type="text" min='0' class="form-control" name="bio" placeholder="نص تعريفي" value="{{old('bio')}}" />
                                             @error('bio')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>

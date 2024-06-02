@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\User;
 use App\Models\Trader;
+use App\Models\Company;
+use App\Models\Employee;
 use App\Enum\UserTypeEnum;
 use Illuminate\Http\Request;
-use App\Datatables\EmployeeDataTable;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponseDashboard;
+use App\Datatables\EmployeeDataTable;
 use App\Enum\RegisterationRequestEnum;
 use App\Http\Requests\Api\Auth\RegisterClientRequest;
 
@@ -18,7 +19,7 @@ class EmployeeController extends Controller
     use ApiResponseDashboard;
 
     protected string $datatable = EmployeeDataTable::class;
-    protected string $route = 'admin.users';
+    protected string $route = 'admin.employees';
     protected string $viewPath = 'dashboard.employees.list';
 
 
@@ -33,25 +34,43 @@ class EmployeeController extends Controller
         
     }
 
-    public function store (RegisterClientRequest $request){
-        $data = $request->validated();
-        $data['type'] = UserTypeEnum::CLIENT;
-        $data['is_Active'] = false;
+    public function store (Request $request){
+             $data=$request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required',
+            'job' => 'required',
+            'personal_photo' => 'image|mimes:jpeg,png,jpg',
+            'personal_info' => 'string',
+            'website' => 'url|string',
+            'address' => 'string',
+            'experience' => 'string',
+            'coverletter' => 'image|mimes:jpeg,png,jpg',
 
-        DB::beginTransaction();
-
+       ]);
+       
         $Employee = Employee::create($data);
 
-      
 
-        Employee::create([
-            'name' => UserTypeEnum::MAKHZANY,
-            'phone' =>  $user->mobile,
-            'user_id' => $user->id,
-            'type' => UserTypeEnum::CLIENT,
-        ]);
+        if ($request->file('personal_photo')) {
+            $file = $request->file('personal_photo');
+            $personal_photo = uniqid() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('employees', $personal_photo);
+             $Employee->update([
+              'personal_photo'=> $personal_photo,
+          ]);
+        }
 
-        DB::commit();
+        if ($request->file('coverletter')) {
+            $file = $request->file('coverletter');
+            $coverletter = uniqid() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('employees', $coverletter);
+             $Employee->update([
+              'coverletter'=> $coverletter,
+          ]);
+        }
+
+
         return redirect()->route('admin.employees.index')->with(['success',__('dashboard.item added successfully')]);
 
         
@@ -72,24 +91,48 @@ class EmployeeController extends Controller
     public function update(Request $request,$id){
         $Employee=Employee::findOrFail($id);
         
-        $request->validate([
-            'name'=>"required|string",
-            'mobile'=>"required|string",
-            'is_Active'=>"required|string",
+        $data=$request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required',
+            'personal_photo' => 'image|mimes:jpeg,png,jpg',
+            'personal_info' => 'string',
+            'website' => 'url|string',
+            'address' => 'string',
+            'experience' => 'string',
+            'coverletter' => 'image|mimes:jpeg,png,jpg',
+            "is_Active" => "required|numeric|in:0,1",
         ]);
+
+        $Employee->update($data);
+
+
+        if ($request->file('personal_photo')) {
+            $file = $request->file('personal_photo');
+            $personal_photo = uniqid() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('employees', $personal_photo);
+             $Employee->update([
+              'personal_photo'=> $personal_photo,
+          ]);
+        }
+
+        if ($request->file('coverletter')) {
+            $file = $request->file('coverletter');
+            $coverletter = uniqid() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('employees', $coverletter);
+             $Employee->update([
+              'coverletter'=> $coverletter,
+          ]);
+        }
        
-        $user->update([
-            'name'=>$request->name,
-            'mobile'=>$request->mobile,
-            'is_Active'=>$request->is_Active,
-        ]);
+        
         return redirect()->route('admin.employees.index')->with(['success',__('dashboard.item updated successfully')]);
 
     }
 
-    public function destroy(User $user)
+    public function destroy(Employee $Employee)
     {
-        $user->delete();
+        $Employee->delete();
         if (request()->expectsJson()){
             return self::apiCode(200)->apiResponse();
         }
