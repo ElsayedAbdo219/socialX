@@ -40,6 +40,7 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+<<<<<<< HEAD
 
         'employee' => [
             'driver' => 'eloquent',
@@ -52,6 +53,12 @@ return [
             'provider' => 'companies',
         ],
 
+=======
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ]
+>>>>>>> 8e8dff787b35a54fd7a7ff9e3accd62cda6d8720
     ],
 
     /*
@@ -76,6 +83,7 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+<<<<<<< HEAD
 
         'employees' => [
             'driver' => 'eloquent',
@@ -92,6 +100,8 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+=======
+>>>>>>> 8e8dff787b35a54fd7a7ff9e3accd62cda6d8720
     ],
 
     /*

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('employee_id');
             $table->string('title');
             $table->string('employment_type');
-            $table->string('company_name');
+            $table->foreignId('company_id');
             $table->string('location');
             $table->string('location_type');
             $table->string('status_works');

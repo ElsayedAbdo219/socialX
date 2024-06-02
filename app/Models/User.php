@@ -3,26 +3,38 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\ModelTrait;
+use App\Traits\Walletable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+// use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable 
 {
-    use HasApiTokens, HasFactory, Notifiable;
+  
+    use HasFactory;
+    use Notifiable;
+   
+    use ModelTrait;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
+    protected $guarded = ['avatar'];
+
+    protected array $filters = [
         'name',
+        'id',
         'email',
-        'password',
+       
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -40,6 +52,41 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
     ];
+
+
+
+    # Scopes
+    public function scopeOfName($query, $value)
+    {
+        if (empty($value)) return $query;
+        return $query->where('name', 'like', "%$value%");
+    }
+
+    public function scopeOfId($query, $value): void
+    {
+        $value = is_array($value) ? $value : [$value];
+        $query->whereIn('id', $value);
+    }
+
+    public function scopeOfEmail($query, $value): void
+    {
+        $query->where('email', 'like', "%$value%");
+    }
+
+    public function scopeOfMobile($query, $value)
+    {
+        if (empty($value)) {
+            return $query;
+        }
+        return $query->where('mobile', 'like', "%$value%");
+    }
+
+    public function scopeOfStatus($query, $value)
+    {
+        if (($value == 'both' || empty($value)) && $value != 0) {
+            return $query;
+        }
+        return $query->where('is_active', $value);
+    }
 }

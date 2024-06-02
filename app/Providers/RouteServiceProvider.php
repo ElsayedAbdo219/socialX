@@ -18,6 +18,9 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/home';
+    protected $namespace    = 'App\\Http\\Controllers';
+    protected string $apiClientNamespace = 'App\\Http\\Controllers\\Api\\V1\\Client';
+    protected array $apiMiddlewares = ['api','apilocale'];
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -28,12 +31,20 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
+        if(config('global.should_use_api_key_middleware')) {
+            array_push($this->apiMiddlewares, 'apikey');
+        }
+
         $this->routes(function () {
-            Route::middleware('api')
-                ->prefix('api')
-                ->group(base_path('routes/api.php'));
+
+            Route::middleware(['api','apilocale'])
+                ->namespace($this->apiClientNamespace)
+                ->prefix('client-api/v1')
+                ->group(base_path('routes/api-v1.php'));
+
 
             Route::middleware('web')
+                ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
     }
