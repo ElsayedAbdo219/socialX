@@ -8,7 +8,7 @@ use App\Models\CommonQuestion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponseDashboard;
-
+use App\Models\Post;
 class PostController extends Controller
 {
     use ApiResponseDashboard;

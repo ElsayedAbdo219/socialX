@@ -61,9 +61,9 @@ class AuthCompanyController extends Controller
 
         }
 
-    $token = $company->createToken('api_token')->plainTextToken;
+    $token = $Company->createToken('api_token')->plainTextToken;
 
-    return response()->json(['token' => $token,'company'=>$company]);
+    return response()->json(['token' => $token,'company'=>$Company]);
 
     }
 
@@ -91,6 +91,7 @@ class AuthCompanyController extends Controller
                 'website' => 'url|string',
                 'address' => 'string',
                 'bio' => 'string',
+              
             ]);
     
             $company = Company::findOrFail($id);

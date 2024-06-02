@@ -224,8 +224,7 @@ return [
      "companies_list"=>"قائمة الشركات",
      "company"=>"الشركة",
      "company"=>"الشركة",
-
-
+     "edit_company"=>"تعديل بيانات الشركة",
 
 ]
 

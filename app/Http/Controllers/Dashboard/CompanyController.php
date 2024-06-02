@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\User;
+use App\Models\Company;
 use App\Models\Trader;
 use App\Enum\UserTypeEnum;
 use Illuminate\Http\Request;
@@ -33,12 +33,12 @@ class CompanyController extends Controller
         
     }
 
-    public function store (قequest $request){
+    public function store (Request $request){
              $data=$request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required',
-            'logo' => 'image,mimes:jpeg,png,jpg',
+            'logo' => 'image|mimes:jpeg,png,jpg',
             'slogo' => 'string',
             'website' => 'url|string',
             'address' => 'string',
@@ -47,6 +47,15 @@ class CompanyController extends Controller
 
         $Company = Company::create($data);
 
+
+        if ($request->file('logo')) {
+            $file = $request->file('logo');
+            $logo = uniqid() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('companies', $logo);
+             $Company->update([
+              'logo'=> $logo,
+          ]);
+        }
         return redirect()->route('admin.companies.index')->with(['success',__('dashboard.item added successfully')]);
 
         
@@ -65,25 +74,40 @@ class CompanyController extends Controller
     }
 
     public function update(Request $request,$id){
-        $user=User::findOrFail($id);
+        $Company=Company::findOrFail($id);
         
-        $request->validate([
-            'name'=>"required|string",
-            'is_Active'=>"required|string",
+        $data=$request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required',
+            'logo' => 'image|mimes:jpeg,png,jpg',
+            'slogo' => 'string',
+            'website' => 'url|string',
+            'address' => 'string',
+            'bio' => 'string',
+            "is_Active" => "required|numeric|in:0,1",
         ]);
+
+        $Company->update($data);
+
+
+        if ($request->file('logo')) {
+            $file = $request->file('logo');
+            $logo = uniqid() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('companies', $logo);
+             $Company->update([
+              'logo'=> $logo,
+          ]);
+        }
        
-        $user->update([
-            'name'=>$request->name,
-            'mobile'=>$request->mobile,
-            'is_Active'=>$request->is_Active,
-        ]);
+        
         return redirect()->route('admin.companies.index')->with(['success',__('dashboard.item updated successfully')]);
 
     }
 
-    public function destroy(User $user)
+    public function destroy(Company $Company)
     {
-        $user->delete();
+        $Company->delete();
         if (request()->expectsJson()){
             return self::apiCode(200)->apiResponse();
         }

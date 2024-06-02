@@ -1,6 +1,6 @@
 @extends('components.dashboard.layouts.master')
 @section('title')
-    {{__('dashboard.edit_fqa')}}
+    {{__('dashboard.edit_company')}}
 @endsection
 <!-- BEGIN: Content-->
 @section('content')
@@ -8,64 +8,116 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
-            <x-dashboard.layouts.breadcrumb now="{{__('dashboard.edit_fqa')}}">
-                <li class="breadcrumb-item"><a href="{{route('admin.fqa.index')}}">
-                        {{__('dashboard.fqas_list')}}
+            <x-dashboard.layouts.breadcrumb now="{{__('dashboard.edit_company')}}">
+                <li class="breadcrumb-item"><a href="{{route('admin.companies.index')}}">
+                        {{__('dashboard.companies_list')}}
                     </a></li>
             </x-dashboard.layouts.breadcrumb>
             <div class="col-12 mt-3">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">{{__('dashboard.edit_fqa')}}</h4>
+                        <h4 class="card-title">{{__('dashboard.edit_company')}}</h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                                <form class="form form-vertical" method="POST" action="{{route('admin.fqa.update',$fqa->id)}}" enctype="multipart/form-data">
+                                <form class="form form-vertical" method="POST" action="{{route('admin.companies.update',$Company->id)}}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
                                 <div class="row">
-                                    <div class="form-group col-12   ">
-                                        <label class="w-100" for="order">{{__('dashboard.order')}}
-                                            <input type="number" min='0' class="form-control" name="order" placeholder="{{__('dashboard.order')}}" value="{{$fqa->order ?? old('order')}}" />
-                                            @error('order')
+
+
+                                    <div class="form-group col-4">
+                                        <label class="w-100" for="slogo">الحالة
+                                            <select class="form-control" name="is_Active" value="{{ $Company->is_Active ?? old('is_Active') }}">
+                                                <option value="1">نشط</option>
+                                                <option value="0">غير نشط</option>
+                                            </select>
+                                               @error('isActive')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>
                                     </div>
-                                    {{-- <div class="form-group col-12   ">
-                                        <label class="w-100" for="question_en">{{__('dashboard.question_en')}}
-                                            <input type="text" min='0' class="form-control" name="question_en" placeholder="{{__('dashboard.question_en')}}" value="{{$fqa->question_en ?? old('question_en')}}" />
-                                            @error('question_en')
+                                   
+                                    
+                                    <div class="form-group col-4">
+                                        <label class="w-100" for="logo">صورة
+                                            <input type="file" min='0' class="form-control" name="logo" placeholder="صورة" value="{{$Company->logo ?? old('logo')}}" />
+                                            @error('logo')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>
                                     </div>
-                                    <div class="form-group col-12   ">
-                                        <label class="w-100" for="answer_en">{{__('dashboard.answer_en')}}
-                                            <input type="text" min='0' class="form-control" name="answer_en" placeholder="{{__('dashboard.answer_en')}}" value="{{$fqa->answer_en ?? old('answer_en')}}" />
-                                            @error('answer_en')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </label>
-                                    </div> --}}
-                                    <div class="form-group col-12   ">
-                                        <label class="w-100" for="question_ar">{{__('dashboard.question_ar')}}
-                                            <input type="text" min='0' class="form-control" name="question" placeholder="{{__('dashboard.question_ar')}}" value="{{$fqa->question?? old('question')}}" />
-                                            @error('question')
+
+                                    <div class="form-group col-4">
+                                        <label class="w-100" for="name">{{__('dashboard.name')}}
+                                            <input type="text" min='0' class="form-control" name="name" placeholder="{{__('dashboard.name')}}" value="{{ $Company->name ?? old('name')}}" />
+                                            @error('name')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>
                                     </div>
-                                    <div class="form-group col-12   ">
-                                        <label class="w-100" for="answer_ar">{{__('dashboard.answer_ar')}}
-                                            <input type="text" min='0' class="form-control" name="answer" placeholder="{{__('dashboard.answer_ar')}}" value="{{$fqa->answer ?? old('answer')}}" />
-                                            @error('answer')
+
+                                      <div class="form-group col-4">
+                                        <label class="w-100" for="email">{{__('dashboard.email')}}
+                                            <input type="text" min='0' class="form-control" name="email" placeholder="{{__('dashboard.email')}}" value="{{ $Company->email ?? old('email')}}" />
+                                            @error('email')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>
                                     </div>
+
+
+
+                                    <div class="form-group col-4">
+                                        <label class="w-100" for="password">{{__('dashboard.password')}}
+                                            <input type="text" min='0' class="form-control" name="password" placeholder="{{__('dashboard.password')}}" value="{{ $Company->password ??old('password')}}" />
+                                            @error('password')
+                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                            @enderror
+                                        </label>
+                                    </div>
+
+                                      <div class="form-group col-4">
+                                        <label class="w-100" for="slogo">الشعار
+                                            <input type="text" min='0' class="form-control" name="slogo" placeholder="الشعار" value="{{ $Company->slogo ?? old('slogo')}}" />
+                                            @error('slogo')
+                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                            @enderror
+                                        </label>
+                                    </div>
+
+                                      <div class="form-group col-4">
+                                        <label class="w-100" for="website">الموقع الالكتروني
+                                            <input type="text" min='0' class="form-control" name="website" placeholder="الموقع الالكتروني" value="{{ $Company->website ?? old('website')}}" />
+                                            @error('website')
+                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                            @enderror
+                                        </label>
+                                    </div>
+
+                                      <div class="form-group col-4">
+                                        <label class="w-100" for="address">العنوان
+                                            <input type="text" min='0' class="form-control" name="address" placeholder="العنوان" value="{{ $Company->address ?? old('address')}}" />
+                                            @error('address')
+                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                            @enderror
+                                        </label>
+                                    </div>
+
+
+                                      <div class="form-group col-4">
+                                        <label class="w-100" for="slogo">نص تعريفي(اختياري)
+                                            <input type="text" min='0' class="form-control" name="bio" placeholder="نص تعريفي" value="{{ $Company->bio ?? old('bio')}}" />
+                                            @error('bio')
+                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                            @enderror
+                                        </label>
+                                    </div>
+
+                                    
+                                 
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary mr-1 mb-1">{{__('dashboard.edit')}}</button>
+                                    <button type="submit" class="btn btn-primary mr-1 mb-1">{{__('dashboard.update')}}</button>
                                 </div>
                             </form>
                         </div>

@@ -158,13 +158,9 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
-        /*
-         * Package Service Providers...
-         * 
-         * 
-         */
-
         Yajra\DataTables\DataTablesServiceProvider::class,
+
+
        
 
 
@@ -177,7 +173,6 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
     ])->toArray(),
 
@@ -194,7 +189,9 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
-        'DataTables' => DataTables::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+
+
 
     ])->toArray(),
 
