@@ -11,4 +11,15 @@ class Company extends Model
 {
     use HasApiTokens,HasFactory,Notifiable;
     protected $guarded=[];
+
+
+
+      # Scopes
+    public function scopeOfName($query, $value)
+    {
+        if (empty($value)) return $query;
+        return $query->where('name', 'like', "%$value%");
+    }
+
+    
 }

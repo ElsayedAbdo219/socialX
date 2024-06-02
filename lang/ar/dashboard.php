@@ -221,7 +221,7 @@ return [
      "company"=>"الشركة",
      "file_name"=>"الملف",
      "is_Active"=>"الحالة",
-     "company"=>"الشركة",
+     "companies_list"=>"قائمة الشركات",
      "company"=>"الشركة",
      "company"=>"الشركة",
 

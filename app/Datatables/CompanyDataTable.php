@@ -2,20 +2,20 @@
 
 namespace App\Datatables;
 
-use App\Models\User;
+use App\Models\Company;
 use Yajra\DataTables\Html\Column;
 use App\Models\MerchantCodingRequest;
 use App\Enum\RegisterationRequestEnum;
 use App\Support\Datatables\CustomFilters;
 use Illuminate\Database\Eloquent\Builder;
 
-class UserDataTable extends BaseDatatable
+class CompanyDataTable extends BaseDatatable
 {
     protected ?string $actionable = 'index|edit|delete';
     
     public function query(): Builder
     {
-        return User::query()->when(request('search')['value'],function ($q){
+        return Company::query()->when(request('search')['value'],function ($q){
             $q->ofName(request('search')['value']);
         })->latest();
     }
@@ -27,16 +27,12 @@ class UserDataTable extends BaseDatatable
                 $title = $model?->name;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
-            'mobile' => function ($model) {
-                $title = $model?->mobile;
-                return view('components.datatable.includes.columns.title', compact('title'));
-            },
             'email' => function ($model) {
                 $title = $model?->email;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
-            'is_active' => function ($model) {
-                $title = $model?->is_active == RegisterationRequestEnum::ACTIVE ? __('dashboard.active') : __('dashboard.disactive');  
+            'is_Active' => function ($model) {
+                $title = $model?->is_Active == 1 ? __('dashboard.active') : __('dashboard.disactive');  
                 return view('components.datatable.includes.columns.title', compact('title'));
 
             },
@@ -54,9 +50,8 @@ class UserDataTable extends BaseDatatable
     {
         return [
             Column::computed('name')->title(__('dashboard.name'))->className('text-center'),
-            Column::computed('mobile')->title(__('dashboard.phone'))->className('text-center'),
             Column::computed('email')->title(__('dashboard.email'))->className('text-center'),
-            Column::computed('is_active')->title(__('dashboard.status'))->className('text-center'),
+            Column::computed('is_Active')->title(__('dashboard.status'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 
         ];

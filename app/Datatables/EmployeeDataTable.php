@@ -2,20 +2,20 @@
 
 namespace App\Datatables;
 
-use App\Models\User;
+use App\Models\Employee;
 use Yajra\DataTables\Html\Column;
 use App\Models\MerchantCodingRequest;
 use App\Enum\RegisterationRequestEnum;
 use App\Support\Datatables\CustomFilters;
 use Illuminate\Database\Eloquent\Builder;
 
-class RegisterationRequestsDataTable extends BaseDatatable
+class EmployeeDataTable extends BaseDatatable
 {
-    protected ?string $actionable = 'index|edit';
+    protected ?string $actionable = 'index|edit|delete';
     
     public function query(): Builder
     {
-        return User::where('is_active',0)->when(request('search')['value'],function ($q){
+        return Employee::query()->when(request('search')['value'],function ($q){
             $q->ofName(request('search')['value']);
         })->latest();
     }
@@ -24,20 +24,20 @@ class RegisterationRequestsDataTable extends BaseDatatable
     {
         return [
             'name' => function ($model) {
-                $title = $model->name;
+                $title = $model?->name;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
-            'mobile' => function ($model) {
-                $title = $model->mobile;
+            'email' => function ($model) {
+                $title = $model?->email;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
-            'is_active' => function ($model) {
-                $title = $model->is_active == RegisterationRequestEnum::ACTIVE ? __('dashboard.active') : __('dashboard.disactive');  
+            'is_Active' => function ($model) {
+                $title = $model?->is_Active == 1 ? __('dashboard.active') : __('dashboard.disactive');  
                 return view('components.datatable.includes.columns.title', compact('title'));
 
             },
             'created_at' => function ($model) {
-                $title = $model->created_at;
+                $title = $model?->created_at;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
            
@@ -50,8 +50,8 @@ class RegisterationRequestsDataTable extends BaseDatatable
     {
         return [
             Column::computed('name')->title(__('dashboard.name'))->className('text-center'),
-            Column::computed('mobile')->title(__('dashboard.phone'))->className('text-center'),
-            Column::computed('is_active')->title(__('dashboard.status'))->className('text-center'),
+            Column::computed('email')->title(__('dashboard.email'))->className('text-center'),
+            Column::computed('is_Active')->title(__('dashboard.status'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 
         ];
