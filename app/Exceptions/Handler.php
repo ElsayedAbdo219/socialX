@@ -2,13 +2,6 @@
 
 namespace App\Exceptions;
 
-<<<<<<< HEAD
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
-
-class Handler extends ExceptionHandler
-{
-=======
 use App\Traits\ApiResponseTrait;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -24,7 +17,6 @@ class Handler extends ExceptionHandler
 {
     use ApiResponseTrait;
 
->>>>>>> 8e8dff787b35a54fd7a7ff9e3accd62cda6d8720
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *
@@ -45,8 +37,6 @@ class Handler extends ExceptionHandler
             //
         });
     }
-<<<<<<< HEAD
-=======
 
     /**
      * Render an exception into an HTTP response.
@@ -91,5 +81,4 @@ class Handler extends ExceptionHandler
         }
         return parent::render($request, $exception);
     }
->>>>>>> 8e8dff787b35a54fd7a7ff9e3accd62cda6d8720
 }

@@ -40,25 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-<<<<<<< HEAD
-
-        'employee' => [
-            'driver' => 'eloquent',
-            'provider' => 'employees',
-        ],
-
-
-        'company' => [
-            'driver' => 'eloquent',
-            'provider' => 'companies',
-        ],
-
-=======
         'api' => [
             'driver' => 'sanctum',
             'provider' => 'users',
         ]
->>>>>>> 8e8dff787b35a54fd7a7ff9e3accd62cda6d8720
     ],
 
     /*
@@ -83,25 +68,6 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-<<<<<<< HEAD
-
-        'employees' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Employee::class,
-        ],
-
-
-        'companies' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Company::class,
-        ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
-=======
->>>>>>> 8e8dff787b35a54fd7a7ff9e3accd62cda6d8720
     ],
 
     /*
