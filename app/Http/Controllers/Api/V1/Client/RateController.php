@@ -8,9 +8,10 @@ use App\Models\{
   RateCompany,
   RateEmployee,
 };
+use App\Http\Controllers\Controller;
 
+use App\Enum\UserTypeEnum;
 
-use App\Enums\UserTypeEnum;
 class RateController extends Controller
 {
     public function addFromCompany(Request $request)
@@ -54,7 +55,7 @@ class RateController extends Controller
    
        return response()->json([
            'rates'=> $total,         
-           'ratesFormatted'=>round($total,0),         
+           'ratesFormatted'=>round($total,1),         
        
        ]);
       }
@@ -64,7 +65,7 @@ class RateController extends Controller
  
      return response()->json([
          'rates'=> $total,         
-         'ratesFormatted'=>round($total,0),         
+         'ratesFormatted'=>round($total,1),         
      
      ]);
         

@@ -10,5 +10,7 @@ enum UserTypeEnum: string
     public const COMPANY = 'company'; // شركة
     public const SUPPLIER = 'supplier'; // مورد
     public const MAKHZANY = 'مخزني'; // مخزني
+
+    
     
 }
