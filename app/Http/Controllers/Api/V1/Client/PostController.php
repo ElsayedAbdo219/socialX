@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Company;
+use App\Models\Member;
+use App\Enum\UserTypeEnum;
 class PostController extends Controller
 {
     protected $postResource=PostResource::class;
@@ -16,10 +17,8 @@ class PostController extends Controller
         if(empty($request->content) && empty($request->file_name)){
             return ('لم يتم انشاء المنشور  الرجاء المحاولة مرة اخرى ');
         }
-
-        $companies=Company::pluck('id')->toArray();
-        $user=auth()->user();
-        abort_if(!in_array($user->email , $companies), 403, __('ليس لديك صلاحيات لتنفيذ هذه العملية'));
+       
+        abort_if(auth("api")->user()->type ===UserTypeEnum::COMPANY , 403, __('ليس لديك صلاحيات لتنفيذ هذه العملية'));
 
         $post=Post::create([
             'content'=>$request->content,
@@ -27,12 +26,18 @@ class PostController extends Controller
         ]);
 
         if ($request->file('file_name')) {
-          $file = $request->file('file_name');
-          $fileName = uniqid() . '_' . $file->getClientOriginalName();
-          $filePath = $file->storeAs('posts', $fileName);
-           $post->update([
+
+          $fileName = uniqid() . '_' . $request->file('file_name')->getClientOriginalName();
+
+          Storage::disc("local")->put($filName, file_get_contents($request->file('file_name')));
+
+          $post->update(
+            [
+
             'file_name'=> $fileName,
-        ]);
+
+            ]
+      );
        
       }
     
