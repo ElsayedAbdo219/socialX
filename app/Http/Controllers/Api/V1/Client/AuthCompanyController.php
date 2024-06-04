@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1\Client;
+
+use App\Enum\UserTypeEnum as EnumUserTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
@@ -31,39 +33,40 @@ class AuthCompanyController extends Controller
                 'website' => 'url|string',
                 'address' => 'string',
                 'bio' => 'string',
+                'type' => EnumUserTypeEnum::COMPANY,
      ]);
     
             $company = Company::create([$data]);
     
-           return response()->json(['message' =>'Employee Updated Successfully','company'=>$company]);
+           return response()->json(['message' =>'Company Register Successfully','company'=>$company]);
       
     }
 
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|unique:companies',
+            'email' => 'required|email|exists:companies',
             'password' => 'required',
         ]);
 
-
-        $Companies=Company::pluck('email')->toArray();
        
-        $Company=Company::whereEmail($request->email)->first(); 
+        $company = Company::whereEmail($request->email)->first();
 
-        if (!in_array($Company,$Companies) && $request->password!=$Company?->password) {
-
-           throw ValidationException::withMessages([
-
-               'email' => ['The provided credentials are incorrect.'],
-
-           ]);
-
+        if (!$company) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided email does not exist.'],
+            ]);
         }
+        
+        if (!Hash::check($request->password, $company->password)) {
+            throw ValidationException::withMessages([
+                'password' => ['The provided password is incorrect.'],
+            ]);
+           }
 
-    $token = $Company->createToken('api_token')->plainTextToken;
+    $token = $company->createToken('api_token')->plainTextToken;
 
-    return response()->json(['token' => $token,'company'=>$Company]);
+    return response()->json(['token' => $token,'company'=>$company]);
 
     }
 
@@ -79,7 +82,7 @@ class AuthCompanyController extends Controller
         return response()->json(['message' => 'Logged out successfully']);
     }
 
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
 
             $data=$request->validate([
