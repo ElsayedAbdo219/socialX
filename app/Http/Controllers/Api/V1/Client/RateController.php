@@ -14,10 +14,11 @@ use App\Enum\UserTypeEnum;
 
 class RateController extends Controller
 {
+
     public function addFromCompany(Request $request)
     {
            $data= $request->validate([
-                'name' => 'required|string|max:255',
+                'comment' => 'nullalbe|string',
                 'employee_id' => 'required',
             ]);
 
@@ -32,7 +33,7 @@ class RateController extends Controller
       public function addFromEmployee(Request $request)
     {
            $data= $request->validate([
-                'name' => 'required|string|max:255',
+                'comment' => 'nullalbe|string|max:255',
                 'employee_id' => 'required',
             ]);
 

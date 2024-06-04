@@ -92,13 +92,16 @@ Route::middleware('auth:sanctum')->group(function(){
      });
 
       # education
+      # position
+   Route::name('position.')->prefix('position')->group(function(){
+
     Route::post('/add', [EducationController::class, 'add']);
+  });
 
 
       # Rates
     Route::name('rate.')->prefix('rate')->group(function(){
-      Route::post('/addFromCompany', [RateController::class, 'addFromCompany']);
-      Route::post('/addFromEmployee', [RateController::class, 'addFromEmployee']);
+      Route::post('/add', [RateController::class, 'add']);
       Route::get('/viewMyRate/{type}', [RateController::class, 'viewMyRate']);
     });
 
