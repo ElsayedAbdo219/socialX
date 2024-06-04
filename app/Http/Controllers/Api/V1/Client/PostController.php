@@ -50,7 +50,16 @@ class PostController extends Controller
 
       public function getPosts(){
      //  return $post->Company;
-        $posts=Post::with(['Company','Review'])->get();
+        $posts=Post::with([ 'Company','Review' ])->
+        
+        whereHas("Comapny",function($query)
+
+        {
+          $query->where('is_Active',1);
+        }
+        
+        )
+        ->get();
         
         // ->orderbyrawDesc('is_follow','1')
     
@@ -93,13 +102,6 @@ class PostController extends Controller
 }
 
 
-
-
-  
-
-
-
-    
     
 
 }

@@ -25,7 +25,7 @@
                                             <div class="media d-flex align-items-start">
                                                 <div class="media-left"><i class="feather icon-download-cloud font-medium-5 success"></i></div>
                                                 <div class="media-body">
-                                                    <h6 class="success media-heading red darken-1">{{$notification->data['title']}}</h6><small class="notification-text text-bold-700">{{$notification->data['body']}}</small>
+                                                    <h6 class="success media-heading red darken-1">{{$notification?->data['title']}}</h6><small class="notification-text text-bold-700">{{$notification?->data['body']}}</small>
                                                 </div><small>
                                                     <time class="media-meta" datetime="2015-06-11T18:29:20+08:00">{{$notification->created_at->diffForHumans()}}</time></small>
                                             </div>

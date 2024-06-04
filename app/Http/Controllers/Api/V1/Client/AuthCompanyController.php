@@ -75,7 +75,7 @@ class AuthCompanyController extends Controller
     public function logout(Request $request)
     {
        
-        $user = Auth::user();
+        $user = auth("api")->user()->logout();
 
         $user->tokens()->where('name', 'auth_token')->delete();
 
