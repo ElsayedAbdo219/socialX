@@ -30,6 +30,7 @@ class AuthEmployeeController extends Controller
                 'website' => 'string|url',
                 'experience' => 'string',
                 'coverletter' => 'image,mimes:jpeg,png,jpg',
+                'address' => 'required|string|',
             ]);
             
             $employee = Employee::create($data);
@@ -41,7 +42,7 @@ class AuthEmployeeController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|unique:employees',
+            'email' => 'required|email|exists:employees,email',
             'password' => 'required',
         ]);
 
