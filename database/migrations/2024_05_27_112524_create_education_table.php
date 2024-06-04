@@ -14,20 +14,16 @@ return new class extends Migration
         Schema::create('education', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_id');
-            $table->string('title');
-            $table->string('employment_type');
-            $table->string('company_name');
-            $table->string('location');
-            $table->string('location_type');
-            $table->string('status_works');
+            $table->string('school');
+            $table->string('degree');
+            $table->string('field_of_study');
+            $table->string('grade');
             $table->date('start_date');
             $table->date('start_date_year');
             $table->date('end_date')->nullable();
             $table->date('end_date_year')->nullable();
-            $table->text('description');
-            $table->text('profile_headline');
-            $table->text('skill')->nullable();
-            $table->string('media')->nullable();
+            $table->text('activities')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

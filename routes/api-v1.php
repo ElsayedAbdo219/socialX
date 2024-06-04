@@ -2,14 +2,15 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\{
+use App\Http\Controllers\Api\V1\Client\{
     AuthCompanyController,
     AuthEmployeeController,
     PostController,
     ExperienceController,
     EducationController,
     RateController,
-    ReviewController
+    ReviewController,
+    StaticPagesController
 
 };
 /*
