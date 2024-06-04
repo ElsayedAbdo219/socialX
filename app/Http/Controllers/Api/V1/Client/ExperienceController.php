@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Api\V1\Client;
 
-use Illuminate\Http\Request;
 use App\Models\Experience;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ExperienceController extends Controller
 {
@@ -29,7 +30,7 @@ class ExperienceController extends Controller
 
         $data['employee_id']=auth()->user()->id;
 
-        Experience::create($data);
+        $Experience =  Experience::create($data);
 
         return response()->json(['message' =>'Experience Added Successfully','Experience'=>$Experience]);
       
