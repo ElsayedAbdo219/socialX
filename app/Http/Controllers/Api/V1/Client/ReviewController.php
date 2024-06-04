@@ -7,20 +7,23 @@ use App\Moedls\Position;
 
 class ReviewController extends Controller
 {
+
     public function add(Request $request){
 
+        /* $initialVal=0; */
+
         $data= $request->validate([
-            'position' => 'required|string|max:255',
+            /* 'position' => 'required|string|max:255', */
             'post_id' => 'required|string|max:255',
-            'likes' => 'required',
-            'comments' => 'string',
+            'likes' => 'required|string',
+            'comments' => 'nullable|string',
             
         ]);
 
         $data['employee_id']=auth()->user()->id;
 
-        Position::create($data);
+        $Review = Review::create($data);
 
-        return response()->json(['message' =>'Position Added Successfully','Position'=>$Position]);
+        return response()->json(['message' =>'Review Added Successfully','Review'=>$Review]);
     }
 }

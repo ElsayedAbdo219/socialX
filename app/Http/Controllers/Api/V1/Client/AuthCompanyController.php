@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1\Client;
 
-use App\Enum\UserTypeEnum as EnumUserTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Enums\UserTypeEnum;
+use App\Enum\UserTypeEnum;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use App\Models\{
-    Employee,
+    Member,
     Company,
     User
 };
@@ -33,10 +32,11 @@ class AuthCompanyController extends Controller
                 'website' => 'url|string',
                 'address' => 'string',
                 'bio' => 'string',
-                'type' => EnumUserTypeEnum::COMPANY,
      ]);
+
+          $data['type']=UserTypeEnum::COMPANY;
     
-            $company = Company::create([$data]);
+            $company = Member::create($data);
     
            return response()->json(['message' =>'Company Register Successfully','company'=>$company]);
       
@@ -50,7 +50,7 @@ class AuthCompanyController extends Controller
         ]);
 
        
-        $company = Company::whereEmail($request->email)->first();
+        $company = Member::whereEmail($request->email)->first();
 
         if (!$company) {
             throw ValidationException::withMessages([
@@ -97,7 +97,7 @@ class AuthCompanyController extends Controller
               
             ]);
     
-            $company = Company::findOrFail($id);
+            $company = Member::findOrFail($id);
     
             $company->update($data);
     
@@ -107,7 +107,7 @@ class AuthCompanyController extends Controller
 
     
      public function deleteMyAccount(){
-        Company::whereId(auth()->user()->id)->destroy();
+        Member::whereId(auth()->user()->id)->destroy();
         return response()->json(['message' =>'Company Deleted Successfully']);
      }
 

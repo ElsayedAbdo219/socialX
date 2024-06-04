@@ -15,41 +15,41 @@ use App\Enum\UserTypeEnum;
 class RateController extends Controller
 {
 
-    public function addFromCompany(Request $request)
+    public function add(Request $request)
     {
-           $data= $request->validate([
+
+       if(auth('api')->user()->type === UserTypeEnum::COMPANY){
+       
+         $data= $request->validate([
                 'comment' => 'nullalbe|string',
                 'employee_id' => 'required',
             ]);
 
-            $data['company_id']=auth()->user()->id;
+            $data['company_id'] = auth('api')->user()->id;
     
             RateEmployee::create($data);
     
             return response()->json(['message' =>'Rate Addde by Company Successfully']);
-      
-    }
+       }
 
-      public function addFromEmployee(Request $request)
-    {
-           $data= $request->validate([
-                'comment' => 'nullalbe|string|max:255',
-                'employee_id' => 'required',
+        $data= $request->validate([
+                'comment' => 'nullalbe|string',
+                'company_id' => 'required',
             ]);
+            
+       $data['employee_id'] = auth('api')->user()->id;
+    
+       RateEmployee::create($data);
 
-            $data['company_id']=auth()->user()->id;
-    
-            RateCompany::create($data);
-    
-            return response()->json(['message' =>'Rate Addde by Employee Successfully']);
-      
+       return response()->json(['message' =>'Rate Addde by Company Successfully']);
+          
     }
 
 
     # view rate for any company
-    public function viewMyRate($type)
+    public function viewMyRate()
     {
-      if ($type == UserTypeEnum::COMPANY){
+      if (auth('api')->user()->type === UserTypeEnum::COMPANY){
 
         $myRates=RateCompany::OfCompany(auth()->user()->id)->get(['rate']);
         $total= $myRates->sum('rate') / $myRates->count();

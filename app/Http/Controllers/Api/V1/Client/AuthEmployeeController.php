@@ -5,11 +5,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Enums\UserTypeEnum;
+use App\Enum\UserTypeEnum;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use App\Models\{
-    Employee,
+    Member,
     Company,
     User
 };
@@ -32,8 +32,8 @@ class AuthEmployeeController extends Controller
                 'coverletter' => 'image,mimes:jpeg,png,jpg',
                 'address' => 'required|string|',
             ]);
-            
-            $employee = Employee::create($data);
+            $data['type']=UserTypeEnum::EMPLOYEE;
+            $employee = Member::create($data);
            return response()->json(['message' =>'Employee Regiser Successfully','employee'=>$employee]);
     
       
@@ -46,19 +46,19 @@ class AuthEmployeeController extends Controller
             'password' => 'required',
         ]);
 
-        $employees=Employee::pluck('email')->toArray();
-       
-         $employee=Employee::whereEmail($request->email)->first(); 
+        $employee = Member::whereEmail($request->email)->first();
 
-         if (!in_array($employee,$employees) && $request->password!=$employee?->password) {
-
+        if (!$employee) {
             throw ValidationException::withMessages([
-
-                'email' => ['The provided credentials are incorrect.'],
-
+                'email' => ['The provided email does not exist.'],
             ]);
-
-         }
+        }
+        
+        if (!Hash::check($request->password, $employee->password)) {
+            throw ValidationException::withMessages([
+                'password' => ['The provided password is incorrect.'],
+            ]);
+           }
 
         $token = $employee->createToken('api_token')->plainTextToken;
 
@@ -91,7 +91,7 @@ class AuthEmployeeController extends Controller
                 'coverletter' => 'image,mimes:jpeg,png,jpg',
             ]);
     
-            $employee = Employee::findOrFail($id);
+            $employee = Member::findOrFail($id);
     
             $employee->update($data);
     
