@@ -13,7 +13,7 @@ class RateEmployee extends Model
 
 #scopes
  public function scopeOfEmployee($query,$value){
-   return $query->where('company_id',$value);
+   return $query->where('employee_id',$value);
 
 }
 

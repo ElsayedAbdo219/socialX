@@ -102,7 +102,7 @@ Route::prefix("auth")->group(function () {
   # Rates
   Route::name('rate.')->prefix('rate')->group(function () {
     Route::post('/add', [RateController::class, 'add']);
-    Route::get('/viewMyRate/{type}', [RateController::class, 'viewMyRate']);
+    Route::get('/viewMyRate', [RateController::class, 'viewMyRate']);
   });
 
   # reviews

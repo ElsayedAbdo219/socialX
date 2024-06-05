@@ -10,31 +10,28 @@ use App\Http\Controllers\Controller;
 class ReviewController extends Controller
 {
 
-    public function add(Request $request , Post $Post){
-
-        /* $initialVal=0; */
-      $Post = Post::whereId($Post->id)->first();
-
-      $PostwithReview = $Post->with(['review'])->first();
-      
-      if ($PostwithReview->review()->where('likes',1)->exists()) {
-
-         return response()->json(['message' => 'لقد قمت بالأعجاب هذا المنشور من قبل']);
-
-        }
+    public function add(Request $request, Post $Post)
+    {
+       
+        $Post = Post::whereId($Post->id)->first();
+    
+        $Post->load('review');
         
-        else{
-
-            $Post->review()->create(
-                [
-                  'likes' => 1,
-                  'comments' =>  $request->comments,
-                  'member_id' => auth('api')->user()->id
-                ]
-                );
-        
-                return response()->json(['message' =>'تم اضافة تقييمك بنجاح']);
+        foreach ($Post->review as $review) {
+            if ($review->likes == 1) {
+                return response()->json(['message' => 'لقد قمت بالأعجاب بهذا المنشور من قبل']);
+            }
         }
-     
+       
+        $Post->review()->create([
+            'likes' => 1,
+            'comments' => $request->comments,
+            'member_id' => auth('api')->user()->id
+        ]);
+    
+        return response()->json(['message' => 'تم إضافة تقييمك بنجاح']);
     }
+    
+    
+    
 }

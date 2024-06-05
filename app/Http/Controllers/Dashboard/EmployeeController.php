@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\Member;
 use App\Models\Trader;
 use App\Models\Company;
 use App\Models\Employee;
@@ -49,7 +50,7 @@ class EmployeeController extends Controller
 
        ]);
        
-        $Employee = Employee::create($data);
+        $Employee = Member::create($data);
 
 
         if ($request->file('personal_photo')) {
@@ -77,7 +78,7 @@ class EmployeeController extends Controller
     }
 
     public function edit ($Employee){
-        $Employee=Employee::findOrFail($Employee);
+        $Employee=Member::findOrFail($Employee);
         $statusArray = RegisterationRequestEnum::toArray();
         return view('dashboard.employees.edit',
         [
@@ -89,7 +90,7 @@ class EmployeeController extends Controller
     }
 
     public function update(Request $request,$id){
-        $Employee=Employee::findOrFail($id);
+        $Employee=Member::findOrFail($id);
         
         $data=$request->validate([
             'name' => 'required|string|max:255',
@@ -130,7 +131,7 @@ class EmployeeController extends Controller
 
     }
 
-    public function destroy(Employee $Employee)
+    public function destroy(Member $Employee)
     {
         $Employee->delete();
         if (request()->expectsJson()){

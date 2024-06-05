@@ -2,7 +2,9 @@
 
 namespace App\Datatables;
 
+use App\Models\Member;
 use App\Models\Employee;
+use App\Enum\UserTypeEnum;
 use Yajra\DataTables\Html\Column;
 use App\Models\MerchantCodingRequest;
 use App\Enum\RegisterationRequestEnum;
@@ -15,7 +17,7 @@ class EmployeeDataTable extends BaseDatatable
     
     public function query(): Builder
     {
-        return Employee::query()->when(request('search')['value'],function ($q){
+        return Member::query()->where('type',UserTypeEnum::EMPLOYEE)->when(request('search')['value'],function ($q){
             $q->ofName(request('search')['value']);
         })->latest();
     }

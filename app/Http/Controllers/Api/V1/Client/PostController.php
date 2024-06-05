@@ -45,7 +45,7 @@ class PostController extends Controller
        
       }
 
-      $post->review()->firstOrCreate([]);
+     // $post->review()->firstOrCreate([]);
     
        return $this->postResource::make($post) ?? [];
 

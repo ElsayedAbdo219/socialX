@@ -2,7 +2,8 @@
 
 namespace App\Datatables;
 
-use App\Models\Company;
+use App\Models\Member;
+use App\Enum\UserTypeEnum;
 use Yajra\DataTables\Html\Column;
 use App\Models\MerchantCodingRequest;
 use App\Enum\RegisterationRequestEnum;
@@ -15,7 +16,7 @@ class CompanyDataTable extends BaseDatatable
     
     public function query(): Builder
     {
-        return Company::query()->when(request('search')['value'],function ($q){
+        return Member::query()->where('type',UserTypeEnum::COMPANY)->when(request('search')['value'],function ($q){
             $q->ofName(request('search')['value']);
         })->latest();
     }

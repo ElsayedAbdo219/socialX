@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Models\Company;
+use App\Models\Member;
 use App\Models\Trader;
+use App\Models\Company;
 use App\Enum\UserTypeEnum;
 use Illuminate\Http\Request;
-use App\Datatables\CompanyDataTable;
 use Illuminate\Support\Facades\DB;
+use App\Datatables\CompanyDataTable;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponseDashboard;
 use App\Enum\RegisterationRequestEnum;
@@ -45,7 +46,7 @@ class CompanyController extends Controller
             'bio' => 'string',
        ]);
 
-        $Company = Company::create($data);
+        $Company = Member::create($data);
 
 
         if ($request->file('logo')) {
@@ -62,7 +63,7 @@ class CompanyController extends Controller
     }
 
     public function edit ($Company){
-        $Company=Company::findOrFail($Company);
+        $Company=Member::findOrFail($Company);
         $statusArray = RegisterationRequestEnum::toArray();
         return view('dashboard.companies.edit',
         [
@@ -74,7 +75,7 @@ class CompanyController extends Controller
     }
 
     public function update(Request $request,$id){
-        $Company=Company::findOrFail($id);
+        $Company=Member::findOrFail($id);
         
         $data=$request->validate([
             'name' => 'required|string|max:255',
@@ -105,7 +106,7 @@ class CompanyController extends Controller
 
     }
 
-    public function destroy(Company $Company)
+    public function destroy(Member $Company)
     {
         $Company->delete();
         if (request()->expectsJson()){
