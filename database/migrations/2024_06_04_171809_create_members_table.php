@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('job');
+            $table->string('job')->nullable();
             $table->string('personal_photo')->nullable();
             $table->text('personal_info')->nullable();
             $table->text('website')->nullable();

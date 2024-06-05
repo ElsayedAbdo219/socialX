@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id');
-            $table->foreignId('employee_id');
+            $table->foreignId('member_id')->nullable();
             $table->string('likes')->nullable()->default(0);
             $table->text('comments')->nullable();
             $table->timestamps();

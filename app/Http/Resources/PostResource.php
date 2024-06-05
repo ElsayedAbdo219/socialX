@@ -14,16 +14,16 @@ class PostResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
-            'company' => CompanyResource::make($this->whenLoaded('Company')),
+            'company' => CompanyResource::make($this->whenLoaded('company')),
             'content' => $this->content ?? '',
             'file_name' => $this->file_name ?? '',
-            'is_follow' => $this->is_follow ==0 ? 'غير متابع' : 'متابع',
+            'is_follow' => $this->is_follow == 0 ? 'غير متابع' : 'متابع',
             'file_name' => $this->file_name ?? '',
-            'review' =>  ReviewResource::make($this->whenLoaded('Review')),
+            'review' =>  ReviewResource::make($this->whenLoaded('review')),
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
         ];
     }

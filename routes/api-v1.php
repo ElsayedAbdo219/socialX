@@ -56,18 +56,22 @@ Route::prefix("auth")->group(function () {
       Route::post('delete-MyAccount', [AuthEmployeeController::class, 'deleteMyAccount']);
       Route::post('/update', [AuthEmployeeController::class, 'update']);
     });
-  });
+
+
+});
+
 });
 
 
-Route::middleware('auth:sanctum')->group(function () {
+
+
 
   # Posts
   Route::post('addPost', [PostController::class, 'addPost']);
   Route::get('getPosts', [PostController::class, 'getPosts']);
   Route::get('getPost/{post}', [PostController::class, 'getPost']);
   Route::post('searchPost', [PostController::class, 'searchPost']);
-  Route::get('getComments', [PostController::class, 'getComments']);
+  Route::get('getComments/{post}', [PostController::class, 'getComments']);
 
   # Experience
   Route::name('experience.')->prefix('experience')->group(function () {
@@ -103,7 +107,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
   # reviews
   Route::name('reviews.')->prefix('reviews')->group(function () {
-    Route::post('add', [ReviewController::class, 'add']);
+    Route::post('add/{post}', [ReviewController::class, 'add']);
   });
 
 
@@ -115,5 +119,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('privacy-policy', [StaticPagesController::class, 'privacyPolicy']);
     Route::get('contact-us', [StaticPagesController::class, 'contactUs']);
     Route::post('contact-us', [StaticPagesController::class, 'contactUsSubmit']);
+
+
+
+
   });
-});
+
+

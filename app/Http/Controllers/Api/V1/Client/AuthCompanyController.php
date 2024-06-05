@@ -38,7 +38,7 @@ class AuthCompanyController extends Controller
     
             $company = Member::create($data);
     
-           return response()->json(['message' =>'Company Register Successfully','company'=>$company]);
+           return response()->json(['message' =>'تم تسجيل حسابك بنجاح','company'=>$company]);
       
     }
 
@@ -54,13 +54,13 @@ class AuthCompanyController extends Controller
 
         if (!$company) {
             throw ValidationException::withMessages([
-                'email' => ['The provided email does not exist.'],
+                'email' => ['البريد الالكتروني غير صحيح'],
             ]);
         }
         
         if (!Hash::check($request->password, $company->password)) {
             throw ValidationException::withMessages([
-                'password' => ['The provided password is incorrect.'],
+                'password' => ['كلمة المرور غير صحيحة'],
             ]);
            }
 
@@ -75,14 +75,12 @@ class AuthCompanyController extends Controller
     public function logout(Request $request)
     {
        
-        $user = auth("api")->user()->logout();
-
-        $user->tokens()->where('name', 'auth_token')->delete();
-
-        return response()->json(['message' => 'Logged out successfully']);
+        $user = auth("api")->user()->currentAccessToken()->delete();
+    
+        return response()->json(['message' => 'تم تسجيل خروجك بنجاح' , 'user'=>$user]);
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request)
     {
 
             $data=$request->validate([
@@ -97,18 +95,16 @@ class AuthCompanyController extends Controller
               
             ]);
     
-            $company = Member::findOrFail($id);
+            auth('api')->user()->update($data);
     
-            $company->update($data);
-    
-            return response()->json(['message' =>'Company Updated Successfully','company'=>$company]);
+            return response()->json(['message' =>'تم تحديث بياناتك  بنجاح']);
       
     }
 
     
      public function deleteMyAccount(){
         Member::whereId(auth()->user()->id)->destroy();
-        return response()->json(['message' =>'Company Deleted Successfully']);
+        return response()->json(['message' =>'تم حذف حسابك بنجاح']);
      }
 
 

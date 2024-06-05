@@ -34,7 +34,7 @@ class AuthEmployeeController extends Controller
             ]);
             $data['type']=UserTypeEnum::EMPLOYEE;
             $employee = Member::create($data);
-           return response()->json(['message' =>'Employee Regiser Successfully','employee'=>$employee]);
+           return response()->json(['message' =>'تم تسجيل الحساب بنجاح','employee'=>$employee]);
     
       
     }
@@ -51,13 +51,13 @@ class AuthEmployeeController extends Controller
 
         if (!$employee ) {
             throw ValidationException::withMessages([
-                'email' => ['The provided email does not exist.'],
+                'email' => ['البريد الالكتروني غير مسجل'],
             ]);
         }
         
         if ($request->password !=  $employee->password){
             throw ValidationException::withMessages([
-                'password' => ['The provided password is incorrect.'],
+                'password' => ['كلمة المرور غير صحيحة'],
             ]);
            }
 
@@ -70,13 +70,10 @@ class AuthEmployeeController extends Controller
 
     public function logout()
     {
-        return "dsfsdfg";
-
-        $user = auth("api")->user()->logout();  
-
-        $user->tokens()->where('name', 'auth_token')->delete();
+        
+        $user = auth("api")->user()->currentAccessToken()->delete();
     
-        return response()->json(['message' => 'Logged out successfully']);
+        return response()->json(['message' => 'تم تسجيل خروجك بنجاح' , 'user'=>$user]);
     }
 
     public function update(Request $request)
@@ -84,7 +81,7 @@ class AuthEmployeeController extends Controller
        
            $data= $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:employees',
+                'email' => 'required|string|email|max:255|unique:members',
                 'password' => 'required',
                 'personal_photo' => 'string|image,mimes:jpeg,png,jpg',
                 'personal_info' => 'string',
@@ -93,11 +90,9 @@ class AuthEmployeeController extends Controller
                 'coverletter' => 'image,mimes:jpeg,png,jpg',
             ]);
     
-            $employee = Member::findOrFail($id);
+            auth('api')->user()->update($data);
     
-            $employee->update($data);
-    
-            return response()->json(['message' =>'Employee Updated Successfully','employee'=>$employee]);
+            return response()->json(['message' =>'تم تحديث بياناتك بنجاح','employee'=>auth('api')->user()]);
       
     }
 

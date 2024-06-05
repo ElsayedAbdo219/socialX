@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1\Client;
+use App\Models\Post;
 use App\Models\Review;
 use App\Moedls\Position;
 use Illuminate\Http\Request;
@@ -9,22 +10,31 @@ use App\Http\Controllers\Controller;
 class ReviewController extends Controller
 {
 
-    public function add(Request $request){
+    public function add(Request $request , Post $Post){
 
         /* $initialVal=0; */
+      $Post = Post::whereId($Post->id)->first();
 
-        $data= $request->validate([
-            /* 'position' => 'required|string|max:255', */
-            'post_id' => 'required|string|max:255',
-            'likes' => 'required|string',
-            'comments' => 'nullable|string',
-            
-        ]);
+      $PostwithReview = $Post->with(['review'])->first();
+      
+      if ($PostwithReview->review()->where('likes',1)->exists()) {
 
-        $data['employee_id']=auth()->user()->id;
+         return response()->json(['message' => 'لقد قمت بالأعجاب هذا المنشور من قبل']);
 
-        $Review = Review::create($data);
+        }
+        
+        else{
 
-        return response()->json(['message' =>'Review Added Successfully','Review'=>$Review]);
+            $Post->review()->create(
+                [
+                  'likes' => 1,
+                  'comments' =>  $request->comments,
+                  'member_id' => auth('api')->user()->id
+                ]
+                );
+        
+                return response()->json(['message' =>'تم اضافة تقييمك بنجاح']);
+        }
+     
     }
 }

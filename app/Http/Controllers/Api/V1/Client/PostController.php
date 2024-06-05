@@ -13,23 +13,24 @@ class PostController extends Controller
     protected $postResource=PostResource::class;
 
       public function addPost(Request $request){
-      
+        
         if(empty($request->content) && empty($request->file_name)){
             return ('لم يتم انشاء المنشور  الرجاء المحاولة مرة اخرى ');
         }
        
-        abort_if(auth("api")->user()->type ===UserTypeEnum::COMPANY , 403, __('ليس لديك صلاحيات لتنفيذ هذه العملية'));
+        abort_if(auth("api")->user()->type === UserTypeEnum::EMPLOYEE , 403, __('ليس لديك صلاحيات لتنفيذ هذه العملية'));
 
         $post=Post::create([
             'content'=>$request->content,
-            'company_id'=>auth()->user()->id,
+            'company_id'=>auth('api')->user()->id,
         ]);
 
         if ($request->file('file_name')) {
 
           $fileName = uniqid() . '_' . $request->file('file_name')->getClientOriginalName();
 
-          Storage::disc("local")->put($filName, file_get_contents($request->file('file_name')));
+          Storage::disk("local")->put($fileName, file_get_contents($request->file('file_name')));
+
 
           $post->update(
             [
@@ -38,43 +39,42 @@ class PostController extends Controller
 
             ]
       );
+
+
+
        
       }
+
+      $post->review()->firstOrCreate([]);
     
        return $this->postResource::make($post) ?? [];
+
           
       }
 
 
-
-
       public function getPosts(){
-     //  return $post->Company;
-        $posts=Post::with([ 'Company','Review' ])->
-        
-        whereHas("Comapny",function($query)
-
-        {
-          $query->where('is_Active',1);
-        }
-        
-        )
-        ->get();
-        
-        // ->orderbyrawDesc('is_follow','1')
+        $posts = Post::with(['company', 'review'])
+                     ->whereHas('company', function($q){ $q->where('is_Active', 1); })
+                     ->paginate(10);
     
-       return $this->postResource::collection($posts) ?? [];
-        
-      }
+        return $posts ?? [];
+    }
+
+
+
+
+
 
         public function getPost(Post $post){
 
         $post=Post::whereId($post?->id)->first();
-        $postWithRelations=$post->load(['Company','Review'])->first();
+        $postWithRelations=$post->with(['Company','Review'])->first();
        if (!$post) {
            abort(404);
        }
-        return $this->postResource::make($postWithRelations) ?? [];
+        return $postWithRelations;
+     //   return $this->postResource::make($postWithRelations) ?? [];
             
     }
 
@@ -82,10 +82,15 @@ class PostController extends Controller
     public function searchPost(Request $request){
 
       return Post::query()->when($request->filled('keyword'), function ($query) use ($request) {
+
         $query->where('content', 'like', '%' . $request->keyword . '%')
-        ->orwhereHas('Company', function ($q) use ($request) {
+
+        ->orwhereHas('company', function ($q) use ($request) {
+
             $q->where('name', 'like', '%' . $request->keyword . '%');
+
         });
+
        })->get() ?? [];
           
   }
@@ -93,12 +98,20 @@ class PostController extends Controller
 
   public function getComments(Post $post){
 
-   $post=Post::whereId($post)->first();
-   $postWithRelations=$post->load(['Review'])->first();
+   $post=Post::whereId($post->id)->first();
+   
+
+   $postWithRelations=$post->with(['review'])->first();
+
    if (!$post) {
+
        abort(404);
+
    }
-    return $this->postResource::make($postWithRelations) ?? [];
+
+   return  $postWithRelations;
+
+
 }
 
 

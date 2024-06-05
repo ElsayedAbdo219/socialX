@@ -10,11 +10,11 @@ class Post extends Model
     use HasFactory;
     protected $guarded=[];
 
-    public function Company(){
-        return $this->belongsTo(Company::class,'company_id');
+    public function company(){
+        return $this->belongsTo(Member::class,'company_id');
     }
 
-    public function Review(){
+    public function review(){
         return $this->hasMany(Review::class,'post_id');
     }
 
