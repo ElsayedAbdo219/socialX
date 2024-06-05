@@ -23,7 +23,12 @@ class Member extends Authenticatable
     protected $guarded=[];
 
 
-
+   # Scopes
+   public function scopeOfName($query, $value)
+   {
+       if (empty($value)) return $query;
+       return $query->where('name', 'like', "%$value%");
+   }
 
 
 
