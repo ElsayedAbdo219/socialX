@@ -13,7 +13,7 @@ class PositionController extends Controller
        
            $data= $request->validate([
                 'position' => 'required|string|max:255',
-                'company_id' => 'required',
+                'company_id' => 'required|exists:members,id',
             ]);
     
             $data['employee_id'] = auth('api')->user()->id;
