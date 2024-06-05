@@ -94,7 +94,7 @@ class AuthCompanyController extends Controller
        
         $user = auth("api")->user()->currentAccessToken()->delete();
     
-        return response()->json(['message' => 'تم تسجيل خروجك بنجاح' , 'user'=>$user]);
+        return response()->json(['message' => 'تم تسجيل خروجك بنجاح']);
     }
 
     public function update(Request $request)

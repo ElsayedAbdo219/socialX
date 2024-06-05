@@ -25,11 +25,11 @@ class EducationController extends Controller
                 'description' => 'required|string',
             ]);
 
-            $data['employee_id']=auth()->user()->id;
+            $data['employee_id']=auth('api')->user()->id;
     
             $Education = Education::create($data);
     
-            return response()->json(['message' =>'Education Added Successfully','Education'=>$Education]);
+            return response()->json(['message' =>'تم اضافة تفاصيل تعليمك بنجاح','Education'=>$Education]);
       
 
       

@@ -25,12 +25,15 @@ class ExperienceController extends Controller
             'description' => 'required|string|max:255',
             'profile_headline' => 'required|string|max:255',
             'skill' => 'required|string|max:255',
-            'media' => 'image,mimes:jpeg,png,jpg',
+            'media' => 'image|mimes:jpeg,png,jpg',
         ]);
 
-        $data['employee_id']=auth()->user()->id;
+        $data['employee_id']=auth('api')->user()->id;
 
         $Experience =  Experience::create($data);
+
+
+
 
         return response()->json(['message' =>'Experience Added Successfully','Experience'=>$Experience]);
       

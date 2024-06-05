@@ -31,7 +31,7 @@ class AuthEmployeeController extends Controller
                 'website' => 'string|url',
                 'experience' => 'string',
                 'coverletter' => 'image|mimes:jpeg,png,jpg',
-                'address' => 'required|string|',
+                'address' => 'required|string',
             ]);
             $data['type']=UserTypeEnum::EMPLOYEE;
             $employee = Member::create($data);
@@ -111,23 +111,24 @@ class AuthEmployeeController extends Controller
         
         $user = auth("api")->user()->currentAccessToken()->delete();
     
-        return response()->json(['message' => 'تم تسجيل خروجك بنجاح' , 'user'=>$user]);
+        return response()->json(['message' => 'تم تسجيل خروجك بنجاح' ]);
     }
 
     public function update(Request $request)
     {
        
-           $data= $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:members',
-                'password' => 'required',
-                'personal_photo' => 'string|image,mimes:jpeg,png,jpg',
-                'personal_info' => 'string',
-                'website' => 'string|url',
-                'experience' => 'string',
-                'coverletter' => 'image,mimes:jpeg,png,jpg',
-            ]);
-    
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:members,email,' . auth('api')->id(),
+            'password' => 'nullable|string',
+            'personal_photo' => 'nullable|image|mimes:jpeg,png,jpg',
+            'personal_info' => 'nullable|string',
+            'website' => 'nullable|string|url',
+            'experience' => 'nullable|string',
+            'coverletter' => 'nullable|image|mimes:jpeg,png,jpg',
+        ]);
+
+        
             auth('api')->user()->update($data);
     
             return response()->json(['message' =>'تم تحديث بياناتك بنجاح','employee'=>auth('api')->user()]);
