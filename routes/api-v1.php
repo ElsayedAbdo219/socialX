@@ -11,7 +11,9 @@ use App\Http\Controllers\Api\V1\Client\{
   RateController,
   ReviewController,
   StaticPagesController,
-  PositionController
+  PositionController,
+  SkillController
+
 };
 /*
 |--------------------------------------------------------------------------
@@ -110,6 +112,12 @@ Route::prefix("auth")->group(function () {
   Route::name('reviews.')->prefix('reviews')->group(function () {
     Route::post('add/{post}', [ReviewController::class, 'add']);
   });
+
+
+    # skills
+    Route::name('skills.')->prefix('skills')->group(function () {
+      Route::post('add', [SkillController::class, 'add']);
+    });
 
 
 

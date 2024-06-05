@@ -2,29 +2,24 @@
 
 namespace App\Http\Controllers\Api\V1\Client;
 
+use App\Models\Skill;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SkillController extends Controller
 {
-    public function update(Request $request)
+    public function add(Request $request)
     {
        
            $data= $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required',
-                'personal_photo' => 'string|image,mimes:jpeg,png,jpg',
-                'personal_info' => 'string',
-                'website' => 'string|url',
-                'experience' => 'string',
-                'coverletter' => 'image,mimes:jpeg,png,jpg',
+                'skill' => 'required|string|max:255',
             ]);
     
-            $employee = Employee::findOrFail($id);
+            $data['employee_id'] = auth('api')->user()->id;
     
-            $employee->update($data);
+            $skill = Skill::create($data);
     
-            return response()->json(['message' =>'Employee Updated Successfully','employee'=>$employee]);
+            return response()->json(['message' =>'تم اضافة مهارة جديدة بنجاح','skill'=>$skill]);
       
 
       
