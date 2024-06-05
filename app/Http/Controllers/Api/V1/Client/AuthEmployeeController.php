@@ -26,11 +26,11 @@ class AuthEmployeeController extends Controller
                 'job' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required',
-                'personal_photo' => 'string|image,mimes:jpeg,png,jpg',
+                'personal_photo' => 'image|mimes:jpeg,png,jpg',
                 'personal_info' => 'string',
                 'website' => 'string|url',
                 'experience' => 'string',
-                'coverletter' => 'image,mimes:jpeg,png,jpg',
+                'coverletter' => 'image|mimes:jpeg,png,jpg',
                 'address' => 'required|string|',
             ]);
             $data['type']=UserTypeEnum::EMPLOYEE;

@@ -27,7 +27,7 @@ class AuthCompanyController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required',
-                'logo' => 'image,mimes:jpeg,png,jpg',
+                'logo' => 'image|mimes:jpeg,png,jpg',
                 'slogo' => 'string',
                 'website' => 'url|string',
                 'address' => 'string',
