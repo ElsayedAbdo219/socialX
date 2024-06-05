@@ -11,11 +11,13 @@ class RateEmployee extends Model
     protected $guarded=[];
 
 
+
+
+
 #scopes
- public function scopeOfEmployee($query,$value){
-   return $query->where('employee_id',$value);
+public function scopeOfCompany($query,$value){
+  return $query->where('company_id',$value);
 
 }
-
 
 }

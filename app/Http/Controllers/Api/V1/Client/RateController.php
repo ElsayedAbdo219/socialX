@@ -55,25 +55,25 @@ class RateController extends Controller
     {
       if (auth('api')->user()->type === UserTypeEnum::COMPANY){
 
-        $myRates=RateCompany::OfCompany(auth('api')->user()->id)->get(['rate']);
+        $myRates=RateEmployee::OfCompany(auth('api')->user()->id)->get();
         $total= $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count()  :  0 ;
    
        return response()->json([
-           'rates'=> $total,         
-           'ratesFormatted'=>round($total,1),         
+           'rates'=>round($total,1),         
+           'comments'=> $myRates->select('comment'),         
        
        ]);
 
       }
 
-      $myRates=RateEmployee::OfEmployee(auth('api')->user()->id)->get(['rate']);
+      $myRates=RateCompany::OfEmployee(auth('api')->user()->id)->get();
 
       $total= $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count()  :  0 ;
  
       return response()->json([
-         'rates'=> $total,         
-         'ratesFormatted'=>round($total,1),         
-     
+         'rates'=>round($total,1),         
+         'comments'=> $myRates->select('comment'),         
+    
       ]);
         
       
