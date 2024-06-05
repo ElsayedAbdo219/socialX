@@ -42,19 +42,20 @@ class AuthEmployeeController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:employees,email',
+            'email' => 'required|email|exists:members,email',
             'password' => 'required',
         ]);
 
         $employee = Member::whereEmail($request->email)->first();
+      //  return [$employee->password , $request->password];
 
-        if (!$employee) {
+        if (!$employee ) {
             throw ValidationException::withMessages([
                 'email' => ['The provided email does not exist.'],
             ]);
         }
         
-        if (!Hash::check($request->password, $employee->password)) {
+        if ($request->password !=  $employee->password){
             throw ValidationException::withMessages([
                 'password' => ['The provided password is incorrect.'],
             ]);
@@ -67,10 +68,11 @@ class AuthEmployeeController extends Controller
     }
 
 
-    public function logout(Request $request)
+    public function logout()
     {
+        return "dsfsdfg";
 
-        $user = auth("api")->user()->logout();
+        $user = auth("api")->user()->logout();  
 
         $user->tokens()->where('name', 'auth_token')->delete();
     
