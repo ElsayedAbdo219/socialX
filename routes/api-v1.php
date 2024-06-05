@@ -10,7 +10,8 @@ use App\Http\Controllers\Api\V1\Client\{
   EducationController,
   RateController,
   ReviewController,
-  StaticPagesController
+  StaticPagesController,
+  PositionController
 };
 /*
 |--------------------------------------------------------------------------
@@ -95,7 +96,7 @@ Route::prefix("auth")->group(function () {
   # position
   Route::name('position.')->prefix('position')->group(function () {
 
-    Route::post('/add', [EducationController::class, 'add']);
+    Route::post('/add', [PositionController::class, 'add']);
   });
 
 
