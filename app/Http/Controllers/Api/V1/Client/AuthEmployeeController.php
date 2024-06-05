@@ -15,6 +15,7 @@ use App\Models\{
 };
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ResetPasswordNotification;
+use Illuminate\Support\Facades\Storage;
 
 class AuthEmployeeController extends Controller
 {
@@ -34,6 +35,43 @@ class AuthEmployeeController extends Controller
             ]);
             $data['type']=UserTypeEnum::EMPLOYEE;
             $employee = Member::create($data);
+
+            if ($request->file('personal_photo')) {
+
+                $personal_photo = uniqid() . '_' . $request->file('personal_photo')->getClientOriginalName();
+      
+                Storage::disk("local")->put($personal_photo, file_get_contents($request->file('personal_photo')));
+      
+      
+                $employee->update(
+                  [
+      
+                  'personal_photo'=> $personal_photo,
+      
+                  ]
+            );
+             
+            }
+    
+
+            if ($request->file('coverletter')) {
+
+                $coverletter = uniqid() . '_' . $request->file('coverletter')->getClientOriginalName();
+      
+                Storage::disk("local")->put($coverletter, file_get_contents($request->file('coverletter')));
+      
+      
+                $employee->update(
+                  [
+      
+                  'coverletter'=> $coverletter,
+      
+                  ]
+            );
+             
+            }
+    
+
            return response()->json(['message' =>'تم تسجيل الحساب بنجاح','employee'=>$employee]);
     
       

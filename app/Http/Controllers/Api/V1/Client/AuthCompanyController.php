@@ -14,7 +14,7 @@ use App\Models\{
     Company,
     User
 };
-
+use Illuminate\Support\Facades\Storage;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Support\Facades\Notification;
 
@@ -37,6 +37,23 @@ class AuthCompanyController extends Controller
           $data['type']=UserTypeEnum::COMPANY;
     
             $company = Member::create($data);
+
+            if ($request->file('logo')) {
+
+                $logo = uniqid() . '_' . $request->file('logo')->getClientOriginalName();
+      
+                Storage::disk("local")->put($logo, file_get_contents($request->file('logo')));
+      
+      
+                $company->update(
+                  [
+      
+                  'logo'=> $logo,
+      
+                  ]
+            );
+             
+            }
     
            return response()->json(['message' =>'تم تسجيل حسابك بنجاح','company'=>$company]);
       
