@@ -21,7 +21,5 @@ class SkillController extends Controller
     
             return response()->json(['message' =>'تم اضافة مهارة جديدة بنجاح','skill'=>$skill]);
       
-
-      
     }
 }
