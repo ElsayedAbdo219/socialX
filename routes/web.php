@@ -25,7 +25,7 @@ use App\Http\Controllers\Dashboard\{
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return "Not Found ";
 });
 
 Route::name('admin.')->prefix('admin')->group(function(){
