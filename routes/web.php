@@ -10,7 +10,8 @@ use App\Http\Controllers\Dashboard\{
     NewController,
     FrequentlyQuestionedAnswerController,
     ComplainController,
-    testController
+    testController,
+    ProfileController
     
     };
 /*
@@ -39,6 +40,14 @@ Route::middleware(['auth:web'])->group(function(){
     Route::get('/logout',[AuthController::class,'logout'])->name('logout');
     Route::get('/edit',[AuthController::class,'edit'])->name('profile.edit');
     
+
+
+       # Profile
+            Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+            Route::patch('profile/edit-personal', [ProfileController::class, 'updatePersonal'])->name('profile.personal.update');
+            Route::patch('profile/edit-password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+
+
 
      # Settings
     Route::name('settings.')->prefix('settings')->group(function () {

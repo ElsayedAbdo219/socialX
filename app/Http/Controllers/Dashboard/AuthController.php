@@ -59,9 +59,15 @@ class AuthController extends Controller
     }
 
 
-     public function edit()
+     public function edit(User  $user)
     {
-         return view('dashboard.edit');
+
+         return view('dashboard.profile.edit',
+         [
+            'user'=>$user
+         ]
+        
+        );
     }
     
     

@@ -21,7 +21,7 @@
                                 @csrf
                                 @method('PATCH')
                                 <div class="row">
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-6">
                                         <input type="hidden" name="id" value="{{$user->id}}">
                                         <label class="w-100" for="name">{{__('dashboard.name')}}
                                             <input type="text" class="form-control" name="name" placeholder="{{__('dashboard.name')}}" value="{{auth()->user()->name ?? old('name')}}" />
@@ -30,7 +30,7 @@
                                             @enderror
                                         </label>
                                     </div>
-                                    <div class="form-group col-4">
+                                    <div class="form-group col-6">
                                         <label class="w-100" for="email">{{__('dashboard.email')}}
                                             <input type="email" class="form-control" name="email" placeholder="{{__('dashboard.email')}}" value="{{ auth()->user()->email ?? old('email')}}" />
                                             @error('email')
@@ -38,14 +38,7 @@
                                             @enderror
                                         </label>
                                     </div>
-                                    <div class="form-group col-4">
-                                        <label class="w-100" for="phone">{{__('dashboard.phone')}}
-                                            <input type="number" min='0' class="form-control" name="phone" placeholder="{{__('dashboard.phone')}}" value="{{auth()->user()->mobile ?? old('mobile')}}" />
-                                            @error('phone')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </label>
-                                    </div>
+                                  
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary mr-1 mb-1">{{__('dashboard.edit')}}</button>
