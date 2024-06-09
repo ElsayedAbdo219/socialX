@@ -50,6 +50,9 @@ class EmployeeController extends Controller
 
        ]);
        
+
+       $data['type']=UserTypeEnum::EMPLOYEE;
+
         $Employee = Member::create($data);
 
 

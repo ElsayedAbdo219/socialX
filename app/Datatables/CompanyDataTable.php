@@ -32,9 +32,31 @@ class CompanyDataTable extends BaseDatatable
                 $title = $model?->email;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
-            'is_Active' => function ($model) {
-                $title = $model?->is_Active == 1 ? __('dashboard.active') : __('dashboard.disactive');  
+
+            'address' => function ($model) {
+                $title = $model?->address;
                 return view('components.datatable.includes.columns.title', compact('title'));
+            },
+
+
+            'email' => function ($model) {
+                $title = $model?->email;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+
+            'email' => function ($model) {
+                $title = $model?->email;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+
+            'email' => function ($model) {
+                $title = $model?->email;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+            
+            'is_Active' => function ($model) {
+                $active = $model?->is_Active;  
+                return view('components.datatable.includes.columns.active', compact('active'));
 
             },
             'created_at' => function ($model) {
@@ -52,6 +74,7 @@ class CompanyDataTable extends BaseDatatable
         return [
             Column::computed('name')->title(__('dashboard.name'))->className('text-center'),
             Column::computed('email')->title(__('dashboard.email'))->className('text-center'),
+            Column::computed('address')->title(__('dashboard.address'))->className('text-center'),
             Column::computed('is_Active')->title(__('dashboard.status'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 

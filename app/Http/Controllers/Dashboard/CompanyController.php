@@ -46,6 +46,8 @@ class CompanyController extends Controller
             'bio' => 'string',
        ]);
 
+       $data['type']=UserTypeEnum::COMPANY;
+
         $Company = Member::create($data);
 
 
