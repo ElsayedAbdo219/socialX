@@ -12,7 +12,8 @@ use App\Http\Controllers\Api\V1\Client\{
   ReviewController,
   StaticPagesController,
   PositionController,
-  SkillController
+  SkillController,
+  FollowController
 
 };
 /*
@@ -133,5 +134,12 @@ Route::prefix("auth")->group(function () {
 
 
   });
+
+
+      # skills
+      Route::name('follow.')->prefix('follow')->group(function () {
+        Route::post('add', [FollowController::class, 'add']);
+      });
+
 
 
