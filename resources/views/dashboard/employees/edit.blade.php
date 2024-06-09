@@ -10,7 +10,7 @@
         <div class="content-wrapper">
             <x-dashboard.layouts.breadcrumb now="{{__('dashboard.edit_employee')}}">
                 <li class="breadcrumb-item"><a href="{{route('admin.fqa.index')}}">
-                        {{__('dashboard.fqas_list')}}
+                        {{__('dashboard.employees_list')}}
                     </a></li>
             </x-dashboard.layouts.breadcrumb>
             <div class="col-12 mt-3">
@@ -27,9 +27,9 @@
 
                                     <div class="form-group col-4">
                                         <label class="w-100" for="slogo">الحالة
-                                            <select class="form-control" name="is_Active" value="{{ $Company->is_Active ?? old('is_Active') }}">
-                                                <option value="1">نشط</option>
-                                                <option value="0">غير نشط</option>
+                                            <select class="form-control" name="is_Active" >
+                                                <option value="1"  {{ $Employee->is_Active == 1 ?  'selected' : ''  }}>نشط</option>
+                                                <option value="0"  {{ $Employee->is_Active == 0 ?  'selected' : ''  }}>غير نشط</option>
                                             </select>
                                                @error('is_Active')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>

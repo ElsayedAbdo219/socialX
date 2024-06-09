@@ -97,7 +97,7 @@ class EmployeeController extends Controller
         
         $data=$request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'password' => 'required',
             'personal_photo' => 'image|mimes:jpeg,png,jpg',
             'personal_info' => 'string',

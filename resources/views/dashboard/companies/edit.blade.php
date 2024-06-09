@@ -28,9 +28,9 @@
 
                                     <div class="form-group col-4">
                                         <label class="w-100" for="slogo">الحالة
-                                            <select class="form-control" name="is_Active" value="{{ $Company->is_Active ?? old('is_Active') }}">
-                                                <option value="1">نشط</option>
-                                                <option value="0">غير نشط</option>
+                                            <select class="form-control" name="is_Active">
+                                                <option value="1" {{ $Company->is_Active == 1 ?  'selected' : ''  }}>نشط</option>
+                                                <option value="0" {{ $Company->is_Active == 0 ?  'selected' : ''  }}>غير نشط</option>
                                             </select>
                                                @error('is_Active')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
@@ -109,6 +109,16 @@
                                         <label class="w-100" for="slogo">نص تعريفي(اختياري)
                                             <input type="text" min='0' class="form-control" name="bio" placeholder="نص تعريفي" value="{{ $Company->bio ?? old('bio')}}" />
                                             @error('bio')
+                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                            @enderror
+                                        </label>
+                                    </div>
+
+
+                                    <div class="form-group col-4">
+                                        <label class="w-100" for="coverletter">صورة الغلاف  (اختياري)
+                                            <input type="file" min='0' class="form-control" name="coverletter" placeholder="الصورة الشخصية" value="{{ $Employee->coverletter ?? old('coverletter')}}" />
+                                            @error('coverletter')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>

@@ -131,6 +131,11 @@ return [
       "active"=>"مفعل",
       "status"=>"الحالة",
       "created_at"=>"تاريخ الانشاء",
+      "website"=>"الموقع",
+      "create"=>"اضافة",
+      "logo_image"=>"صورة الشعار",
+      "coverletter"=>"صورة الغلاف",
+      "item deleted successfully"=>"تم الحذف بنجاح",
 
 
 

@@ -97,6 +97,16 @@
                                             @enderror
                                         </label>
                                     </div>
+
+                                    <div class="form-group col-4">
+                                        <label class="w-100" for="coverletter">صورة الغلاف  (اختياري)
+                                            <input type="file" min='0' class="form-control" name="coverletter" placeholder="الصورة الشخصية" value="{{ $Employee->coverletter ?? old('coverletter')}}" />
+                                            @error('coverletter')
+                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                            @enderror
+                                        </label>
+                                    </div>
+                                    
                                    
                                  
                                 <div class="col-12">

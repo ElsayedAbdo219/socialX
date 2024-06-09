@@ -34,8 +34,8 @@ class EmployeeDataTable extends BaseDatatable
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
             'is_Active' => function ($model) {
-                $title = $model?->is_Active == 1 ? __('dashboard.active') : __('dashboard.disactive');  
-                return view('components.datatable.includes.columns.title', compact('title'));
+                $active = $model?->is_Active;  
+                return view('components.datatable.includes.columns.active', compact('active'));
 
             },
             'created_at' => function ($model) {

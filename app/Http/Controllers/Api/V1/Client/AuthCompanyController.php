@@ -25,7 +25,7 @@ class AuthCompanyController extends Controller
     {
             $data=$request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                'email' => 'required|string|email|max:255|unique:members',
                 'password' => 'required',
                 'logo' => 'image|mimes:jpeg,png,jpg',
                 'slogo' => 'string',
@@ -62,7 +62,7 @@ class AuthCompanyController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:companies',
+            'email' => 'required|email|exists:members,email',
             'password' => 'required',
         ]);
 
@@ -102,7 +102,7 @@ class AuthCompanyController extends Controller
 
             $data=$request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                'email' => 'required|string|email|max:255',
                 'password' => 'required',
                 'logo' => 'image,mimes:jpeg,png,jpg',
                 'slogo' => 'string',
@@ -141,7 +141,7 @@ class AuthCompanyController extends Controller
     {
        
            $data= $request->validate([
-                'email' => 'required|string|email|exists:companies,email',
+                'email' => 'required|string|email|exists:members,email',
             ]);
     
             $Company = Company::where('email',$data['email'])->first();
