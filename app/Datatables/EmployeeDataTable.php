@@ -29,15 +29,39 @@ class EmployeeDataTable extends BaseDatatable
                 $title = $model?->name;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
+
+            'personal_photo' => function ($model) {
+                $image = asset('/storage/app/companies/'.$model->personal_photo);
+                return view('components.datatable.includes.columns.image', compact('image'));
+            },
+
+
+            'coverletter' => function ($model) {
+                $image = asset('/storage/public/companies/'.$model->coverletter);
+                return view('components.datatable.includes.columns.image', compact('image'));
+            },
             'email' => function ($model) {
                 $title = $model?->email;
                 return view('components.datatable.includes.columns.title', compact('title'));
+            },
+
+            'address' => function ($model) {
+                $title = $model?->address;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+
+
+            'website' => function ($model) {
+                $url = $model?->website;
+                return view('components.datatable.includes.columns.link', compact('url'));
             },
             'is_Active' => function ($model) {
                 $active = $model?->is_Active;  
                 return view('components.datatable.includes.columns.active', compact('active'));
 
             },
+
+            
             'created_at' => function ($model) {
                 $title = $model?->created_at;
                 return view('components.datatable.includes.columns.title', compact('title'));
@@ -52,7 +76,11 @@ class EmployeeDataTable extends BaseDatatable
     {
         return [
             Column::computed('name')->title(__('dashboard.name'))->className('text-center'),
+            Column::computed('personal_photo')->title(__('dashboard.image'))->className('text-center'),
+            Column::computed('coverletter')->title(__('dashboard.coverletter'))->className('text-center'),
             Column::computed('email')->title(__('dashboard.email'))->className('text-center'),
+            Column::computed('address')->title(__('dashboard.address'))->className('text-center'),
+            Column::computed('website')->title(__('dashboard.website'))->className('text-center'),
             Column::computed('is_Active')->title(__('dashboard.status'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 

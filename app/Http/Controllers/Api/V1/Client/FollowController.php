@@ -8,15 +8,16 @@ use App\Http\Controllers\Controller;
 
 class FollowController extends Controller
 {
-    public function store(Request $request)
+    public function add(Request $request)
     {
+        
        $data = $request->validate([
-           'follwor_id'=>'required|exists:members,id',
+           'followed_id'=>'required|exists:members,id',
        ]);
 
        $data['follower_id'] = auth('api')->user()->id;
 
-       Follow::craete($data);
+       Follow::create($data);
 
        return response()->json(['message' => 'تم الاضافة بنجاح']);
     }

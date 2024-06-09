@@ -11,13 +11,13 @@ class Follow extends Model
 
     protected $guarded = [];
 
-    public function company()
+    public function followed()
     {
-        return $this->belongsTo(Member::class, 'company_id');
+        return $this->belongsTo(Member::class, 'followed_id');
     }
 
     public function follower()
     {
-        return $this->belongsTo(Member::class, 'user_id');
+        return $this->belongsTo(Member::class, 'follower_id');
     }
 }

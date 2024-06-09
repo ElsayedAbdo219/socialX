@@ -136,6 +136,20 @@ return [
       "logo_image"=>"صورة الشعار",
       "coverletter"=>"صورة الغلاف",
       "item deleted successfully"=>"تم الحذف بنجاح",
+      "Complains"=>"الشكاوي",
+      "complains_list"=>"قائمة الشكاوي",
+       "updated_at"=>"تاريخ التحديث",
+
+   "fqas"=>" الاسئلة الشائعة",
+   "fqa_list"=>"قائمة الاسئلة الشائعة",
+   "fqas_list"=>"قائمة الاسئلة الشائعة",
+   "order"=>"الترتيب",
+   "question_ar"=>"السؤال",
+   "answer_ar"=>"الاجابة",
+   "show_fqa"=>"عرض سؤال شائع",
+   "edit_fqa"=>"تعديل سؤال شائع",
+   "add_fqa"=>"اضافة سؤال شائع",
+   "content"=>"المحتوي",
 
 
 
