@@ -23,6 +23,17 @@ class Member extends Authenticatable
     protected $guarded=[];
 
 
+   # Relations
+    public function followed()
+    {
+        return $this->hasMany(Follow::class, 'followed_id');
+    }
+
+    public function follower()
+    {
+        return $this->hasMany(Follow::class, 'follower_id');
+    }
+
    # Scopes
    public function scopeOfName($query, $value)
    {

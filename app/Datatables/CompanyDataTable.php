@@ -56,8 +56,8 @@ class CompanyDataTable extends BaseDatatable
                 return view('components.datatable.includes.columns.link', compact('url'));
             },
 
-            'email' => function ($model) {
-                $title = $model?->email;
+            'followers' => function ($model) {
+                $title = $model?->follower()?->sum("follower_id") ?? 0;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
@@ -90,6 +90,7 @@ class CompanyDataTable extends BaseDatatable
             Column::computed('email')->title(__('dashboard.email'))->className('text-center'),
             Column::computed('address')->title(__('dashboard.address'))->className('text-center'),
             Column::computed('website')->title(__('dashboard.website'))->className('text-center'),
+            Column::computed('followers')->title(__('dashboard.followers'))->className('text-center'),
             Column::computed('is_Active')->title(__('dashboard.status'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 

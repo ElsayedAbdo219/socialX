@@ -17,8 +17,9 @@ class FollowController extends Controller
 
        $data['follower_id'] = auth('api')->user()->id;
 
-       Follow::create($data);
+        Follow::create($data);
 
        return response()->json(['message' => 'تم الاضافة بنجاح']);
+
     }
 }
