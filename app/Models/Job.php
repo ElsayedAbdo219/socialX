@@ -11,21 +11,26 @@ class Job extends Model
 
     protected $guarded = [];
 
-    protected $table = "jobs_applies" ;
+    protected $table = "jobs_applies";
 
 
     protected $casts = [
 
-        'is_active' => 'boolean', 'job_description'=> 'array',
+        'is_active' => 'boolean', 
+       'job_description'=> 'array',
 
     ];
 
-    
+    // Job_Description
 
-    public function member(){
+ # Getters
 
-        return $this->belongsTo(Member::class,'member_id');
-
+ public function getJobDescriptionAttribute($value)
+{
+    if ($value == null) {
+        return [];
     }
+    return json_decode($value, true);
+}
 
 }

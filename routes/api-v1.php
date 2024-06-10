@@ -13,7 +13,14 @@ use App\Http\Controllers\Api\V1\Client\{
   StaticPagesController,
   PositionController,
   SkillController,
-  FollowController
+  FollowController,
+  JobController,
+               
+
+
+
+
+
 
 };
 /*
@@ -136,10 +143,18 @@ Route::prefix("auth")->group(function () {
   });
 
 
-      # skills
+      # follow
       Route::name('follow.')->prefix('follow')->group(function () {
         Route::post('add', [FollowController::class, 'add']);
       });
+
+       # jobs
+       Route::name('jobs.')->prefix('jobs')->group(function () {
+        Route::post('add', [JobController::class, 'add']);
+        Route::get('get', [JobController::class, 'get']);
+        Route::post('add', [JobController::class, 'add']);
+      });
+
 
 
 
