@@ -65,13 +65,13 @@
 
                                 <div class="col">
                                     <h6 style="font-weight: bold;">المستخدمين الفعالين </h6>
-                                    <p class="card-text" style="color: white ; font-weight: bold">{{ $activeMembers }}</p>
+                                    <p class="card-text" style="color: green ; font-weight: bold">{{ $activeMembers }}</p>
                                 </div>
 
                                 
                                 <div class="col">
                                     <h6 style="font-weight: bold;">المستخدمين الغير فعالين</h6>
-                                    <p class="card-text" style="color: white ; font-weight: bold">{{ $disactiveMembers }}</p>
+                                    <p class="card-text" style="color: red ; font-weight: bold">{{ $disactiveMembers }}</p>
                                 </div>
                                
                             </div>
