@@ -74,7 +74,7 @@
     <style>
 
 
-.card {
+.card_stats {
         border: 1px solid #ddd;
         margin-right: 60px;
         margin-top: 60px;
