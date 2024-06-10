@@ -69,4 +69,42 @@
 
 
     @yield('styles')
+
+
+    <style>
+
+
+.card {
+        border: 1px solid #ddd;
+        margin-right: 60px;
+        margin-top: 60px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        background-color: orange;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .card-statistic {
+        margin-bottom: 20px;
+    }
+
+    .card-statistic h6 {
+        font-size: 0.875rem;
+        color: #666;
+    }
+
+    .card-statistic p {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+
+    </style>
 </head>

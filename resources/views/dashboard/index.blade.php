@@ -12,7 +12,7 @@
             <div class="content-body">
                 <section id="dashboard-analytics">
                     <div class="row">
-                        <div class="col-lg-6 col-md-12 col-sm-12">
+                        {{-- <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="card bg-analytics text-white">
                                 <div class="card-content">
                                     <div class="card-body text-center">
@@ -32,23 +32,118 @@
                                     </div>
                                 </div>
                             </div>
+                        </div> --}}
+
+
+                       {{-- <div class="col-lg-3 col-md-6 col-12">
+                           <div class="card">
+                               <div class="card-header d-flex flex-column align-items-start pb-0">
+                                   <div class="avatar bg-rgba-primary p-50 m-0">
+                                       <div class="avatar-content" >
+                                           <i class="feather icon-users text-primary font-medium-5"></i>
+                                       </div>
+                                   </div>
+                                   <h2 class="text-bold-700 mt-1 mb-25">{{ '--'}}</h2>
+                                   <p class="mb-0">--</p>
+                               </div>
+                               <div class="card-content">
+                                   <div id="subscribe-gain-chart"></div>
+                               </div>
+                           </div>
+                       </div> --}}
+
+                       
+                       <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Statistics</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <h6>Total Users</h6>
+                                    <p class="card-text">1000</p>
+                                </div>
+                                <div class="col">
+                                    <h6>New Users</h6>
+                                    <p class="card-text">50</p>
+                                </div>
+                                <div class="col">
+                                    <h6>Active Users</h6>
+                                    <p class="card-text">800</p>
+                                </div>
+                            </div>
                         </div>
-{{--                        <div class="col-lg-3 col-md-6 col-12">--}}
-{{--                            <div class="card">--}}
-{{--                                <div class="card-header d-flex flex-column align-items-start pb-0">--}}
-{{--                                    <div class="avatar bg-rgba-primary p-50 m-0">--}}
-{{--                                        <div class="avatar-content">--}}
-{{--                                            <i class="feather icon-users text-primary font-medium-5"></i>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <h2 class="text-bold-700 mt-1 mb-25">{{ '--'}}</h2>--}}
-{{--                                    <p class="mb-0">--</p>--}}
-{{--                                </div>--}}
-{{--                                <div class="card-content">--}}
-{{--                                    <div id="subscribe-gain-chart"></div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Statistics</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <h6>Total Users</h6>
+                                    <p class="card-text">1000</p>
+                                </div>
+                                <div class="col">
+                                    <h6>New Users</h6>
+                                    <p class="card-text">50</p>
+                                </div>
+                                <div class="col">
+                                    <h6>Active Users</h6>
+                                    <p class="card-text">800</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Statistics</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <h6>Total Users</h6>
+                                    <p class="card-text">1000</p>
+                                </div>
+                                <div class="col">
+                                    <h6>New Users</h6>
+                                    <p class="card-text">50</p>
+                                </div>
+                                <div class="col">
+                                    <h6>Active Users</h6>
+                                    <p class="card-text">800</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Statistics</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <h6>Total Users</h6>
+                                    <p class="card-text">1000</p>
+                                </div>
+                                <div class="col">
+                                    <h6>New Users</h6>
+                                    <p class="card-text">50</p>
+                                </div>
+                                <div class="col">
+                                    <h6>Active Users</h6>
+                                    <p class="card-text">800</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                       
+
+                       
+
+
+                       
                     </div>
                 </section>
             </div>
