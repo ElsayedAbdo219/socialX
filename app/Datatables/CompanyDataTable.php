@@ -57,7 +57,7 @@ class CompanyDataTable extends BaseDatatable
             },
 
             'followers' => function ($model) {
-                $title = $model?->follower()?->sum("follower_id") ?? 0;
+                $title = $model?->followed()?->count() . "+" ?? 0;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
