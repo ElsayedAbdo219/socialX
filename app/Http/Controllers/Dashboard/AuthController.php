@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Enum\RegisterationRequestEnum;
+use App\Enum\UserTypeEnum;
 use App\Http\Requests\Dashboard\LoginRequest;
+use App\Models\Member;
 
 class AuthController extends Controller
 {
@@ -25,7 +27,16 @@ class AuthController extends Controller
 
          public function home()
     {
-        return view('dashboard.index');
+        $activeMembers = Member::where('is_Active',1)->where('type',UserTypeEnum::COMPANY)->count();
+        $disactiveMembers = Member::where('is_Active',0)->where('type',UserTypeEnum::COMPANY)->count();
+        return view('dashboard.index',
+        [
+            'activeMembers' => $activeMembers ,
+            'disactiveMembers' => $disactiveMembers ,
+        ]
+      
+    
+    );
     }
 
     

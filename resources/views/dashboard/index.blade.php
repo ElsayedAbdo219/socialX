@@ -10,7 +10,7 @@
             <div class="content-header row">
             </div>
             <div class="content-body">
-                <section id="dashboard-analytics">
+                {{-- <section id="dashboard-analytics">
                     <div class="row" style="margin-right: 500px">
                          <div class="col-lg-6 col-md-12 col-sm-12">
                             <div class="card bg-analytics text-white">
@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                         </div> 
-                    </div> 
+                    </div>  --}}
 
 
                        {{-- <div class="col-lg-3 col-md-6 col-12">
@@ -56,20 +56,24 @@
                        <div class="row">
                        <div class="card_stats">
                         <div class="card-body">
-                            <h5 class="card-title">Statistics</h5>
+                            <h5 class="card-title">الشركات</h5>
                             <div class="row">
                                 <div class="col">
-                                    <h6>Total Users</h6>
-                                    <p class="card-text">1000</p>
+                                    <h6 style="font-weight: bold;">الاجمالي</h6>
+                                    <p class="card-text" style="color: white ; font-weight: bold">{{ $activeMembers + $disactiveMembers }}</p>
                                 </div>
+
                                 <div class="col">
-                                    <h6>New Users</h6>
-                                    <p class="card-text">50</p>
+                                    <h6 style="font-weight: bold;">المستخدمين الفعالين </h6>
+                                    <p class="card-text" style="color: white ; font-weight: bold">{{ $activeMembers }}</p>
                                 </div>
+
+                                
                                 <div class="col">
-                                    <h6>Active Users</h6>
-                                    <p class="card-text">800</p>
+                                    <h6 style="font-weight: bold;">المستخدمين الغير فعالين</h6>
+                                    <p class="card-text" style="color: white ; font-weight: bold">{{ $disactiveMembers }}</p>
                                 </div>
+                               
                             </div>
                         </div>
                     </div>

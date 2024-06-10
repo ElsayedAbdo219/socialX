@@ -131,7 +131,7 @@ return [
       "active"=>"مفعل",
       "status"=>"الحالة",
       "created_at"=>"تاريخ الانشاء",
-      "website"=>"الموقع",
+      "website"=>"الموقع الالكتروني",
       "create"=>"اضافة",
       "logo_image"=>"صورة الشعار",
       "coverletter"=>"صورة الغلاف",
