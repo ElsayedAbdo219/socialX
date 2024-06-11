@@ -155,7 +155,7 @@
 
 
 
- <div class="main-content">
+ <div class="main-content" style="margin-right: 150px">
         <div class="dashboard-content">
             <div class="container-fluid">
                 <div class="row">
@@ -173,8 +173,8 @@
                                 <img src="{{ asset('assets/images/details-icon-1.png') }}" alt="images" />
                             </div>
                             <div class="details">
-                                <h5>2560</h5>
-                                <span>Total Menus</span>
+                                <h5>{{ $jobs }}</h5>
+                                <span>عدد وظائف اليوم</span>
                             </div>
                         </div>
                     </div>
@@ -184,8 +184,8 @@
                                 <img src="{{ asset('assets/images/details-icon-2.png') }}" alt="images" />
                             </div>
                             <div class="details">
-                                <h5>2560</h5>
-                                <span>Total Menus</span>
+                                <h5>{{ $companies }}</h5>
+                                <span>عدد الشركات</span>
                             </div>
                         </div>
                     </div>
@@ -195,8 +195,8 @@
                                 <img src="{{ asset('assets/images/details-icon-3.png') }}" alt="images" />
                             </div>
                             <div class="details">
-                                <h5>2560</h5>
-                                <span>Total Menus</span>
+                                <h5>{{ $employees }}</h5>
+                                <span>عدد المستقلين</span>
                             </div>
                         </div>
                     </div>
@@ -206,8 +206,8 @@
                                 <img src="{{ asset('assets/images/details-icon-4.png') }}" alt="images" />
                             </div>
                             <div class="details">
-                                <h5>2560</h5>
-                                <span>Total Menus</span>
+                                <h5>{{ $complains }}</h5>
+                                <span>عدد الشكاوي اليوم</span>
                             </div>
                         </div>
                     </div>
@@ -215,11 +215,11 @@
                         <div class="revenu-chart">
                             <div class="revenu-title">
                                 <div class="title">
-                                    <h3>Revenue</h3>
+                                    <h3>الوظائف</h3>
                                 </div>
                                 <div class="page-title-sorts">
                                     <a href="#" class="sort-two">
-                                        <span>Monthly</span>
+                                        <span>شهريا</span>
                                         <i class="fas fa-sort-down"></i>
                                     </a>
                                 </div>
@@ -230,57 +230,104 @@
                                     <span>$1236598</span>
                                 </div>
                                 <div class="summery-menu">
-                                    <button class="active">Today</button>
-                                    <button>Month</button>
-                                    <button>Weekly</button>
+                                    <button class="active">يوميا</button>
+                                    <button>اسبوعيا</button>
+                                    <button>شهريا</button>
                                 </div>
                             </div>
                             <canvas id="revenueChart" width="400" height="200"></canvas>
                         </div>
                        
                     </div>
+
+                    
                     <div class="col-lg-6">
                         <div class="order-summery">
                             <div class="summery-heading">
                                 <div class="title">
-                                    <h5>Order Summary</h5>
+                                    <h5>تفاصيل الشركات</h5>
                                 </div>
                                 <div class="summery-menu">
-                                    <button class="active">Today</button>
-                                    <button>Month</button>
-                                    <button>Weekly</button>
+                                    <button class="active">يوميا</button>
+                                    <button>اسبوعيا</button>
+                                    <button>شهريا</button>
                                 </div>
                             </div>
                             <div class="summerys">
                                 <div class="single-summery">
-                                    <h4>1256K</h4>
-                                    <p>On Delivery</p>
+                                    <h4>{{ $disactiveCompanies }}</h4>
+                                    <p>الغير فعالين</p>
                                 </div>
                                 <div class="single-summery">
-                                    <h4>452K</h4>
-                                    <p>Total Delivered</p>
+                                    <h4>{{ $activeCompanies }}</h4>
+                                    <p>الفعالين</p>
                                 </div>
                                 <div class="single-summery">
-                                    <h4>25K</h4>
-                                    <p>Canceled</p>
-                                </div>
-                                <div class="single-summery">
-                                    <h4>2256K</h4>
-                                    <p>Total Proses</p>
+                                    <h4>{{ $companies }}</h4>
+                                    <p>الاجمالي</p>
                                 </div>
                             </div>
                             <div class="new-order">
-                                <p>New Order</p>
+                                <p>طلب تفعيل</p>
                                 <div class="number">
-                                    <span>2512k</span>
+                                    <span>{{ $disactiveCompanies }}</span>
                                 </div>
                                 <div class="view-btn">
-                                    <a href="#">Viwe All <i class="fas fa-long-arrow-alt-right"></i></a>
+                                    <a href="{{ route('admin.companies.index') }}">رؤية الكل <i class="fas fa-long-arrow-alt-right"></i></a>
                                 </div>
                             </div>
+
+
+                            
                         </div>
                     
                     </div>
+
+
+                    <div class="col-lg-6">
+                        <div class="order-summery">
+                            <div class="summery-heading">
+                                <div class="title">
+                                    <h5>تفاصيل المستقلين</h5>
+                                </div>
+                                <div class="summery-menu">
+                                    <button class="active">يوميا</button>
+                                    <button>اسبوعيا</button>
+                                    <button>شهريا</button>
+                                </div>
+                            </div>
+                            <div class="summerys">
+                                <div class="single-summery">
+                                    <h4>{{ $disactiveEmployees }}</h4>
+                                    <p>الغير فعالين</p>
+                                </div>
+                                <div class="single-summery">
+                                    <h4>{{ $activeEmployees }}</h4>
+                                    <p>الفعالين</p>
+                                </div>
+                                <div class="single-summery">
+                                    <h4>{{ $employees }}</h4>
+                                    <p>الاجمالي</p>
+                                </div>
+                            </div>
+                            <div class="new-order">
+                                <p>طلب تفعيل</p>
+                                <div class="number">
+                                    <span>{{ $disactiveEmployees }}</span>
+                                </div>
+                                <div class="view-btn">
+                                    <a href="{{ route('admin.employees.index') }}">رؤية الكل <i class="fas fa-long-arrow-alt-right"></i></a>
+                                </div>
+                            </div>
+
+
+                            
+                        </div>
+                    
+                    </div>
+
+                    
+               
                
                    
                 </div>

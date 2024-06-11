@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use Carbon\Carbon;
+use App\Models\Job;
 use App\Models\User;
+use App\Models\Member;
+use App\Enum\UserTypeEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Enum\RegisterationRequestEnum;
-use App\Enum\UserTypeEnum;
 use App\Http\Requests\Dashboard\LoginRequest;
-use App\Models\Member;
+use App\Models\Complain;
 
 class AuthController extends Controller
 {
@@ -27,12 +30,43 @@ class AuthController extends Controller
 
          public function home()
     {
-        $activeMembers = Member::where('is_Active',1)->where('type',UserTypeEnum::COMPANY)->count();
-        $disactiveMembers = Member::where('is_Active',0)->where('type',UserTypeEnum::COMPANY)->count();
+        $companies = Member::where('type',UserTypeEnum::COMPANY)->count();
+        $employees = Member::where('type',UserTypeEnum::EMPLOYEE)->count();
+
+        $activeCompanies = Member::where('is_Active' , 1)->where('type',UserTypeEnum::COMPANY)->count();
+        $disactiveCompanies = Member::where('is_Active' , 0)->where('type',UserTypeEnum::COMPANY)->count();
+
+
+        $activeEmployees = Member::where('is_Active' , 1)->where('type',UserTypeEnum::EMPLOYEE)->count();
+        $disactiveEmployees = Member::where('is_Active' , 0)->where('type',UserTypeEnum::EMPLOYEE)->count();
+
+
+
+
+
+        $jobs = Job::where('created_at', '=', Carbon::today())->count();
+
+        $complains = Complain::where('created_at', '=', Carbon::today())->count();
+
+
         return view('dashboard.index',
         [
-            'activeMembers' => $activeMembers ,
-            'disactiveMembers' => $disactiveMembers ,
+            'companies' => $companies ,
+            'employees' => $employees ,
+
+            'activeCompanies' => $activeCompanies ,
+            'disactiveCompanies' => $disactiveCompanies ,
+
+            'activeEmployees' => $activeEmployees ,
+            'disactiveEmployees' => $disactiveEmployees ,
+
+
+
+            'jobs' => $jobs ,
+            'complains' => $complains ,
+
+
+
         ]
       
     
