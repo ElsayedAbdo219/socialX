@@ -152,7 +152,7 @@ Route::prefix("auth")->group(function () {
        Route::name('jobs.')->prefix('jobs')->group(function () {
         Route::post('add', [JobController::class, 'add']);
         Route::get('get', [JobController::class, 'get']);
-        Route::post('add', [JobController::class, 'add']);
+        Route::post('filter', [JobController::class, 'filter']);
       });
 
 

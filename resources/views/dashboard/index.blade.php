@@ -80,19 +80,19 @@
 
                     <div class="card_stats">
                         <div class="card-body">
-                            <h5 class="card-title">Statistics</h5>
+                            <h5 class="card-title">المستقلين</h5>
                             <div class="row">
                                 <div class="col">
-                                    <h6>Total Users</h6>
-                                    <p class="card-text">1000</p>
+                                    <h6 style="font-weight: bold;">الاجمالي</h6>
+                                    <p class="card-text" style="color: white ; font-weight: bold">0</p>
                                 </div>
                                 <div class="col">
-                                    <h6>New Users</h6>
-                                    <p class="card-text">50</p>
+                                    <h6 style="font-weight: bold;">المستقلين الفعالين</h6>
+                                    <p class="card-text"  style="color: green ; font-weight: bold">50</p>
                                 </div>
                                 <div class="col">
-                                    <h6>Active Users</h6>
-                                    <p class="card-text">800</p>
+                                    <h6 style="font-weight: bold;">المستقلين الغير فعالين</h6>
+                                    <p class="card-text" style="color: red ; font-weight: bold">800</p>
                                 </div>
                             </div>
                         </div>
@@ -102,19 +102,16 @@
 
                     <div class="card_stats">
                         <div class="card-body">
-                            <h5 class="card-title">Statistics</h5>
+                            <h5 class="card-title">الوظائف</h5>
+                            </h5>
                             <div class="row">
                                 <div class="col">
-                                    <h6>Total Users</h6>
-                                    <p class="card-text">1000</p>
+                                    <h6 style="font-weight: bold;">عدد وظائف اليوم</h6>
+                                    <p class="card-text" style="color: white ; font-weight: bold">1000</p>
                                 </div>
                                 <div class="col">
-                                    <h6>New Users</h6>
-                                    <p class="card-text">50</p>
-                                </div>
-                                <div class="col">
-                                    <h6>Active Users</h6>
-                                    <p class="card-text">800</p>
+                                    <h6 style="font-weight: bold;">عدد المتقدمين</h6>
+                                    <p class="card-text" style="color: white ; font-weight: bold">50</p>
                                 </div>
                             </div>
                         </div>
@@ -124,20 +121,28 @@
 
                     <div class="card_stats">
                         <div class="card-body">
-                            <h5 class="card-title">Statistics</h5>
+                            <h5 class="card-title">الشكاوي</h5>
                             <div class="row">
                                 <div class="col">
-                                    <h6>Total Users</h6>
-                                    <p class="card-text">1000</p>
+                                    <h6 style="font-weight: bold;">عدد شكاوي اليوم </h6>
+                                    <p class="card-text" style="color: white ; font-weight: bold">1000</p>
                                 </div>
                                 <div class="col">
-                                    <h6>New Users</h6>
-                                    <p class="card-text">50</p>
+                                    <h6 style="font-weight: bold;">تم حلها </h6>
+                                    <p class="card-text" style="color: white ; font-weight: bold">50</p>
                                 </div>
                                 <div class="col">
-                                    <h6>Active Users</h6>
-                                    <p class="card-text">800</p>
+                                    <h6 style="font-weight: bold;">جاري المعالجة</h6>
+                                    <p class="card-text" style="color: white ; font-weight: bold">800</p>
                                 </div>
+
+                                <div class="col">
+                                    <h6 style="font-weight: bold;"> لم يتم الرد</h6>
+                                    <p class="card-text" style="color: white ; font-weight: bold">800</p>
+                                </div>
+
+
+
                             </div>
                         </div>
                     </div>

@@ -73,6 +73,17 @@ class JobController extends Controller
    }
 
 
+   public function filter(){
+
+    return Job::paginate(20);
+
+
+   }
+
+
+
+
+
 
 
 }
