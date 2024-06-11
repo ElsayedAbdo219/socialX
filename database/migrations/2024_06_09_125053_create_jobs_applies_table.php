@@ -31,7 +31,7 @@ return new class extends Migration
           
             $table->text('job_category'); // صنف الوظيفة
           
-            $table->text('job_description'); // وصف الوظيفة
+            $table->json('job_description'); // وصف الوظيفة
 
            $table->string('work_level'); //  مستوي الموظف
 

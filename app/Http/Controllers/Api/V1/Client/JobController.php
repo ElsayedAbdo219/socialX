@@ -45,34 +45,16 @@ class JobController extends Controller
 
          $data['member_id']=auth('api')->user()->id;
 
-      //    $job_description= [];
-
-      //    foreach($data['job_description'] as $item){
-
-      //       $job_description[] = $item;
-      //    }
-
-      //   // $data['job_description'] = $job_description;
-      //   $dataArray = explode(',', $data['job_description']);
-
-      //     $data['job_description'] = $dataArray;
-
-      // $serializedData = implode(',', $data['job_description']); // Serializ
-
-      // $data['job_description']= $serializedData;
-
-        // $data['job_description'] = $data['job_description'];
-
 
         $ss = [];
 
         foreach ($data['job_description'] as $job_desc) {
-            // Assuming you want to use the job description as the key
-            // If not, replace `$job_desc` with a different key
+           
             $ss[] = $job_desc;
         }
         
         $data['job_description'] = $ss;
+
         
          $Job = Job::create($data);
 
@@ -86,7 +68,6 @@ class JobController extends Controller
    public function get(){
 
     return Job::paginate(20);
-
 
 
    }
