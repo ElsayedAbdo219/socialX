@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1\Client;
+
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
@@ -16,71 +17,86 @@ use App\Models\{
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Support\Facades\Storage;
+use   App\Notifications\ClientNotification;
 
 class AuthEmployeeController extends Controller
 {
     public function register(Request $request)
     {
-           $data= $request->validate([
-                'full_name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:members',
-                'password' => 'required|confirmed|min:6',
-                'phone' => 'required|string|max:255',
-                'country' => 'required|string|max:255',
-                'birth_date' => 'required|string|max:255',
-                'field' => 'nullable|string|max:255',
-            ]);
-            $data['type']=UserTypeEnum::EMPLOYEE;
-          $data['password']=Hash::make($data['password']);
+        $data = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:members',
+            'password' => 'required|confirmed|min:6',
+            'phone' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'birth_date' => 'required|string|max:255',
+            'field' => 'nullable|string|max:255',
+        ]);
+        $data['type'] = UserTypeEnum::EMPLOYEE;
+        $data['password'] = Hash::make($data['password']);
 
 
-            $employee = Member::create($data);
+        $employee = Member::create($data);
 
-           return response()->json(['message' =>'تم تسجيل الحساب بنجاح','employee'=>$employee]);
-    
-      
+
+        # sending a notification to the user   
+        $notifabels = User::first();
+        $notificationData = [
+            'title' => "تسجيل شركة جديدة",
+            'body' => "قام " . $data['full_name'] . " بتسجيل شركة جديدة",
+        ];
+
+        \Illuminate\Support\Facades\Notification::send(
+            $notifabels,
+            new ClientNotification($notificationData, ['database', 'firebase'])
+        );
+
+
+
+
+
+        return response()->json(['message' => 'تم تسجيل الحساب بنجاح', 'employee' => $employee]);
     }
 
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:members,email,type,'.UserTypeEnum::EMPLOYEE,
+            'email' => 'required|email|exists:members,email,type,' . UserTypeEnum::EMPLOYEE,
             'password' => 'required',
         ]);
 
         $employee = Member::whereEmail($request->email)->first();
-     
 
-        if (!$employee ) {
+
+        if (!$employee) {
             throw ValidationException::withMessages([
                 'email' => ['البريد الالكتروني غير مسجل'],
             ]);
         }
-        
-        if (!Hash::check($request->password, $employee->password)){
+
+        if (!Hash::check($request->password, $employee->password)) {
             throw ValidationException::withMessages([
                 'password' => ['كلمة المرور غير صحيحة'],
             ]);
-           }
+        }
 
         $token = $employee->createToken('api_token')->plainTextToken;
 
-        return response()->json(['token' => $token , 'employee'=>$employee]);
-
+        return response()->json(['token' => $token, 'employee' => $employee]);
     }
 
 
     public function logout()
     {
-        
+
         $user = auth("api")->user()->currentAccessToken()->delete();
-    
-        return response()->json(['message' => 'تم تسجيل خروجك بنجاح' ]);
+
+        return response()->json(['message' => 'تم تسجيل خروجك بنجاح']);
     }
 
     public function update(Request $request)
     {
-       
+
         $data = $request->validate([
             'personal_photo' => 'nullable|image|mimes:jpeg,png,jpg',
             'personal_info' => 'nullable|string',
@@ -89,73 +105,67 @@ class AuthEmployeeController extends Controller
             'coverletter' => 'nullable|image|mimes:jpeg,png,jpg',
         ]);
 
-        
-            auth('api')->user()->update($data);
 
-            if ($request->file('personal_photo')) {
+        auth('api')->user()->update($data);
+
+        if ($request->file('personal_photo')) {
             $personal_photo = uniqid() . '_' . $request->file('personal_photo')->getClientOriginalName();
-      
+
             //  Storage::disk("local")->put($logo, file_get_contents($request->file('logo')));
 
-              Storage::put('public/employees/'.$personal_photo, file_get_contents($request->file("personal_photo")));
-    
-             auth('api')->user()->update(
+            Storage::put('public/employees/' . $personal_photo, file_get_contents($request->file("personal_photo")));
+
+            auth('api')->user()->update(
                 [
-    
-                'personal_photo'=> $personal_photo,
-    
+
+                    'personal_photo' => $personal_photo,
+
                 ]
-          );
-           
+            );
         }
 
-          if ($request->file('coverletter')) {
+        if ($request->file('coverletter')) {
 
-              $coverletter = uniqid() . '_' . $request->file('coverletter')->getClientOriginalName();
-    
+            $coverletter = uniqid() . '_' . $request->file('coverletter')->getClientOriginalName();
 
-              Storage::put('public/employees/'.$coverletter, file_get_contents($request->file("coverletter")));
+
+            Storage::put('public/employees/' . $coverletter, file_get_contents($request->file("coverletter")));
 
             //  Storage::disk("local")->put($coverletter, file_get_contents($request->file('coverletter')));
-    
-    
-             auth('api')->user()->update(
+
+
+            auth('api')->user()->update(
                 [
-    
-                'coverletter'=> $coverletter,
-    
+
+                    'coverletter' => $coverletter,
+
                 ]
-          );
-           
-          }
-    
-            return response()->json(['message' =>'تم تحديث بياناتك بنجاح','employee'=>auth('api')->user()]);
-      
+            );
+        }
+
+        return response()->json(['message' => 'تم تحديث بياناتك بنجاح', 'employee' => auth('api')->user()]);
     }
 
 
 
 
 
-     public function ChangePassword(Request $request)
+    public function ChangePassword(Request $request)
     {
-             $data=$request->validate([
-                'password'=>'required|string|confirmed|min:6',
-             ]);
-             
-            $Employee = Member::where('id',auth('api')->user()->id)->first();
-            $Employee->update($data);
-            
-            return response()->json(['message' =>'تم تحديث كلمة المرور بنجاح','Employee'=>$Employee]);
-      
+        $data = $request->validate([
+            'password' => 'required|string|confirmed|min:6',
+        ]);
+
+        $Employee = Member::where('id', auth('api')->user()->id)->first();
+        $Employee->update($data);
+
+        return response()->json(['message' => 'تم تحديث كلمة المرور بنجاح', 'Employee' => $Employee]);
     }
-    
 
-    public function deleteMyAccount(){
+
+    public function deleteMyAccount()
+    {
         Member::whereId(auth()->user()->id)->delete();
-        return response()->json(['message' =>'تم حذف حسابك بنجاح']);
-
-     }
-
-
+        return response()->json(['message' => 'تم حذف حسابك بنجاح']);
+    }
 }

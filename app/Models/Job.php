@@ -51,5 +51,4 @@ class Job extends Model
 
 
 
-    
 }

@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1\Client;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Job;
+use App\Models\User;
 use App\Enum\UserTypeEnum;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Notifications\ClientNotification;
 
 
 class JobController extends Controller
@@ -56,6 +58,19 @@ class JobController extends Controller
 
         
          $Job = Job::create($data);
+
+
+          # sending a notification to the user   
+        $notifabels = User::first();
+        $notificationData = [
+            'title' => " اضافة وظيفة جديدة ",
+            'body' => "  تم اضافة وظيفة"  .$data['job_name'].' من '  . auth("api")->user()->full_name,
+        ];
+
+        \Illuminate\Support\Facades\Notification::send(
+            $notifabels,
+            new ClientNotification($notificationData, ['database', 'firebase'])
+        );
 
 
          return response()->json(['message' =>'تم اضافة وظيفة  جديدة بنجاح', 'Job' => $Job]);

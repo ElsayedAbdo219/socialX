@@ -18,62 +18,73 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Support\Facades\Notification;
 
+use   App\Notifications\ClientNotification;
 
 class AuthCompanyController extends Controller
 {
     public function register(Request $request)
     {
-            $data=$request->validate([
-                'full_name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:members',
-                'password' => 'required|confirmed|min:6',
-                'phone' => 'required|string|max:255',
-                'country' => 'required|string|max:255',
-                'birth_date' => 'required|string|max:255',
-                'field' => 'required|string|max:255',
-       ]);
+        $data = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:members',
+            'password' => 'required|confirmed|min:6',
+            'phone' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'birth_date' => 'required|string|max:255',
+            'field' => 'required|string|max:255',
+        ]);
 
-          $data['type']=UserTypeEnum::COMPANY;
+        $data['type'] = UserTypeEnum::COMPANY;
 
-          $data['password']=Hash::make($data['password']);
-
-    
-            $company = Member::create($data);
+        $data['password'] = Hash::make($data['password']);
 
 
-    
-           return response()->json(['message' =>'تم تسجيل حسابك بنجاح','company'=>$company]);
-      
+        $company = Member::create($data);
+
+         # sending a notification to the user   
+        $notifabels =User::first();
+        $notificationData = [
+            'title' => "تسجيل شركة جديدة",
+            'body' => "قام " . $data['full_name'] . " بتسجيل شركة جديدة",
+        ];
+
+        \Illuminate\Support\Facades\Notification::send(
+            $notifabels,
+            new ClientNotification($notificationData, ['database', 'firebase'])
+        );
+
+
+
+        return response()->json(['message' => 'تم تسجيل حسابك بنجاح', 'company' => $company]);
     }
 
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:members,email,type,'.UserTypeEnum::COMPANY,
+            'email' => 'required|email|exists:members,email,type,' . UserTypeEnum::COMPANY,
             'password' => 'required',
         ]);
 
-       
+
         $company = Member::whereEmail($request->email)->first();
 
-      //  return [$request->password, $company->password];
+        //  return [$request->password, $company->password];
 
         if (!$company) {
             throw ValidationException::withMessages([
                 'email' => ['البريد الالكتروني غير صحيح'],
             ]);
         }
-        
+
         if (!Hash::check($request->password, $company->password)) {
             throw ValidationException::withMessages([
                 'password' => ['كلمة المرور غير صحيحة'],
             ]);
-           }
+        }
 
-    $token = $company->createToken('api_token')->plainTextToken;
+        $token = $company->createToken('api_token')->plainTextToken;
 
-    return response()->json(['token' => $token,'company'=>$company]);
-
+        return response()->json(['token' => $token, 'company' => $company]);
     }
     // public function changePassword(Request $request){
 
@@ -83,107 +94,85 @@ class AuthCompanyController extends Controller
 
     public function logout(Request $request)
     {
-       
+
         $user = auth("api")->user()->currentAccessToken()->delete();
-    
+
         return response()->json(['message' => 'تم تسجيل خروجك بنجاح']);
     }
 
     public function update(Request $request)
     {
 
-            $data=$request->validate([
-                'logo' => 'image|mimes:jpeg,png,jpg',
-                'coverletter' => 'image|mimes:jpeg,png,jpg',
-                'slogo' => 'string|max:255',
-                'website' => 'url|string',
-                'address' => 'string|max:255',
-                'bio' => 'string',
-              
-            ]);
+        $data = $request->validate([
+            'logo' => 'image|mimes:jpeg,png,jpg',
+            'coverletter' => 'image|mimes:jpeg,png,jpg',
+            'slogo' => 'string|max:255',
+            'website' => 'url|string',
+            'address' => 'string|max:255',
+            'bio' => 'string',
 
-            auth('api')->user()->update($data);
+        ]);
+
+        auth('api')->user()->update($data);
 
 
-            if ($request->file('logo')) {
+        if ($request->file('logo')) {
 
-                $logo = uniqid() . '_' . $request->file('logo')->getClientOriginalName();
-      
-              //  Storage::disk("local")->put($logo, file_get_contents($request->file('logo')));
+            $logo = uniqid() . '_' . $request->file('logo')->getClientOriginalName();
 
-                Storage::put('public/companies/'.$logo, file_get_contents($request->file("logo")));
-      
-               auth('api')->user()->update(
-                  [
-      
-                  'logo'=> $logo,
-      
-                  ]
+            //  Storage::disk("local")->put($logo, file_get_contents($request->file('logo')));
+
+            Storage::put('public/companies/' . $logo, file_get_contents($request->file("logo")));
+
+            auth('api')->user()->update(
+                [
+
+                    'logo' => $logo,
+
+                ]
             );
-             
-            }
+        }
 
-            if ($request->file('coverletter')) {
+        if ($request->file('coverletter')) {
 
-                $coverletter = uniqid() . '_' . $request->file('coverletter')->getClientOriginalName();
-      
+            $coverletter = uniqid() . '_' . $request->file('coverletter')->getClientOriginalName();
 
-                Storage::put('public/companies/'.$coverletter, file_get_contents($request->file("coverletter")));
 
-              //  Storage::disk("local")->put($coverletter, file_get_contents($request->file('coverletter')));
-      
-      
-               auth('api')->user()->update(
-                  [
-      
-                  'coverletter'=> $coverletter,
-      
-                  ]
+            Storage::put('public/companies/' . $coverletter, file_get_contents($request->file("coverletter")));
+
+            //  Storage::disk("local")->put($coverletter, file_get_contents($request->file('coverletter')));
+
+
+            auth('api')->user()->update(
+                [
+
+                    'coverletter' => $coverletter,
+
+                ]
             );
-             
-            }
-           
-    
-            return response()->json(['message' =>'تم تحديث بياناتك  بنجاح']);
-      
+        }
+
+
+        return response()->json(['message' => 'تم تحديث بياناتك  بنجاح']);
     }
 
-    
-     public function deleteMyAccount(){
-        Member::whereId(auth()->user()->id)->delete();
-        return response()->json(['message' =>'تم حذف حسابك بنجاح']);
-     }
 
-
-      public function verifyOtp(){
-
-        $codeRandom=rand(9999,10000);
-         
-       // Mail::send(class name , $codeRandom in constructed);
-
-        return response()->json(['message' =>'Email Sended To '. auth()->user()->name .' Successfully']);
-     }
-
-
-
-
-
-
-
-
-     public function ChangePassword(Request $request)
+    public function deleteMyAccount()
     {
-             $data=$request->validate([
-                'password'=>'required|string|confirmed|min:6',
-             ]);
-             
-            $company = Member::where('id',auth('api')->user()->id)->first();
-            $company->update($data);
-            
-            return response()->json(['message' =>'تم تغيير كلمة المرور بنجاح','Company'=>$company]);
-      
+        Member::whereId(auth()->user()->id)->delete();
+        return response()->json(['message' => 'تم حذف حسابك بنجاح']);
     }
-    
+
+
+    public function verifyOtp()
+    {
+
+        $codeRandom = rand(9999, 10000);
+
+        // Mail::send(class name , $codeRandom in constructed);
+
+        return response()->json(['message' => 'Email Sended To ' . auth()->user()->name . ' Successfully']);
+    }
 
 
 
@@ -192,5 +181,15 @@ class AuthCompanyController extends Controller
 
 
 
+    public function ChangePassword(Request $request)
+    {
+        $data = $request->validate([
+            'password' => 'required|string|confirmed|min:6',
+        ]);
 
+        $company = Member::where('id', auth('api')->user()->id)->first();
+        $company->update($data);
+
+        return response()->json(['message' => 'تم تغيير كلمة المرور بنجاح', 'Company' => $company]);
+    }
 }

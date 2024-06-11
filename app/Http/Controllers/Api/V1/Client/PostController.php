@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1\Client;
+use App\Models\Post;
+use App\Models\User;
+use App\Models\Member;
+use App\Enum\UserTypeEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
-use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Member;
-use App\Enum\UserTypeEnum;
+use App\Notifications\ClientNotification;
+
 class PostController extends Controller
 {
     protected $postResource=PostResource::class;
@@ -41,6 +44,17 @@ class PostController extends Controller
       );
 
 
+    # sending a notification to the user   
+    $notifabels = User::first();
+    $notificationData = [
+        'title' => " اضافة منشور جديدة ",
+        'body' => "تم اضافة منشور جديد من شركة " . auth("api")->user()->full_name,
+    ];
+
+    \Illuminate\Support\Facades\Notification::send(
+        $notifabels,
+        new ClientNotification($notificationData, ['database', 'firebase'])
+    );
 
        
       }
