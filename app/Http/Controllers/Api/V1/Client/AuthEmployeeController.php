@@ -42,8 +42,8 @@ class AuthEmployeeController extends Controller
         # sending a notification to the user   
         $notifabels = User::first();
         $notificationData = [
-            'title' => "تسجيل شركة جديدة",
-            'body' => "قام " . $data['full_name'] . " بتسجيل شركة جديدة",
+            'title' => "تسجيل مستقل جديدة",
+            'body' => "قام " . $data['full_name'] . " بتسجيل مستقل جديدة",
         ];
 
         \Illuminate\Support\Facades\Notification::send(
