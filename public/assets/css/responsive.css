@@ -1,0 +1,285 @@
+@media (max-width: 1440px) {
+    .top-area{
+        margin-left: 0;
+    }
+    .left-sidebar{
+        margin-left: -250px;
+    }
+    .left-sidebar.show{
+        margin-left: 0;
+    }
+    .main-content{
+        margin-left: 0;
+    }
+    .toogle-bar.show{
+        left: 270px;
+        z-index: 99;
+    }
+    .main-content .dashboard-content .recent-order-request .request-list table td .items .item-name h5 {
+        width: 65%;
+    }
+
+}
+@media (max-width: 1199px) {
+    .main-content .order-list table {
+        width: 1080px;
+    }
+    .main-content .trending-menus .single-menus .menu-name .top-name h5 {
+        width: 85%;
+    }
+    .main-content .trending-menus .single-menus .menu-name .top-name {
+        margin-bottom: 5px;
+    }
+    .main-content .dashboard-content .single-details .details {
+        left: 100px;
+    }
+    .main-content .dashboard-content .single-details {
+        padding: 20px;
+    }
+    .main-content .dashboard-content .order-summery .summerys .single-summery {
+        padding: 10px 3px;
+    }
+    .main-content .dashboard-content .dicovery-map .upcoming-shedul .single-shedule .left-content .profile .profile-name h5 {
+        font-size: 13px;
+    }
+    .main-content .dashboard-content .dicovery-map .upcoming-shedul .single-shedule .left-content .profile .profile-name p {
+        font-size: 11px;
+    }
+    .main-content .order-id-content .customer-note-address {
+        padding: 10px 15px;
+    }
+    .main-content .order-id-content .customer-note {
+        padding: 20px 15px;
+    }
+    .main-content .customer-profile {
+        padding: 25px 15px;
+    }
+    .main-content .customer-profile .single-address .address span {
+        display: none;
+    }
+    .main-content .review-content .review-list table {
+        width: 1075px !important;
+    }
+    .main-content .dashboard-content .recent-order-request .request-list table td .items .item-name h5 {
+        width: 90%;
+    }
+}
+/* Large devices (desktops, 992px and up)*/
+@media (max-width: 991px) {
+    .main-content .analytics-content .most-selling-item {
+        margin-bottom: 40px;
+    }
+    .main-content .dashboard-content .recent-order-request {
+        margin-bottom: 40px;
+    }
+    .main-content .order-id-content .order-id-list {
+        margin-bottom: 40px;
+    }
+    .main-content .table-id-content .id-list table {
+        width: 870px !important;
+    }
+    .main-content .dashboard-content .recent-order-request .request-list table td .items .item-name h5 {
+        width: 80%;
+    }
+    .top-area .toogle-bar span{
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 50%;
+        box-shadow: 0 4px 30px rgba(155, 153, 153, 0.15);
+        background: #ffffff;
+
+    }
+}
+/* Medium devices (tablets, 768px and up)*/
+@media (max-width: 767px) {
+    .top-area {
+        padding: 20px 0;
+    }
+    .main-content {
+        padding: 40px 0;
+    }
+    .main-content .order-id-content .order-id-details table th {
+        display: none;
+    }
+    .main-content .order-id-content .order-id-details table {
+        width: 685px !important;
+    }
+    .main-content .order-id-content .order-id-list table {
+        width: 690px !important;
+    }
+    .main-content .catagories-content .single-catagories .catagories-details .top-details .order p {
+        font-size: 10px;
+    }
+    .main-content .catagories-content .single-catagories .catagories-details .top-details .name .review span {
+        margin-left: 2px;
+    }
+    .main-content .table-id-content .booking .top-facilities .facilities-active button.slick-prev.slick-arrow {
+        left: 0;
+    }
+    .main-content .table-id-content .booking .top-facilities .facilities-active button.slick-next.slick-arrow {
+        right: 0;
+    }
+    .main-content .table-id-content .booking table {
+        width: 690px !important;
+    }
+    .main-content .dashboard-content .recent-order-request .request-list table {
+        width: 690px !important;
+    }
+    .top-area .toogle-bar {
+        left: 15px;
+    }
+    .top-area .search-bar input {
+        width: 170px;
+    }
+    .toogle-bar.show {
+        left: 270px;
+    }
+}
+/* Small devices (landscape phones, 576px and up)*/
+@media (max-width: 575px) {
+    .main-content .page-title-sorts {
+        float: none;
+        display: block;
+    }
+    .main-content .page-title .title{
+        float: none;
+        display: block;
+        margin-bottom: 15px;
+    }
+    .main-content .analytics-content .most-favorite-item .portfolio-active .grid-item {
+        width: 100%;
+        float: none;
+        padding: 15px 0;
+        border-bottom: 1px solid #FBEDE9;
+    }
+    .main-content .dashboard-content .single-details .details {
+        left: 120px;
+    }
+    .top-area .search-bar input {
+        display: none;
+    }
+    .top-area .profile .name {
+        display: none;
+    }
+    .top-area .profile .profile-img {
+        margin-left: 0;
+    }
+    .main-content .catagories-content .single-catagories .catagories-details .top-details .order p {
+        font-size: 14px;
+    }
+    .main-content .catagories-content .single-catagories .catagories-details .top-details .name .review span {
+        margin-left: 7px;
+    }
+    .main-content .dashboard-content .dicovery-map .upcoming-shedul .single-shedule .left-content{
+        float: none;
+        display: block;
+    }
+    .main-content .dashboard-content .dicovery-map .upcoming-shedul .single-shedule .right-content{
+        float: none;
+        display: block;
+        position: relative;
+        padding-left: 50px;
+    }
+    .main-content .dashboard-content .dicovery-map .upcoming-shedul .single-shedule .right-content .address{
+        float: none;
+    }
+    .main-content .dashboard-content .dicovery-map .upcoming-shedul .single-shedule .right-content .address p{
+        text-align: left;
+    }
+    .main-content .dashboard-content .dicovery-map .upcoming-shedul .single-shedule .right-content .address-icon{
+        float: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+    }
+    #revenueChart {
+        position: relative;
+        bottom: -10px;
+    }
+    .toogle-bar.show {
+        left: 295px;
+    }
+}
+/* Small devices (landscape phones, 576px and up)*/
+@media (max-width: 479px) {
+    .main-content .bottom-text .left-text {
+        float: none;
+        display: block;
+        margin-bottom: 15px;
+    }
+    .main-content .bottom-text .right-text {
+        float: none;
+        display: block;
+    }
+    .main-content .analytics-content .most-favorite-item .title,.main-content .analytics-content .most-selling-item .title {
+        float: none;
+        margin-bottom: 10px;
+    }
+    .main-content .analytics-content .most-favorite-item .portfolio-menu,.main-content .analytics-content .most-selling-item .portfolio-menu-two {
+        float: none;
+        display: inline-block;
+    }
+    .main-content .dashboard-content .order-summery .summerys .single-summery p {
+        font-size: 10px;
+        font-weight: 400;
+        color: #8C8888;
+    }
+    .main-content .dashboard-content .order-summery .summerys .single-summery h4 {
+        font-size: 12px;
+        font-weight: 500;
+        color: #635D5D;
+    }
+    .main-content .dashboard-content .order-summery .title {
+        float: none;
+        margin-bottom: 10px;
+    }
+    .main-content .dashboard-content .order-summery .summery-menu {
+        float: none;
+        display: inline-block;
+    }
+    .toogle-bar.show {
+        left: 260px;
+    }
+    .main-content .analytics-content .most-selling-item .selling-table table {
+        width: 345px !important;
+    }
+}
+/* Small devices (landscape phones, 576px and up)*/
+@media (max-width: 374px) {
+    .main-content .dashboard-content .order-summery .summerys .single-summery {
+        padding: 10px 0px;
+    }
+    .main-content .dashboard-content .order-summery {
+        padding: 25px 10px;
+    }
+    .main-content .dashboard-content .order-summery .summery-heading .title,
+    .main-content .dashboard-content .order-summery .summery-heading .summery-menu,
+    .main-content .dashboard-content .recent-order-request .recent-title .title,
+    .main-content .dashboard-content .customer-map .top-heading .title,
+    .main-content .dashboard-content .customer-map .top-heading .summery-menu,
+    .main-content .dashboard-content .recent-order-request .recent-title .title h3,
+    .main-content .dashboard-content .recent-order-request .recent-title .page-title-sorts .sort-two,
+    .main-content .dashboard-content .recent-order-request .recent-title .page-title-sorts {
+        float: none;
+    }
+    .main-content .dashboard-content .customer-map .top-heading .title {
+        margin-bottom: 10px;
+    }
+    .main-content .dashboard-content .customer-map .top-heading .summery-menu {
+        display: inline-block;
+    }
+    .main-content .page-title-sorts .sort-two,
+    .main-content .dashboard-content .recent-order-request .recent-title .page-title-sorts .sort-two {
+        margin-left: 0;
+    }
+    .toogle-bar.show {
+        left: 255px;
+    }
+    .main-content .table-id-content .id-list table {
+        width: 650px !important;
+    }
+
+}

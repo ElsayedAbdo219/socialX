@@ -66,6 +66,32 @@
 <script src="{{asset('dashboardAssets/app-assets/js/scripts/pickers/pickers/dateTime/pick-a-datetime.js')}}"></script>
 <script src="{{asset('dashboardAssets/app-assets/js/iziToast.min.js')}}"></script>
 
+
+
+ <!-- jquery js -->
+ <script src="{{asset('assets/js/jquery.js')}}"></script>
+ <!-- bootstrap min js -->
+ <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+ <!-- bootstrap.bundle js -->
+ <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+ <!-- metisMenu js -->
+ <script src="{{asset('assets/js/metisMenu.js')}}"></script>
+ <!-- canvasjs js -->
+ <script src="{{asset('assets/js/jquery.canvasjs.min.js')}}"></script>
+ <!-- lineProgressbar js -->
+ <script src="{{asset('assets/js/jquery.lineProgressbar.js')}}"></script>
+ <!-- slick js -->
+ <script src="{{asset('assets/js/slick.min.js')}}"></script>
+ <!-- Chart js -->
+ <script src="{{asset('assets/js/Chart.min.js')}}"></script>
+ <!-- main js -->
+ <script src="{{asset('assets/js/main.js')}}"></script>
+ <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+
+
+
+
 @if(session()->has('success'))
     <script>
         iziToast.success({
@@ -194,6 +220,13 @@
 
 
     
+
+
+
+
+
+
+
 
 </script>
 @yield('script')

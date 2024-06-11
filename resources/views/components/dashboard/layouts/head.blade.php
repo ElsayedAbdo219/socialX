@@ -68,6 +68,26 @@
           href="{{asset('dashboardAssets/app-assets/css/pickers/pickadate/pickadate.css')}}">
 
 
+
+
+          
+
+              <!-- all css -->
+    <link rel="stylesheet" href="{{asset('assets/css/all.css')}}">
+    <!-- slick css -->
+    <link rel="stylesheet" href="{{asset('assets/css/slick.css')}}">
+    <!-- metisMenu css -->
+    <link rel="stylesheet" href="{{asset('assets/css/metisMenu.css')}}">
+    <!-- style css -->
+    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    <!-- lineProgressbar css -->
+    <link rel="stylesheet" href="{{asset('assets/css/jquery.lineProgressbar.css')}}">
+    <!-- responsive fonts -->
+    <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
+
+
+
+
     @yield('styles')
 
 

@@ -155,6 +155,218 @@
 
 
 
+ <div class="main-content">
+        <div class="dashboard-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="page-title">
+                            <div class="title">
+                                <h3>لوحة التحكم</h3>
+                                <p>مرحبا بك في لوحة التحكم {{ Auth::user()->name }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="single-details">
+                            <div class="icon">
+                                <img src="images/details-icon-1.png" alt="images" />
+                            </div>
+                            <div class="details">
+                                <h5>2560</h5>
+                                <span>Total Menus</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="single-details">
+                            <div class="icon">
+                                <img src="images/details-icon-2.png" alt="images" />
+                            </div>
+                            <div class="details">
+                                <h5>2560</h5>
+                                <span>Total Menus</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="single-details">
+                            <div class="icon">
+                                <img src="images/details-icon-3.png" alt="images" />
+                            </div>
+                            <div class="details">
+                                <h5>2560</h5>
+                                <span>Total Menus</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="single-details">
+                            <div class="icon">
+                                <img src="images/details-icon-4.png" alt="images" />
+                            </div>
+                            <div class="details">
+                                <h5>2560</h5>
+                                <span>Total Menus</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="revenu-chart">
+                            <div class="revenu-title">
+                                <div class="title">
+                                    <h3>Revenue</h3>
+                                </div>
+                                <div class="page-title-sorts">
+                                    <a href="#" class="sort-two">
+                                        <span>Monthly</span>
+                                        <i class="fas fa-sort-down"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="revenu-heading">
+                                <div class="title">
+                                    <h5>Income</h5>
+                                    <span>$1236598</span>
+                                </div>
+                                <div class="summery-menu">
+                                    <button class="active">Today</button>
+                                    <button>Month</button>
+                                    <button>Weekly</button>
+                                </div>
+                            </div>
+                            <canvas id="revenueChart" width="400" height="200"></canvas>
+                        </div>
+                        <div class="customer-map">
+                            <div class="top-heading">
+                                <div class="title">
+                                    <h5>Customer Map</h5>
+                                </div>
+                                <div class="summery-menu">
+                                    <button class="active">Today</button>
+                                    <button>Month</button>
+                                    <button>Weekly</button>
+                                </div>
+                            </div>
+                            <div id="chart"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="order-summery">
+                            <div class="summery-heading">
+                                <div class="title">
+                                    <h5>Order Summary</h5>
+                                </div>
+                                <div class="summery-menu">
+                                    <button class="active">Today</button>
+                                    <button>Month</button>
+                                    <button>Weekly</button>
+                                </div>
+                            </div>
+                            <div class="summerys">
+                                <div class="single-summery">
+                                    <h4>1256K</h4>
+                                    <p>On Delivery</p>
+                                </div>
+                                <div class="single-summery">
+                                    <h4>452K</h4>
+                                    <p>Total Delivered</p>
+                                </div>
+                                <div class="single-summery">
+                                    <h4>25K</h4>
+                                    <p>Canceled</p>
+                                </div>
+                                <div class="single-summery">
+                                    <h4>2256K</h4>
+                                    <p>Total Proses</p>
+                                </div>
+                            </div>
+                            <div class="new-order">
+                                <p>New Order</p>
+                                <div class="number">
+                                    <span>2512k</span>
+                                </div>
+                                <div class="view-btn">
+                                    <a href="#">Viwe All <i class="fas fa-long-arrow-alt-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dicovery-map">
+                            <div class="map-heading">
+                                <div class="title">
+                                    <h5>Most Favorites Iteam</h5>
+                                </div>
+                                <div class="page-title-sorts">
+                                    <a href="#" class="sort-two">
+                                        <span>Monthly</span>
+                                        <i class="fas fa-sort-down"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="map-img">
+                                <img src="images/discovery-map.png" alt="images" />
+                            </div>
+                            <div class="upcoming-shedul">
+                                <div class="shedule-heading">
+                                    <div class="title">
+                                        <h5>Upcomming Sehedule</h5>
+                                    </div>
+                                </div>
+                                <div class="single-shedule">
+                                    <div class="left-content">
+                                        <div class="profile">
+                                            <div class="profile-img">
+                                                <img src="images/shedule-img-1.png" alt="images" />
+                                            </div>
+                                            <div class="profile-name">
+                                                <h5>Mohan Cudhidi <span>(4 Iteam )</span></h5>
+                                                <p>Wiil be shipping on 11 : 24 Am</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="right-content">
+                                        <div class="address">
+                                            <p>2340 Hex Parker Rd. Allentown,<br />South Africa</p>
+                                        </div>
+                                        <div class="address-icon">
+                                            <img src="images/address-icon-1.png" alt="images" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-shedule">
+                                    <div class="left-content">
+                                        <div class="profile">
+                                            <div class="profile-img">
+                                                <img src="images/shedule-img-2.png" alt="images" />
+                                            </div>
+                                            <div class="profile-name">
+                                                <h5>Nohan Cudhidi <span>(2 Iteam )</span></h5>
+                                                <p>Wiil be shipping on 11 : 24 Am</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="right-content">
+                                        <div class="address">
+                                            <p>4140 Parker Rd. Allentown, New<br />United states</p>
+                                        </div>
+                                        <div class="address-icon">
+                                            <img src="images/address-icon-1.png" alt="images" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- main-content end -->
+
+
+
 
 
                      
@@ -166,4 +378,137 @@
             </div>
         </div>
     </div>
+
+
+
+    <script>
+
+
+var ctx = document.getElementById('revenueChart').getContext('2d');
+        var gradientColor = ctx.createLinearGradient(0, 0, 0, 400);
+        gradientColor.addColorStop(0, "rgba(253, 104, 62, 1)");
+        gradientColor.addColorStop(1, "rgba(255, 255, 255, 0)");
+        var ctx = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                datasets: [{
+                    label: '',
+                    data: [5, 25, 17, 36, 30, 50],
+                    backgroundColor: gradientColor,
+                    borderColor: gradientColor,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                display: false,
+                labels: {
+                    fontColor: '#ffffff'
+                }
+            },
+                scales: {
+                    yAxes: [{
+                        
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+
+
+
+
+
+
+        var options = {
+          series: [{
+          name: 'Males',
+          data: [0.4, 0.65, 0.76, 0.88, 1.5, 2.1, 2.9, 3.8, 3.9, 4.2, 4, 4.3, 4.1, 4.2, 4.5,
+            3.9, 3.5, 3
+          ]
+        },
+        {
+          name: 'Females',
+          data: [-0.8, -1.05, -1.06, -1.18, -1.4, -2.2, -2.85, -3.7, -3.96, -4.22, -4.3, -4.4,
+            -4.1, -4, -4.1, -3.4, -3.1, -2.8
+          ]
+        }
+        ],
+        chart: {
+          type: 'bar',
+          height: 300,
+          stacked: true,
+          
+        },
+        colors: ['#FD683E', '#2BC155'],
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            barHeight: '100%',
+            // borderRadius: 7,
+            radiusOnLastStackedBar: true,
+          },
+          
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: 1,
+          colors: ["#fff"]
+        },
+        
+        grid: {
+          xaxis: {
+            lines: {
+              show: false
+            }
+          },
+          yaxis: {
+            lines: {
+              show: true,
+            }
+          }
+        },
+        yaxis: {
+          min: -15,
+          max: 15,          
+        },
+        tooltip: {
+          shared: false,
+          x: {
+            formatter: function (val) {
+              return val
+            }
+          },
+          y: {
+            formatter: function (val) {
+              return Math.abs(val) + "%"
+            }
+          }
+        },
+        xaxis: {
+          categories: ['85+', '80-84', '75-79', '70-74', '65-69', '60-64', '55-59', '50-54',
+            '45-49', '40-44', '35-39', '30-34', '25-29', '20-24', '15-19', '10-14', '5-9',
+            '0-4'
+          ],
+          labels: {
+            formatter: function (val) {
+              return Math.abs(Math.round(val)) + "%"
+            }
+          }
+        },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+
+
+
+
+    </script>
 @endsection
