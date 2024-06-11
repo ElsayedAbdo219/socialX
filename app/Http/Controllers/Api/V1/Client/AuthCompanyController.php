@@ -24,36 +24,23 @@ class AuthCompanyController extends Controller
     public function register(Request $request)
     {
             $data=$request->validate([
-                'name' => 'required|string|max:255',
+                'full_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:members',
-                'password' => 'required',
-                'logo' => 'image|mimes:jpeg,png,jpg',
-                'slogo' => 'string',
-                'website' => 'url|string',
-                'address' => 'string',
-                'bio' => 'string',
-     ]);
+                'password' => 'required|confirmed|min:6',
+                'phone' => 'required|string|max:255',
+                'country' => 'required|string|max:255',
+                'birth_date' => 'required|string|max:255',
+                'field' => 'required|string|max:255',
+       ]);
 
           $data['type']=UserTypeEnum::COMPANY;
+
+          $data['password']=Hash::make($data['password']);
+
     
             $company = Member::create($data);
 
-            if ($request->file('logo')) {
 
-                $logo = uniqid() . '_' . $request->file('logo')->getClientOriginalName();
-      
-                Storage::disk("local")->put($logo, file_get_contents($request->file('logo')));
-      
-      
-                $company->update(
-                  [
-      
-                  'logo'=> $logo,
-      
-                  ]
-            );
-             
-            }
     
            return response()->json(['message' =>'تم تسجيل حسابك بنجاح','company'=>$company]);
       
@@ -62,12 +49,14 @@ class AuthCompanyController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:members,email',
+            'email' => 'required|email|exists:members,email,type,'.UserTypeEnum::COMPANY,
             'password' => 'required',
         ]);
 
        
         $company = Member::whereEmail($request->email)->first();
+
+      //  return [$request->password, $company->password];
 
         if (!$company) {
             throw ValidationException::withMessages([
@@ -86,6 +75,9 @@ class AuthCompanyController extends Controller
     return response()->json(['token' => $token,'company'=>$company]);
 
     }
+    // public function changePassword(Request $request){
+
+    // }
 
 
 
@@ -101,18 +93,52 @@ class AuthCompanyController extends Controller
     {
 
             $data=$request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255',
-                'password' => 'required',
-                'logo' => 'image,mimes:jpeg,png,jpg',
-                'slogo' => 'string',
+                'logo' => 'image|mimes:jpeg,png,jpg',
+                'coverletter' => 'image|mimes:jpeg,png,jpg',
+                'slogo' => 'string|max:255',
                 'website' => 'url|string',
-                'address' => 'string',
+                'address' => 'string|max:255',
                 'bio' => 'string',
               
             ]);
-    
+
             auth('api')->user()->update($data);
+
+
+            if ($request->file('logo')) {
+
+                $logo = uniqid() . '_' . $request->file('logo')->getClientOriginalName();
+      
+                Storage::disk("local")->put($logo, file_get_contents($request->file('logo')));
+      
+      
+               auth('api')->user()->update(
+                  [
+      
+                  'logo'=> $logo,
+      
+                  ]
+            );
+             
+            }
+
+            if ($request->file('coverletter')) {
+
+                $coverletter = uniqid() . '_' . $request->file('coverletter')->getClientOriginalName();
+      
+                Storage::disk("local")->put($coverletter, file_get_contents($request->file('coverletter')));
+      
+      
+               auth('api')->user()->update(
+                  [
+      
+                  'coverletter'=> $coverletter,
+      
+                  ]
+            );
+             
+            }
+           
     
             return response()->json(['message' =>'تم تحديث بياناتك  بنجاح']);
       
@@ -120,7 +146,7 @@ class AuthCompanyController extends Controller
 
     
      public function deleteMyAccount(){
-        Member::whereId(auth()->user()->id)->destroy();
+        Member::whereId(auth()->user()->id)->delete();
         return response()->json(['message' =>'تم حذف حسابك بنجاح']);
      }
 
@@ -195,13 +221,13 @@ class AuthCompanyController extends Controller
      public function ChangePassword(Request $request)
     {
              $data=$request->validate([
-                'password'=>'required|string',
+                'password'=>'required|string|confirmed|min:6',
              ]);
              
-            $company = Company::where('id',$request->id)->first();
+            $company = Member::where('id',auth('api')->user()->id)->first();
             $company->update($data);
             
-            return response()->json(['message' =>'Company Updated Successfully','Company'=>$Company]);
+            return response()->json(['message' =>'تم تغيير كلمة المرور بنجاح','Company'=>$company]);
       
     }
     

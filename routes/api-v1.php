@@ -55,8 +55,10 @@ Route::prefix("auth")->group(function () {
       Route::post('forget-Passwored', [AuthCompanyController::class, 'forgetPassword']);
       Route::post('reset-password/{token}', [AuthCompanyController::class, 'resetPassword']);
       Route::post('verify-Otp', [AuthCompanyController::class, 'verifyOtp']);
-      Route::post('delete-MyAccount', [AuthCompanyController::class, 'deleteMyAccount']);
+      Route::get('delete-MyAccount', [AuthCompanyController::class, 'deleteMyAccount']);
       Route::post('/update', [AuthCompanyController::class, 'update']);
+      Route::post('/change-password', [AuthCompanyController::class, 'changePassword']);
+
     });
 
     Route::name('employees.')->prefix('employees')->group(function () {
@@ -64,8 +66,12 @@ Route::prefix("auth")->group(function () {
       Route::post('forget-Passwored', [AuthEmployeeController::class, 'forgetPassword']);
       Route::post('reset-password/{token}', [AuthEmployeeController::class, 'resetPassword']);
       Route::post('verify-Otp', [AuthEmployeeController::class, 'verifyOtp']);
-      Route::post('delete-MyAccount', [AuthEmployeeController::class, 'deleteMyAccount']);
+      Route::get('delete-MyAccount', [AuthEmployeeController::class, 'deleteMyAccount']);
       Route::post('/update', [AuthEmployeeController::class, 'update']);
+
+      Route::post('/change-password', [AuthCompanyController::class, 'changePassword']);
+
+      
     });
 
 

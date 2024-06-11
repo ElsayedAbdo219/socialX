@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
+            $table->string('full_name');
             $table->string('job')->nullable();
             $table->string('personal_photo')->nullable();
             $table->text('personal_info')->nullable();
@@ -25,6 +25,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('is_Active')->default(0);
            
+            $table->string('phone');
+            $table->string('country');
+            $table->string('birth_date');
+            $table->string('field')->nullable();
            
 
             $table->string('type');

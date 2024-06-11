@@ -22,55 +22,19 @@ class AuthEmployeeController extends Controller
     public function register(Request $request)
     {
            $data= $request->validate([
-                'name' => 'required|string|max:255',
-                'job' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required',
-                'personal_photo' => 'image|mimes:jpeg,png,jpg',
-                'personal_info' => 'string',
-                'website' => 'string|url',
-                'experience' => 'string',
-                'coverletter' => 'image|mimes:jpeg,png,jpg',
-                'address' => 'required|string',
+                'full_name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:members',
+                'password' => 'required|confirmed|min:6',
+                'phone' => 'required|string|max:255',
+                'country' => 'required|string|max:255',
+                'birth_date' => 'required|string|max:255',
+                'field' => 'nullable|string|max:255',
             ]);
             $data['type']=UserTypeEnum::EMPLOYEE;
+          $data['password']=Hash::make($data['password']);
+
+
             $employee = Member::create($data);
-
-            if ($request->file('personal_photo')) {
-
-                $personal_photo = uniqid() . '_' . $request->file('personal_photo')->getClientOriginalName();
-      
-                Storage::disk("local")->put($personal_photo, file_get_contents($request->file('personal_photo')));
-      
-      
-                $employee->update(
-                  [
-      
-                  'personal_photo'=> $personal_photo,
-      
-                  ]
-            );
-             
-            }
-    
-
-            if ($request->file('coverletter')) {
-
-                $coverletter = uniqid() . '_' . $request->file('coverletter')->getClientOriginalName();
-      
-                Storage::disk("local")->put($coverletter, file_get_contents($request->file('coverletter')));
-      
-      
-                $employee->update(
-                  [
-      
-                  'coverletter'=> $coverletter,
-      
-                  ]
-            );
-             
-            }
-    
 
            return response()->json(['message' =>'تم تسجيل الحساب بنجاح','employee'=>$employee]);
     
@@ -80,12 +44,12 @@ class AuthEmployeeController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:members,email',
+            'email' => 'required|email|exists:members,email,type,'.UserTypeEnum::EMPLOYEE,
             'password' => 'required',
         ]);
 
         $employee = Member::whereEmail($request->email)->first();
-      //  return [$employee->password , $request->password];
+     
 
         if (!$employee ) {
             throw ValidationException::withMessages([
@@ -93,7 +57,7 @@ class AuthEmployeeController extends Controller
             ]);
         }
         
-        if ($request->password !=  $employee->password){
+        if (!Hash::check($request->password, $employee->password)){
             throw ValidationException::withMessages([
                 'password' => ['كلمة المرور غير صحيحة'],
             ]);
@@ -118,9 +82,6 @@ class AuthEmployeeController extends Controller
     {
        
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'password' => 'nullable|string',
             'personal_photo' => 'nullable|image|mimes:jpeg,png,jpg',
             'personal_info' => 'nullable|string',
             'website' => 'nullable|string|url',
@@ -195,20 +156,20 @@ class AuthEmployeeController extends Controller
      public function ChangePassword(Request $request)
     {
              $data=$request->validate([
-                'password'=>'required|string',
+                'password'=>'required|string|confirmed|min:6',
              ]);
              
-            $Employee = Employee::where('id',$request->id)->first();
+            $Employee = Member::where('id',auth('api')->user()->id)->first();
             $Employee->update($data);
             
-            return response()->json(['message' =>'Employee Updated Successfully','Employee'=>$Employee]);
+            return response()->json(['message' =>'تم تحديث كلمة المرور بنجاح','Employee'=>$Employee]);
       
     }
     
 
     public function deleteMyAccount(){
-        Employee::whereId(auth()->user()->id)->destroy();
-        return response()->json(['message' =>'Employee Deleted Successfully']);
+        Member::whereId(auth()->user()->id)->delete();
+        return response()->json(['message' =>'تم حذف حسابك بنجاح']);
 
      }
 
