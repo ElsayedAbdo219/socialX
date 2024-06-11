@@ -36,25 +36,30 @@
                     </div>  --}}
 
 
-                       {{-- <div class="col-lg-3 col-md-6 col-12">
-                           <div class="card">
-                               <div class="card-header d-flex flex-column align-items-start pb-0">
-                                   <div class="avatar bg-rgba-primary p-50 m-0">
-                                       <div class="avatar-content" >
-                                           <i class="feather icon-users text-primary font-medium-5"></i>
-                                       </div>
-                                   </div>
-                                   <h2 class="text-bold-700 mt-1 mb-25">{{ '--'}}</h2>
-                                   <p class="mb-0">--</p>
-                               </div>
-                               <div class="card-content">
-                                   <div id="subscribe-gain-chart"></div>
-                               </div>
-                           </div>
-                       </div> --}}
+                       
 
-                       <div class="row">
-                       <div class="card_stats">
+                       {{-- <div class="row">
+
+
+                        <div class="col-lg-3 col-md-6 col-12 card_stats">
+                            <div class="card">
+                                <div class="card-header d-flex flex-column align-items-start pb-0">
+                                    <div class="avatar bg-rgba-primary p-50 m-0">
+                                        <div class="avatar-content" >
+                                            <i class="feather icon-users text-primary font-medium-5"></i>
+                                        </div>
+                                    </div>
+                                    <h2 class="text-bold-700 mt-1 mb-25">{{ '--'}}</h2>
+                                    <p class="mb-0">--</p>
+                                </div>
+                                <div class="card-content">
+                                    <div id="subscribe-gain-chart"></div>
+                                </div>
+                            </div>
+                        </div>  --}}
+
+
+                       {{-- <div class="card_stats">
                         <div class="card-body">
                             <h5 class="card-title">الشركات</h5>
                             <div class="row">
@@ -76,8 +81,8 @@
                                
                             </div>
                         </div>
-                    </div>
-
+                    </div> --}}
+{{-- 
                     <div class="card_stats">
                         <div class="card-body">
                             <h5 class="card-title">المستقلين</h5>
@@ -97,10 +102,10 @@
                             </div>
                         </div>
                     </div>
-                    
+                     --}}
 
 
-                    <div class="card_stats">
+                    {{-- <div class="card_stats">
                         <div class="card-body">
                             <h5 class="card-title">الوظائف</h5>
                             </h5>
@@ -115,11 +120,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     
 
 
-                    <div class="card_stats">
+                    {{-- <div class="card_stats">
                         <div class="card-body">
                             <h5 class="card-title">الشكاوي</h5>
                             <div class="row">
@@ -146,7 +151,13 @@
                             </div>
                         </div>
                     </div>
-                    
+                     --}}
+
+
+
+
+
+                     
 
 
                        
