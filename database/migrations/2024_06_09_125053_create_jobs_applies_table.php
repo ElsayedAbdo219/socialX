@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->foreignId('member_id'); // صاحب الوظيفة
 
-            $table->foreignId('employee_id');  // الموظف
+            // الموظف
 
 
             $table->string('job_name'); // اسم الوظيفة

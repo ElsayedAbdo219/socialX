@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\V1\Client\{
   SkillController,
   FollowController,
   JobController,
+  UserApplyJobController,
+
                
 
 
@@ -160,6 +162,13 @@ Route::prefix("auth")->group(function () {
         Route::get('get', [JobController::class, 'get']);
         Route::post('filter', [JobController::class, 'filter']);
       });
+
+      # user apply jobs
+      Route::name('apply_jobs.')->prefix('apply_jobs')->group(function () {
+        Route::post('add', [UserApplyJobController::class, 'add']);
+      });
+
+
 
 
 

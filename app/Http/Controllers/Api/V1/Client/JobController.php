@@ -16,8 +16,7 @@ class JobController extends Controller
     {
        //   return $request->all();
         $data=$request->validate([
-
-            'employee_id' => 'required|exists:members,id,type,' . UserTypeEnum::EMPLOYEE,
+         
             'job_name' => 'required|string|max:255',
 
             'employee_type' => 'required|string|max:255',

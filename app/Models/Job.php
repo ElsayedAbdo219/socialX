@@ -33,4 +33,14 @@ class Job extends Model
     return json_decode($value, true);
 }
 
+
+
+
+# relationships
+
+public function jobAppliers()
+{
+    return $this->hasMany(UserApplyJob::class, 'jobs_applies_id');
+}
+
 }
