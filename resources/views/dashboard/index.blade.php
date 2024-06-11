@@ -170,7 +170,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-details">
                             <div class="icon">
-                                <img src="images/details-icon-1.png" alt="images" />
+                                <img src="{{ asset('assets/images/details-icon-1.png') }}" alt="images" />
                             </div>
                             <div class="details">
                                 <h5>2560</h5>
@@ -181,7 +181,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-details">
                             <div class="icon">
-                                <img src="images/details-icon-2.png" alt="images" />
+                                <img src="{{ asset('assets/images/details-icon-2.png') }}" alt="images" />
                             </div>
                             <div class="details">
                                 <h5>2560</h5>
@@ -192,7 +192,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-details">
                             <div class="icon">
-                                <img src="images/details-icon-3.png" alt="images" />
+                                <img src="{{ asset('assets/images/details-icon-3.png') }}" alt="images" />
                             </div>
                             <div class="details">
                                 <h5>2560</h5>
@@ -203,7 +203,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-details">
                             <div class="icon">
-                                <img src="images/details-icon-4.png" alt="images" />
+                                <img src="{{ asset('assets/images/details-icon-4.png') }}" alt="images" />
                             </div>
                             <div class="details">
                                 <h5>2560</h5>
@@ -237,19 +237,7 @@
                             </div>
                             <canvas id="revenueChart" width="400" height="200"></canvas>
                         </div>
-                        <div class="customer-map">
-                            <div class="top-heading">
-                                <div class="title">
-                                    <h5>Customer Map</h5>
-                                </div>
-                                <div class="summery-menu">
-                                    <button class="active">Today</button>
-                                    <button>Month</button>
-                                    <button>Weekly</button>
-                                </div>
-                            </div>
-                            <div id="chart"></div>
-                        </div>
+                       
                     </div>
                     <div class="col-lg-6">
                         <div class="order-summery">
@@ -291,71 +279,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="dicovery-map">
-                            <div class="map-heading">
-                                <div class="title">
-                                    <h5>Most Favorites Iteam</h5>
-                                </div>
-                                <div class="page-title-sorts">
-                                    <a href="#" class="sort-two">
-                                        <span>Monthly</span>
-                                        <i class="fas fa-sort-down"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="map-img">
-                                <img src="images/discovery-map.png" alt="images" />
-                            </div>
-                            <div class="upcoming-shedul">
-                                <div class="shedule-heading">
-                                    <div class="title">
-                                        <h5>Upcomming Sehedule</h5>
-                                    </div>
-                                </div>
-                                <div class="single-shedule">
-                                    <div class="left-content">
-                                        <div class="profile">
-                                            <div class="profile-img">
-                                                <img src="images/shedule-img-1.png" alt="images" />
-                                            </div>
-                                            <div class="profile-name">
-                                                <h5>Mohan Cudhidi <span>(4 Iteam )</span></h5>
-                                                <p>Wiil be shipping on 11 : 24 Am</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="right-content">
-                                        <div class="address">
-                                            <p>2340 Hex Parker Rd. Allentown,<br />South Africa</p>
-                                        </div>
-                                        <div class="address-icon">
-                                            <img src="images/address-icon-1.png" alt="images" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-shedule">
-                                    <div class="left-content">
-                                        <div class="profile">
-                                            <div class="profile-img">
-                                                <img src="images/shedule-img-2.png" alt="images" />
-                                            </div>
-                                            <div class="profile-name">
-                                                <h5>Nohan Cudhidi <span>(2 Iteam )</span></h5>
-                                                <p>Wiil be shipping on 11 : 24 Am</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="right-content">
-                                        <div class="address">
-                                            <p>4140 Parker Rd. Allentown, New<br />United states</p>
-                                        </div>
-                                        <div class="address-icon">
-                                            <img src="images/address-icon-1.png" alt="images" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    
                     </div>
                
                    

@@ -6,6 +6,14 @@
     <meta name="keywords" content="true">
     <meta name="author" content="true">
     <meta name="_token" content="{{csrf_token()}}">
+
+     <!-- favicon -->
+     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+     <!-- google fonts -->
+     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+     
     <title>@yield('title')</title>
     <link rel="apple-touch-icon" href="{{asset('dashboardAssets/app-assets/images/logo/logo.png')}}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('dashboardAssets/app-assets/images/logo/logo.png')}}">
