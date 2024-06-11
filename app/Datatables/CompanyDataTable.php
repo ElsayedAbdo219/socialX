@@ -25,18 +25,18 @@ class CompanyDataTable extends BaseDatatable
     {
         return [
             'name' => function ($model) {
-                $title = $model?->name;
+                $title = $model?->full_name;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
             'logo' => function ($model) {
-                $image = asset('/storage/app/companies/'.$model->logo);
+                $image = asset('/storage/companies/'.$model->logo);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
 
 
             'coverletter' => function ($model) {
-                $image = asset('/storage/public/companies/'.$model->coverletter);
+                $image = asset('/storage/companies/'.$model->coverletter);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
 

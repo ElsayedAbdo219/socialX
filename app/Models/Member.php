@@ -38,7 +38,7 @@ class Member extends Authenticatable
    public function scopeOfName($query, $value)
    {
        if (empty($value)) return $query;
-       return $query->where('name', 'like', "%$value%");
+       return $query->where('full_name', 'like', "%$value%");
    }
 
 

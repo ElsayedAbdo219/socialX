@@ -109,8 +109,9 @@ class AuthCompanyController extends Controller
 
                 $logo = uniqid() . '_' . $request->file('logo')->getClientOriginalName();
       
-                Storage::disk("local")->put($logo, file_get_contents($request->file('logo')));
-      
+              //  Storage::disk("local")->put($logo, file_get_contents($request->file('logo')));
+
+                Storage::put('public/companies/'.$logo, file_get_contents($request->file("logo")));
       
                auth('api')->user()->update(
                   [
@@ -126,7 +127,10 @@ class AuthCompanyController extends Controller
 
                 $coverletter = uniqid() . '_' . $request->file('coverletter')->getClientOriginalName();
       
-                Storage::disk("local")->put($coverletter, file_get_contents($request->file('coverletter')));
+
+                Storage::put('public/companies/'.$coverletter, file_get_contents($request->file("coverletter")));
+
+              //  Storage::disk("local")->put($coverletter, file_get_contents($request->file('coverletter')));
       
       
                auth('api')->user()->update(
@@ -163,59 +167,8 @@ class AuthCompanyController extends Controller
 
 
 
-      public function forgetPassword(Request $request)
-    {
-       
-           $data= $request->validate([
-                'email' => 'required|string|email|exists:members,email',
-            ]);
-    
-            $Company = Company::where('email',$data['email'])->first();
-
-            if(!$Company){
-                return ('الحساب غير مسجل , حاول ادخال بريد اخر');
-            }
-
-            $token = Str::random(40);
-            $url='/'.$token;
-            
-            $title="تغيير كلمة المرور ";    
-    
-            Notification::send(new ResetPasswordNotification,$url,$title);    
-
-            PasswordReset::updateOrCreate(
-                ['email'=>$data['email']]
-                ,
-                [
-                    'email'=>$data['email'],
-                    'token'=>$token,
-                    'created_at'=>Carbon::now()->format('Y-m-d H-i-s'),
-                ]
-                );
-            return response()->json(['message' =>'Email Sended Successfully','Company'=>$Company]);
-      
-    }
 
 
-    public function resetPassword($token)
-    {
-    
-            $passwordResetData = PasswordReset::where('token',$token)->first();
-
-            if(!$token){
-                return ('الحساب غير مسجل , حاول ادخال بريد اخر');
-            }
-
-             $company = Company::where('email',$passwordResetData->email)->first();
-             return view('changePassword',with(
-                [
-                
-                'person'=>$company,
-             ]
-            )
-             );
-      
-    }
 
 
      public function ChangePassword(Request $request)
