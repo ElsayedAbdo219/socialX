@@ -16,31 +16,40 @@ class Job extends Model
 
     protected $casts = [
 
-        'is_active' => 'boolean', 
-       'job_description'=> 'array',
+        'is_active' => 'boolean',
+        'job_description' => 'array',
 
     ];
 
     // Job_Description
 
- # Getters
+    # Getters
 
- public function getJobDescriptionAttribute($value)
-{
-    if ($value == null) {
-        return [];
+    public function getJobDescriptionAttribute($value)
+    {
+        if ($value == null) {
+            return [];
+        }
+        return json_decode($value, true);
     }
-    return json_decode($value, true);
-}
 
 
 
 
-# relationships
+    # relationships
 
-public function jobAppliers()
-{
-    return $this->hasMany(UserApplyJob::class, 'jobs_applies_id');
-}
+    public function jobAppliers()
+    {
+        return $this->hasMany(UserApplyJob::class, 'jobs_applies_id');
+    }
 
+
+    public function jobApplierMember()
+    {
+        return $this->belongsTo(UserApplyJob::class, 'employee_id');
+    }
+
+
+
+    
 }
