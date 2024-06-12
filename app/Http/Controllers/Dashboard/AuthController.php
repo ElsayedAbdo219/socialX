@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Enum\RegisterationRequestEnum;
 use App\Http\Requests\Dashboard\LoginRequest;
 use App\Models\Complain;
+use App\Models\UserApplyJob;
 
 class AuthController extends Controller
 {
@@ -46,7 +47,31 @@ class AuthController extends Controller
 
         $jobs = Job::where('created_at', '=', Carbon::today())->count();
 
+        $all_jobs = Job::count();
+        $jobs_appliers = UserApplyJob::count();
+
+
+
+
+
         $complains = Complain::where('created_at', '=', Carbon::today())->count();
+
+        // start chat js script
+        $chartjs = app()->chartjs
+        ->name('pieChartTest')
+        ->type('pie')
+        ->size(['width' => 400, 'height' => 200])
+        ->labels(['عدد الوظائف', 'عدد المتقدمين'])
+        ->datasets([
+            [
+                'backgroundColor' => ['#FF6384', '#36A2EB'],
+                'hoverBackgroundColor' => ['#FF6384', '#36A2EB'],
+                'data' => [$all_jobs, $jobs_appliers]
+            ]
+        ])
+        ->options([]);
+
+        // End chat js script
 
 
         return view('dashboard.index',
@@ -64,6 +89,13 @@ class AuthController extends Controller
 
             'jobs' => $jobs ,
             'complains' => $complains ,
+            'all_jobs' => $all_jobs ,
+
+            
+
+
+            'chartjs' => $chartjs ,
+
 
 
 

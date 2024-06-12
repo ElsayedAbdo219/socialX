@@ -218,24 +218,31 @@
                                     <h3>الوظائف</h3>
                                 </div>
                                 <div class="page-title-sorts">
-                                    <a href="#" class="sort-two">
+                                    {{-- <a href="#" class="sort-two">
                                         <span>شهريا</span>
                                         <i class="fas fa-sort-down"></i>
-                                    </a>
+                                    </a> --}}
                                 </div>
                             </div>
                             <div class="revenu-heading">
                                 <div class="title">
-                                    <h5>Income</h5>
-                                    <span>$1236598</span>
+                                    <h5>الكل</h5>
+                                    <span>{{ $all_jobs }}</span>
                                 </div>
                                 <div class="summery-menu">
-                                    <button class="active">يوميا</button>
+                                    {{-- <button class="active">يوميا</button>
                                     <button>اسبوعيا</button>
-                                    <button>شهريا</button>
+                                    <button>شهريا</button> --}}
+                                    <span>#</span>
                                 </div>
                             </div>
-                            <canvas id="revenueChart" width="400" height="200"></canvas>
+                            {{-- <canvas id="revenueChart" width="400" height="200"></canvas> --}}
+
+                            {!! $chartjs->render() !!}
+
+
+
+
                         </div>
                        
                     </div>
@@ -248,9 +255,10 @@
                                     <h5>تفاصيل الشركات</h5>
                                 </div>
                                 <div class="summery-menu">
-                                    <button class="active">يوميا</button>
+                                    {{-- <button class="active">يوميا</button>
                                     <button>اسبوعيا</button>
-                                    <button>شهريا</button>
+                                    <button>شهريا</button> --}}
+                                    <span>#</span>
                                 </div>
                             </div>
                             <div class="summerys">
@@ -291,9 +299,10 @@
                                     <h5>تفاصيل المستقلين</h5>
                                 </div>
                                 <div class="summery-menu">
-                                    <button class="active">يوميا</button>
+                                    {{-- <button class="active">يوميا</button>
                                     <button>اسبوعيا</button>
-                                    <button>شهريا</button>
+                                    <button>شهريا</button> --}}
+                                    <span>#</span>
                                 </div>
                             </div>
                             <div class="summerys">
