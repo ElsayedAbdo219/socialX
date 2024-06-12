@@ -181,7 +181,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-details">
                             <div class="icon">
-                                <img src="{{ asset('assets/images/details-icon-2.png') }}" alt="images" />
+                                <img src="{{ asset('assets/images/details-icon-4.png') }}" alt="images" />
                             </div>
                             <div class="details">
                                 <h5>{{ $companies }}</h5>
@@ -192,7 +192,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-details">
                             <div class="icon">
-                                <img src="{{ asset('assets/images/details-icon-3.png') }}" alt="images" />
+                                <img src="{{ asset('assets/images/menu-img-5.png') }}" alt="images" />
                             </div>
                             <div class="details">
                                 <h5>{{ $employees }}</h5>
@@ -203,7 +203,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-details">
                             <div class="icon">
-                                <img src="{{ asset('assets/images/details-icon-4.png') }}" alt="images" />
+                                <img src="{{ asset('assets/images/notification-icon.png') }}" alt="images" />
                             </div>
                             <div class="details">
                                 <h5>{{ $complains }}</h5>
