@@ -203,11 +203,11 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="single-details">
                             <div class="icon">
-                                <img src="{{ asset('assets/images/notification-icon.png') }}" alt="images" />
+                                <img src="{{ asset('assets/images/details-icon-2.png') }}" alt="images" />
                             </div>
                             <div class="details">
-                                <h5>{{ $complains }}</h5>
-                                <span>عدد الشكاوي اليوم</span>
+                                <h5>{{ $Advertises }}</h5>
+                                <span>عدد  الاعلانات اليوم</span>
                             </div>
                         </div>
                     </div>

@@ -11,7 +11,8 @@ use App\Http\Controllers\Dashboard\{
     FrequentlyQuestionedAnswerController,
     ComplainController,
     testController,
-    ProfileController
+    ProfileController,
+    JobController
     
     };
 /*
@@ -73,7 +74,15 @@ Route::middleware(['auth:web'])->group(function(){
 
      # Complain
         Route::resource('complain', ComplainController::class);
+
+        # jobs
+        Route::resource('jobs', JobController::class);
+
+            # jobs
+            Route::resource('advertises', JobController::class);
    
+        
+        
 });
 
 });

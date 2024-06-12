@@ -17,6 +17,11 @@ return new class extends Migration
             $table->text('content')->nullable();
             $table->string('file_name')->nullable();
             $table->string('is_Active')->default(0);
+            $table->string('status')->default('advertisement')->nullable();
+            $table->double('period')->nullable();
+            $table->string('is_published')->nullable();
+
+
             $table->timestamps();
         });
     }

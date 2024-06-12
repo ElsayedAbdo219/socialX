@@ -14,6 +14,7 @@ use App\Enum\RegisterationRequestEnum;
 use App\Http\Requests\Dashboard\LoginRequest;
 use App\Models\Complain;
 use App\Models\UserApplyJob;
+use App\Models\Post;
 
 class AuthController extends Controller
 {
@@ -52,9 +53,10 @@ class AuthController extends Controller
 
 
 
-
-
-        $complains = Complain::where('created_at', '=', Carbon::today())->count();
+        $Advertises = Post::where('status','advertisement')
+        ->where('created_at', '=', Carbon::today())
+        ->where('is_Active','1')
+        ->count();
 
         // start chat js script
         $chartjs = app()->chartjs
@@ -88,7 +90,7 @@ class AuthController extends Controller
 
 
             'jobs' => $jobs ,
-            'complains' => $complains ,
+            'Advertises' => $Advertises ,
             'all_jobs' => $all_jobs ,
 
             
