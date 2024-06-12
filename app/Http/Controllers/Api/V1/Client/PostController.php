@@ -84,11 +84,7 @@ class PostController extends Controller
 
   public function getPosts()
   {
-    $posts = Post::with(['company', 'review'])
-      ->whereHas('company', function ($q) {
-        $q->where('is_Active', 1);
-      })
-      ->paginate(10);
+    $posts = Post::with(['company', 'review'])->where('is_Active', 1)->paginate(10);
 
     return $posts ?? [];
   }
