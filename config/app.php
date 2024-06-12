@@ -159,7 +159,7 @@ return [
 
     'providers' => ServiceProvider::defaultProviders()->merge([
         Yajra\DataTables\DataTablesServiceProvider::class,
-        Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
+        // Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
 
 
        
