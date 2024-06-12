@@ -47,6 +47,8 @@ class PostController extends Controller
 
         ]
       );
+
+      return response()->json(['message' => 'تم الاضافة بنجاح . انتظر 24 ساعة بعد تفعيل الاعلان'], 200);
     } else {
 
       $data = $request->validate([
@@ -57,13 +59,10 @@ class PostController extends Controller
         'content' => $data['content'] ,
         'company_id' => auth('api')->user()->id,
       ]);
+
+      return response()->json(['message' => 'تم الاضافة بنجاح '], 200);
+
     }
-
-
-
-
-
-
 
 
 
@@ -79,12 +78,7 @@ class PostController extends Controller
       new ClientNotification($notificationData, ['database', 'firebase'])
     );
 
-
-
-
-    // $post->review()->firstOrCreate([]);
-
-    return $this->postResource::make($post) ?? [];
+ 
   }
 
 
