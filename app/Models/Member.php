@@ -34,6 +34,14 @@ class Member extends Authenticatable
         return $this->hasMany(Follow::class, 'follower_id');
     }
 
+
+    public function rate(){
+
+        return $this->belongsTo(RateEmployee::class,'employee_id');
+
+
+    }
+
    # Scopes
    public function scopeOfName($query, $value)
    {

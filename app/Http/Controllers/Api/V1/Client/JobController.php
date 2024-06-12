@@ -81,23 +81,13 @@ class JobController extends Controller
 
    public function get(){
 
-    return Job::paginate(20);
-
-
-   }
-
-
-   public function filter(){
-
-    return Job::paginate(20);
-
+    return Job::with(['jobAppliers','jobApplierMember'])->paginate(20);
 
    }
 
 
 
 
-
-
+   
 
 }

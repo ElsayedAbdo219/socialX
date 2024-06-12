@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\V1\Client\{
   FollowController,
   JobController,
   UserApplyJobController,
-
+  EmployeeController
                
 
 
@@ -79,12 +79,13 @@ Route::prefix("auth")->group(function () {
 
 });
 
+
 });
 
 
 
 
-
+Route::middleware('auth:sanctum')->group(function () {
   # Posts
   Route::post('addPost', [PostController::class, 'addPost']);
   Route::get('getPosts', [PostController::class, 'getPosts']);
@@ -169,7 +170,23 @@ Route::prefix("auth")->group(function () {
       });
 
 
+      # user apply jobs
+      Route::name('employees.')->prefix('employees')->group(function () {
+        Route::get('show', [EmployeeController::class, 'index']);
+      });
 
+
+
+
+
+
+
+
+
+    });
+
+
+      
 
 
 

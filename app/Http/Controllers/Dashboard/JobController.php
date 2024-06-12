@@ -14,7 +14,7 @@ class JobController extends Controller
     protected string $viewPath = 'dashboard.jobs.list';
 
     
-    public function getDrawerBalance()
+    public function index ()
     {
         return $this->datatable::create($this->route)
         ->render($this->viewPath);
