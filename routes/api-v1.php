@@ -87,7 +87,7 @@ Route::prefix("auth")->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
   # Posts
-  Route::post('addPost', [PostController::class, 'addPost']);
+  Route::post('addPost/{$type}', [PostController::class, 'addPost']);
   Route::get('getPosts', [PostController::class, 'getPosts']);
   Route::get('getPost/{post}', [PostController::class, 'getPost']);
   Route::post('searchPost', [PostController::class, 'searchPost']);
@@ -161,7 +161,7 @@ Route::middleware('auth:sanctum')->group(function () {
        Route::name('jobs.')->prefix('jobs')->group(function () {
         Route::post('add', [JobController::class, 'add']);
         Route::get('get', [JobController::class, 'get']);
-        Route::post('filter', [JobController::class, 'filter']);
+        // Route::post('filter', [JobController::class, 'filter']);
       });
 
       # user apply jobs
@@ -183,10 +183,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
+
+
+
+
+
+
+
+
+
     });
-
-
-      
-
-
-
