@@ -51,4 +51,11 @@ class Job extends Model
 
 
 
+
+    # SCOPES
+
+    public function scopeofName($query,$value){
+        return $query->where('job_name',"$value");
+    }
+
 }

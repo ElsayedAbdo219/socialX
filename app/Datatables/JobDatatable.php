@@ -24,50 +24,67 @@ class JobDatatable extends BaseDatatable
     protected function getCustomColumns(): array
     {
         return [
-            'name' => function ($model) {
-                $title = $model?->full_name;
+            'member' => function ($model) {
+                $title = $model?->jobAppliers->full_name;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
-            'logo' => function ($model) {
-                $image = asset('/storage/companies/'.$model->logo);
-                return view('components.datatable.includes.columns.image', compact('image'));
+            'job_name' => function ($model) {
+                $title = $model?->job_name;
+                return view('components.datatable.includes.columns.title', compact('title'));
             },
-
-
-            'coverletter' => function ($model) {
-                $image = asset('/storage/companies/'.$model->coverletter);
-                return view('components.datatable.includes.columns.image', compact('image'));
-            },
-
-            'email' => function ($model) {
-                $title = $model?->email;
+            'employee_type' => function ($model) {
+                $title = $model?->employee_type;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
-            'address' => function ($model) {
-                $title = $model?->address;
+            'job_period' => function ($model) {
+                $title = $model?->job_period;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
 
-            'website' => function ($model) {
-                $url = $model?->website;
+            'overview' => function ($model) {
+                $url = $model?->overview;
                 return view('components.datatable.includes.columns.link', compact('url'));
             },
 
-            'followers' => function ($model) {
-                $title = $model?->followed()?->count() . "+" ?? 0;
+            'job_category' => function ($model) {
+                $title = $model?->job_category;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
-            'email' => function ($model) {
-                $title = $model?->email;
+            'job_description' => function ($model) {
+                $title = $model?->job_description;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
+
+              'salary' => function ($model) {
+                $title = $model?->salary;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+
+
+
+              'salary_period' => function ($model) {
+                $title = $model?->salary_period;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+
+
+              'experience' => function ($model) {
+                $title = $model?->experience;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+
+              'is_Active' => function ($model) {
+                $title = $model?->is_Active;
+                return view('components.datatable.includes.columns.active', compact('title'));
+            },
+
             
-            'is_Active' => function ($model) {
-                $active = $model?->is_Active;  
+            'work_level' => function ($model) {
+                $active = $model?->work_level;  
                 return view('components.datatable.includes.columns.active', compact('active'));
 
             },
@@ -84,14 +101,18 @@ class JobDatatable extends BaseDatatable
     protected function getColumns(): array
     {
         return [
-            Column::computed('name')->title(__('dashboard.name'))->className('text-center'),
-            Column::computed('logo')->title(__('dashboard.logo_image'))->className('text-center'),
-            Column::computed('coverletter')->title(__('dashboard.coverletter'))->className('text-center'),
-            Column::computed('email')->title(__('dashboard.email'))->className('text-center'),
-            Column::computed('address')->title(__('dashboard.address'))->className('text-center'),
-            Column::computed('website')->title(__('dashboard.website'))->className('text-center'),
-            Column::computed('followers')->title(__('dashboard.followers'))->className('text-center'),
+            Column::computed('member')->title(__('dashboard.member'))->className('text-center'),
+            Column::computed('job_name')->title(__('dashboard.job_name'))->className('text-center'),
+            Column::computed('employee_type')->title(__('dashboard.logo_image'))->className('text-center'),
+            Column::computed('job_period')->title(__('dashboard.job_period'))->className('text-center'),
+            Column::computed('overview')->title(__('dashboard.overview'))->className('text-center'),
+            Column::computed('job_category')->title(__('dashboard.job_category'))->className('text-center'),
+            Column::computed('job_description')->title(__('dashboard.job_description'))->className('text-center'),
+            Column::computed('salary')->title(__('dashboard.salary'))->className('text-center'),
+            Column::computed('salary_period')->title(__('dashboard.salary_period'))->className('text-center'),
+            Column::computed('experience')->title(__('dashboard.experience'))->className('text-center'),
             Column::computed('is_Active')->title(__('dashboard.status'))->className('text-center'),
+            Column::computed('work_level')->title(__('dashboard.work_level'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 
         ];

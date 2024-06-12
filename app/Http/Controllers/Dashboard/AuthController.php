@@ -59,7 +59,15 @@ class AuthController extends Controller
         ->count();
 
         // start chat js script
-        $chartjs = app()->chartjs
+
+
+
+          $data = [
+            'labels' => ['عدد الوظائف', 'عدد المتقدمين'],
+            'data' => [$all_jobs, $jobs_appliers]
+        ];
+
+     /*    $chartjs = app()->chartjs
         ->name('pieChartTest')
         ->type('pie')
         ->size(['width' => 400, 'height' => 200])
@@ -72,7 +80,7 @@ class AuthController extends Controller
             ]
         ])
         ->options([]);
-
+ */
         // End chat js script
 
 
@@ -96,7 +104,7 @@ class AuthController extends Controller
             
 
 
-            'chartjs' => $chartjs ,
+            'data' => $data ,
 
 
 

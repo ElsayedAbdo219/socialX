@@ -28,8 +28,10 @@ class PostController extends Controller
       $data = $request->validate([
         'content' => 'nullable|string',
         'file_name' => 'required|file',
+        'period' => 'required|file',
+        'is_published' => 'required|file',
       ]);
-
+    
       $post = Post::create([
         'content' => $data['content'],
         'company_id' => auth('api')->user()->id,

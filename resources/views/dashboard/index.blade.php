@@ -236,9 +236,9 @@
                                     <span>#</span>
                                 </div>
                             </div>
-                            {{-- <canvas id="revenueChart" width="400" height="200"></canvas> --}}
+                             <canvas id="barChart" width="400" height="200"></canvas>
 
-                            {!! $chartjs->render() !!}
+                            {{-- {!! $chartjs->render() !!} --}}
 
 
 

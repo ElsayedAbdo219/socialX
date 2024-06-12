@@ -78,8 +78,8 @@ Route::middleware(['auth:web'])->group(function(){
         # jobs
         Route::resource('jobs', JobController::class);
 
-            # jobs
-            Route::resource('advertises', JobController::class);
+         # advertises
+       Route::resource('advertises', JobController::class);
    
         
         
@@ -87,4 +87,4 @@ Route::middleware(['auth:web'])->group(function(){
 
 });
 
-
+// MY TOKEN IS ghp_ JE7DHZxaxZAYOupGNj14oeiqNpJIDK1V0VO6

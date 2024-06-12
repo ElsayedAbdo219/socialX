@@ -6,13 +6,13 @@ use App\Models\FrequentlyQuestionedAnswer;
 use Illuminate\Database\Eloquent\Builder;
 use Yajra\DataTables\Html\Column;
 use App\Models\Post;
-class PostDatatable extends BaseDatatable
+class AdvertiseDatatable extends BaseDatatable
 {
-    protected ?string $actionable = 'index|delete';
+    protected ?string $actionable = 'index|delete|edit';
 
     public function query(): Builder
     {
-        return Post::query()->when(request('search')['value'],function ($q){
+        return Post::query()->where('status','advertisement')->when(request('search')['value'],function ($q){
             $q->where('content','LIKE','%'.request('search')['value'].'%');
         })->latest();
     }
@@ -32,6 +32,14 @@ class PostDatatable extends BaseDatatable
                 $title = $model?->file_name ;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
+             'period' => function ($model) {
+                $title = $model?->period ;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+             'is_published' => function ($model) {
+                $title = $model?->is_published ;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
            'is_Active' => function ($model) {
                 $active = $model?->is_Active;  
             return view('components.datatable.includes.columns.active', compact('active'));
@@ -45,6 +53,8 @@ class PostDatatable extends BaseDatatable
             Column::computed('company_id')->title(__('dashboard.company'))->className('text-center'),
             Column::computed('content')->title(__('dashboard.content'))->className('text-center'),
             Column::computed('file_name')->title(__('dashboard.file_name'))->className('text-center'),
+            Column::computed('period')->title(__('dashboard.period'))->className('text-center'),
+            Column::computed('is_published')->title(__('dashboard.is_published'))->className('text-center'),
             Column::computed('is_Active')->title(__('dashboard.is_Active'))->className('text-center'),
         ];
     }
