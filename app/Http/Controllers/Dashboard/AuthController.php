@@ -47,7 +47,7 @@ class AuthController extends Controller
 
 
 
-        $jobs = Job::where('created_at', '=', Carbon::today())->count();
+        $jobs = Job::whereDate('created_at', Carbon::today())->count();
 
         $all_jobs = Job::count();
         $jobs_appliers = UserApplyJob::count();
