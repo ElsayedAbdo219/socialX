@@ -20,5 +20,19 @@ class Post extends Model
 
 
 
+       # SCOPES
+
+       public function scopeOfName($query,$value){
+
+        return $query->whereHas('company',function($query ) use ($value){
+
+            $query->where('full_name','like',"%$value%");
+
+        });
+    }
+
+
+
+
 
 }

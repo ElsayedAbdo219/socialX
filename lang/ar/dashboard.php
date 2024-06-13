@@ -174,10 +174,22 @@ return [
    "experience"=>"الخبرة",
    "work_level"=>"مستوى العمل",
    "employee_type"=>"نوع المستقل",
+   "period"=>"المدة",
+   "is_published"=>"يتم نشره بعد",
+
+   "advertises"=>"الاعلانات",
+   "add_advertise"=>"اضافة اعلان جديد",
+   "edit_advertise"=>"تعديل بيانات الاعلان",
+   "advertise_list"=>"قائمة الاعلانات",
+  
 
 
 
 
-]
+
+];
+
+
+
 
 ?>

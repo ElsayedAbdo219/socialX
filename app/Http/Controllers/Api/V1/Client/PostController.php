@@ -50,6 +50,23 @@ class PostController extends Controller
         ]
       );
 
+
+        # sending a notification to the user   
+    $notifabels = User::first();
+    $notificationData = [
+      'title' => " اضافة اعلان جديدة ",
+      'body' => "تم اضافة اعلان جديد من شركة " . auth("api")->user()->full_name,
+    ];
+
+    \Illuminate\Support\Facades\Notification::send(
+      $notifabels,
+      new ClientNotification($notificationData, ['database', 'firebase'])
+    );
+
+
+
+
+
       return response()->json(['message' => 'تم الاضافة بنجاح . انتظر 24 ساعة بعد تفعيل الاعلان'], 200);
     } else {
 
@@ -64,11 +81,8 @@ class PostController extends Controller
 
       return response()->json(['message' => 'تم الاضافة بنجاح '], 200);
 
-    }
 
-
-
-    # sending a notification to the user   
+        # sending a notification to the user   
     $notifabels = User::first();
     $notificationData = [
       'title' => " اضافة منشور جديدة ",
@@ -80,6 +94,10 @@ class PostController extends Controller
       new ClientNotification($notificationData, ['database', 'firebase'])
     );
 
+
+    }
+
+  
  
   }
 
