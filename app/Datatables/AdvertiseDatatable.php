@@ -8,7 +8,7 @@ use Yajra\DataTables\Html\Column;
 use App\Models\Post;
 class AdvertiseDatatable extends BaseDatatable
 {
-    protected ?string $actionable = 'index|delete|edit';
+    protected ?string $actionable = 'index';
 
     public function query(): Builder
     {

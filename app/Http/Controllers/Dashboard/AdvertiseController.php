@@ -90,9 +90,10 @@ class AdvertiseController extends Controller
 
 
 
-    public function edit($post)
+    public function edit($advertise)
     {
-        $post = Post::findOrFail($post);
+    //    return $advertise;
+        $post = Post::findOrFail($advertise);
         return view(
             "dashboard.advertises.edit",
             [

@@ -20,7 +20,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-vertical" method="POST" action="{{route('admin.advertises.update',$post->id')}}" enctype="multipart/form-data">
+                            <form class="form form-vertical" method="POST" action="{{route('admin.advertises.update',$post->id)}}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="form-group col-4">
@@ -75,6 +75,12 @@
                                         </label>
                                     </div>
 
+
+
+                                   
+                                    
+                                   
+                                 
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary mr-1 mb-1">{{__('dashboard.add')}}</button>
                                 </div>
