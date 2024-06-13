@@ -103,7 +103,7 @@ class JobDatatable extends BaseDatatable
         return [
              Column::computed('member')->title(__('dashboard.company'))->className('text-center'),
             Column::computed('job_name')->title(__('dashboard.job_name'))->className('text-center'),
-            Column::computed('employee_type')->title(__('dashboard.logo_image'))->className('text-center'),
+            Column::computed('employee_type')->title(__('dashboard.employee_type'))->className('text-center'),
             Column::computed('job_period')->title(__('dashboard.job_period'))->className('text-center'),
             Column::computed('overview')->title(__('dashboard.overview'))->className('text-center'),
             Column::computed('job_category')->title(__('dashboard.job_category'))->className('text-center'),

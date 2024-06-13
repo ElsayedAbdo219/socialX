@@ -173,6 +173,7 @@ return [
    "salary_period"=>"مدة الراتب",
    "experience"=>"الخبرة",
    "work_level"=>"مستوى العمل",
+   "employee_type"=>"نوع المستقل",
 
 
 
