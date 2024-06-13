@@ -85,8 +85,9 @@ Route::middleware(['auth:web'])->group(function(){
 
          # advertises
        Route::resource('advertises', AdvertiseController::class);
-   
-        
+
+
+       
         
 });
 

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Dashboard;
 
-use App\Datatables\PostDatatable;
-use App\Http\Requests\Dashboard\FrequentlyQuestionedAnswerRequest;
-use App\Models\CommonQuestion;
+use App\Models\Post;
+use App\Models\Member;
 use Illuminate\Http\Request;
+use App\Models\CommonQuestion;
+use App\Datatables\PostDatatable;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponseDashboard;
-use App\Models\Post;
+use App\Http\Requests\Dashboard\FrequentlyQuestionedAnswerRequest;
+
 class PostController extends Controller
 {
     use ApiResponseDashboard;
@@ -26,6 +28,27 @@ class PostController extends Controller
     }
 
 
+
+
+    // edit posts advertises 
+    public function edit(Post $Post)
+    {
+
+        $companies = Member::where('type','company')->get();
+
+
+        return view('dashboard.advertises.edit',
+            [
+
+                'post' => $Post,
+                'companies' => $companies
+                
+            ]
+
+        );
+    }
+
+    
     public function destroy(Post $post)
     {
         $post->delete();
@@ -34,4 +57,5 @@ class PostController extends Controller
         }
         return redirect()->route('admin.posts.index')->with('success',__('dashboard.item deleted successfully'));
     }
+
 }
