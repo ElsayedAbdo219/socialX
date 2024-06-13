@@ -1,14 +1,20 @@
 <?php
 
 namespace App\Http\Controllers\Dashboard;
-use Illuminate\Http\Request;
 use App\Models\Job;
+use Illuminate\Http\Request;
 
 use App\Datatables\JobDatatable;
 use App\Http\Controllers\Controller;
+use App\Traits\ApiResponseDashboard;
 
 class JobController extends Controller
 {
+
+  use ApiResponseDashboard;
+
+
+  
     protected string $datatable = JobDatatable::class;
     protected string $route = 'admin.jobs';
     protected string $viewPath = 'dashboard.jobs.list';
@@ -36,17 +42,24 @@ class JobController extends Controller
     public function update(Request $request, $job)
     {
       $job=Job::findOrFail($job);
-      $request->validate([
-          'job_balance'=>"required|string",
-          'job_ton'=>"required|string",
+      $data = $request->validate([
+          'is_Active'=>"required|string",
       ]);
      
-      $job->update([
-          'job_balance'=>$request->job_balance,
-          'job_ton'=>$request->job_ton,
-      ]);
+      $job->update($data);
       return redirect()->route('admin.jobs.index')->with(['success',__('dashboard.item updated successfully')]);
       
+    }
+
+
+
+    public function destroy(Job $job)
+    {
+        $job->delete();
+        if (request()->expectsJson()){
+            return self::apiCode(200)->apiResponse();
+        }
+        return redirect()->route('admin.companies.index')->with('success',__('dashboard.item deleted successfully'));
     }
 
 }

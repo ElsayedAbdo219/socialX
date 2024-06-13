@@ -18,14 +18,14 @@ class JobDatatable extends BaseDatatable
     {
         return Job::query()->when(request('search')['value'],function ($q){
             $q->ofName(request('search')['value']);
-        })->latest();
+        })->with('member')->latest();
     }
 
     protected function getCustomColumns(): array
     {
         return [
             'member' => function ($model) {
-                $title = $model?->jobAppliers->full_name;
+                $title = $model?->member?->full_name;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
@@ -45,8 +45,8 @@ class JobDatatable extends BaseDatatable
 
 
             'overview' => function ($model) {
-                $url = $model?->overview;
-                return view('components.datatable.includes.columns.link', compact('url'));
+                $title = $model?->overview;
+                return view('components.datatable.includes.columns.title', compact('title'));
             },
 
             'job_category' => function ($model) {
@@ -55,8 +55,8 @@ class JobDatatable extends BaseDatatable
             },
 
             'job_description' => function ($model) {
-                $title = $model?->job_description;
-                return view('components.datatable.includes.columns.title', compact('title'));
+                $description = $model?->job_description;
+                return view('components.datatable.includes.columns.array', compact('description'));
             },
 
               'salary' => function ($model) {
@@ -78,14 +78,14 @@ class JobDatatable extends BaseDatatable
             },
 
               'is_Active' => function ($model) {
-                $title = $model?->is_Active;
-                return view('components.datatable.includes.columns.active', compact('title'));
+                $active = $model?->is_Active;
+                return view('components.datatable.includes.columns.active', compact('active'));
             },
 
             
             'work_level' => function ($model) {
-                $active = $model?->work_level;  
-                return view('components.datatable.includes.columns.active', compact('active'));
+                $title = $model?->work_level;  
+                return view('components.datatable.includes.columns.title', compact('title'));
 
             },
             'created_at' => function ($model) {
@@ -101,13 +101,13 @@ class JobDatatable extends BaseDatatable
     protected function getColumns(): array
     {
         return [
-            Column::computed('member')->title(__('dashboard.member'))->className('text-center'),
+             Column::computed('member')->title(__('dashboard.company'))->className('text-center'),
             Column::computed('job_name')->title(__('dashboard.job_name'))->className('text-center'),
             Column::computed('employee_type')->title(__('dashboard.logo_image'))->className('text-center'),
             Column::computed('job_period')->title(__('dashboard.job_period'))->className('text-center'),
             Column::computed('overview')->title(__('dashboard.overview'))->className('text-center'),
             Column::computed('job_category')->title(__('dashboard.job_category'))->className('text-center'),
-            Column::computed('job_description')->title(__('dashboard.job_description'))->className('text-center'),
+             Column::computed('job_description')->title(__('dashboard.job_description'))->className('text-center'),
             Column::computed('salary')->title(__('dashboard.salary'))->className('text-center'),
             Column::computed('salary_period')->title(__('dashboard.salary_period'))->className('text-center'),
             Column::computed('experience')->title(__('dashboard.experience'))->className('text-center'),

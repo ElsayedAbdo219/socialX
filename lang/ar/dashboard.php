@@ -163,6 +163,16 @@ return [
    "add_job"=>"اضافة وظيفة جديدة",
    "edit_job"=>"تعديل بيانات الوظيفة",
    "job"=>"الوظيفة",
+   'job_name'=>'اسم الوظيفة',
+   "employee_types"=>"انواع المستقلين",
+   "job_period"=>"مدة الوظيفة",
+   "overview"=>"نظرة عامة",
+   "job_category"=>"فئة الوظيفة",
+   "job_description"=>"وصف الوظيفة",
+   "salary"=>"الراتب",
+   "salary_period"=>"مدة الراتب",
+   "experience"=>"الخبرة",
+   "work_level"=>"مستوى العمل",
 
 
 

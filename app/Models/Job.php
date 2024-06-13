@@ -38,6 +38,13 @@ class Job extends Model
 
     # relationships
 
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'member_id');
+    }
+
+
+
     public function jobAppliers()
     {
         return $this->hasMany(UserApplyJob::class, 'jobs_applies_id');
@@ -54,8 +61,13 @@ class Job extends Model
 
     # SCOPES
 
-    public function scopeofName($query,$value){
-        return $query->where('job_name',"$value");
+    public function scopeOfName($query,$value){
+
+        return $query->whereHas('member',function($query ) use ($value){
+
+            $query->where('full_name','like',"%$value%");
+
+        });
     }
 
 }
