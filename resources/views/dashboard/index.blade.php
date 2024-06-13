@@ -236,9 +236,10 @@
                                     <span>#</span>
                                 </div>
                             </div>
-                             <canvas id="barChart" width="400" height="200"></canvas>
 
-                            {{-- {!! $chartjs->render() !!} --}}
+                          {{--    <canvas id="barChart" width="400" height="200"></canvas> --}}
+
+                            {!! $chart->render() !!}
 
 
 

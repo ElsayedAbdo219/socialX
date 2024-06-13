@@ -10,6 +10,7 @@
         "barryvdh/laravel-snappy": "^1.0",
         "carlos-meneses/laravel-mpdf": "*",
         "codezero/laravel-unique-translation": "^4.1",
+        "consoletvs/charts": "6.*",
         "fx3costa/laravelchartjs": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
@@ -86,6 +87,3 @@
     "minimum-stability": "stable",
     "prefer-stable": true
 }
-
-
-

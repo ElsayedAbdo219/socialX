@@ -4,17 +4,18 @@ namespace App\Http\Controllers\Dashboard;
 
 use Carbon\Carbon;
 use App\Models\Job;
+use App\Models\Post;
 use App\Models\User;
 use App\Models\Member;
+use App\Models\Complain;
 use App\Enum\UserTypeEnum;
+use App\Charts\SampleChart;
+use App\Models\UserApplyJob;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Enum\RegisterationRequestEnum;
 use App\Http\Requests\Dashboard\LoginRequest;
-use App\Models\Complain;
-use App\Models\UserApplyJob;
-use App\Models\Post;
 
 class AuthController extends Controller
 {
@@ -59,15 +60,17 @@ class AuthController extends Controller
         ->count();
 
         // start chat js script
+        // $chart = new SampleChart;
+        // $chart->labels(['One', 'Two', 'Three', 'Four']);
+        // $chart->dataset('My dataset', 'line', [1, 2, 3, 4]);
 
 
+        //   $data = [
+        //     'labels' => ['عدد الوظائف', 'عدد المتقدمين'],
+        //     'data' => [$all_jobs, $jobs_appliers]
+        // ];
 
-          $data = [
-            'labels' => ['عدد الوظائف', 'عدد المتقدمين'],
-            'data' => [$all_jobs, $jobs_appliers]
-        ];
-
-     /*    $chartjs = app()->chartjs
+         $chart = app()->chartjs
         ->name('pieChartTest')
         ->type('pie')
         ->size(['width' => 400, 'height' => 200])
@@ -80,7 +83,7 @@ class AuthController extends Controller
             ]
         ])
         ->options([]);
- */
+ 
         // End chat js script
 
 
@@ -104,7 +107,12 @@ class AuthController extends Controller
             
 
 
-            'data' => $data ,
+           'chart' => $chart ,
+
+            //'data' => $data ,
+
+
+            
 
 
 
