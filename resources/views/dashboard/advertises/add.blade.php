@@ -33,7 +33,7 @@
                                     </div>
 
                                     <div class="form-group col-sm-3">
-                                        <label for="name_en">{{ __('dashboard.good_type') }}</label>
+                                        <label for="name_en">{{ __('dashboard.company') }}</label>
                                         <select class="form-control" name="company_id" id="company_id">
                                             
                                             @foreach ($companies as $company)
