@@ -12,6 +12,7 @@ class NotificationController extends Controller
 {
 
     public function showNotifications(){
+     //   return auth('api')->user();
      $notifications=Notification::where('notifiable_id',auth('api')->user()->id)->latest('created_at')->get();
      $collection = NotificationResource::collection($notifications)->customPaginate(20);
      return $collection;

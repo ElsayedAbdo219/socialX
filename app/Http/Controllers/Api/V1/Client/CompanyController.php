@@ -8,12 +8,24 @@ use App\Enum\OperationTypeEnum;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\{DepositOperation, Trader};
+use App\Models\{DepositOperation, Trader,Member};
 use App\Enum\{DepositTypeEnum, MoneyTypeEnum, UserTypeEnum};
 use App\Http\Resources\Api\V1\Client\{TraderResource, DepositOperationResource};
 
 class CompanyController extends Controller
 {
+
+
+
+     public function index(){
+        return response()->json(Member::where('is_Active', '1')
+        ->where('type', UserTypeEnum::COMPANY)->paginate(20));
+    }
+
+
+
+
+
     use ApiResponseTrait;
 
     public function store(Request $request)

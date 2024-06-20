@@ -104,13 +104,10 @@ class AuthCompanyController extends Controller
     {
 
         $data = $request->validate([
-            'logo' => 'image|mimes:jpeg,png,jpg',
-            'coverletter' => 'image|mimes:jpeg,png,jpg',
-            'slogo' => 'string|max:255',
-            'website' => 'url|string',
-            'address' => 'string|max:255',
-            'bio' => 'string',
-
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg',
+            'coverletter' => 'nullable|image|mimes:jpeg,png,jpg',
+            'website' => 'nullable|url|string',
+            'bio' => 'nullable|string',
         ]);
 
         auth('api')->user()->update($data);

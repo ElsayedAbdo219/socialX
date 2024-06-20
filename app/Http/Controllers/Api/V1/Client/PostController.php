@@ -18,37 +18,37 @@ class PostController extends Controller
 
   public function addPost(Request $request, $type)
   {
-
+   // dd($request);
 
     abort_if(auth("api")->user()->type === UserTypeEnum::EMPLOYEE, 403, __('ليس لديك صلاحيات لتنفيذ هذه العملية'));
 
+    
 
     if ($type == "advertise") {
 
       $data = $request->validate([
         'content' => 'nullable|string',
         'file_name' => 'required|file',
-        'period' => 'required|file',
-        'is_published' => 'required|file',
+        'period' => 'required|string',
+        'is_published' => 'required|string',
       ]);
-    
-      $post = Post::create([
-        'content' => $data['content'],
-        'company_id' => auth('api')->user()->id,
-      ]);
+
+     
 
       $fileName = uniqid() . '_' . $data['file_name']->getClientOriginalName();
 
       Storage::disk("local")->put($fileName, file_get_contents($data['file_name']));
+    
+      /* return $fileName; */
+      $post = Post::create([
+        'content' => $data['content'],
+        'file_name' =>  $fileName,
+        'period' => $data['period'],
+        'is_published' => $data['is_published'],
+        'company_id' => auth('api')->user()->id,
+      ]);
 
-
-      $post->update(
-        [
-
-          'file_name' => $fileName,
-
-        ]
-      );
+   
 
 
         # sending a notification to the user   
