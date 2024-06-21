@@ -37,14 +37,13 @@ class EmployeeController extends Controller
 
     public function store (Request $request){
              $data=$request->validate([
-            'name' => 'required|string|max:255',
+            'full_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required',
             'job' => 'required',
             'personal_photo' => 'image|mimes:jpeg,png,jpg',
             'personal_info' => 'string',
             'website' => 'url|string',
-            'address' => 'string',
             'experience' => 'string',
             'coverletter' => 'image|mimes:jpeg,png,jpg',
 
@@ -96,39 +95,10 @@ class EmployeeController extends Controller
         $Employee=Member::findOrFail($id);
         
         $data=$request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'password' => 'required',
-            'personal_photo' => 'image|mimes:jpeg,png,jpg',
-            'personal_info' => 'string',
-            'website' => 'url|string',
-            'address' => 'string',
-            'experience' => 'string',
-            'coverletter' => 'image|mimes:jpeg,png,jpg',
             "is_Active" => "required|numeric|in:0,1",
         ]);
 
         $Employee->update($data);
-
-
-        if ($request->file('personal_photo')) {
-            $file = $request->file('personal_photo');
-            $personal_photo = uniqid() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('employees', $personal_photo);
-             $Employee->update([
-              'personal_photo'=> $personal_photo,
-          ]);
-        }
-
-        if ($request->file('coverletter')) {
-            $file = $request->file('coverletter');
-            $coverletter = uniqid() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('employees', $coverletter);
-             $Employee->update([
-              'coverletter'=> $coverletter,
-          ]);
-        }
-       
         
         return redirect()->route('admin.employees.index')->with(['success',__('dashboard.item updated successfully')]);
 

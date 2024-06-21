@@ -137,7 +137,7 @@ class PostController extends Controller
 
         ->orwhereHas('company', function ($q) use ($request) {
 
-          $q->where('name', 'like', '%' . $request->keyword . '%');
+          $q->where('full_name', 'like', '%' . $request->keyword . '%');
         });
     })->get() ?? [];
   }

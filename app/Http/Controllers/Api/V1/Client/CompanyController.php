@@ -15,6 +15,7 @@ use App\Http\Resources\Api\V1\Client\{TraderResource, DepositOperationResource};
 class CompanyController extends Controller
 {
 
+    use ApiResponseTrait;
 
 
      public function index(){
@@ -22,11 +23,6 @@ class CompanyController extends Controller
         ->where('type', UserTypeEnum::COMPANY)->paginate(20));
     }
 
-
-
-
-
-    use ApiResponseTrait;
 
     public function store(Request $request)
     {

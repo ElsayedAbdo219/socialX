@@ -36,7 +36,7 @@ class CompanyController extends Controller
 
     public function store (Request $request){
              $data=$request->validate([
-            'name' => 'required|string|max:255',
+            'full_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:members',
             'password' => 'required',
             'logo' => 'image|mimes:jpeg,png,jpg',
@@ -100,43 +100,10 @@ class CompanyController extends Controller
         $Company=Member::findOrFail($id);
         
         $data=$request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'password' => 'required',
-            'logo' => 'image|mimes:jpeg,png,jpg',
-            'slogo' => 'string',
-            'website' => 'url|string',
-            'address' => 'string',
-            'bio' => 'string',
-            'coverletter' => 'image|mimes:jpeg,png,jpg',
             "is_Active" => "required|numeric|in:0,1",
         ]);
 
         $Company->update($data);
-
-
-        if ($request->file('logo')) {
-            $file = $request->file('logo');
-            $logo = uniqid() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('companies', $logo);
-             $Company->update([
-              'logo'=> $logo,
-          ]);
-        }
-
-
-        if ($request->file('coverletter')) {
-            $file = $request->file('coverletter');
-            $coverletter = uniqid() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('companies', $coverletter);
-             $Company->update([
-              'coverletter'=> $coverletter,
-          ]);
-        }
-
-
-       
-        
         return redirect()->route('admin.companies.index')->with(['success',__('dashboard.item updated successfully')]);
 
     }

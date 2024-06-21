@@ -32,7 +32,7 @@
                                                 :title="__('dashboard.companies_add')"
                                                 route="admin.companies"
                                                 :datatable="$dataTable"
-                                                :create="true"
+                                                :create="false"
                                             />
                                         </div>
                                     </div>

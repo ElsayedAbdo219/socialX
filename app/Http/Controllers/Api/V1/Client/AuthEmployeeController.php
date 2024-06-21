@@ -102,6 +102,7 @@ class AuthEmployeeController extends Controller
             'personal_info' => 'nullable|string',
             'website' => 'nullable|string|url',
             'experience' => 'nullable|string',
+            'job' => 'nullable|string',
             'coverletter' => 'nullable|image|mimes:jpeg,png,jpg',
         ]);
 
@@ -150,7 +151,7 @@ class AuthEmployeeController extends Controller
 
 
 
-    public function ChangePassword(Request $request)
+    public function ChangePassword(Request $request) : mixed
     {
         $data = $request->validate([
             'password' => 'required|string|confirmed|min:6',
