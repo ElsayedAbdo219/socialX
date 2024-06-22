@@ -131,14 +131,10 @@ class PostController extends Controller
   public function searchPost(Request $request)
   {
 
-    return Post::query()->when($request->filled('keyword'), function ($query) use ($request) {
+    return Member::query()->when($request->filled('keyword'), function ($query) use ($request) {
 
-      $query->where('content', 'like', '%' . $request->keyword . '%')
-
-        ->orwhereHas('company', function ($q) use ($request) {
-
-          $q->where('full_name', 'like', '%' . $request->keyword . '%');
-        });
+      $query->where('full_name', 'like', '%' . $request->keyword . '%');
+      
     })->get() ?? [];
   }
 
