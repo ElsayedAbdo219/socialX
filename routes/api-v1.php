@@ -90,8 +90,12 @@ Route::prefix("auth")->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
   # Posts
   Route::post('addPost/{type}', [PostController::class, 'addPost']);
+  
   Route::get('getPosts', [PostController::class, 'getPosts']);
+  Route::get('getAdvertises', [PostController::class, 'getAdvertises']);
+
   Route::get('getPost/{post}', [PostController::class, 'getPost']);
+  
   Route::post('searchPost', [PostController::class, 'searchPost']);
   Route::get('getComments/{post}', [PostController::class, 'getComments']);
 
