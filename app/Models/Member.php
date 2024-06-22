@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Laravel\Sanctum\HasApiTokens;
 
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +21,29 @@ class Member extends Authenticatable
 
 
     protected $guarded=[];
+
+
+    protected function Logo(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value) => !is_null($value) ? url($value) : null,
+        );
+    }
+
+    protected function Coverletter(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value) => !is_null($value) ? url($value) : null,
+        );
+    }
+
+     protected function PersonalPhoto(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value) => !is_null($value) ? url($value) : null,
+        );
+    }
+
 
 
    # Relations

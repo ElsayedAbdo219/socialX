@@ -55,8 +55,7 @@ class AuthController extends Controller
 
 
         $Advertises = Post::where('status','advertisement')
-        ->where('created_at', '=', Carbon::today())
-        ->where('is_Active','1')
+        ->whereDate('created_at', Carbon::today())
         ->count();
 
         // start chat js script

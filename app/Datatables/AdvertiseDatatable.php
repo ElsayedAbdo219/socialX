@@ -6,6 +6,8 @@ use App\Models\FrequentlyQuestionedAnswer;
 use Illuminate\Database\Eloquent\Builder;
 use Yajra\DataTables\Html\Column;
 use App\Models\Post;
+use Carbon\Carbon;
+
 class AdvertiseDatatable extends BaseDatatable
 {
     protected ?string $actionable = 'index|edit';
@@ -40,6 +42,12 @@ class AdvertiseDatatable extends BaseDatatable
                 $title = $model?->is_published ;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
+
+             'created_at' => function ($model) {
+                $title = Carbon::parse($model->created_at)->format('Y-m-d');
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+
            'is_Active' => function ($model) {
                 $active = $model?->is_Active;  
             return view('components.datatable.includes.columns.active', compact('active'));
@@ -55,6 +63,7 @@ class AdvertiseDatatable extends BaseDatatable
             Column::computed('file_name')->title(__('dashboard.file_name'))->className('text-center'),
             Column::computed('period')->title(__('dashboard.period'))->className('text-center'),
             Column::computed('is_published')->title(__('dashboard.is_published'))->className('text-center'),
+            Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
             Column::computed('is_Active')->title(__('dashboard.is_Active'))->className('text-center'),
         ];
     }
