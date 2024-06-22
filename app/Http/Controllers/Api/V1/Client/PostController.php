@@ -72,12 +72,24 @@ class PostController extends Controller
 
       $data = $request->validate([
         'content' => 'required|string',
+        'file_name' => 'nullable|file',
       ]);
 
       $post = Post::create([
         'content' => $data['content'] ,
         'company_id' => auth('api')->user()->id,
       ]);
+      if($request->has('file_name')){
+        $fileName = uniqid() . '_' . $data['file_name']->getClientOriginalName();
+
+     Storage::disk("local")->put($fileName, file_get_contents($data['file_name']));
+
+     $post->updated(
+      [
+        "file_name"=> $fileName
+      ]
+      );
+      }
 
       return response()->json(['message' => 'تم الاضافة بنجاح '], 200);
 
@@ -104,7 +116,19 @@ class PostController extends Controller
 
   public function getPosts()
   {
-    $posts = Post::with(['company', 'review'])->where('is_Active', 1)->paginate(10);
+    $posts = Post::with(['company', 'review'])
+    ->where('status','!=','advertisement')
+    ->where('is_Active', 1)->paginate(10);
+
+    return $posts ?? [];
+  }
+
+
+  public function getAdvertises()
+  {
+    $posts = Post::with(['company', 'review'])
+    ->where('status','=','advertisement')
+    ->where('is_Active', 1)->paginate(10);
 
     return $posts ?? [];
   }
@@ -135,7 +159,7 @@ class PostController extends Controller
 
       $query->where('full_name', 'like', '%' . $request->keyword . '%');
       
-    })->get() ?? [];
+    })->where('type','company')->get() ?? [];
   }
 
 
