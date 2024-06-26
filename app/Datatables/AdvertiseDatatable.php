@@ -31,7 +31,7 @@ class AdvertiseDatatable extends BaseDatatable
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
             'file_name' => function ($model) {
-                $image = asset('/storage/companies/'.$model->file_name);
+                $image = asset('/storage/posts/'.$model->file_name);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
              'period' => function ($model) {
