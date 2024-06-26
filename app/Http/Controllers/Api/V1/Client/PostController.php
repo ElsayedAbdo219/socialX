@@ -18,50 +18,50 @@ class PostController extends Controller
 
   public function addPost(Request $request, $type)
   {
-   // dd($request);
+    // dd($request);
 
     abort_if(auth("api")->user()->type === UserTypeEnum::EMPLOYEE, 403, __('ليس لديك صلاحيات لتنفيذ هذه العملية'));
 
-    
+
 
     if ($type == "advertise") {
 
       $data = $request->validate([
         'content' => 'nullable|string',
-        'file_name' => 'required|file',
+        'file_name' => 'nullable|file|mimes:jpeg,png,mp4,avi,mov',
         'period' => 'required|string',
         'is_published' => 'required|string',
       ]);
 
-     
+
 
       $fileName = uniqid() . '_' . $data['file_name']->getClientOriginalName();
 
-      Storage::disk("local")->put($fileName, file_get_contents($data['file_name']));
-    
+      Storage::put('public/posts/' . $fileName, file_get_contents($request->file("file_name")));
       /* return $fileName; */
       $post = Post::create([
         'content' => $data['content'],
         'file_name' =>  $fileName,
         'period' => $data['period'],
         'is_published' => $data['is_published'],
+        'status' => 'advertisement',
         'company_id' => auth('api')->user()->id,
       ]);
 
-   
 
 
-        # sending a notification to the user   
-    $notifabels = User::first();
-    $notificationData = [
-      'title' => " اضافة اعلان جديدة ",
-      'body' => "تم اضافة اعلان جديد من شركة " . auth("api")->user()->full_name,
-    ];
 
-    \Illuminate\Support\Facades\Notification::send(
-      $notifabels,
-      new ClientNotification($notificationData, ['database', 'firebase'])
-    );
+      # sending a notification to the user   
+      $notifabels = User::first();
+      $notificationData = [
+        'title' => " اضافة اعلان جديدة ",
+        'body' => "تم اضافة اعلان جديد من شركة " . auth("api")->user()->full_name,
+      ];
+
+      \Illuminate\Support\Facades\Notification::send(
+        $notifabels,
+        new ClientNotification($notificationData, ['database', 'firebase'])
+      );
 
 
 
@@ -69,56 +69,54 @@ class PostController extends Controller
 
       return response()->json(['message' => 'تم الاضافة بنجاح . انتظر 24 ساعة بعد تفعيل الاعلان'], 200);
     } else {
-
       $data = $request->validate([
         'content' => 'required|string',
-        'file_name' => 'nullable|file',
+        'file_name' => 'nullable|file|mimes:jpeg,png,mp4,avi,mov',
       ]);
 
       $post = Post::create([
-        'content' => $data['content'] ,
+        'content' => $data['content'],
         'company_id' => auth('api')->user()->id,
+        'status' => null, // Assuming 'status' can be null in your database schema
       ]);
-      if($request->has('file_name')){
-        $fileName = uniqid() . '_' . $data['file_name']->getClientOriginalName();
 
-     Storage::disk("local")->put($fileName, file_get_contents($data['file_name']));
+      if ($request->hasFile('file_name')) {
 
-     $post->updated(
-      [
-        "file_name"=> $fileName
-      ]
-      );
+        $file = $request->file('file_name');
+        $fileName = uniqid() . '_' . $file->getClientOriginalName();
+
+        Storage::put('public/posts/' . $fileName, file_get_contents($request->file("file_name")));
+
+        $post->update([
+          'file_name' => $fileName, // Corrected 'updated' to 'update'
+        ]);
       }
 
-      return response()->json(['message' => 'تم الاضافة بنجاح '], 200);
+      // The following code for sending notification should be outside of the else block
+      // because it should run regardless of whether the post was created or not.
+      $notifiable = User::first(); // Example: You should fetch the correct user(s) to notify
+      $notificationData = [
+        'title' => 'اضافة منشور جديدة',
+        'body' => 'تم اضافة منشور جديد من شركة ' . auth('api')->user()->full_name,
+      ];
+
+      \Illuminate\Support\Facades\Notification::send(
+        $notifiable,
+        new ClientNotification($notificationData, ['database', 'firebase'])
+      );
 
 
-        # sending a notification to the user   
-    $notifabels = User::first();
-    $notificationData = [
-      'title' => " اضافة منشور جديدة ",
-      'body' => "تم اضافة منشور جديد من شركة " . auth("api")->user()->full_name,
-    ];
-
-    \Illuminate\Support\Facades\Notification::send(
-      $notifabels,
-      new ClientNotification($notificationData, ['database', 'firebase'])
-    );
-
-
+      // Return success response
+      return response()->json(['message' => 'تم الاضافة بنجاح'], 200);
     }
-
-  
- 
   }
 
 
   public function getPosts()
   {
     $posts = Post::with(['company', 'review'])
-    ->where('status','!=','advertisement')
-    ->where('is_Active', 1)->paginate(10);
+      ->where('status', null)
+      ->where('is_Active', 1)->orderByDesc('id')->paginate(10);
 
     return $posts ?? [];
   }
@@ -127,8 +125,8 @@ class PostController extends Controller
   public function getAdvertises()
   {
     $posts = Post::with(['company', 'review'])
-    ->where('status','=','advertisement')
-    ->where('is_Active', 1)->paginate(10);
+      ->where('status', '=', 'advertisement')
+      ->where('is_Active', 1)->orderByDesc('id')->paginate(10);
 
     return $posts ?? [];
   }
@@ -158,8 +156,7 @@ class PostController extends Controller
     return Member::query()->when($request->filled('keyword'), function ($query) use ($request) {
 
       $query->where('full_name', 'like', '%' . $request->keyword . '%');
-      
-    })->where('type','company')->get() ?? [];
+    })->where('type', 'company')->get() ?? [];
   }
 
 

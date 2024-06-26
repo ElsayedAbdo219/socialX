@@ -58,7 +58,7 @@ class EmployeeController extends Controller
         if ($request->file('personal_photo')) {
             $file = $request->file('personal_photo');
             $personal_photo = uniqid() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('employees', $personal_photo);
+            $filePath = $file->storeAs('members', $personal_photo);
              $Employee->update([
               'personal_photo'=> $personal_photo,
           ]);
@@ -67,7 +67,7 @@ class EmployeeController extends Controller
         if ($request->file('coverletter')) {
             $file = $request->file('coverletter');
             $coverletter = uniqid() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('employees', $coverletter);
+            $filePath = $file->storeAs('members', $coverletter);
              $Employee->update([
               'coverletter'=> $coverletter,
           ]);

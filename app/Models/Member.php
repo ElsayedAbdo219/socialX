@@ -25,22 +25,22 @@ class Member extends Authenticatable
 
     protected function Logo(): Attribute
     {
-        return Attribute::make(
-            get: fn (mixed $value) => !is_null($value) ? url($value) : null,
-        );
+        return Attribute::make(function ($value) {
+            return !is_null($value) ? url('storage/members/'.$value) : null;
+        });
     }
 
     protected function Coverletter(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value) => !is_null($value) ? url($value) : null,
+            get: fn (mixed $value) => !is_null($value) ? url('storage/members/'.$value) : null,
         );
     }
 
      protected function PersonalPhoto(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value) => !is_null($value) ? url($value) : null,
+            get: fn (mixed $value) => !is_null($value) ? url('storage/members/'.$value) : null,
         );
     }
 
