@@ -32,10 +32,7 @@ class PostDatatable extends BaseDatatable
                 $image = asset('/storage/posts/'.$model->file_name);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
-           'is_Active' => function ($model) {
-                $active = $model?->is_Active;  
-            return view('components.datatable.includes.columns.active', compact('active'));
-           },
+           
         ];
     }
 
@@ -45,7 +42,6 @@ class PostDatatable extends BaseDatatable
             Column::computed('company_id')->title(__('dashboard.company'))->className('text-center'),
             Column::computed('content')->title(__('dashboard.content'))->className('text-center'),
             Column::computed('file_name')->title(__('dashboard.file_name'))->className('text-center'),
-            Column::computed('is_Active')->title(__('dashboard.is_Active'))->className('text-center'),
         ];
     }
 }

@@ -77,7 +77,7 @@ class PostController extends Controller
       $post = Post::create([
         'content' => $data['content'],
         'company_id' => auth('api')->user()->id,
-        'status' => null, // Assuming 'status' can be null in your database schema
+        'status' => 'normal', // Assuming 'status' can be null in your database schema
       ]);
 
       if ($request->hasFile('file_name')) {
@@ -114,13 +114,14 @@ class PostController extends Controller
 
   public function getPosts()
 {
-  $array = ['advertisement'];
-  $posts = Post::with(['company', 'review'])
-              ->whereNotIn('status', $array)
-              ->orderByDesc('id')
-              ->paginate(10);
   
-  return $posts ?? [];
+  $posts = Post::with(['company', 'review'])
+            ->orderByDesc('id')
+            ->where('status', '=', 'normal')
+            ->paginate(10);
+
+return $posts ?? [];
+
   
 }
 
