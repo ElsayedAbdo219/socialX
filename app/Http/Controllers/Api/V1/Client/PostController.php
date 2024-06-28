@@ -118,7 +118,7 @@ class PostController extends Controller
   {
     $posts = Post::with(['company', 'review'])
     ->where('status','!=','advertisement')
-    ->where('is_Active', 1)->paginate(10);
+   ->paginate(10);
 
     return $posts ?? [];
   }
