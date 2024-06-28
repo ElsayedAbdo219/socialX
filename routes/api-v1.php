@@ -105,6 +105,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/add', [ExperienceController::class, 'add']);
   });
 
+  
+
+  Route::get('showMember/{member}', [PostController::class, 'showMember']);
+  
   # education
   Route::name('education.')->prefix('education')->group(function () {
 

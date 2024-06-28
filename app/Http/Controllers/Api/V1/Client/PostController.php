@@ -18,11 +18,6 @@ class PostController extends Controller
 
   public function addPost(Request $request, $type)
   {
-    // dd($request);
-
-    abort_if(auth("api")->user()->type === UserTypeEnum::EMPLOYEE, 403, __('ليس لديك صلاحيات لتنفيذ هذه العملية'));
-
-
 
     if ($type == "advertise") {
 
@@ -180,4 +175,18 @@ return $posts ?? [];
 
     return  $postWithRelations;
   }
+
+
+
+  public function showMember($member)
+  {
+      $posts = Post::whereHas('company', function ($query) use ($member) {
+          $query->where('company_id', $member);
+      })->orderByDesc('id')->paginate(10);
+  
+      return $posts;
+  }
+  
+
+// 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
 }
