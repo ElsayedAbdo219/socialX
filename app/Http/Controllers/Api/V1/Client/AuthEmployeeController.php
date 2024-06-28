@@ -52,7 +52,7 @@ class AuthEmployeeController extends Controller
         );
 
 
-
+        $employee->access_token = $employee->createToken('sanctumToken', $abilities ?? [])->plainTextToken;
 
 
         return response()->json(['message' => 'تم تسجيل الحساب بنجاح', 'employee' => $employee]);

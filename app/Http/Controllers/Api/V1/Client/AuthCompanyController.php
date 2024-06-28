@@ -53,7 +53,8 @@ class AuthCompanyController extends Controller
             new ClientNotification($notificationData, ['database', 'firebase'])
         );
 
-
+        $company->access_token = $company->createToken('sanctumToken', $abilities ?? [])->plainTextToken;
+        /* $this->addTokenExpiration($company->access_token); */
 
         return response()->json(['message' => 'تم تسجيل حسابك بنجاح', 'company' => $company]);
     }
