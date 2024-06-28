@@ -29,8 +29,8 @@ class PostDatatable extends BaseDatatable
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
             'file_name' => function ($model) {
-                $title = $model?->file_name ;
-                return view('components.datatable.includes.columns.title', compact('title'));
+                $image = asset('/storage/posts/'.$model->file_name);
+                return view('components.datatable.includes.columns.image', compact('image'));
             },
            'is_Active' => function ($model) {
                 $active = $model?->is_Active;  

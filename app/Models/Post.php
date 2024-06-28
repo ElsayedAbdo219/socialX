@@ -15,7 +15,7 @@ class Post extends Model
       protected function FileName(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value) => !is_null($value) ? url($value) : null,
+            get: fn (mixed $value) => !is_null($value) ? url('storage/posts/'.$value) : null ,
         );
     }
 

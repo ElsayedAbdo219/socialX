@@ -58,7 +58,7 @@ class CompanyController extends Controller
 
             $logo = uniqid() . '_' . $file->getClientOriginalName();
 
-            $filePath = $file->storeAs('companies', $logo);
+            $filePath = $file->storeAs('members', $logo);
 
              $Company->update(
           [
@@ -73,7 +73,7 @@ class CompanyController extends Controller
         if ($request->file('coverletter')) {
             $file = $request->file('coverletter');
             $coverletter = uniqid() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('companies', $coverletter);
+            $filePath = $file->storeAs('members', $coverletter);
              $Company->update([
               'coverletter'=> $coverletter,
           ]);

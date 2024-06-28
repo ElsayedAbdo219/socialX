@@ -119,7 +119,7 @@ class AuthCompanyController extends Controller
 
             //  Storage::disk("local")->put($logo, file_get_contents($request->file('logo')));
 
-            Storage::put('public/companies/' . $logo, file_get_contents($request->file("logo")));
+            Storage::put('public/members/' . $logo, file_get_contents($request->file("logo")));
 
             auth('api')->user()->update(
                 [
@@ -135,7 +135,7 @@ class AuthCompanyController extends Controller
             $coverletter = uniqid() . '_' . $request->file('coverletter')->getClientOriginalName();
 
 
-            Storage::put('public/companies/' . $coverletter, file_get_contents($request->file("coverletter")));
+            Storage::put('public/members/' . $coverletter, file_get_contents($request->file("coverletter")));
 
             //  Storage::disk("local")->put($coverletter, file_get_contents($request->file('coverletter')));
 
