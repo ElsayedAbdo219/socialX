@@ -113,13 +113,17 @@ class PostController extends Controller
 
 
   public function getPosts()
-  {
-    $posts = Post::with(['company', 'review'])
-    ->where('status','!=','advertisement')->orderByDesc('id')
-   ->paginate(10);
+{
+  $array = ['advertisement'];
+  $posts = Post::with(['company', 'review'])
+              ->whereNotIn('status', $array)
+              ->orderByDesc('id')
+              ->paginate(10);
+  
+  return $posts ?? [];
+  
+}
 
-    return $posts ?? [];
-  }
 
 
   public function getAdvertises()
