@@ -21,6 +21,8 @@ class LikeController extends Controller
         'likes' => 1,
     ]);
     
+
+    return  $Post ;
      /*    return response()->json(['message' => 'تم إضافة اعجابك بنجاح']); */
     }
 }
