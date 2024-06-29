@@ -10,10 +10,10 @@ use App\Http\Controllers\Controller;
 class ReviewController extends Controller
 {
 
-    public function add(Request $request, Post $Post)
+    public function addComment(Request $request, Post $Post)
     {
        
-        $Post = Post::whereId($Post->id)->first();
+      /*   $Post = Post::whereId($Post->id)->first();
     
         $Post->load('review');
         
@@ -22,15 +22,19 @@ class ReviewController extends Controller
                 return response()->json(['message' => 'لقد قمت بالأعجاب بهذا المنشور من قبل']);
             }
         }
-       
+        */
+
         $Post->review()->create([
-            'likes' => 1,
             'comments' => $request->comments,
             'member_id' => auth('api')->user()->id
         ]);
     
-        return response()->json(['message' => 'تم إضافة تقييمك بنجاح']);
+        return response()->json(['message' => 'تم إضافة تعليك بنجاح']);
     }
+
+
+
+
     
     
     

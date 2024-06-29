@@ -18,7 +18,8 @@ use App\Http\Controllers\Api\V1\Client\{
   UserApplyJobController,
   EmployeeController,
   NotificationController,
-  CompanyController
+  CompanyController,
+  LikeController
                
 
 
@@ -137,9 +138,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
   # reviews
   Route::name('reviews.')->prefix('reviews')->group(function () {
-    Route::post('add/{post}', [ReviewController::class, 'add']);
+    Route::post('addComment/{post}', [ReviewController::class, 'addComment']);
+    Route::post('addLike/{post}', [LikeController::class, 'addLike']);
   });
-
+  
 
     # skills
     Route::name('skills.')->prefix('skills')->group(function () {

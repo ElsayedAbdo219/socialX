@@ -110,7 +110,7 @@ class PostController extends Controller
   public function getPosts()
 {
   
-  $posts = Post::with(['company', 'review'])
+  $posts = Post::with(['company', 'review','likesSum'])
             ->orderByDesc('id')
             ->where('status', '=', 'normal')
             ->paginate(10);
@@ -124,7 +124,7 @@ return $posts ?? [];
 
   public function getAdvertises()
   {
-    $posts = Post::with(['company', 'review'])
+    $posts = Post::with(['company', 'review','likesSum'])
       ->where('status', '=', 'advertisement')
       ->where('is_Active', 1)->orderByDesc('id')->paginate(10);
 

@@ -29,6 +29,18 @@ class Post extends Model
         return $this->hasMany(Review::class,'post_id');
     }
 
+    public function likes(){
+        return $this->hasMany(Like::class,'post_id');
+    }
+
+
+    public function likesSum()
+    {
+        return $this->hasMany(Like::class, 'post_id')
+                    ->selectRaw('post_id, sum(likes) as total_likes')
+                    ->groupBy('post_id');
+    }
+   
 
 
        # SCOPES
