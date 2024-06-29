@@ -160,20 +160,20 @@ return $posts ?? [];
   }
 
 
-  public function getComments(Post $post)
+  public function getComments($post)
   {
 
-    $post = Post::whereId($post->id)->first();
+    $post = Post::whereId($post)->first();
 
 
-    $postWithRelations = $post->with(['review'])->first();
+    /* $postWithRelations = $post->with(['review'])->first(); */
 
     if (!$post) {
 
       abort(404);
     }
 
-    return  $postWithRelations;
+    return  $post->load('review');
   }
 
 
