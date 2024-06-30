@@ -11,5 +11,10 @@ class Experience extends Model
 
     protected $guarded=[];
 
+    public function member(){
+        return $this->hasOne(Member::class,'employee_id');
+    }
+
+
     
 }

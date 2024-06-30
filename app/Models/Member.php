@@ -65,6 +65,13 @@ class Member extends Authenticatable
 
     }
 
+
+
+    public function experience(){
+        return $this->hasOne(Experience::class,'employee_id');
+    }
+
+
    # Scopes
    public function scopeOfName($query, $value)
    {
