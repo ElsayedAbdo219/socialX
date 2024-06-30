@@ -65,6 +65,12 @@ class Member extends Authenticatable
 
     }
 
+    public function posts(){
+
+        return $this->hasMany(Post::class,'company_id');   
+
+
+    }
 
 
     public function experience(){

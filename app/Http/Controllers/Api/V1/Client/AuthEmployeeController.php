@@ -82,7 +82,7 @@ class AuthEmployeeController extends Controller
 
         $token = $employee->createToken('api_token')->plainTextToken;
 
-        return response()->json(['token' => $token, 'employee' => $employee->load('experience')]);
+        return response()->json(['token' => $token, 'employee' => $employee->load('experience','posts')]);
     }
 
 
