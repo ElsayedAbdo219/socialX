@@ -136,15 +136,15 @@ return $posts ?? [];
 
 
 
-  public function getPost(Post $post)
+  public function getPost($post)
   {
 
-    $post = Post::whereId($post?->id)->first();
-    $postWithRelations = $post->with(['Company', 'Review'])->first();
+    $post = Post::whereId($post)->first();
+    // return $post;
     if (!$post) {
       abort(404);
     }
-    return $postWithRelations;
+    return $post->load(['company', 'review', 'likes', 'likesSum']);
     //   return $this->postResource::make($postWithRelations) ?? [];
 
   }
