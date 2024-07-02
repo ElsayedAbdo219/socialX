@@ -173,7 +173,7 @@ return $posts ?? [];
       abort(404);
     }
 
-    return  $post->load(['company', 'review','likes','likesSum']);
+    return  $post->load(['company', 'review','review.member' ,'likes','likesSum']);
   }
 
 
