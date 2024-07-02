@@ -82,7 +82,7 @@ class AuthEmployeeController extends Controller
 
         $token = $employee->createToken('api_token')->plainTextToken;
 
-        return response()->json(['token' => $token, 'employee' => $employee->load('experience','posts')]);
+        return response()->json(['token' => $token, 'employee' => $employee->load('experience','posts','rateEmployee','rateCompany','experience')]);
     }
 
 
@@ -101,8 +101,8 @@ class AuthEmployeeController extends Controller
             'personal_photo' => 'nullable|image|mimes:jpeg,png,jpg',
             'personal_info' => 'nullable|string',
             'website' => 'nullable|string|url',
-            'experience' => 'nullable|string',
             'job' => 'nullable|string',
+            'bio' => 'nullable|string',
             'coverletter' => 'nullable|image|mimes:jpeg,png,jpg',
         ]);
 
