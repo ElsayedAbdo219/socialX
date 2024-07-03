@@ -80,7 +80,11 @@ class PostController extends Controller
         $file = $request->file('file_name');
         $fileName = uniqid() . '_' . $file->getClientOriginalName();
 
-        Storage::put('public/posts/' . $fileName, file_get_contents($request->file("file_name")));
+        // Ensure the storage directory exists before putting the file
+        if (!Storage::exists('public/' . $file)) {
+          Storage::put('public/' . $file, storage_path('app/public/' . $file));
+        }
+
 
         $post->update([
           'file_name' => $fileName, // Corrected 'updated' to 'update'
@@ -108,23 +112,21 @@ class PostController extends Controller
 
 
   public function getPosts()
-{
-  
-  $posts = Post::with(['company', 'review','likes','likesSum'])
-            ->orderByDesc('id')
-            ->where('status', '=', 'normal')
-            ->paginate(10);
+  {
 
-return $posts ?? [];
+    $posts = Post::with(['company', 'review', 'likes', 'likesSum'])
+      ->orderByDesc('id')
+      ->where('status', '=', 'normal')
+      ->paginate(10);
 
-  
-}
+    return $posts ?? [];
+  }
 
 
 
   public function getAdvertises()
   {
-    $posts = Post::with(['company', 'review','likes','likesSum'])
+    $posts = Post::with(['company', 'review', 'likes', 'likesSum'])
       ->where('status', '=', 'advertisement')
       ->where('is_Active', 1)->orderByDesc('id')->paginate(10);
 
@@ -173,20 +175,20 @@ return $posts ?? [];
       abort(404);
     }
 
-    return  $post->load(['company', 'review','review.member' ,'likes','likesSum']);
+    return  $post->load(['company', 'review', 'review.member', 'likes', 'likesSum']);
   }
 
 
 
   public function showMember($member)
   {
-      $posts = Post::whereHas('company', function ($query) use ($member) {
-          $query->where('company_id', $member);
-      })->orderByDesc('id')->paginate(10);
-  
-      return $posts;
-  }
-  
+    $posts = Post::whereHas('company', function ($query) use ($member) {
+      $query->where('company_id', $member);
+    })->orderByDesc('id')->paginate(10);
 
-//  
+    return $posts;
+  }
+
+
+  //  
 }
