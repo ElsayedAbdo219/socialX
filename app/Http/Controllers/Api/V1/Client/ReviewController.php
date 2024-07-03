@@ -6,6 +6,7 @@ use App\Models\Review;
 use App\Moedls\Position;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Experience;
 
 class ReviewController extends Controller
 {
@@ -23,6 +24,14 @@ class ReviewController extends Controller
             }
         }
         */
+
+        $user_id =  auth('api')->user()->id;
+
+        $experienceClient = Experience::pluck('company_id')->toArray();
+
+        if (!in_array($user_id, $experienceClient)) {
+            return response()->json(['message' => 'لا يمكنك تعليق هذا المنشور']);
+        }        
 
         $Post->review()->create([
             'comments' => $request->comments,
