@@ -190,6 +190,7 @@ Route::middleware('auth:sanctum')->group(function () {
       # user apply jobs
       Route::name('employees.')->prefix('employees')->group(function () {
         Route::get('index', [CompanyController::class, 'indexofEmployee']);
+      
       });
 
 
@@ -203,7 +204,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-
+     Route::get('getEmployeeData/{EMPLOYEE}', [EmployeeController::class, 'getEmployeeData']);
 
 
 
