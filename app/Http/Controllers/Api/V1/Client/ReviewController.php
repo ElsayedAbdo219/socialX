@@ -38,7 +38,13 @@ class ReviewController extends Controller
             'member_id' => auth('api')->user()->id
         ]);
     
-        return response()->json(['message' => 'تم إضافة تعليك بنجاح']);
+        return response()->json(
+            [
+                'message' => 'تم إضافة تعليك بنجاح',
+                "data"   =>  $Post->load(['company', 'review', 'review.member'])
+           ]
+
+);
     }
 
 

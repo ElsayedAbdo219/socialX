@@ -19,29 +19,33 @@ class PostController extends Controller
   public function addPost(Request $request, $type)
   {
 
-    if ($type == "advertise") {
-
-      $data = $request->validate([
+   if ($type == "advertise") {
+    $data = $request->validate([
         'content' => 'nullable|string',
-        'file_name' => 'nullable|file|mimes:jpeg,png,mp4,avi,mov',
+        'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov',
         'period' => 'required|string',
         'is_published' => 'required|string',
-      ]);
+    ]);
 
+    $file = $request->file('file_name'); // Get the uploaded file object
+    $fileName = uniqid() . '_' . $file->getClientOriginalName(); // Generate a unique filename
 
+    // Store the file in storage
+   $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
+    
+  
 
-      $fileName = uniqid() . '_' . $data['file_name']->getClientOriginalName();
-
-      Storage::put('public/posts/' . $fileName, file_get_contents($request->file("file_name")));
-      /* return $fileName; */
-      $post = Post::create([
+    $post = Post::create([
         'content' => $data['content'],
-        'file_name' =>  $fileName,
+        'file_name' => $fileName,
         'period' => $data['period'],
         'is_published' => $data['is_published'],
         'status' => 'advertisement',
         'company_id' => auth('api')->user()->id,
-      ]);
+    ]);
+
+    // Any additional operations after creating the post
+
 
 
 
@@ -77,11 +81,11 @@ class PostController extends Controller
 
       if ($request->hasFile('file_name')) {
 
-        $file = $request->file('file_name');
-        $fileName = uniqid() . '_' . $file->getClientOriginalName();
+       $file = $request->file('file_name'); // Get the uploaded file object
+    $fileName = uniqid() . '_' . $file->getClientOriginalName(); // Generate a unique filename
 
-
-        Storage::disk("local")->put($fileName, file_get_contents($request->file('file_name')));
+    // Store the file in storage
+   $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
 
 
         $post->update([
@@ -112,7 +116,7 @@ class PostController extends Controller
   public function getPosts()
   {
 
-    $posts = Post::with(['company', 'review', 'likes', 'likesSum'])
+    $posts = Post::with(['company', 'review', 'likes', 'likesSum','dislikes','dislikesSum'])
       ->orderByDesc('id')
       ->where('status', '=', 'normal')
       ->paginate(10);
@@ -124,7 +128,7 @@ class PostController extends Controller
 
   public function getAdvertises()
   {
-    $posts = Post::with(['company', 'review', 'likes', 'likesSum'])
+    $posts = Post::with(['company', 'review', 'likes', 'likesSum','dislikes','dislikesSum'])
       ->where('status', '=', 'advertisement')
       ->where('is_Active', 1)->orderByDesc('id')->paginate(10);
 
@@ -144,7 +148,7 @@ class PostController extends Controller
     if (!$post) {
       abort(404);
     }
-    return $post->load(['company', 'review', 'likes', 'likesSum']);
+    return $post->load(['company', 'review', 'likes', 'likesSum','dislikes','dislikesSum']);
     //   return $this->postResource::make($postWithRelations) ?? [];
 
   }
@@ -173,7 +177,7 @@ class PostController extends Controller
       abort(404);
     }
 
-    return  $post->load(['company', 'review', 'review.member', 'likes', 'likesSum']);
+    return  $post->load(['company', 'review', 'review.member', 'likes', 'likesSum','dislikes','dislikesSum']);
   }
 
 

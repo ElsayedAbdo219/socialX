@@ -19,7 +19,8 @@ use App\Http\Controllers\Api\V1\Client\{
   EmployeeController,
   NotificationController,
   CompanyController,
-  LikeController
+  LikeController,
+  NewsController
                
 
 
@@ -195,7 +196,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-      
+        # follow
+        Route::name('news.')->prefix('news')->group(function () {
+          Route::get('index', [NewsController::class, 'index']);
+        });
 
 
      # Notifications
