@@ -23,6 +23,13 @@ class CompanyController extends Controller
         ->where('type', UserTypeEnum::COMPANY)->paginate(20));
     }
 
+    public function indexofEmployee(){
+        return response()->json(Member::where('is_Active', '1')
+        ->where('type', UserTypeEnum::EMPLOYEE)->paginate(20));
+    }
+
+
+
 
     public function store(Request $request)
     {

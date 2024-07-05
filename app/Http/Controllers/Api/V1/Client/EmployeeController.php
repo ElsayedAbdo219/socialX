@@ -9,8 +9,20 @@ use App\Enum\UserTypeEnum;
 class EmployeeController extends Controller
 {
     public function index(){
-        return response()->json(Member::with(['rate'])->where('is_Active', '1')->where('type', UserTypeEnum::EMPLOYEE)->paginate(20));
+        return response()->json(Member::with(['rate','member'])->where('is_Active', '1')->where('type', UserTypeEnum::EMPLOYEE)->paginate(20));
     }
+
+
+    public function getEmployeeData($employeeId){
+      
+            
+           $member =  Member::where('id', $employeeId)->first();
+
+           return $member->load('experience');
+    }
+
+
+
        
 
 }

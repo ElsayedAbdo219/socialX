@@ -10,7 +10,9 @@ class Review extends Model
     use HasFactory;
     protected $guarded=[];
 
-    public function Post(){
-        return $this->belongsTo(Company::class,'company_id');
+    public function member(){
+        return $this->belongsTo(Member::class,'member_id');
     }
+
+    
 }

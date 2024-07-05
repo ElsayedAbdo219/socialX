@@ -80,7 +80,9 @@ class PostController extends Controller
         $file = $request->file('file_name');
         $fileName = uniqid() . '_' . $file->getClientOriginalName();
 
+
         Storage::disk("local")->put($fileName, file_get_contents($request->file('file_name')));
+
 
         $post->update([
           'file_name' => $fileName, // Corrected 'updated' to 'update'
@@ -108,23 +110,21 @@ class PostController extends Controller
 
 
   public function getPosts()
-{
-  
-  $posts = Post::with(['company', 'review','likes','likesSum'])
-            ->orderByDesc('id')
-            ->where('status', '=', 'normal')
-            ->paginate(10);
+  {
 
-return $posts ?? [];
+    $posts = Post::with(['company', 'review', 'likes', 'likesSum'])
+      ->orderByDesc('id')
+      ->where('status', '=', 'normal')
+      ->paginate(10);
 
-  
-}
+    return $posts ?? [];
+  }
 
 
 
   public function getAdvertises()
   {
-    $posts = Post::with(['company', 'review','likes','likesSum'])
+    $posts = Post::with(['company', 'review', 'likes', 'likesSum'])
       ->where('status', '=', 'advertisement')
       ->where('is_Active', 1)->orderByDesc('id')->paginate(10);
 
@@ -136,15 +136,15 @@ return $posts ?? [];
 
 
 
-  public function getPost(Post $post)
+  public function getPost($post)
   {
 
-    $post = Post::whereId($post?->id)->first();
-    $postWithRelations = $post->with(['Company', 'Review'])->first();
+    $post = Post::whereId($post)->first();
+    // return $post;
     if (!$post) {
       abort(404);
     }
-    return $postWithRelations;
+    return $post->load(['company', 'review', 'likes', 'likesSum']);
     //   return $this->postResource::make($postWithRelations) ?? [];
 
   }
@@ -173,20 +173,20 @@ return $posts ?? [];
       abort(404);
     }
 
-    return  $post->load('review');
+    return  $post->load(['company', 'review', 'review.member', 'likes', 'likesSum']);
   }
 
 
 
   public function showMember($member)
   {
-      $posts = Post::whereHas('company', function ($query) use ($member) {
-          $query->where('company_id', $member);
-      })->orderByDesc('id')->paginate(10);
-  
-      return $posts;
-  }
-  
+    $posts = Post::whereHas('company', function ($query) use ($member) {
+      $query->where('company_id', $member);
+    })->orderByDesc('id')->paginate(10);
 
-//  
+    return $posts;
+  }
+
+
+  //  
 }
