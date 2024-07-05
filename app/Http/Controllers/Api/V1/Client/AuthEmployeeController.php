@@ -110,6 +110,7 @@ class AuthEmployeeController extends Controller
         auth('api')->user()->update($data);
 
         if ($request->file('personal_photo')) {
+            
             $personal_photo = uniqid() . '_' . $request->file('personal_photo')->getClientOriginalName();
 
             //  Storage::disk("local")->put($logo, file_get_contents($request->file('logo')));

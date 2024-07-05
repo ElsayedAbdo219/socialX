@@ -80,7 +80,7 @@ class PostController extends Controller
         $file = $request->file('file_name');
         $fileName = uniqid() . '_' . $file->getClientOriginalName();
 
-        Storage::put('public/posts/' . $fileName, file_get_contents($request->file("file_name")));
+        Storage::disk("local")->put($fileName, file_get_contents($request->file('file_name')));
 
         $post->update([
           'file_name' => $fileName, // Corrected 'updated' to 'update'
