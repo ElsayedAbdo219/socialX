@@ -20,7 +20,8 @@ use App\Http\Controllers\Api\V1\Client\{
   NotificationController,
   CompanyController,
   LikeController,
-  NewsController
+  NewsController,
+  DislikeController
                
 
 
@@ -141,6 +142,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::name('reviews.')->prefix('reviews')->group(function () {
     Route::post('addComment/{post}', [ReviewController::class, 'addComment']);
     Route::post('addLike/{post}', [LikeController::class, 'addLike']);
+    Route::post('addDisLike/{post}', [DislikeController::class, 'addDisLike']);
   });
   
 
