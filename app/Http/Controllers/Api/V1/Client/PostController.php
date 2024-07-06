@@ -82,10 +82,10 @@ class PostController extends Controller
       if ($request->hasFile('file_name')) {
 
        $file = $request->file('file_name'); // Get the uploaded file object
-    $fileName = uniqid() . '_' . $file->getClientOriginalName(); // Generate a unique filename
+      $fileName = uniqid() . '_' . $file->getClientOriginalName(); // Generate a unique filename
 
     // Store the file in storage
-   $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
+    $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
 
 
         $post->update([
@@ -116,7 +116,7 @@ class PostController extends Controller
   public function getPosts()
   {
 
-    $posts = Post::with(['company', 'review', 'likes', 'likesSum','dislikes','dislikesSum'])
+    $posts = Post::with(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum'])
       ->orderByDesc('id')
       ->where('status', '=', 'normal')
       ->paginate(10);
@@ -128,7 +128,7 @@ class PostController extends Controller
 
   public function getAdvertises()
   {
-    $posts = Post::with(['company', 'review', 'likes', 'likesSum','dislikes','dislikesSum'])
+    $posts = Post::with(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum'])
       ->where('status', '=', 'advertisement')
       ->where('is_Active', 1)->orderByDesc('id')->paginate(10);
 
@@ -148,7 +148,7 @@ class PostController extends Controller
     if (!$post) {
       abort(404);
     }
-    return $post->load(['company', 'review', 'likes', 'likesSum','dislikes','dislikesSum']);
+    return $post->load(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum']);
     //   return $this->postResource::make($postWithRelations) ?? [];
 
   }
@@ -177,7 +177,7 @@ class PostController extends Controller
       abort(404);
     }
 
-    return  $post->load(['company', 'review', 'review.member', 'likes', 'likesSum','dislikes','dislikesSum']);
+    return  $post->load(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum']);
   }
 
 

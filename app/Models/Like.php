@@ -10,6 +10,8 @@ class Like extends Model
     use HasFactory;
 
      protected $guarded=[];
-  
+     public function member(){
+        return $this->belongsTo(Member::class,'member_id');
+    }
 
 }

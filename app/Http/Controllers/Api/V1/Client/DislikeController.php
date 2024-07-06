@@ -8,11 +8,18 @@ class DislikeController extends Controller
 {
     public function addDisLike( Post $Post)
     {
+
+        $hasDisliked = auth('api')->user()->posts()->whereHas('dislikes', function($query) use ($Post) {
+            $query->where('post_id', $Post->id);
+        })->exists();
+        
+        if ($postDisLiked ){
+            $postDisLiked->destroy();    
+          }
+
        
         $Post->dislikes()->updateOrCreate(
             [
-            
-           
             'member_id' => auth('api')->user()->id
         ],
     [
