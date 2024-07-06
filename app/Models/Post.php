@@ -50,7 +50,7 @@ class Post extends Model
     public function dislikesSum()
     {
         return $this->hasMany(Dislike::class, 'post_id')
-                    ->selectRaw('post_id, sum(likes) as total_likes')
+                    ->selectRaw('post_id, sum(dislikes) as total_likes')
                     ->groupBy('post_id');
     }
    
