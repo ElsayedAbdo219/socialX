@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\Post;
 class DislikeController extends Controller
 {
     public function addDisLike( Post $Post)
