@@ -20,7 +20,7 @@ class DislikeController extends Controller
     ]);
     
 
-    return  $Post ;
-     /*    return response()->json(['message' => 'تم إضافة اعجابك بنجاح']); */
+    // return  $Post ;
+        return response()->json(['message' => 'تم إضافة اعجابك بنجاح']); 
     }
 }
