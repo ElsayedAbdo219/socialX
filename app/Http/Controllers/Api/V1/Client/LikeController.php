@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Client;
 
 use App\Models\Post;
+use App\Models\Dislike;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -11,13 +12,12 @@ class LikeController extends Controller
     public function addLike(Post $Post)
     {
        
-        $postliked = auth('api')->user()->posts()->whereHas('likes', function($query) use ($Post) {
-            $query->where('post_id', $Post->id);
-        })->exists();
-        
-        if ($postliked ){
-            $postliked->destroy();    
-          }
+        $postDisLiked = Dislike::where('post_id',$Post->id)->where('member_id',auth('api')->user()->id)->first(); 
+
+if ($postDisLiked) {
+    $postDisLiked->delete(); // Delete the model instance if it exists
+}
+
         $Post->likes()->updateOrCreate(
             [
                 'member_id' => auth('api')->user()->id,

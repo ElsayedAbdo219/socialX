@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Api\V1\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Like;
 class DislikeController extends Controller
 {
     public function addDisLike( Post $Post)
     {
 
-        $postDisLiked = auth('api')->user()->posts()->whereHas('dislikes', function($query) use ($Post) {
-            $query->where('post_id', $Post->id);
-        })->exists();
+        $postLiked = Like::where('post_id',$Post->id)->where('member_id',auth('api')->user()->id)->first(); 
+       // return   $postLiked ;
         
-        if ($postDisLiked ){
-            $postDisLiked->destroy();    
+        if ($postLiked ){
+            $postLiked->delete() ;
           }
 
        
@@ -28,6 +28,6 @@ class DislikeController extends Controller
     
 
     // return  $Post ;
-        return response()->json(['message' => 'تم إضافة اعجابك بنجاح',"data"   =>  $Post->load(['dislikes', 'dislikes.member'])]); 
+        return response()->json(['message' => 'تم إضافة عدم اعجابك بنجاح',"data"   =>  $Post->load(['dislikes', 'dislikes.member'])]); 
     }
 }
