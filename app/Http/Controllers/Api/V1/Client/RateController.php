@@ -89,7 +89,7 @@ class RateController extends Controller
           return $member->load('rateCompany','rateCompanyTotal');
         }
 
-        return $member->load('rateCompany');
+        return $member->load('rateCompany','rateEmployeeTotal');
        
 
 
