@@ -109,6 +109,23 @@ class Member extends Authenticatable
         return $this->hasMany(Experience::class,'employee_id');
     }
 
+    public function skills(){
+        return $this->hasMany(Skill::class,'employee_id');
+    }
+
+
+    public function position(){
+        return $this->hasMany(Skill::class,'employee_id');
+    }
+
+
+    public function education(){
+        return $this->hasMany(Skill::class,'employee_id');
+    }
+
+
+    
+    
 
    # Scopes
    public function scopeOfName($query, $value)

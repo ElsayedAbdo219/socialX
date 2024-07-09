@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Client;
 
 use App\Models\Skill;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -21,5 +22,17 @@ class SkillController extends Controller
     
             return response()->json(['message' =>'تم اضافة مهارة جديدة بنجاح','skill'=>$skill]);
       
+    }
+
+
+    public function get($member)
+
+    {
+
+        $member =  Member::where('id', $member)->first();
+        
+        return $member->load('skills');
+
+
     }
 }

@@ -106,6 +106,8 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::name('experience.')->prefix('experience')->group(function () {
 
     Route::post('/add', [ExperienceController::class, 'add']);
+
+    Route::get('get/{EMPLOYEE}', [ExperienceController::class, 'get']);
   });
 
   
@@ -114,21 +116,23 @@ Route::middleware('auth:sanctum')->group(function () {
   
   # education
   Route::name('education.')->prefix('education')->group(function () {
-
+    Route::get('get/{EMPLOYEE}', [EducationController::class, 'get']);
     Route::post('/add', [EducationController::class, 'add']);
   });
 
-  # position
-  Route::name('position.')->prefix('position')->group(function () {
+  // # position
+  // Route::name('position.')->prefix('position')->group(function () {
 
-    Route::post('/add', [EducationController::class, 'add']);
-  });
+  //   Route::post('/add', [EducationController::class, 'add']);
+  // });
 
   # education
   # position
   Route::name('position.')->prefix('position')->group(function () {
 
     Route::post('/add', [PositionController::class, 'add']);
+    Route::get('get/{EMPLOYEE}', [PositionController::class, 'get']);
+
   });
 
 
@@ -153,6 +157,7 @@ Route::middleware('auth:sanctum')->group(function () {
     # skills
     Route::name('skills.')->prefix('skills')->group(function () {
       Route::post('add', [SkillController::class, 'add']);
+      Route::get('get/{EMPLOYEE}', [SkillController::class, 'get']);
     });
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Client;
 
+use App\Models\Member;
 use App\Models\Education;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -34,4 +35,18 @@ class EducationController extends Controller
 
       
     }
+
+
+    public function get($member)
+
+    {
+
+        $member =  Member::where('id', $member)->first();
+        
+        return $member?->load('education');
+
+
+    }
+
+    
 }
