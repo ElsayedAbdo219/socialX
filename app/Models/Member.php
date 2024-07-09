@@ -52,7 +52,7 @@ class Member extends Authenticatable
         return $this->hasMany(Follow::class, 'followed_id');
     }
 
-    public function followedTotal()
+    public function followersTotal()
     {
         return $this->hasMany(Follow::class, 'followed_id')->selectraw('followed_id, count(*) as followersTotal')->groupBy('followed_id');
     }
@@ -72,6 +72,13 @@ class Member extends Authenticatable
 
     }
 
+    public function rateEmployeeTotal(){
+        return $this->hasMany(RateCompany::class,'employee_id')->selectraw('employee_id, round(sum(rate) / count(*),1) as rateCompanyTotal')->groupBy('employee_id');
+
+    }
+
+
+
     public function rateCompany(){
 
         return $this->hasMany(RateCompany::class,'company_id');
@@ -79,6 +86,11 @@ class Member extends Authenticatable
 
     }
 
+
+    public function rateCompanyTotal(){
+        return $this->hasMany(RateCompany::class,'company_id')->selectraw('company_id, round(sum(rate) / count(*),1) as rateCompanyTotal')->groupBy('company_id');
+
+    }
 
 
     

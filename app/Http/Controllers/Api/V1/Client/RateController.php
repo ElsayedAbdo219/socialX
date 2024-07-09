@@ -7,6 +7,7 @@ use App\Models\{
   Rate,
   RateCompany,
   RateEmployee,
+  Member
 };
 use App\Http\Controllers\Controller;
 
@@ -79,7 +80,21 @@ class RateController extends Controller
       
     }
 
+    public function getRate($member) : mixed
 
+    {
+
+        $member =  Member::where('id', $member)->first();
+        if ($member->type === UserTypeEnum::COMPANY) {
+          return $member->load('rateCompany','rateCompanyTotal');
+        }
+
+        return $member->load('rateCompany');
+       
+
+
+    }
+    
    
 
 }

@@ -136,6 +136,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::name('rate.')->prefix('rate')->group(function () {
     Route::post('/add', [RateController::class, 'add']);
     Route::get('/viewMyRate', [RateController::class, 'viewMyRate']);
+    Route::get('getRate/{EMPLOYEE}', [RateController::class, 'getRate']);
   });
 
   # reviews
@@ -143,6 +144,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('addComment/{post}', [ReviewController::class, 'addComment']);
     Route::post('addLike/{post}', [LikeController::class, 'addLike']);
     Route::post('addDisLike/{post}', [DislikeController::class, 'addDisLike']);
+   
+
+
   });
   
 
@@ -211,7 +215,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
      Route::get('getEmployeeData/{EMPLOYEE}', [EmployeeController::class, 'getEmployeeData']);
-
 
 
 
