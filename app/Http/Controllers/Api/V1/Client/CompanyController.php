@@ -18,9 +18,10 @@ class CompanyController extends Controller
     use ApiResponseTrait;
 
 
+
      public function index(){
         return response()->json(Member::where('is_Active', '1')
-        ->where('type', UserTypeEnum::COMPANY)->paginate(20));
+        ->where('type', UserTypeEnum::COMPANY)->with('posts','followersTotal')->paginate(20));
     }
 
     public function indexofEmployee(){

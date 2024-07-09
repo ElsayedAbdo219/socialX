@@ -94,3 +94,4 @@ Route::middleware(['auth:web'])->group(function(){
 });
 
 // MY TOKEN IS ghp_ JE7DHZxaxZAYOupGNj14oeiqNpJIDK1V0VO6
+// composer create-project --prefer-dist laravel/laravel chatapp

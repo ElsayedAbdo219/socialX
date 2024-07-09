@@ -161,6 +161,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
          Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
        // ConsoleTVs\Charts\ChartsServiceProvider::class,
+        \Chatify\ChatifyServiceProvider::class,
 
 
        
@@ -192,6 +193,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+       'Chatify' => Chatify\Facades\ChatifyMessenger::class,
 
 
 
