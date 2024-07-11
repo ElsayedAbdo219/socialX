@@ -22,4 +22,19 @@ class FollowController extends Controller
        return response()->json(['message' => 'تم الاضافة بنجاح']);
 
     }
+
+    public function Undo(Request $request)
+    {
+       $data = $request->validate([
+           'followed_id'=>'required|exists:members,id',
+       ]);
+
+       auth('api')->user()->follower()?->where('followed_id', $data['followed_id'])->delete() ;
+
+       return response()->json(['message' => 'تم الغاء المتابعة بنجاح']);
+
+    }
+
+
+    
 }

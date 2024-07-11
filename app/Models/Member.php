@@ -124,8 +124,18 @@ class Member extends Authenticatable
     }
 
 
+   
+    public function calender()
+    {
+        return $this->hasMany(Calender::class, 'member_id');
+    }
+
+
     
-    
+    public function jobApplierIs()
+    {
+        return $this->hasMany(Job::class, 'employee_id');
+    }
 
    # Scopes
    public function scopeOfName($query, $value)

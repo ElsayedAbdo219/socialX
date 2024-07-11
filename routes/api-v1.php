@@ -21,7 +21,8 @@ use App\Http\Controllers\Api\V1\Client\{
   CompanyController,
   LikeController,
   NewsController,
-  DislikeController
+  DislikeController,
+  CalenderController
                
 
 
@@ -179,6 +180,8 @@ Route::middleware('auth:sanctum')->group(function () {
       # follow
       Route::name('follow.')->prefix('follow')->group(function () {
         Route::post('add', [FollowController::class, 'add']);
+        Route::post('Undo', [FollowController::class, 'Undo']);
+        
       });
 
        # jobs
@@ -186,11 +189,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('add', [JobController::class, 'add']);
         Route::get('get', [JobController::class, 'get']);
         // Route::post('filter', [JobController::class, 'filter']);
+
+        
       });
 
       # user apply jobs
       Route::name('apply_jobs.')->prefix('apply_jobs')->group(function () {
         Route::post('add', [UserApplyJobController::class, 'add']);
+        Route::get('getDetailsOfAppliers/{JOB}', [UserApplyJobController::class, 'getDetailsOfAppliers']);
+
       });
 
 
@@ -225,7 +232,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-
+  # calender
+  Route::name('calender.')->prefix('calender')->group(function () {
+    Route::post('add', [CalenderController::class, 'add']);
+    Route::get('delete/{JOB}', [CalenderController::class, 'delete']);
+  });
 
 
 

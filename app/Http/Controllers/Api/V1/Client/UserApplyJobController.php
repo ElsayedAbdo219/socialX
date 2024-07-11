@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Client;
 
 use App\Enum\UserTypeEnum;
-use App\Models\UserApplyJob;
+use App\Models\{UserApplyJob,Job};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +14,7 @@ class UserApplyJobController extends Controller
     {
         $data = $request->validate([
             'jobs_applies_id' => 'required|exists:jobs_applies,id',
-       //     'employee_id' => 'required|exists:employees,id,type,'.UserTypeEnum::EMPLOYEE,
+           'employee_id' => 'required|exists:members,id,type,'.UserTypeEnum::EMPLOYEE,
         ]);
        // return auth('api')->user()->id;
 
@@ -26,6 +26,14 @@ class UserApplyJobController extends Controller
 
 
     }
+
+
+
+    public function getDetailsOfAppliers($idJob){
+
+        return Job::Where('id',$idJob)->with(['jobAppliers','jobApplierMember','jobApplierMember.jobApplierIs','jobApplierMember.jobApplierIs'])->paginate(20) ?? [];
+    
+       }
 
 
 

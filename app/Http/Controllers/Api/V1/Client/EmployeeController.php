@@ -18,7 +18,7 @@ class EmployeeController extends Controller
             
            $member =  Member::where('id', $employeeId)->first();
 
-           return $member->load('experience');
+           return $member->load(['experience','posts','skills','position','education','rateEmployeeTotal']);
     }
 
 

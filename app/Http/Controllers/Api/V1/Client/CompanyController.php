@@ -26,7 +26,7 @@ class CompanyController extends Controller
 
     public function indexofEmployee(){
         return response()->json(Member::where('is_Active', '1')
-        ->where('type', UserTypeEnum::EMPLOYEE)->with('posts','followersTotal','rateEmployee','follower')->paginate(20));
+        ->where('type', UserTypeEnum::EMPLOYEE)->with('posts','followersTotal','skills','position','education','rateEmployee','rateEmployeeTotal','follower')->paginate(20));
     }
 
 
