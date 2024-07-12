@@ -12,7 +12,7 @@ class CalenderController extends Controller
     {
        $data = $request->validate([
             'task'=>'required|string',
-            'time' => 'string|max:255'
+            'time' => 'required|string|max:255'
        ]);
 
        $data['member_id'] = auth('api')->user()->id;
@@ -22,16 +22,54 @@ class CalenderController extends Controller
 
     }
 
+    public function show()
+    {
+
+      return  Calender::with('member')->OfUser(auth('api')->user()->id)->paginate(10) ;
+        
+
+    }
+
+      public function update(Request $request,$calender)
+    {
+       $data = $request->validate([
+            'task'=>'required|string',
+            'time' => 'required|string|max:255'
+       ]);
+
+       $data['member_id'] = auth('api')->user()->id;
+
+      $Calender =  Calender::findOrFail($calender) ;
+
+       $Calender?->update($data) ;
+       return response()->json(['message' => 'تم تحديث المهمة  بنجاح']);
+
+    }
+    
+
+
+    
 
     public function delete($task)
     {
 
-       Calender::where('id',$task)->delete() ;
+       Calender::OfUser(auth('api')->user()->id)->where('id',$task)->delete() ;
        return response()->json(['message' => 'تم ازالة احدي مهامك بنجاح']);
 
     }
 
 
+    public function changeStatus(Request $request,$calender)
+    {
+       $data = $request->validate([
+            'status' => 'required|string',
+       ]);
 
+      $Calender =  Calender::findOrFail($calender) ;
+
+       $Calender?->update($data) ;
+       return response()->json(['message' => 'تم انهاء المهمة  بنجاح']);
+
+    }
 
 }

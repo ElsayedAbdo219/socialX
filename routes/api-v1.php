@@ -235,7 +235,10 @@ Route::middleware('auth:sanctum')->group(function () {
   # calender
   Route::name('calender.')->prefix('calender')->group(function () {
     Route::post('add', [CalenderController::class, 'add']);
-    Route::get('delete/{JOB}', [CalenderController::class, 'delete']);
+    Route::get('show', [CalenderController::class, 'show']);
+    Route::get('delete/{calender}', [CalenderController::class, 'delete']);
+    Route::post('update/{calender}', [CalenderController::class, 'update']);
+    Route::post('changeStatus/{calender}', [CalenderController::class, 'changeStatus']);
   });
 
 

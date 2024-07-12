@@ -28,6 +28,19 @@ class Calender extends Model
         return $query->where('name', 'like', "%$value%");
     }
 
+
+    # Scopes
+    public function scopeOfUser($query, $value)
+    {
+        return $query->where('member_id',$value);
+    }
+
+
+
+
+
+
+
     
 
 }
