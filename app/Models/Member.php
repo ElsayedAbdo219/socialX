@@ -115,12 +115,12 @@ class Member extends Authenticatable
 
 
     public function position(){
-        return $this->hasMany(Skill::class,'employee_id');
+        return $this->hasMany(Position::class,'employee_id');
     }
 
 
     public function education(){
-        return $this->hasMany(Skill::class,'employee_id');
+        return $this->hasMany(Education::class,'employee_id');
     }
 
 

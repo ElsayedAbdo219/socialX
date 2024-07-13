@@ -85,7 +85,7 @@ class AuthCompanyController extends Controller
 
         $token = $company->createToken('api_token')->plainTextToken;
 
-        return response()->json(['token' => $token, 'company' => $company]);
+        return response()->json(['token' => $token, 'company' => $company->load(['posts','followersTotal','rateCompany','rateCompanyTotal','follower'])]);
     }
     // public function changePassword(Request $request){
 
