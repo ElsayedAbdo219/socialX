@@ -113,9 +113,9 @@ class AuthEmployeeController extends Controller
             
             $personal_photo = uniqid() . '_' . $request->file('personal_photo')->getClientOriginalName();
 
-            Storage::disk("local")->put($personal_photo, file_get_contents($request->file('personal_photo')));
+            // Storage::disk("local")->put($personal_photo, file_get_contents($request->file('personal_photo')));
 
-            //Storage::put('public/members/' . $personal_photo, file_get_contents($request->file("personal_photo")));
+           Storage::put('public/members/' . $personal_photo, file_get_contents($request->file("personal_photo")));
 
             auth('api')->user()->update(
                 [
@@ -131,9 +131,9 @@ class AuthEmployeeController extends Controller
             $coverletter = uniqid() . '_' . $request->file('coverletter')->getClientOriginalName();
 
 
-            //Storage::put('public/members/' . $coverletter, file_get_contents($request->file("coverletter")));
+            Storage::put('public/members/' . $coverletter, file_get_contents($request->file("coverletter")));
 
-          Storage::disk("local")->put($coverletter, file_get_contents($request->file('coverletter')));
+        //   Storage::disk("local")->put($coverletter, file_get_contents($request->file('coverletter')));
 
 
             auth('api')->user()->update(
