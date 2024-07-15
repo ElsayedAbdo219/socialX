@@ -46,7 +46,7 @@
                                         </label>
                                     </div>
 
-                                    <div class="form-group col-sm-3">
+                                    {{-- <div class="form-group col-sm-3">
                                         <label for="name_en">{{ __('dashboard.good_type') }}</label>
                                         <select class="form-control" name="company_id" id="company_id">
                                             
@@ -57,12 +57,12 @@
                                         @error('company_id')
                                             <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
 
                                       <div class="form-group col-4">
                                         <label class="w-100" for="email">{{__('dashboard.content')}}
-                                            <textarea name="content" id="contentTextArea" cols="30" placeholder="{{__('dashboard.content')}}" class="form-control" rows="10" class="d-none">{{ $post->content }}</textarea>
+                                            <textarea name="content" id="contentTextArea" cols="30" placeholder="{{__('dashboard.content')}}" class="form-control" rows="10" class="d-none" readonly>{{ $post->content }}</textarea>
                                             @error('content')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
@@ -71,7 +71,7 @@
 
 
 
-                                    <div class="form-group col-4">
+                                    {{-- <div class="form-group col-4">
                                         <label class="w-100" for="period">{{__('dashboard.period')}} (دقيقة)
                                             <input type="string"  class="form-control" name="period" placeholder="{{__('dashboard.period')}}" value="{{ $post->period ??  old('period')}}" />
                                             @error('period')
@@ -87,7 +87,7 @@
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>
-                                    </div>
+                                    </div> --}}
 
 
 

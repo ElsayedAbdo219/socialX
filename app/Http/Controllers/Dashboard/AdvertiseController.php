@@ -100,50 +100,56 @@ class AdvertiseController extends Controller
         );
     }
 
-    public function update(Request $request, $post)
+    public function update(Request $request, $postId)
     {
-        $post = Post::findOrFail($post);
-     
-            $data = $request->validate([
-                'content' => 'nullable|string|max:255',
-                'company_id' => 'required|exists:members,id',
-                'period' => 'required|numeric',
-                'is_published' => 'required|numeric',
-                'file_name' => 'image|mimes:jpeg,png,jpg',
-                'is_Active' => "required|numeric",
+        // Find the post by ID or fail
+        $post = Post::findOrFail($postId);
+    
+        // Validate the incoming request data
+        $data = $request->validate([
+            'content' => 'nullable|string|max:255',
+            'file_name' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'is_Active' => 'required|numeric',
         ]);
-
-
-        if ($request->file('file_name')) {
+    
+        // Handle file upload if present
+        if ($request->hasFile('file_name')) {
             $file = $request->file('file_name');
             $file_name = uniqid() . '_' . $file->getClientOriginalName();
             $filePath = $file->storeAs('companies', $file_name);
-             $post->update([
-              'file_name'=> $file_name,
-          ]);
-
+    
+            // Update file_name in the post
+            $post->file_name = $file_name;
         }
-
-
+    
+        // Update the post with the validated data
         $post->update($data);
-
-
-        if ($request->is_Active == 1) {
-              # sending a notification to the user   
-        $notifabels = Member::where('id', $data['company_id'])->first();
-        $notificationData = [
-            'title' => " تفعيل اعلان جديدة ",
-            'body' => "تم تفعيل اعلان لك من ثقه ",
-        ];
-
-        \Illuminate\Support\Facades\Notification::send(
-            $notifabels,
-            new ClientNotification($notificationData, ['database', 'firebase'])
-        );
+    
+        // Additional updates if a file was uploaded
+        if (isset($file_name)) {
+            $post->update(['file_name' => $file_name]);
         }
-
+    
+        // Send notification if post is activated
+        if ($request->is_Active == 1) {
+            $notifabels = Member::where('id', $post->company_id)->first();
+    
+            if ($notifabels) {
+                $notificationData = [
+                    'title' => "تفعيل اعلان جديدة",
+                    'body' => "تم تفعيل اعلان لك من ثقه",
+                ];
+    
+                \Illuminate\Support\Facades\Notification::send(
+                    $notifabels,
+                    new ClientNotification($notificationData, ['database', 'firebase'])
+                );
+            }
+        }
+    
         return redirect()->route('admin.advertises.index')->with(['success', __('dashboard.item updated successfully')]);
     }
+    
 
 
 

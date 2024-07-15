@@ -11,14 +11,23 @@ use App\Http\Resources\Api\V1\Client\{NotificationResource};
 class NotificationController extends Controller
 {
 
-    public function showNotifications(){
-     //   return auth('api')->user();
-     $notifications=Notification::where('notifiable_id',auth('api')->user()->id)->latest('created_at')->get();
-     $collection = NotificationResource::collection($notifications)->customPaginate(20);
-     return $collection;
-     
+    public function showNotifications()
+    {
+        // Get the authenticated user
+        $user = auth('api')->user();
+        
+        // Ensure the user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        
+        // Get notifications for the authenticated user
+        $notifications = Notification::where('notifiable_id', $user->id)->latest('created_at')->paginate(20);
+        
+        // Transform the notifications using a resource collection
+        return NotificationResource::collection($notifications);
     }
-
+    
 
 
 
