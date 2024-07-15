@@ -34,10 +34,10 @@ class CalenderController extends Controller
     {
        $data = $request->validate([
             'task'=>'required|string',
-            'time' => 'required|string|max:255'
+            // 'time' => 'required|string|max:255'
        ]);
 
-       $data['member_id'] = auth('api')->user()->id;
+      // $data['member_id'] = auth('api')->user()->id;
 
       $Calender =  Calender::findOrFail($calender) ;
 
