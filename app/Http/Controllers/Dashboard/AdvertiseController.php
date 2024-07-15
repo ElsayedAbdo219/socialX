@@ -121,10 +121,26 @@ class AdvertiseController extends Controller
              $post->update([
               'file_name'=> $file_name,
           ]);
+
         }
 
 
         $post->update($data);
+
+
+        if ($request->is_Active == 1) {
+              # sending a notification to the user   
+        $notifabels = Member::where('id', $data['company_id'])->first();
+        $notificationData = [
+            'title' => " تفعيل اعلان جديدة ",
+            'body' => "تم تفعيل اعلان لك من ثقه ",
+        ];
+
+        \Illuminate\Support\Facades\Notification::send(
+            $notifabels,
+            new ClientNotification($notificationData, ['database', 'firebase'])
+        );
+        }
 
         return redirect()->route('admin.advertises.index')->with(['success', __('dashboard.item updated successfully')]);
     }
