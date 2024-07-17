@@ -30,8 +30,7 @@ class CompanyController extends Controller
     }
 
      public function getJobs($id){
-        $member =  Member::findOrFail($id);
-        return $member->load('jobs')->paginate(10);
+        return Member::where('id',$id)->with('jobs')->paginate(10);
     }
 
 
