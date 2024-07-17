@@ -123,16 +123,16 @@ class AuthCompanyController extends Controller
 
         if ($request->file('personal_photo')) {
 
-            $logo = uniqid() . '_' . $request->file('logo')->getClientOriginalName();
+            $personal_photo = uniqid() . '_' . $request->file('personal_photo')->getClientOriginalName();
 
-            //  Storage::disk("local")->put($logo, file_get_contents($request->file('logo')));
+            //  Storage::disk("local")->put($personal_photo, file_get_contents($request->file('personal_photo')));
 
-            Storage::put('public/members/' . $logo, file_get_contents($request->file("logo")));
+            Storage::put('public/members/' . $personal_photo, file_get_contents($request->file("personal_photo")));
 
             auth('api')->user()->update(
                 [
 
-                    'logo' => $logo,
+                    'personal_photo' => $personal_photo,
 
                 ]
             );
