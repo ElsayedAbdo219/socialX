@@ -112,7 +112,7 @@ class AuthCompanyController extends Controller
             'country' => 'nullable|string|max:255',
             'birth_date' => 'nullable|string|max:255',
             'field' => 'nullable|string|max:255',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg',
+            'personal_photo' => 'nullable|image|mimes:jpeg,png,jpg',
             'coverletter' => 'nullable|image|mimes:jpeg,png,jpg',
             'website' => 'nullable|url|string',
             'bio' => 'nullable|string',
@@ -121,7 +121,7 @@ class AuthCompanyController extends Controller
         auth('api')->user()->update($data);
 
 
-        if ($request->file('logo')) {
+        if ($request->file('personal_photo')) {
 
             $logo = uniqid() . '_' . $request->file('logo')->getClientOriginalName();
 
