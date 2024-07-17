@@ -151,7 +151,7 @@ class AuthCompanyController extends Controller
         }
 
 
-        return response()->json(['message' => 'تم تحديث بياناتك  بنجاح']);
+        return response()->json(['message' => 'تم تحديث بياناتك  بنجاح','company' => auth('api')->user()]);
     }
 
 

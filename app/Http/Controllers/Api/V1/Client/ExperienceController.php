@@ -16,7 +16,7 @@ class ExperienceController extends Controller
         $data= $request->validate([
             'title' => 'required|string|max:255',
             'employment_type' => 'required|string|max:255',
-            'company_id' => 'required|string|max:255',
+            'company_name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'location_type' => 'required|string|max:255',
             'status_works' => 'required|string|max:255|in:work,notWork',
