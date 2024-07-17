@@ -98,7 +98,7 @@ class Member extends Authenticatable
 
  public function jobs()
  {
-     return $this->hasMany(Member::class, 'member_id');
+     return $this->hasMany(Job::class, 'member_id');
  }
 
 
