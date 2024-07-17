@@ -94,7 +94,12 @@ class Member extends Authenticatable
 
 
     
+ # relationships
 
+ public function jobs()
+ {
+     return $this->hasMany(Member::class, 'member_id');
+ }
 
 
     public function posts(){

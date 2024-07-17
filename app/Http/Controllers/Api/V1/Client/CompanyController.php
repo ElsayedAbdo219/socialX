@@ -29,8 +29,16 @@ class CompanyController extends Controller
         ->where('type', UserTypeEnum::EMPLOYEE)->with('posts','experience','followersTotal','skills','position','education','rateEmployee','rateEmployeeTotal','follower')->paginate(20));
     }
 
+     public function getJobs($id){
+        return response()->json(Member::where('is_Active', '1')
+        ->where('type', UserTypeEnum::EMPLOYEE)->with('posts','experience','followersTotal','skills','position','education','rateEmployee','rateEmployeeTotal','follower')->paginate(20));
+    }
 
 
+
+
+
+    
 
     public function store(Request $request)
     {

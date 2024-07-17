@@ -105,6 +105,13 @@ class AuthCompanyController extends Controller
     {
 
         $data = $request->validate([
+             'full_name' => 'nullable|string|max:255',
+            'email' => 'nullable|string|email|max:255|unique:members',
+            'password' => 'nullable|confirmed|min:6',
+            'phone' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'birth_date' => 'nullable|string|max:255',
+            'field' => 'nullable|string|max:255',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg',
             'coverletter' => 'nullable|image|mimes:jpeg,png,jpg',
             'website' => 'nullable|url|string',

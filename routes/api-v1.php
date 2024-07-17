@@ -229,7 +229,7 @@ Route::middleware('auth:sanctum')->group(function () {
      Route::get('getEmployeeData/{EMPLOYEE}', [EmployeeController::class, 'getEmployeeData']);
 
 
-
+     Route::get('getJobs/{MEMBER}', [EmployeeController::class, 'getEmployeeData']);
 
 
   # calender
