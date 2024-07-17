@@ -30,8 +30,8 @@ class CompanyController extends Controller
     }
 
      public function getJobs($id){
-        return response()->json(Member::where('is_Active', '1')
-        ->where('type', UserTypeEnum::EMPLOYEE)->with('posts','experience','followersTotal','skills','position','education','rateEmployee','rateEmployeeTotal','follower')->paginate(20));
+        $member =  Member::findOrFail($id);
+        return $member->load('jobs')->paginate(10);
     }
 
 
