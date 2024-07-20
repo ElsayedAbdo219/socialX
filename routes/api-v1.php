@@ -97,7 +97,8 @@ Route::middleware('auth:sanctum')->group(function () {
   
   Route::get('getPosts', [PostController::class, 'getPosts']);
   Route::get('getAdvertises', [PostController::class, 'getAdvertises']);
-
+  Route::get('getPostIntro', [PostController::class, 'getPostIntro']);
+  
   Route::get('getPost/{post}', [PostController::class, 'getPost']);
   
   Route::post('searchPost', [PostController::class, 'searchPost']);

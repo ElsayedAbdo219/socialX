@@ -174,7 +174,16 @@ class PostController extends Controller
     return $posts ?? [];
   }
 
+  public function getPostIntro()
+  {
 
+    $post = Post::with(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum'])
+      ->orderByDesc('id')
+      ->where('status', '=', 'intro')->where('company_id',auth('api')->user()->id)
+      ->first();
+
+    return $post ?? [];
+  }
 
   public function getAdvertises()
   {
