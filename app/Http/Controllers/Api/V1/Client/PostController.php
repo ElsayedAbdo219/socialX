@@ -178,8 +178,7 @@ class PostController extends Controller
   {
 
     $post = Post::with(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum'])
-      ->orderByDesc('id')
-      ->where('status', '=', 'intro')->where('company_id',auth('api')->user()->id)
+     ->where('company_id',auth('api')->user()->id)->where('status', '=', 'intro')
       ->first();
 
     return $post ?? [];
