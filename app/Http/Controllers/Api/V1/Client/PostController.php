@@ -5,15 +5,14 @@ namespace App\Http\Controllers\Api\V1\Client;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Member;
-use App\Enum\UserTypeEnum;
+use App\Models\Intro;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\ClientNotification;
-
-class PostController extends Controller
-{
+class PostController extends Controller {
+  
   protected $postResource = PostResource::class;
 
   public function addPost(Request $request, $type)
@@ -104,7 +103,8 @@ class PostController extends Controller
     }
   }
 
-public function addPostIntro(Request $request){
+   public function addPostIntro(Request $request)
+   {
 
       $data = $request->validate([
         'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov',
@@ -157,11 +157,10 @@ public function addPostIntro(Request $request){
   public function getPostIntro()
   {
 
-    $post = Post::with(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum'])
-      ->where('status', '=', 'intro')->where('company_id',auth('api')->user()->id)
-      ->first();
+    $intro = Intro::where('company_id',auth('api')->user()->id)
+    ->first();
 
-    return $post ?? [];
+  return $intro ?? [];
   }
 
   public function getAdvertises()
@@ -232,3 +231,5 @@ public function addPostIntro(Request $request){
 
   //  
 }
+
+?>
