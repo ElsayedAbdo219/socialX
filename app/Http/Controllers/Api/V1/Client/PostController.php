@@ -67,7 +67,57 @@ class PostController extends Controller
 
 
       return response()->json(['message' => 'تم الاضافة بنجاح . انتظر 24 ساعة بعد تفعيل الاعلان'], 200);
-    } else {
+    } 
+    elseif($type == "intro"){
+      $data = $request->validate([
+        'content' => 'nullable|string',
+        'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov',
+        'period' => 'nullable|string',
+        'is_published' => 'nullable|string',
+    ]);
+
+    $file = $request->file('file_name'); // Get the uploaded file object
+    $fileName = uniqid() . '_' . $file->getClientOriginalName(); // Generate a unique filename
+
+    // Store the file in storage
+   $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
+    
+  
+
+    $post = Post::create([
+        'content' => $data['content'],
+        'file_name' => $fileName,
+        'period' => $data['period'],
+        'is_published' => $data['is_published'],
+        'status' => 'intro',
+        'company_id' => auth('api')->user()->id,
+    ]);
+
+    // Any additional operations after creating the post
+
+
+
+
+
+      # sending a notification to the user   
+      $notifabels = User::first();
+      $notificationData = [
+        'title' => " اضافة فيديو تقديمي جديد ",
+        'body' => "تم اضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
+      ];
+
+      \Illuminate\Support\Facades\Notification::send(
+        $notifabels,
+        new ClientNotification($notificationData, ['database', 'firebase'])
+      );
+
+
+
+
+
+      return response()->json(['message' => 'تم الاضافة بنجاح '], 200);
+    }
+    else {
       $data = $request->validate([
         'content' => 'required|string',
         'file_name' => 'nullable|file|mimes:jpeg,png,mp4,avi,mov',
