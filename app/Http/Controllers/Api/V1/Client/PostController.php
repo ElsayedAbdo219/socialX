@@ -122,10 +122,10 @@ public function addPostIntro(Request $request){
   
 
     $post = Post::create([
-        'content' => $data['content'] ?? null,
+        'content' => null,
         'file_name' => $fileName,
-        'period' => $data['period'] ?? null,
-        'is_published' => $data['is_published'] ?? null ,
+        'period' =>  null,
+        'is_published' => null ,
         'status' => 'intro',
         'company_id' => auth('api')->user()->id,
     ]);
