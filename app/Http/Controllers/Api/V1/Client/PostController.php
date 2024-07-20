@@ -20,6 +20,8 @@ class PostController extends Controller
   {
 
    if ($type == "advertise") {
+
+
     $data = $request->validate([
         'content' => 'nullable|string',
         'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov',
@@ -32,9 +34,6 @@ class PostController extends Controller
 
     // Store the file in storage
    $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
-    
-  
-
     $post = Post::create([
         'content' => $data['content'],
         'file_name' => $fileName,
@@ -43,12 +42,6 @@ class PostController extends Controller
         'status' => 'advertisement',
         'company_id' => auth('api')->user()->id,
     ]);
-
-    // Any additional operations after creating the post
-
-
-
-
 
       # sending a notification to the user   
       $notifabels = User::first();
@@ -62,61 +55,10 @@ class PostController extends Controller
         new ClientNotification($notificationData, ['database', 'firebase'])
       );
 
-
-
-
-
       return response()->json(['message' => 'تم الاضافة بنجاح . انتظر 24 ساعة بعد تفعيل الاعلان'], 200);
     } 
-    elseif($type == "intro"){
-      $data = $request->validate([
-        'content' => 'nullable|string',
-        'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov',
-        'period' => 'nullable|string',
-        'is_published' => 'nullable|string',
-    ]);
-
-    $file = $request->file('file_name'); // Get the uploaded file object
-    $fileName = uniqid() . '_' . $file->getClientOriginalName(); // Generate a unique filename
-
-    // Store the file in storage
-   $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
     
-  
-
-    $post = Post::create([
-        'content' => $data['content'],
-        'file_name' => $fileName,
-        'period' => $data['period'],
-        'is_published' => $data['is_published'],
-        'status' => 'intro',
-        'company_id' => auth('api')->user()->id,
-    ]);
-
-    // Any additional operations after creating the post
-
-
-
-
-
-      # sending a notification to the user   
-      $notifabels = User::first();
-      $notificationData = [
-        'title' => " اضافة فيديو تقديمي جديد ",
-        'body' => "تم اضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
-      ];
-
-      \Illuminate\Support\Facades\Notification::send(
-        $notifabels,
-        new ClientNotification($notificationData, ['database', 'firebase'])
-      );
-
-
-
-
-
-      return response()->json(['message' => 'تم الاضافة بنجاح '], 200);
-    }
+   
     else {
       $data = $request->validate([
         'content' => 'required|string',
@@ -162,6 +104,56 @@ class PostController extends Controller
     }
   }
 
+public function addPostIntro(Request $request){
+
+      $data = $request->validate([
+        'content' => 'nullable|string',
+        'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov',
+        'period' => 'nullable|string',
+        'is_published' => 'nullable|string',
+    ]);
+
+    $file = $request->file('file_name'); // Get the uploaded file object
+    $fileName = uniqid() . '_' . $file->getClientOriginalName(); // Generate a unique filename
+
+    // Store the file in storage
+   $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
+    
+  
+
+    $post = Post::create([
+        'content' => $data['content'] ?? null,
+        'file_name' => $fileName,
+        'period' => $data['period'] ?? null,
+        'is_published' => $data['is_published'] ?? null ,
+        'status' => 'intro',
+        'company_id' => auth('api')->user()->id,
+    ]);
+
+    // Any additional operations after creating the post
+
+
+
+
+
+      # sending a notification to the user   
+      $notifabels = User::first();
+      $notificationData = [
+        'title' => " اضافة فيديو تقديمي جديد ",
+        'body' => "تم اضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
+      ];
+
+      \Illuminate\Support\Facades\Notification::send(
+        $notifabels,
+        new ClientNotification($notificationData, ['database', 'firebase'])
+      );
+
+
+
+
+
+      return response()->json(['message' => 'تم الاضافة بنجاح '], 200);
+    }
 
   public function getPosts()
   {
@@ -178,7 +170,7 @@ class PostController extends Controller
   {
 
     $post = Post::with(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum'])
-     ->where('status', '=', 'intro')
+      ->where('status', '=', 'intro')->where('company_id',auth('api')->user()->id)
       ->first();
 
     return $post ?? [];
