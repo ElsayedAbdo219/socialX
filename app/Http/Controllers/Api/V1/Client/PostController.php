@@ -107,35 +107,23 @@ class PostController extends Controller
 public function addPostIntro(Request $request){
 
       $data = $request->validate([
-        'content' => 'nullable|string',
         'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov',
-        'period' => 'nullable|string',
-        'is_published' => 'nullable|string',
     ]);
 
     $file = $request->file('file_name'); // Get the uploaded file object
     $fileName = uniqid() . '_' . $file->getClientOriginalName(); // Generate a unique filename
 
     // Store the file in storage
-   $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
+    $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
     
   
 
-    $post = Post::create([
-        'content' => null,
+    $post = Intro::create([
         'file_name' => $fileName,
-        'period' =>  null,
-        'is_published' => null ,
-        'status' => 'intro',
         'company_id' => auth('api')->user()->id,
     ]);
 
     // Any additional operations after creating the post
-
-
-
-
-
       # sending a notification to the user   
       $notifabels = User::first();
       $notificationData = [
