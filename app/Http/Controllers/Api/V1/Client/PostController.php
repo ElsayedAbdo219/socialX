@@ -107,7 +107,7 @@ class PostController extends Controller {
    {
 
       $data = $request->validate([
-        'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov',
+        'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov,jfif',
     ]);
 
     $file = $request->file('file_name'); // Get the uploaded file object
