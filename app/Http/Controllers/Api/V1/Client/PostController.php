@@ -118,10 +118,14 @@ class PostController extends Controller {
     
   
 
-    $post = Intro::create([
-        'file_name' => $fileName,
+    $post = Intro::updateOrCreate(
+      [
         'company_id' => auth('api')->user()->id,
-    ]);
+      ],
+      [
+        'file_name' => $fileName,
+      ]
+  );
 
     // Any additional operations after creating the post
       # sending a notification to the user   
