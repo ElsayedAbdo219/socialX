@@ -293,12 +293,12 @@ body.fixed-footer footer.footer-dark {
         padding: 7px;
         margin: -7px -7px 0 -7px; }
       .main-menu.menu-light .navigation li a {
-        color: #565656;
+        color: blue;
         padding: 10px 15px 10px 15px;
         line-height: 1.45;
         transition: padding 0.35s ease 0s !important; }
         .main-menu.menu-light .navigation li a span.menu-sub-title {
-          color: #afafaf; }
+          color: blue; }
       .main-menu.menu-light .navigation li.hover > a {
         padding-left: 25px;
         transition: padding 0.35s ease 0s !important; }
@@ -1430,7 +1430,7 @@ body.navbar-static .navbar-container .search-input.open {
     color: #fff !important; }
 
 .apexcharts-canvas .apexcharts-toolbar .apexcharts-menu .apexcharts-menu-item {
-  color: #626262; }
+  color: blue; }
 
 .apexcharts-xaxistooltip {
   color: #626262 !important; }

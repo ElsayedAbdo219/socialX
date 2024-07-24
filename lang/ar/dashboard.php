@@ -181,7 +181,7 @@ return [
    "add_advertise"=>"اضافة اعلان جديد",
    "edit_advertise"=>"تعديل بيانات الاعلان",
    "advertise_list"=>"قائمة الاعلانات",
-  
+    "main_page"=>"الصفحة الرئيسية",
 
 
 

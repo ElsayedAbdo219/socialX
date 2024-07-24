@@ -173,6 +173,7 @@ return [
    "nootbook_list"=>"Notebook List",
    "edit_notebook"=>"Edit Notebook",
    "edit_drawer"=>"Edit Drawer",
+   "main_page"=>"Main Page",
 
 
 
