@@ -51,13 +51,13 @@
   background: rgba(255, 255, 255, 0.6); }
 
 .btn-white {
-  border-color: !important;
+  border-color:blue !important;
   background-color: #FFFFFF !important;
   color: #fff; }
   .btn-white:hover {
-    border-color: !important;
-    color: #fff !important;
-    box-shadow: 0 8px 25px -8px white; }
+    border-color:blue !important;
+    color:blue !important;
+    box-shadow:blue 0 8px 25px -8px white; }
   .btn-white:focus, .btn-white:active {
     color: #fff !important; }
 
@@ -243,12 +243,12 @@ input:focus ~ .bg-white {
   background: rgba(0, 0, 0, 0.6); }
 
 .btn-black {
-  border-color: !important;
+  border-color:blue !important;
   background-color: #000000 !important;
   color: #fff; }
   .btn-black:hover {
-    border-color: !important;
-    color: #fff !important;
+    border-color:blue !important;
+    color:blue #fff !important;
     box-shadow: 0 8px 25px -8px black; }
   .btn-black:focus, .btn-black:active {
     color: #fff !important; }
@@ -435,12 +435,12 @@ input:focus ~ .bg-black {
   background: rgba(30, 30, 30, 0.6); }
 
 .btn-dark {
-  border-color: !important;
+  border-color:blue !important;
   background-color: #1e1e1e !important;
-  color: #fff; }
+  color:blue #fff; }
   .btn-dark:hover {
-    border-color: !important;
-    color: #fff !important;
+    border-color:blue !important;
+    color:blue #fff !important;
     box-shadow: 0 8px 25px -8px #1e1e1e; }
   .btn-dark:focus, .btn-dark:active {
     color: #fff !important; }
@@ -581,14 +581,14 @@ input:focus ~ .bg-dark {
   background-color: #640064 !important; }
 
 .btn-dark.btn-gradient-bg {
-  border-color: !important;
+  border-color:blue !important;
   background-color: #640064 !important; }
   .btn-dark.btn-gradient-bg:hover {
-    border-color: !important;
-    background-color: !important; }
+    border-color:blue !important;
+    background-color:blue !important; }
   .btn-dark.btn-gradient-bg:focus, .btn-dark.btn-gradient-bg:active {
-    border-color: !important;
-    background-color: !important; }
+    border-color:blue !important;
+    background-color:blue !important; }
 
 .btn-outline-dark.btn-outline-gradient-bg {
   border-color: #640064 !important;
@@ -672,12 +672,12 @@ input:focus ~ .bg-dark {
   background: rgba(186, 191, 199, 0.6); }
 
 .btn-light {
-  border-color: !important;
+  border-color:blue !important;
   background-color: #babfc7 !important;
   color: #fff; }
   .btn-light:hover {
-    border-color: !important;
-    color: #fff !important;
+    border-color:blue !important;
+    color:blue #fff !important;
     box-shadow: 0 8px 25px -8px #babfc7; }
   .btn-light:focus, .btn-light:active {
     color: #fff !important; }
@@ -818,14 +818,14 @@ input:focus ~ .bg-light {
   background-color: #640064 !important; }
 
 .btn-light.btn-gradient-bg {
-  border-color: !important;
+  border-color:blue  !important;
   background-color: #640064 !important; }
   .btn-light.btn-gradient-bg:hover {
-    border-color: !important;
-    background-color: !important; }
+    border-color:blue !important;
+    background-color:blue !important; }
   .btn-light.btn-gradient-bg:focus, .btn-light.btn-gradient-bg:active {
-    border-color: !important;
-    background-color: !important; }
+    border-color: blue !important;
+    background-color: blue !important; }
 
 .btn-outline-light.btn-outline-gradient-bg {
   border-color: #640064 !important;

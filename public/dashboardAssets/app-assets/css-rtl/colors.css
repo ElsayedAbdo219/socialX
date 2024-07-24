@@ -64,12 +64,12 @@
 }
 
 .btn-white {
-  border-color : !important;
+  border-color :blue !important;
   background-color : #FFFFFF !important;
   color : #FFFFFF;
 }
 .btn-white:hover {
-  border-color : !important;
+  border-color :blue !important;
   color : #FFFFFF !important;
   box-shadow : 0 8px 25px -8px white;
 }
@@ -279,12 +279,12 @@ input:focus ~ .bg-white {
 }
 
 .btn-black {
-  border-color : !important;
+  border-color :blue !important;
   background-color : #000000 !important;
   color : #FFFFFF;
 }
 .btn-black:hover {
-  border-color : !important;
+  border-color :blue !important;
   color : #FFFFFF !important;
   box-shadow : 0 8px 25px -8px black;
 }
@@ -494,12 +494,12 @@ input:focus ~ .bg-black {
 }
 
 .btn-dark {
-  border-color : !important;
+  border-color :blue !important;
   background-color : #1E1E1E !important;
   color : #FFFFFF;
 }
 .btn-dark:hover {
-  border-color : !important;
+  border-color :blue !important;
   color : #FFFFFF !important;
   box-shadow : 0 8px 25px -8px #1E1E1E;
 }
@@ -652,16 +652,16 @@ input:focus ~ .bg-dark {
 }
 
 .btn-dark.btn-gradient-bg {
-  border-color : !important;
+  border-color :blue !important;
   background-color : #640064 !important;
 }
 .btn-dark.btn-gradient-bg:hover {
-  border-color : !important;
-  background-color : !important;
+  border-color :blue !important;
+  background-color :blue !important;
 }
 .btn-dark.btn-gradient-bg:focus, .btn-dark.btn-gradient-bg:active {
-  border-color : !important;
-  background-color : !important;
+  border-color :blue !important;
+  background-color :blue !important;
 }
 
 .btn-outline-dark.btn-outline-gradient-bg {
@@ -768,12 +768,12 @@ input:focus ~ .bg-dark {
 }
 
 .btn-light {
-  border-color : !important;
+  border-color :blue !important;
   background-color : #BABFC7 !important;
   color : #FFFFFF;
 }
 .btn-light:hover {
-  border-color : !important;
+  border-color :blue !important;
   color : #FFFFFF !important;
   box-shadow : 0 8px 25px -8px #BABFC7;
 }
@@ -926,16 +926,16 @@ input:focus ~ .bg-light {
 }
 
 .btn-light.btn-gradient-bg {
-  border-color : !important;
+  border-color :blue  !important;
   background-color : #640064 !important;
 }
 .btn-light.btn-gradient-bg:hover {
-  border-color : !important;
-  background-color : !important;
+  border-color :blue  !important;
+  background-color : blue !important;
 }
 .btn-light.btn-gradient-bg:focus, .btn-light.btn-gradient-bg:active {
-  border-color : !important;
-  background-color : !important;
+  border-color :blue  !important;
+  background-color :blue  !important;
 }
 
 .btn-outline-light.btn-outline-gradient-bg {
