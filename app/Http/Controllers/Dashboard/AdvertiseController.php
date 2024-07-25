@@ -147,7 +147,7 @@ class AdvertiseController extends Controller
             }
         }
     
-        return redirect()->route('admin.advertises.index')->with(['success', __('dashboard.item updated successfully')]);
+        return redirect()->route('admin.posts.index')->with(['success', __('dashboard.item updated successfully')]);
     }
     
 

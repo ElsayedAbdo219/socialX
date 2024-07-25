@@ -1,6 +1,6 @@
 @extends('components.dashboard.layouts.master')
 @section('title')
-    {{__('dashboard.advertises')}}
+    {{__('dashboard.posts')}}
 @endsection
 <!-- BEGIN: Content-->
 @section('content')
@@ -8,9 +8,9 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
-            <x-dashboard.layouts.breadcrumb now="{{$post->company->name}}">
-                <li class="breadcrumb-item"><a href="{{route('admin.advertises.index')}}">
-                        {{__('dashboard.edit_advertise')}}
+            <x-dashboard.layouts.breadcrumb now="{{$post->company?->name}}">
+                <li class="breadcrumb-item"><a href="{{route('admin.posts.index')}}">
+                        {{__('dashboard.edit_post')}}
                     </a></li>
             </x-dashboard.layouts.breadcrumb>
             <div class="col-12 mt-3">
@@ -20,7 +20,7 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-vertical" method="POST" action="{{route('admin.advertises.update',$post->id)}}" enctype="multipart/form-data">
+                            <form class="form form-vertical" method="POST" action="{{route('admin.posts.update',$post->id)}}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
 

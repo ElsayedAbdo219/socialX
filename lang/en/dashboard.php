@@ -174,6 +174,9 @@ return [
    "edit_notebook"=>"Edit Notebook",
    "edit_drawer"=>"Edit Drawer",
    "main_page"=>"Main Page",
+   "normal"=>"normal",
+   "advertisement"=>"advertisement",
+   "edit_post"=>"Edit Post",
 
 
 

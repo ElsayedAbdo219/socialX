@@ -182,7 +182,9 @@ return [
    "edit_advertise"=>"تعديل بيانات الاعلان",
    "advertise_list"=>"قائمة الاعلانات",
     "main_page"=>"الصفحة الرئيسية",
-
+    "normal"=>"عادي",
+    "advertisement"=>"اعلان",
+    "edit_post"=>"تعديل بيانات الطلب",
 
 
 

@@ -141,9 +141,6 @@ class PostController extends Controller {
       );
 
 
-
-
-
       return response()->json(['message' => 'تم الاضافة بنجاح '], 200);
     }
 
@@ -152,7 +149,8 @@ class PostController extends Controller {
 
     $posts = Post::with(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum'])
       ->orderByDesc('id')
-      ->where('status', '=', 'normal')
+      ->where('is_Active', 1)
+      // ->where('status', '=', 'normal')
       ->paginate(10);
 
     return $posts ?? [];
@@ -183,7 +181,6 @@ class PostController extends Controller {
 
   public function getPost($post)
   {
-
     $post = Post::whereId($post)->first();
     // return $post;
     if (!$post) {

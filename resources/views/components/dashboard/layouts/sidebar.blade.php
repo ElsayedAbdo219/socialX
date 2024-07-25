@@ -73,7 +73,7 @@
             </li>
          
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-dollar-sign"></i>
+            {{-- <li class=" nav-item"><a href="#"><i class="feather icon-dollar-sign"></i>
                     <span class="menu-title" data-i18n="Data List">{{ __('dashboard.advertises') }}</span>
                 </a>
                 <ul class="menu-content">
@@ -86,7 +86,7 @@
                     </li>
 
                 </ul>
-            </li>
+            </li> --}}
 
 
 
