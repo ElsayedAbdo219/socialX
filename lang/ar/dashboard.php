@@ -175,7 +175,7 @@ return [
    "work_level"=>"مستوى العمل",
    "employee_type"=>"نوع المستقل",
    "period"=>"المدة",
-   "is_published"=>"يتم نشره بعد",
+   "is_published"=>"يتم نشره فالساعة",
 
    "advertises"=>"الاعلانات",
    "add_advertise"=>"اضافة اعلان جديد",
