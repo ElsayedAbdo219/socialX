@@ -3,7 +3,7 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <style>
         .setting-nav-active {
-            background: blue;
+            background: #3232CD;
             color: white;
         }
     </style>
