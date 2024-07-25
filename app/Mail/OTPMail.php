@@ -15,23 +15,18 @@ class OTPMail extends Mailable implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    protected mixed $code;
-    /**
-     * Create a new message instance.
-     */
+    protected $code;
     public function __construct($code)
     {
         $this->code = $code;
     }
 
-    /**
-     * Get the message envelope.
-     */
+
+
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(config('mail.from.address'), __(env('APP_NAME'), [], 'ar').' | ' .__(env('APP_NAME'), [], 'en')),
-            subject: __('OTP Code', [], 'ar').' | '.__('OTP Code', [], 'en'),
+            subject: 'Otp Message',
         );
     }
 
@@ -41,10 +36,7 @@ class OTPMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view: 'emails.otp',
-            with: [
-                'code' => $this->code,
-            ]
+            markdown: 'emails.otp',
         );
     }
 
@@ -56,5 +48,13 @@ class OTPMail extends Mailable implements ShouldQueue
     public function attachments(): array
     {
         return [];
+    }
+
+    public function build()
+    {
+        return $this->markdown('emails.otp')
+            ->with([
+                'code' => $this->code,
+            ]);
     }
 }
