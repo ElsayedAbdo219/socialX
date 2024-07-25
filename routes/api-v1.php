@@ -219,6 +219,8 @@ Route::middleware('auth:sanctum')->group(function () {
         # follow
         Route::name('news.')->prefix('news')->group(function () {
           Route::get('index', [NewsController::class, 'index']);
+          Route::post('yes/{id}', [NewsController::class, 'yes']);
+          Route::post('no/{id}', [NewsController::class, 'no']);
         });
 
 
