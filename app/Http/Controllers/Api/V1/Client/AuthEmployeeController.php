@@ -84,9 +84,9 @@ class AuthEmployeeController extends Controller
         $token = $employee->createToken('api_token')->plainTextToken;
 
 
-        $code = randomCode(4, 1);
+        // $code = randomCode(4, 1);
 
-        Mail::to($employee->email)->send(new OTPMail($code));
+        // Mail::to($employee->email)->send(new OTPMail($code));
 
         
 
