@@ -87,9 +87,9 @@ class AuthCompanyController extends Controller
 
         $token = $company->createToken('api_token')->plainTextToken;
 
-        $code = randomCode(4, 1);
+        // $code = randomCode(4, 1);
 
-        Mail::to($company->email)->send(new OTPMail($code));
+        // Mail::to($company->email)->send(new OTPMail($code));
 
         return response()->json(['token' => $token, 'company' => $company->load(['posts','followersTotal','rateCompany','rateCompanyTotal','follower'])]);
     }
