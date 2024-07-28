@@ -22,7 +22,8 @@ use App\Http\Controllers\Api\V1\Client\{
   LikeController,
   NewsController,
   DislikeController,
-  CalenderController
+  CalenderController,
+  FirebaseController
                
 
 
@@ -92,6 +93,18 @@ Route::prefix("auth")->group(function () {
 
 
 Route::middleware('auth:sanctum')->group(function () {
+
+  ##############################################################################################
+    # FirebaseController
+    Route::name('messages.')->prefix('messages')->group(function () {
+      Route::post('send', [FirebaseController::class, 'send']);
+    });
+
+    ###############################################################################################
+
+
+
+
   # Posts
   Route::post('addPost/{type}', [PostController::class, 'addPost']);
   
@@ -137,6 +150,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('get/{EMPLOYEE}', [PositionController::class, 'get']);
 
   });
+
+ 
 
 
   # Rates
@@ -245,6 +260,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('changeStatus/{calender}', [CalenderController::class, 'changeStatus']);
   });
 
+  
 
-
-    });
+});
