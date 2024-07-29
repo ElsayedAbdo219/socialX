@@ -32,7 +32,7 @@ use App\Http\Controllers\Dashboard\{
 */
 
 Route::get('/', function () {
-    return "Not Found ";
+    return view('map');
 });
 
 Route::name('admin.')->prefix('admin')->group(function(){
