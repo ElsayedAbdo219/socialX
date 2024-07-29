@@ -15,7 +15,7 @@ class NewsController extends Controller
 
     public function yes($id)
     {
-         News::find($id)->updateOrCreate(
+         News::find($id)?->updateOrCreate(
             
             [
                 'user_id' => auth('api')->user()->id
@@ -40,7 +40,7 @@ class NewsController extends Controller
     public function no($id)
     {
         
-         News::find($id)->updateOrCreate(
+         News::find($id)?->updateOrCreate(
              [
 
                 'user_id' => auth('api')->user()->id
