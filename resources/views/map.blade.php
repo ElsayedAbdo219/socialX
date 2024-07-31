@@ -19,7 +19,7 @@
 
         function initMap() {
             // The location of the specified place (latitude and longitude)
-            var initialLocation = { lat: -34.397, lng: 150.644 };
+            var initialLocation = { lat: 26.679027853491228, lng: 30.38446085875125 };
 
             // The map, centered at the specified location
             map = new google.maps.Map(document.getElementById('map'), {
