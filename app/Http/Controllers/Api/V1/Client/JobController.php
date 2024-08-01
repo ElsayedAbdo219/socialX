@@ -81,7 +81,7 @@ class JobController extends Controller
 
    public function get(){
 
-    return Job::where('member_id',auth('api')->user()->id)->with(['jobAppliers','jobApplierMember'])->paginate(20);
+    return Job::with(['jobAppliers','jobApplierMember'])->paginate(20);
 
    }
 

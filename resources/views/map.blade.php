@@ -2,6 +2,14 @@
 <html>
 <head>
     <title>Google Maps Integration</title>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <script src="{{ mix('js/app.js') }}"></script>
+
+
+
     <style>
         #map {
             height: 400px;
@@ -10,6 +18,15 @@
     </style>
 </head>
 <body>
+
+    <div x-data="{ message: 'Hello, World!' }">
+        <h1 x-text="message"></h1>
+        </div>
+
+        <div x-data="{ message: 'Hello, World!' }">
+            <h1 x-text="message"></h1>
+            </div>
+
     <h3>My Google Map</h3>
     <div id="map"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDC7argl-xB67Tq9iZq2_-Rfk6H7EEihvU&language=ar&callback=initMap" async defer></script>
@@ -65,5 +82,12 @@
             markers = [];
         }
     </script>
+
+
+
+
+
+
+
 </body>
 </html>
