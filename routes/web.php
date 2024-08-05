@@ -14,7 +14,7 @@ use App\Http\Controllers\Dashboard\{
     ProfileController,
     JobController,
     AdvertiseController,
-
+    PaymobController
 
 
     
@@ -35,6 +35,19 @@ Route::get('/', function () {
     return view('map');
 });
 
+Route::get('/form-map', function () {
+   return view('form-map');
+});
+
+
+     ///  payment
+     Route::get('/credit',[PaymobController::class,'credit'])->name('payment');
+     Route::get('/callback',[PaymobController::class,'callback'])->name('payment');
+     // Route::get('/payment',[PaymobController::class,'payment'])->name('payment');
+
+     
+
+
 Route::name('admin.')->prefix('admin')->group(function(){
     Route::get('/adminDash-Login',[AuthController::class,'loginASview'])->name('login');
     Route::post('/adminDash-Login',[AuthController::class,'login'])->name('startSession');
@@ -46,6 +59,8 @@ Route::middleware(['auth:web'])->group(function(){
     Route::get('/logout',[AuthController::class,'logout'])->name('logout');
     Route::get('/edit',[AuthController::class,'edit'])->name('profile.edit');
     
+
+
 
 
        # Profile
