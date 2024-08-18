@@ -29,7 +29,7 @@ php artisan vendor:publish --provider=" Support\MyFatoorah\LaravelPackage\MyFato
 https://{example.com}/myfatoorah
 ```
 
-4. Customize the **app/Http/Controllers/MyFatoorahController.php** file as per your site needs.
+4. Customize the **app/Http/Controllers/Dashboard/MyFatoorahController.php** file as per your site needs.
 
 <hr>
 

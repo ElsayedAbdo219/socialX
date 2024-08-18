@@ -29,13 +29,7 @@ class PaymobController extends Controller
         $response = Http::post('https://accept.paymob.com/api/auth/tokens', [
             'api_key' =>'ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TnpZME1ETXhMQ0p1WVcxbElqb2lNVGN5TWpnMk5qTXhPQzQxTnpBNE1UTWlmUS5sTTJuVHlLT3ppS0pMTUc2WFItazZ2akVqZDlqVzRSLUlXd01JZ2htRVdiYUtjQi1KRk1zbElNZVhkTkFNRFU0MGFjZ1RrM3RvZktmNlAwUnN5ZVE0Zw=='
         ]);
-
-
-
         //  dd( $response);
-
-
-
         return $response->object()->token;
         
     }
