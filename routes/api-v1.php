@@ -31,6 +31,8 @@ use App\Http\Controllers\Api\V1\Client\{
 
 
 };
+
+use App\Http\Controllers\FawaterkController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -41,6 +43,10 @@ use App\Http\Controllers\Api\V1\Client\{
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+
+Route::post('/create-invoice', [FawaterkController::class, 'createInvoice']);
+Route::post('/fawaterk/webhook', [FawaterkController::class, 'handleWebhook']);
 
 Route::prefix("auth")->group(function () {
 
