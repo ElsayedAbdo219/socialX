@@ -92,8 +92,8 @@ class HistoryOperationController extends Controller
         ->when($request->payment_type, function ($query) use ($request) {
           return $query->where('payment_way', $request->payment_type);
         })
-        ->when($request->payment_type, function ($query) use ($request) {
-          return $query->where('payment_way', $request->payment_type);
+        ->when($request->delivery_type, function ($query) use ($request) {
+          return $query->where('delivery_way', $request->delivery_type);
         })
         ->when($request->goods_type, function ($query) {
           return $query->whereHas('goodType', function ($query) {

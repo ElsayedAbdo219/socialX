@@ -10,7 +10,7 @@ use App\Datatables\PostDatatable;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponseDashboard;
 use App\Http\Requests\Dashboard\FrequentlyQuestionedAnswerRequest;
-
+use App\Notifications\ClientNotification;
 class PostController extends Controller
 {
     use ApiResponseDashboard;
@@ -37,7 +37,7 @@ class PostController extends Controller
         $companies = Member::where('type','company')->get();
 
 
-        return view('dashboard.advertises.edit',
+        return view('dashboard.posts.edit',
             [
 
                 'post' => $Post,
@@ -51,6 +51,43 @@ class PostController extends Controller
 
         
     }
+
+
+
+    public function update(Request $request, $postId)
+    {
+        
+        $post = Post::findOrFail($postId);
+    
+        // Validate the incoming request data
+        $data = $request->validate([
+            'is_Active' => 'required|numeric',
+        ]);
+    
+    
+        $post->update($data);
+       
+        if ($request->is_Active == 1) {
+            $notifabels = Member::where('id', $post->company_id)->first();
+    
+            if ($notifabels) {
+                $notificationData = [
+                    'title' => "تفعيل اعلان جديدة",
+                    'body' => "تم تفعيل اعلان لك من ثقه",
+                ];
+    
+                \Illuminate\Support\Facades\Notification::send(
+                    $notifabels,
+                    new ClientNotification($notificationData, ['database', 'firebase'])
+                );
+            }
+        }
+    
+        return redirect()->route('admin.posts.index')->with(['success', __('dashboard.item updated successfully')]);
+    }
+
+
+
 
     
     public function destroy(Post $post)

@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Support\Facades\Storage;
 use   App\Notifications\ClientNotification;
-
+use App\Mail\OTPMail;
+use Illuminate\Support\Facades\Mail;
 class AuthEmployeeController extends Controller
 {
     public function register(Request $request)
@@ -81,6 +82,13 @@ class AuthEmployeeController extends Controller
         }
 
         $token = $employee->createToken('api_token')->plainTextToken;
+
+
+        // $code = randomCode(4, 1);
+
+        // Mail::to($employee->email)->send(new OTPMail($code));
+
+        
 
         return response()->json(['token' => $token, 'employee' => $employee->load('experience','posts','rateEmployee','rateEmployeeTotal','rateCompany','education','position','skills')]);
     }

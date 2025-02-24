@@ -30,13 +30,13 @@ class CompanyDataTable extends BaseDatatable
             },
 
             'logo' => function ($model) {
-                $image = asset('/storage/members/'.$model->logo);
+                $image = asset($model->logo);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
 
 
             'coverletter' => function ($model) {
-                $image = asset('/storage/members/'.$model->coverletter);
+                $image = asset($model->coverletter);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
 

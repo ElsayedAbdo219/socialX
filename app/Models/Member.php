@@ -142,6 +142,13 @@ class Member extends Authenticatable
         return $this->hasMany(Job::class, 'employee_id');
     }
 
+
+    public function UserApplyJob()
+    {
+        return $this->hasOne(UserApplyJob::class, 'employee_id');
+    }
+
+
    # Scopes
    public function scopeOfName($query, $value)
    {

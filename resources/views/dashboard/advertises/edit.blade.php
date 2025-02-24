@@ -36,7 +36,7 @@
                                     </label>
                                 </div>
 
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="form-group col-4">
                                         <label class="w-100" for="logo">الملف
                                             <input type="file"  class="form-control" value="{{ $post->file_name }}" name="file_name" placeholder="الملف المرفوع" value="{{ old('file_name')}}" />
@@ -44,7 +44,7 @@
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>
-                                    </div>
+                                    </div> --}}
 
                                     {{-- <div class="form-group col-sm-3">
                                         <label for="name_en">{{ __('dashboard.good_type') }}</label>
@@ -60,14 +60,14 @@
                                     </div> --}}
 
 
-                                      <div class="form-group col-4">
+                                      {{-- <div class="form-group col-4">
                                         <label class="w-100" for="email">{{__('dashboard.content')}}
                                             <textarea name="content" id="contentTextArea" cols="30" placeholder="{{__('dashboard.content')}}" class="form-control" rows="10" class="d-none" readonly>{{ $post->content }}</textarea>
                                             @error('content')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>
-                                    </div>
+                                    </div> --}}
 
 
 

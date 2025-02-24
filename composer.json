@@ -12,18 +12,25 @@
         "codezero/laravel-unique-translation": "^4.1",
         "consoletvs/charts": "6.*",
         "fx3costa/laravelchartjs": "^3.0",
+<<<<<<< HEAD
         "guzzlehttp/guzzle": "^7.8",
+=======
+        "google/apiclient": "^2.17",
+        "guzzlehttp/guzzle": "^7.2",
+>>>>>>> 96be8badef990e4c19d2a6f1024afd9b5713a37d
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
+        "laravel/socialite": "^5.15",
         "laravel/tinker": "^2.8",
         "maatwebsite/excel": "^3.1",
+        "myfatoorah/laravel-package": "2.1",
         "pusher/pusher-php-server": "^7.2",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-medialibrary": "^10.0.0",
-        "spatie/laravel-permission": "^5.11",
+        "spatie/laravel-permission": "^6.9",
         "spatie/laravel-translatable": "^6.5",
         "yajra/laravel-datatables": "10.1"
     },

@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Support\Facades\Notification;
 
-use   App\Notifications\ClientNotification;
+use App\Notifications\ClientNotification;
+use App\Mail\OTPMail;
+use Illuminate\Support\Facades\Mail;
 
 class AuthCompanyController extends Controller
 {
@@ -84,6 +86,10 @@ class AuthCompanyController extends Controller
         }
 
         $token = $company->createToken('api_token')->plainTextToken;
+
+        // $code = randomCode(4, 1);
+
+        // Mail::to($company->email)->send(new OTPMail($code));
 
         return response()->json(['token' => $token, 'company' => $company->load(['posts','followersTotal','rateCompany','rateCompanyTotal','follower'])]);
     }

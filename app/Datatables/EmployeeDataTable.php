@@ -31,13 +31,14 @@ class EmployeeDataTable extends BaseDatatable
             },
 
             'personal_photo' => function ($model) {
-                $image = asset('/storage/members/'.$model->personal_photo);
+                // return $model->personal_photo ;
+                $image = asset($model->personal_photo);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
 
 
             'coverletter' => function ($model) {
-                $image = asset('/storage/members/'.$model->coverletter);
+                $image = asset($model->coverletter);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
             'email' => function ($model) {

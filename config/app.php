@@ -161,6 +161,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
          Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
        ConsoleTVs\Charts\ChartsServiceProvider::class,
+       Spatie\Permission\PermissionServiceProvider::class,
        // \Chatify\ChatifyServiceProvider::class,
 
 

@@ -14,16 +14,19 @@ class UserApplyJobController extends Controller
     {
         $data = $request->validate([
             'jobs_applies_id' => 'required|exists:jobs_applies,id',
-           'employee_id' => 'required|exists:members,id,type,'.UserTypeEnum::EMPLOYEE,
         ]);
        // return auth('api')->user()->id;
 
         $data['employee_id'] = auth('api')->user()->id;
 
-        UserApplyJob::create($data);
+        if(auth('api')->user()->UserApplyJob()->where('jobs_applies_id',$data['jobs_applies_id'])->count() > 0){
 
+            return response()->json(['message' =>'تم اضافة  طلبك من قبل']);
+        }
+
+        UserApplyJob::updateOrCreate($data);
+    
         return response()->json(['message' =>'تم اضافة  طلبك بنجاح']);
-
 
     }
 

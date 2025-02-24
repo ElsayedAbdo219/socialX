@@ -54,7 +54,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 
 .dataTables_paginate  a{
-    background: #F57141;
+    background: blue;
     color: #fff;
     padding: 6px 13px;
     border-radius: 4px;
@@ -65,6 +65,6 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     text-decoration: line-through;
 }
 .dataTables_paginate a.current{
-    background: #897916 !important;
+    background: blue !important;
     color: #fff!important;
 }
