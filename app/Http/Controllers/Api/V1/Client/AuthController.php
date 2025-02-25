@@ -72,7 +72,7 @@ public function login(LoginClientRequest $request)
 
     public function refreshToken(Request $request)
     {
-        $user = Auth::user();
+        $user = auth()->user();
 
         // التحقق من أن التوكن المستخدم هو "Refresh Token"
         if (!$request->user()->currentAccessToken()->can('refresh')) {
