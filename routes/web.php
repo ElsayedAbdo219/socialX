@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MyFatoorahController;
 use App\Http\Controllers\FacebookController;
 
 use App\Http\Controllers\Dashboard\{
@@ -30,9 +29,9 @@ use App\Http\Controllers\Dashboard\{
 |
 */
 
-Route::get('/', function () {
-   return view('map');
-});
+// Route::get('/', function () {
+//    return view('map');
+// });
 
 Route::get('/form-map', function () {
    return view('form-map');
@@ -43,12 +42,6 @@ Route::get('/form-map', function () {
 Route::get('/credit', [PaymobController::class, 'credit'])->name('payment');
 Route::get('/callback', [PaymobController::class, 'callback'])->name('payment');
 // Route::get('/payment',[PaymobController::class,'payment'])->name('payment');
-
-Route::get('/myfatoorah', [MyFatoorahController::class, 'index'])->name('myfatoorah');
-Route::post('/delete', [MyFatoorahController::class, 'delete'])->name('delete');
-
-
-
 
 
 Route::get('auth/facebook', [FacebookController::class, 'redirectToFacebook']);

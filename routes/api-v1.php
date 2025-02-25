@@ -60,58 +60,17 @@ Route::get('/payment/pending', [FawaterkController::class, 'pending'])->name('pa
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forget-Password', [AuthController::class, 'forgetPassword']);
-Route::post('/reset-Password', [AuthController::class, 'resetPassword']);
-
-Route::prefix("auth")->group(function () {
-
-
-  Route::name('companies.')->prefix('companies')->group(function () {
-    Route::post('register', [AuthCompanyController::class, 'register']);
-     Route::post('login', [AuthCompanyController::class, 'login']);
-  });
-
-  Route::name('employees.')->prefix('employees')->group(function () {
-    Route::post('register', [AuthEmployeeController::class, 'register']);
-    Route::post('login', [AuthEmployeeController::class, 'login']);
-  });
-
-  Route::middleware('auth:sanctum')->group(function () {
-
-
-    Route::name('companies.')->prefix('companies')->group(function () {
-       Route::get('logout', [AuthCompanyController::class, 'logout']);
-       Route::post('forget-Passwored', [AuthCompanyController::class, 'forgetPassword']);
-       Route::post('reset-password/{token}', [AuthCompanyController::class, 'resetPassword']);
-       Route::post('verify-Otp', [AuthCompanyController::class, 'verifyOtp']);
-       Route::get('delete-MyAccount', [AuthCompanyController::class, 'deleteMyAccount']);
-       Route::post('/update', [AuthCompanyController::class, 'update']);
-       Route::post('/change-password', [AuthCompanyController::class, 'changePassword']);
-
-    });
-
-    Route::name('employees.')->prefix('employees')->group(function () {
-      Route::get('logout', [AuthEmployeeController::class, 'logout']);
-      Route::post('forget-Passwored', [AuthEmployeeController::class, 'forgetPassword']);
-      Route::post('reset-password/{token}', [AuthEmployeeController::class, 'resetPassword']);
-      Route::post('verify-Otp', [AuthEmployeeController::class, 'verifyOtp']);
-      Route::get('delete-MyAccount', [AuthEmployeeController::class, 'deleteMyAccount']);
-      Route::post('/update', [AuthEmployeeController::class, 'update']);
-
-      Route::post('/change-password', [AuthCompanyController::class, 'changePassword']);
-
-      
-    });
-
-
-});
-
-
-});
-
-
+Route::post('/verify-Otp', [AuthController::class, 'verifyotp']);
 
 
 Route::middleware('auth:sanctum')->group(function () {
+
+Route::prefix('auth')->group(function () {
+  #Auth
+  Route::get('/me', [AuthController::class, 'me']);
+  Route::post('refresh', [AuthController::class, 'refreshToken']);
+  Route::post('/reset-Password', [AuthController::class, 'resetPassword']);
+});
 
   ##############################################################################################
     # FirebaseController

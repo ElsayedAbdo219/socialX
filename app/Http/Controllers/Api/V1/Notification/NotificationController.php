@@ -9,7 +9,6 @@ use App\Http\Resources\Api\Notification\NotificationResource;
 use App\Http\Resources\Api\V1\Dashboard\UserResource;
 use App\Notifications\AdminNotification;
 use App\Notifications\DashboardNotification;
-use App\Repositories\Contracts\UserContract;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -20,11 +19,11 @@ class NotificationController extends Controller
 
     protected mixed $modelResource = NotificationResource::class;
 
-    public function __construct(protected UserContract $userRepository)
+   /*  public function __construct(protected UserContract $userRepository)
     {
         $this->middleware(['role_or_permission:notifications-index|' . activeGuard()])->only(['__invoke', 'index']);
         $this->middleware(['role_or_permission:notifications-create|' . activeGuard()])->only('store');
-    }
+    } */
 
     public function index(Request $request): mixed
     {

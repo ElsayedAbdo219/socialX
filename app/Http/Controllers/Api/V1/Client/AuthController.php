@@ -39,18 +39,92 @@ public function register(RegisterClientRequest $request){
     return $this->respondWithSuccess('User Register Successfully', $member );
 }
 
-# Login & Authentication
-public function login(LoginClientRequest $request){
-       $loginMemberData =  $request->validated();
-       $member = Member::where('email',$loginMemberData['email'])->first();
-       if(!$member || !Hash::check($loginMemberData['password'],$member->password)){
+public function login(LoginClientRequest $request)
+{
+    $loginMemberData = $request->validated();
+    $member = Member::where('email', $loginMemberData['email'])->first();
+
+    if (!$member || !Hash::check($loginMemberData['password'], $member->password)) {
         return $this->errorUnauthorized('Invalid Credentials');
-       }
+    }
 
-     $member['token'] = $member->createToken('sanctumToken')->plainTextToken;
-     return $this->respondWithSuccess('User Logged In Successfully', $member );
+    // حذف جميع التوكنات القديمة لمنع تكرار الجلسات
+    $member->tokens()->delete();
 
+    // إنشاء Access Token بصلاحيات كاملة لمدة 60 دقيقة
+    $accessToken = $member->createToken('access-token', ['*'], now()->addMinutes(60))->plainTextToken;
+
+    // إنشاء Refresh Token بصلاحيات التحديث لمدة 7 أيام
+    $refreshToken = $member->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
+
+    return $this->respondWithSuccess('User Logged In Successfully', [
+        'member' => $member,
+        'access_token' => $accessToken,
+        'refresh_token' => $refreshToken,
+        'token_type' => 'Bearer',
+        'expires_in' => 60 * 60 // 1 ساعة
+    ]);
 }
+
+
+
+#Refresh Token 
+
+    public function refreshToken(Request $request)
+    {
+        $user = Auth::user();
+
+        // التحقق من أن التوكن المستخدم هو "Refresh Token"
+        if (!$request->user()->currentAccessToken()->can('refresh')) {
+            return response()->json(['message' => 'Invalid refresh token'], 403);
+        }
+
+        // حذف التوكنات القديمة
+        $user->tokens()->delete();
+
+        // إصدار Access Token جديد
+        $newAccessToken = $user->createToken('access-token', ['*'], now()->addMinutes(60))->plainTextToken;
+
+        // إصدار Refresh Token جديد
+        $newRefreshToken = $user->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
+
+        return response()->json([
+            'access_token' => $newAccessToken,
+            'refresh_token' => $newRefreshToken,
+            'token_type' => 'Bearer',
+            'expires_in' => 60 * 60,
+        ]);
+    }
+
+# Verification
+public function verifyOtp(Request $request){
+    $dataRequest = $request->validate([
+        'email' => 'required|email|exists:members,email',
+        'otp' => 'required|digits:6'
+    ]);
+
+    $otpRecord = OtpAuthenticate::where('email', $dataRequest['email'])->latest()->first();
+    
+    if (!$otpRecord) {
+        return $this->errorUnauthorized('No OTP found.');
+    }
+
+    if (now()->greaterThan($otpRecord->expiryDate)) {
+        return $this->errorUnauthorized('The OTP has expired.');
+    }
+
+    if ($dataRequest['otp'] != $otpRecord->otp) {
+        return $this->errorUnauthorized('Invalid OTP.');
+    }
+
+    $member = Member::where('email', $otpRecord->email)->first();
+    $member->email_verified_at = now();
+    $member->save();
+    $otpRecord->delete();
+    $token= $member->createToken('sanctumToken')->plainTextToken;
+    return $this->respondWithSuccess('User verified successfully.' ,['token'=>$token]);
+}
+
 
     # Forget Password
 public function forgetPassword(Request $request)
@@ -80,36 +154,31 @@ public function forgetPassword(Request $request)
 # Reset Password
 public function resetPassword(Request $request)
 {
+    // return OtpAuthenticate::get();
     $dataRequest = $request->validate([
-        'email'    => 'required|email|exists:members,email',
-        'otp'      => 'required|digits:6',
         'password' => 'required|string|min:8|confirmed'
     ]);
-
-    $otpRecord = OtpAuthenticate::where('email', $dataRequest['email'])->latest()->first();
-
-    if (!$otpRecord || Carbon::parse($otpRecord->expiryDate)->isPast()) {
-        return $this->errorUnauthorized('The OTP is invalid or expired.');
-    }
-
-    if ($dataRequest['otp'] != $otpRecord->otp) {
-        return $this->errorUnauthorized('Invalid OTP.');
-    }
-
-    // تحديث كلمة المرور
-    $Member = Member::where('email', $dataRequest['email'])->first();
+    $Member = $request->user();
     $Member->password = Hash::make($dataRequest['password']);
     $Member->save();
-
-    // حذف جميع رموز OTP القديمة
-    OtpAuthenticate::where('email', $dataRequest['email'])->delete();
-
-    // حذف جميع التوكنات القديمة وإنشاء توكن جديد
+    OtpAuthenticate::where('email', $Member->email)->delete();
     $Member->tokens()->delete();
-    $accessToken = $Member->createToken('sanctumToken')->plainTextToken;
-
-    return $this->respondWithArray(["access_token" => $accessToken]);
+    return $this->respondWithSuccess('Password Has Changed Successfully');
 }
+
+public function me()
+{
+return auth()->user();
+
+}
+
+
+public function refresh()
+{
+return auth()->user();
+
+}
+
 
 
 

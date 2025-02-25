@@ -8,7 +8,7 @@ use App\Http\Requests\Api\Profile\UpdatePasswordRequest;
 use App\Http\Requests\Api\V1\Client\UpdateProfileRequest;
 use App\Http\Resources\Api\Auth\ClientResource;
 use App\Http\Resources\Api\V1\Client\UserResource;
-use App\Repositories\Contracts\ProfileContract;
+// use App\Repositories\Contracts\ProfileContract;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enum\UserTypeEnum;
 use App\Http\Controllers\Controller;
-use App\Repositories\Contracts\BaseContract;
+// use App\Repositories\Contracts\BaseContract;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Support\Str;
 use Spatie\Permission\Exceptions\UnauthorizedException;
