@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
-
+use App\Enum\UserTypeEnum;
 /**
  * @bodyParam name string required The user personal name.Example: 0564776688
  * @bodyParam mobile string required The Mobile Number of the user.Example: 0564776688
@@ -32,14 +32,18 @@ class RegisterClientRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => ["required", "string", "max:190", "regex:/^[a-zA-Z0-9\s]+$/"],
-            "mobile" => ["required", "unique:users,mobile"],
-            "email" => ["email", "unique:users,email"],
+            "type" => ["required", "in:" . implode(",", UserTypeEnum::toArray())],
+            "full_name" => ["required_if:type,company", "string", "max:190"],
+            "first_name" => ["required_if:type,employee", "string", "max:190"],
+            "last_name" => ["required_if:type,employee", "string", "max:190"],
+            "phone" => ["required", "unique:members,phone"],
+            "email" => ["required", "email", "unique:members,email"],
             "password" => ["required", "confirmed", Password::default()],
+            "birth_date" => ["required", "date"],
         ];
     }
 
-    public function attributes(): array
+ /*    public function attributes(): array
     {
         return [
             'name' => __('Name'),
@@ -48,5 +52,5 @@ class RegisterClientRequest extends FormRequest
             'password' => __('Password'),
             'password_confirmation' => __('Password Confirmation'),
         ];
-    }
+    } */
 }

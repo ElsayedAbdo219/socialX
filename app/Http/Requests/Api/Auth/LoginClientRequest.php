@@ -36,19 +36,18 @@ class LoginClientRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile' => ['required',
-                Rule::exists('users', 'mobile')->whereIn('type', [UserTypeEnum::CLIENT])],
+            'email' => ['required', Rule::exists('members', 'email')],
             'password' => ['required', 'string', Password::default()],
         ];
     }
 
-    public function attributes(): array
+    /* public function attributes(): array
     {
         return [
             'mobile' => __('Mobile'),
             'password' => __('Password'),
         ];
-    }
+    } */
 
     /**
      * Attempt to authenticate the request's credentials.
@@ -57,7 +56,7 @@ class LoginClientRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate()
+   /*  public function authenticate()
     {
         $this->ensureIsNotRateLimited();
         $data = $this->only('mobile', 'password');
@@ -71,7 +70,7 @@ class LoginClientRequest extends FormRequest
 
         RateLimiter::clear($this->throttleKey());
     }
-
+ */
     /**
      * Ensure the login request is not rate limited.
      *

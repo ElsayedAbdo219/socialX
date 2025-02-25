@@ -5,20 +5,18 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OTPMail extends Mailable implements ShouldQueue
+class OtpMail extends Mailable
 {
-    use Queueable;
-    use SerializesModels;
+    use Queueable, SerializesModels;
 
-    protected $code;
-    public function __construct($code)
+    protected $otpCode;
+    public function __construct($otpCode)
     {
-        $this->code = $code;
+        $this->otpCode = $otpCode;
     }
 
 
@@ -26,7 +24,7 @@ class OTPMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Otp Message',
+            subject: 'Otp Code', 
         );
     }
 
@@ -54,7 +52,7 @@ class OTPMail extends Mailable implements ShouldQueue
     {
         return $this->markdown('emails.otp')
             ->with([
-                'code' => $this->code,
+                'otp' => $this->otpCode,
             ]);
     }
 }

@@ -23,7 +23,8 @@ use App\Http\Controllers\Api\V1\Client\{
   NewsController,
   DislikeController,
   CalenderController,
-  FirebaseController
+  FirebaseController,
+  AuthController
                
 
 
@@ -54,6 +55,13 @@ Route::get('/payment/success', [FawaterkController::class, 'success'])->name('pa
 Route::get('/payment/fail', [FawaterkController::class, 'fail'])->name('payment.fail');
 Route::get('/payment/pending', [FawaterkController::class, 'pending'])->name('payment.pending');
 
+
+#Auth
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/forget-Password', [AuthController::class, 'forgetPassword']);
+Route::post('/reset-Password', [AuthController::class, 'resetPassword']);
+
 Route::prefix("auth")->group(function () {
 
 
@@ -71,13 +79,13 @@ Route::prefix("auth")->group(function () {
 
 
     Route::name('companies.')->prefix('companies')->group(function () {
-      Route::get('logout', [AuthCompanyController::class, 'logout']);
-      Route::post('forget-Passwored', [AuthCompanyController::class, 'forgetPassword']);
-      Route::post('reset-password/{token}', [AuthCompanyController::class, 'resetPassword']);
-      Route::post('verify-Otp', [AuthCompanyController::class, 'verifyOtp']);
-      Route::get('delete-MyAccount', [AuthCompanyController::class, 'deleteMyAccount']);
-      Route::post('/update', [AuthCompanyController::class, 'update']);
-      Route::post('/change-password', [AuthCompanyController::class, 'changePassword']);
+       Route::get('logout', [AuthCompanyController::class, 'logout']);
+       Route::post('forget-Passwored', [AuthCompanyController::class, 'forgetPassword']);
+       Route::post('reset-password/{token}', [AuthCompanyController::class, 'resetPassword']);
+       Route::post('verify-Otp', [AuthCompanyController::class, 'verifyOtp']);
+       Route::get('delete-MyAccount', [AuthCompanyController::class, 'deleteMyAccount']);
+       Route::post('/update', [AuthCompanyController::class, 'update']);
+       Route::post('/change-password', [AuthCompanyController::class, 'changePassword']);
 
     });
 

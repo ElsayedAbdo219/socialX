@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 
 trait ApiResponseTrait
 {
-    protected ?int $statusCode = null;
+    protected ?int $statusCode = NULL;
 
     /**
      * setStatusCode() set status code value
@@ -48,7 +48,7 @@ trait ApiResponseTrait
      * @param array $data
      * @return JsonResponse
      */
-    protected function respondWithSuccess(string $message = null, array $data = []): JsonResponse
+    protected function respondWithSuccess(string $message = null,  $data = null): JsonResponse
     {
         $response = [
             'status' => 200,
@@ -74,8 +74,14 @@ trait ApiResponseTrait
     protected function respondWithModelData($model, int $statusCode = null, array $headers = []): mixed
     {
         $statusCode = $statusCode ?? 200;
-        return $this->setStatusCode($statusCode)->respond($model, $headers);
+        $resourceClass = $this->modelResource;
+        $resource = new $resourceClass($model?->load($this?->relations));
+        return $this->setStatusCode($statusCode)->respond($resource, $headers);
     }
+
+
+ 
+
 
     /**
      * respondWithError() used to return error message
@@ -91,7 +97,7 @@ trait ApiResponseTrait
                 E_USER_WARNING
             );
         }
-        return $this->respondWithErrors($message, $this->statusCode, [], $message);
+        return $this->respondWithErrors($message, $this->statusCode,[],$message);
     }
 
     /**
@@ -105,10 +111,11 @@ trait ApiResponseTrait
      */
     protected function respondWithErrors(
         string $errors = 'messages.error',
-        $statusCode = null,
+               $statusCode = null,
         array  $data = [],
-        $message = null
-    ): JsonResponse {
+               $message = null
+    ): JsonResponse
+    {
         $statusCode = !empty($statusCode) ? $statusCode : 400;
         if (is_string($errors)) {
             $errors = __($errors);
