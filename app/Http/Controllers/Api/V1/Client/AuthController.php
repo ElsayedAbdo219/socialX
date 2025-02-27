@@ -145,7 +145,7 @@ public function resendOtp(Request $request){
     $dataRequest = $request->validate(['email'=>'required','exists:members,email']);
     $otpRecord = OtpAuthenticate::create([
         'email' => $dataRequest['email'],
-        'otp' => rand(0, 999999),
+        'otp' => mt_rand(100000, 999999),
         'expiryDate' => now()->addMinutes(12),
     ]);
      // إرسال OTP عبر البريد الإلكتروني
@@ -164,8 +164,8 @@ public function forgetPassword(Request $request)
     // حذف أي رموز OTP قديمة لنفس البريد الإلكتروني
     OtpAuthenticate::where('email', $dataRequest['email'])->delete();
 
-    $otp = rand(0, 999999);
-
+    $otp = mt_rand(100000, 999999);
+// return mt_rand(100000, 999999);
     OtpAuthenticate::create([
         'email'       => $dataRequest['email'],
         'otp'         => $otp,
