@@ -35,9 +35,23 @@ public function register(RegisterClientRequest $request){
     $dataValidated = $request->validated();
     $dataValidated['password'] = Hash::make($request->password);
     $member = Member::create($dataValidated);
-    $member['token'] = $member->createToken('sanctumToken')->plainTextToken;
-    return $this->respondWithSuccess('User Register Successfully', $member );
-}
+    // حذف جميع التوكنات القديمة لمنع تكرار الجلسات
+    $member->tokens()->delete();
+
+    // إنشاء Access Token بصلاحيات كاملة لمدة 60 دقيقة
+    $accessToken = $member->createToken('access-token', ['*'], now()->addMinutes(60))->plainTextToken;
+
+    // إنشاء Refresh Token بصلاحيات التحديث لمدة 7 أيام
+    $refreshToken = $member->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
+
+   return $this->respondWithSuccess('User Logged In Successfully', [
+        'member' => $member,
+        'access_token' => $accessToken,
+        'refresh_token' => $refreshToken,
+        'token_type' => 'Bearer',
+        'expires_in' => 60 * 60 // 1 ساعة
+    ]);
+    }
 
 public function login(LoginClientRequest $request)
 {
@@ -123,6 +137,20 @@ public function verifyOtp(Request $request){
     $otpRecord->delete();
     $token= $member->createToken('sanctumToken')->plainTextToken;
     return $this->respondWithSuccess('User verified successfully.' ,['token'=>$token]);
+}
+
+
+# Resend Otp
+public function resendOtp(Request $request){
+    $dataRequest = $request->validate(['email'=>'required','exists:members,email']);
+    $otpRecord = OtpAuthenticate::create([
+        'email' => $dataRequest['email'],
+        'otp' => rand(0, 999999),
+        'expiryDate' => now()->addMinutes(12),
+    ]);
+     // إرسال OTP عبر البريد الإلكتروني
+    // Mail::to($dataRequest['email'])->send(new OtpMail($otpRecord['otp']));
+      return $this->respondWithSuccess('The Otp Resend Successfully , is '.$otpRecord['otp']);
 }
 
 
