@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Client;
 
 use App\Models\Payment;
+use App\Models\Setting;
 use App\Models\GoodType;
 use App\Enum\UserTypeEnum;
 use App\Enum\ContactUsTypesEnum;
@@ -27,31 +28,35 @@ class StaticPagesController extends Controller
     {
     } */
 
-    public function aboutApp(): JsonResponse
+    public function aboutApp()
     {
-        $data['data'] = collect(setting('about-app'))->toArray()[app()->getLocale()] ?? '';
+        // return Setting::where('key','about-app')->get() ; 
+        $data['data'] = collect(Setting::where('key','about-app')->get())->toArray();
         $data['status'] = 200;
+        // return $data ;
         return $this->respondWithArray($data);
     }
 
-    public function termsAndConditions(): JsonResponse
+    public function termsAndConditions() 
     {
-        $data['data'] = collect(setting('terms-and-conditions'))->toArray()[app()->getLocale()] ?? '';
+        // return Setting::where('key','terms-and-conditions')->get() ; 
+        // return Setting::where('key','terms-and-conditions')->get() ; 
+        $data['data'] = collect(Setting::where('key','terms-and-conditions')->get())->toArray();
         $data['status'] = 200;
         return $this->respondWithArray($data);
     }
 
     public function privacyPolicy(): JsonResponse
     {
-        $data['data'] = collect(setting('app-privacy'))->toArray()[app()->getLocale()] ?? '';
+        $data['data'] = collect(Setting::where('key','app-privacy')->get())->toArray();
         $data['status'] = 200;
         return $this->respondWithArray($data);
     }
 
     public function contactUs(): JsonResponse
     {
-        $data['data'] = collect(setting('app-contacts'))->toArray() ?? '';
-        $data['contact-us-types'] = ContactUsTypesEnum::values();
+        $data['data'] = collect(Setting::where('key','app-contacts')->get())->toArray() ?? '';
+        // $data['contact-us-types'] = ContactUsTypesEnum::values();
         $data['status'] = 200;
         return $this->respondWithArray($data);
     }
