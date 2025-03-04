@@ -62,7 +62,18 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forget-Password', [AuthController::class, 'forgetPassword']);
 Route::post('/verify-Otp', [AuthController::class, 'verifyotp']);
 Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
+  # Static Pages
+  Route::group(['prefix' => 'static-pages'], function () {
+    Route::get('about-app', [StaticPagesController::class, 'aboutApp']);
+    Route::get('terms-and-conditions', [StaticPagesController::class, 'termsAndConditions']);
+    Route::get('privacy-policy', [StaticPagesController::class, 'privacyPolicy']);
+    Route::get('contact-us', [StaticPagesController::class, 'contactUs']);
+    Route::post('contact-us', [StaticPagesController::class, 'contactUsSubmit']);
 
+
+
+
+  });
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -159,18 +170,7 @@ Route::prefix('auth')->group(function () {
 
 
 
-  # Static Pages
-  Route::group(['prefix' => 'static-pages'], function () {
-    Route::get('about-app', [StaticPagesController::class, 'aboutApp']);
-    Route::get('terms-and-conditions', [StaticPagesController::class, 'termsAndConditions']);
-    Route::get('privacy-policy', [StaticPagesController::class, 'privacyPolicy']);
-    Route::get('contact-us', [StaticPagesController::class, 'contactUs']);
-    Route::post('contact-us', [StaticPagesController::class, 'contactUsSubmit']);
 
-
-
-
-  });
 
 
       # follow
@@ -241,4 +241,4 @@ Route::prefix('auth')->group(function () {
 
   
 
-});
+}); 

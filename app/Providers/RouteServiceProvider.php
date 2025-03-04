@@ -35,7 +35,7 @@ class RouteServiceProvider extends ServiceProvider
             array_push($this->apiMiddlewares, 'apikey');
         }
 
-        $this->routes(function () {
+        $this->routes(function () { 
 
             Route::middleware(['api','apilocale'])
                 ->namespace($this->apiClientNamespace)
