@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\V1\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponseTrait;
-use App\Models\Complain;
+use App\Models\Suggestion;
 use App\Notifications\DashboardNotification;
 use App\Models\User;
-class ComplainController extends Controller
+class SuggestionController extends Controller
 {
     use ApiResponseTrait;
 
@@ -15,14 +15,14 @@ class ComplainController extends Controller
 
     $request->validate([ "message"=>"required|string"]);
 
-    $complain=Complain::create(["message"=>$request->message]);
+    $Suggestion=Suggestion::create(["message"=>$request->message]);
     
 
     $notifabel = User::whereType('admin')->first();
     
     $notificationData = [
-      'title' => __('dashboard.complain_send_from') . ' '. $complain->user->name,
-      'body' => $complain->message,
+      'title' => __('dashboard.Suggestion_send_from') . ' '. $Suggestion->user->name,
+      'body' => $Suggestion->message,
     ];
    // return $notificationData;
     # sending a notification to the user
@@ -30,7 +30,7 @@ class ComplainController extends Controller
     new DashboardNotification($notificationData, ['database', 'firebase']));
       
 
-    return $this->respondWithSuccess(__('messages.Complain added successfully'));
+    return $this->respondWithSuccess(__('messages.Suggestion added successfully'));
 
     }
 }

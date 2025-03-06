@@ -184,7 +184,9 @@ return [
     "main_page"=>"الصفحة الرئيسية",
     "normal"=>"عادي",
     "advertisement"=>"اعلان",
-    "edit_post"=>"تعديل بيانات الطلب",
+    "edit_post"=> "تعديل بيانات الطلب",
+    'Suggestion_send_from' => " تم اضافة اقتراج جديد من خلال " ,
+    'Suggestion added successfully' => "تم اضافة الاقتراح بنجاح " , 
 
 
 

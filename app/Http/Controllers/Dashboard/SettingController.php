@@ -22,6 +22,7 @@ class SettingController extends Controller
 
     public function update(Request $request, Setting $setting)
     {
+        // dd($request);
 
         if ($setting->key == 'terms-and-conditions') {
             $settingRequest = $request->validate([
@@ -39,8 +40,7 @@ class SettingController extends Controller
                 ->with(['success' => __('dashboard.terms-and-conditions updated successfully')]);
         }
 
-
-        if ($setting->key === 'about-app') {
+        elseif ($setting->key === 'about-app') {
 
             $settingRequest = $request->validate([
                 'contentAbout' => ['required', 'string', 'max:500'],
@@ -57,7 +57,7 @@ class SettingController extends Controller
                 ->with(['success' => __('dashboard.about app updated successfully')]);
         }
 
-        if ($setting->key == 'app-privacy') {
+        elseif ($setting->key == 'app-privacy') {
             $settingRequest = $request->validate([
                 'content' => ['required', 'string'],
             ]);
@@ -72,19 +72,16 @@ class SettingController extends Controller
             return redirect()->route('admin.settings.index', ['page' => 'privacy'])
                 ->with(['success' => __('dashboard.app-privacy updated successfully')]);
         }
-
-
-
-
-        $validatedData = $request->validate([
+       
+        elseif ($setting->key == 'app-contacts') {
+             $validatedData = $request->validate([
             'number.*' => ['required', 'string', 'min:7', 'max:15'],
             'watsApp' => ['required', 'string', 'min:7', 'max:15'],
             'facebook' => ['required', 'string', 'url'],
             'snapchat' => ['required', 'string', 'url'],
             'instagram' => ['required', 'string', 'url'],
-        ]);
+           ]);
 
-        if ($setting->key == 'app-contacts') {
             $phones = [];
             foreach ($validatedData['number'] as $number) {
                 $phones[] = $number;
@@ -103,5 +100,55 @@ class SettingController extends Controller
             return redirect()->route('admin.settings.index', ['page' => 'contact'])
                 ->with(['success' => __('dashboard.contact updated successfully')]);
         }
+
+        elseif ($setting->key === 'our-vision') {
+            //   dd($request) ;     
+           // return "dfgdfg";
+
+            $settingRequest = $request->validate([
+                'content' => ['required', 'string', 'max:500'],
+            ]);
+
+            $setting->update([
+                "value" => [
+                    "ar" =>  $settingRequest['content'],
+                    "en" => $settingRequest['content'],
+                ]
+            ]);
+
+            return redirect()->route('admin.settings.index', ['page' => 'our-vision'])
+                ->with(['success' => __('dashboard.our-vision updated successfully')]);
+        }
+        elseif ($setting->key === 'why-choose-anceega-for-seekers') {
+            // dd($request);
+            $settingRequest = $request->validate([
+                'items' => ['required', 'array'],
+                'items.*.contentSeekers' => ['required', 'string'],
+            ]);
+            // استخراج القيم النصية فقط
+            $contentSeekers = collect($settingRequest['items'])->pluck('contentSeekers')->toArray();
+            // تحديث القيمة كـ JSON
+            $setting->update([
+                "value" => [
+                    "ar" => $contentSeekers, // نفس القيم لكلا اللغتين
+                    "en" => $contentSeekers,
+                ]
+            ]);
+        
+            return redirect()->route('admin.settings.index', ['page' => 'why-choose-anceega-for-seekers'])
+                ->with(['success' => __('dashboard.why-choose-anceega-for-seekers updated successfully')]);
+        }
+        
+        
+
+
+
+         
+        
+
+        
+
+
+
     }
 }

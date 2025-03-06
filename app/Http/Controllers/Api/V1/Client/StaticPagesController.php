@@ -70,40 +70,11 @@ class StaticPagesController extends Controller
 
     public function contactUsSubmit(ContactUsRequest $request)
     {
-        $request->merge(['user_id' => auth('api')->id() ?? 0]);
-        $contactUs = app(ContactUsContract::class)->create($request->all());
-
-        # Send Notifications For Admins
-        $notificationData = prepareNotification(
-            title: 'messages.responses.contact_us',
-            body: [
-                'data' => [
-                    'ar' => __('messages.client :name send message :message', ['name' => $contactUs->name, 'message' => $contactUs->message], 'ar'),
-                    'en' => __('messages.client :name send message :message', ['name' => $contactUs->name, 'message' => $contactUs->message], 'en')
-                ]
-            ]
-        );
-
-        $adminsAndEmployees = $this->userRepository->search(
-            filters: ['type' => [UserTypeEnum::ADMIN, UserTypeEnum::EMPLOYEE], 'status' => true],
-            page: 0,
-            limit: 0
-        );
+       
         Notification::send($adminsAndEmployees, new AdminNotification($notificationData, ['database']));
         return $this->respondWithModelData(new ContactUsResource($contactUs));
     }
 
 
-    public function index()
-    {
-       //  $data =  auth()->user()->financial->goodTypeTon()->with(['goodType'])->get();
-
-        $data =  GoodType::with(['company'])->get();
-
-        return $this->respondWithArray([
-         'data' => GoodTypeResource::collection($data)
-     ]);
-
-     
-    }
+   
 }

@@ -24,7 +24,9 @@ use App\Http\Controllers\Api\V1\Client\{
   DislikeController,
   CalenderController,
   FirebaseController,
-  AuthController
+  AuthController,
+  SuggestionController,
+  ComplainController
                
 
 
@@ -239,6 +241,15 @@ Route::prefix('auth')->group(function () {
     Route::post('changeStatus/{calender}', [CalenderController::class, 'changeStatus']);
   });
 
-  
+    # compalins
+    Route::name('compalins.')->prefix('compalins')->group(function () {
+      Route::post('add', [ComplainController::class, 'add']);
+    });
+
+
+     # suggestions
+    Route::name('suggestions.')->prefix('suggestions')->group(function () {
+      Route::post('add', [SuggestionController::class, 'add']);
+    });
 
 }); 

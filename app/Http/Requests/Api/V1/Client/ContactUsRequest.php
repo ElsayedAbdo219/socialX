@@ -16,11 +16,7 @@ class ContactUsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255|string|min:3',
-            'email' => 'required|email',
-            'mobile' => 'required',
-            'message' => 'required|max:255|string|min:3',
-            'message_type' => 'required|in:' . ContactUsTypesEnum::implodedArray(),
+            'message' => 'required|max:255|string',
         ];
     }
 

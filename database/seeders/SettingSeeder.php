@@ -36,6 +36,68 @@ class SettingSeeder extends Seeder
                     'ar' => 'سياسة الخصوصية',
                     'en' => 'application privacy',
                 ],
+                'our-vision' => [
+                    'ar' => ' رؤيتنا',
+                    'en' => 'our-vision',
+                ],
+                'why-choose-anceega-for-seekers' => [
+                    'ar' => ['ميزة 1', 'ميزة 2'],
+                    'en' => ['meezq1', 'meeza2'],
+                ],
+                 'why-choose-anceega-for-business-and-freelancers' => [
+                    'ar' => ['ميزة 1', 'ميزة 2'],
+                    'en' => ['meezq1', 'meeza2'],
+                ],
+                 'key-features' => [
+                    'ar' => ['مفتاح 1', 'مفتاح 2'],
+                    'en' => ['key 12 ', 'kry 2'],
+                ],
+                'user-responsibilities' => [
+                    'ar' => ['مفتابلابلاح 1', 'بلاب 2'],
+                    'en' => ['kdfgfdgdey 12 ', 'kryxdfgdrtg 2'],
+                ],
+                 'company-responsibilities' => [
+                    'ar' => ['مفتابلابلاح 1', 'بلاب 2'],
+                    'en' => ['kdfgfdgdey 12 ', 'kryxdfgdrtg 2'],
+                ],
+                'platform-usage' => [
+                    'ar' => 'استخدام المنصة',
+                    'en' => 'platform-usage',
+                ],
+
+                'account-suspension-policy' => [
+                    'ar' => 'استخدام الاكونت',
+                    'en' => 'account-suspension-policy',
+                ],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
                 'general' => [
 
                 ]
