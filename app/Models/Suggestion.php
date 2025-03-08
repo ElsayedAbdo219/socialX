@@ -20,7 +20,7 @@ class Suggestion extends Model
     protected $guarded = [];
 
      # Relations
-     public function user(): BelongsTo
+     public function user()
      {
          return $this->belongsTo(User::class);
      }

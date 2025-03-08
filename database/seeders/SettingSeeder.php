@@ -120,31 +120,9 @@ class SettingSeeder extends Seeder
                 'how-advertise-work-for-users' => [
                     'ar' => 'المساعدة في تشكيل عن ثقة',
                     'en' => 'Help shape Anceega with confidence',
-                    'videoPath' => Storage::url('posts/669bd50447475_٢٠٢٣-٠٨-١٢ at ١٤-٢٠-٥٣.mp4')
+                    'videoPath' => Storage::url('/669bd50447475_٢٠٢٣-٠٨-١٢ at ١٤-٢٠-٥٣.mp4')
                 ],
                 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 
                 'general' => [

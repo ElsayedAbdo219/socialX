@@ -21,7 +21,7 @@ class SuggestionController extends Controller
     $notifabel = User::whereType('admin')->first();
     
     $notificationData = [
-      'title' => __('dashboard.Suggestion_send_from') . ' '. $Suggestion->user->name,
+      'title' => __('dashboard.Suggestion_send_from') . ' '. $Suggestion?->user?->name,
       'body' => $Suggestion->message,
     ];
    // return $notificationData;

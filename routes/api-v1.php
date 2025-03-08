@@ -69,6 +69,9 @@ Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
     Route::get('about-app', [StaticPagesController::class, 'aboutApp']);
     Route::get('terms-and-conditions', [StaticPagesController::class, 'termsAndConditions']);
     Route::get('privacy-policy', [StaticPagesController::class, 'privacyPolicy']);
+    Route::get('help-shape', [StaticPagesController::class, 'helpShape']);
+    Route::get('ads', [StaticPagesController::class, 'ads']);
+    Route::get('help', [StaticPagesController::class, 'help']);
     Route::get('contact-us', [StaticPagesController::class, 'contactUs']);
     Route::post('contact-us', [StaticPagesController::class, 'contactUsSubmit']);
 
@@ -243,13 +246,16 @@ Route::prefix('auth')->group(function () {
 
     # compalins
     Route::name('compalins.')->prefix('compalins')->group(function () {
-      Route::post('add', [ComplainController::class, 'add']);
+      Route::post('add', [ComplainController::class, 'send']);
     });
 
+    # contact-us
+   
+      Route::post('contact-us', [ComplainController::class, 'send']);
 
      # suggestions
     Route::name('suggestions.')->prefix('suggestions')->group(function () {
-      Route::post('add', [SuggestionController::class, 'add']);
+      Route::post('add', [SuggestionController::class, 'send']);
     });
 
 }); 

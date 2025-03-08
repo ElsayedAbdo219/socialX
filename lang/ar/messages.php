@@ -307,7 +307,11 @@ return [
      "cash"=>"كاش",
      "installment"=>"تقسيط",
      "shekara"=>"شيكارة",
+     
 
+
+
+     'Suggestion added successfully' => "تم اضافة الاقتراح بنجاح"
 
 
 
