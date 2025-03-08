@@ -6,6 +6,7 @@ use App\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Dashboard\UpdateSettingsRequest;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -122,11 +123,11 @@ class SettingController extends Controller
         elseif ($setting->key === 'why-choose-anceega-for-seekers') {
             // dd($request);
             $settingRequest = $request->validate([
-                'items' => ['required', 'array'],
-                'items.*.contentSeekers' => ['required', 'string'],
+                'items1' => ['required', 'array'],
+                'items1.*.contentSeekers' => ['required', 'string'],
             ]);
             // استخراج القيم النصية فقط
-            $contentSeekers = collect($settingRequest['items'])->pluck('contentSeekers')->toArray();
+            // $contentSeekers = collect($settingRequest['items1'])->pluck('contentSeekers')->toArray();
             // تحديث القيمة كـ JSON
             $setting->update([
                 "value" => [
@@ -139,14 +140,345 @@ class SettingController extends Controller
                 ->with(['success' => __('dashboard.why-choose-anceega-for-seekers updated successfully')]);
         }
         
+         elseif ($setting->key === 'why-choose-anceega-for-business-and-freelancers') {
+            // dd($request);
+            $settingRequest = $request->validate([
+                'items2' => ['required', 'array'],
+                'items2.*.contentFreelanceAndBusiness' => ['required', 'string'],
+            ]);
+            // استخراج القيم النصية فقط
+            $contentFreelanceAndBusiness = collect($settingRequest['items2'])->pluck('contentFreelanceAndBusiness')->toArray();
+            // تحديث القيمة كـ JSON
+            $setting->update([
+                "value" => [
+                    "ar" => $contentFreelanceAndBusiness, // نفس القيم لكلا اللغتين
+                    "en" => $contentFreelanceAndBusiness,
+                ]
+            ]);
         
+            return redirect()->route('admin.settings.index', ['page' => 'why-choose-anceega-for-business-and-freelancers'])
+                ->with(['success' => __('dashboard.why-choose-anceega-for-business-and-freelancers updated successfully')]);
+        }
+
+          elseif ($setting->key === 'key-features') {
+            // dd($request);
+            $settingRequest = $request->validate([
+                'items3' => ['required', 'array'],
+                'items3.*.contentCustomSuggestions' => ['required', 'string'],
+            ]);
+            // استخراج القيم النصية فقط
+            $contentKeyFeatures = collect($settingRequest['items3'])->pluck('contentKeyFeatures')->toArray();
+            // تحديث القيمة كـ JSON
+            $setting->update([
+                "value" => [
+                    "ar" => $contentKeyFeatures, // نفس القيم لكلا اللغتين
+                    "en" => $contentKeyFeatures,
+                ]
+            ]);
+        
+            return redirect()->route('admin.settings.index', ['page' => 'key-features'])
+                ->with(['success' => __('dashboard.contentKeyFeatures updated successfully')]);
+        }
+        
+        elseif ($setting->key === 'user-responsibilities') {
+            // dd($request);
+            $settingRequest = $request->validate([
+                'items4' => ['required', 'array'],
+                'items4.*.contentUserResponsibilities' => ['required', 'string'],
+            ]);
+            // استخراج القيم النصية فقط
+            $contentUserResponsibilities = collect($settingRequest['items4'])->pluck('contentUserResponsibilities')->toArray();
+            // تحديث القيمة كـ JSON
+            $setting->update([
+                "value" => [
+                    "ar" => $contentUserResponsibilities, // نفس القيم لكلا اللغتين
+                    "en" => $contentUserResponsibilities,
+                ]
+            ]);
+        
+            return redirect()->route('admin.settings.index', ['page' => 'user-responsibilities'])
+                ->with(['success' => __('dashboard.user-responsibilities updated successfully')]);
+        }
 
 
+          elseif ($setting->key === 'company-responsibilities') {
+            // dd($request);
+            $settingRequest = $request->validate([
+                'items5' => ['required', 'array'],
+                'items5.*.contentCompanyResponsibilities' => ['required', 'string'],
+            ]);
+            // استخراج القيم النصية فقط
+            $contentCompanyResponsibilities = collect($settingRequest['items5'])->pluck('contentCompanyResponsibilities')->toArray();
+            // تحديث القيمة كـ JSON
+            $setting->update([
+                "value" => [
+                    "ar" => $contentCompanyResponsibilities, // نفس القيم لكلا اللغتين
+                    "en" => $contentCompanyResponsibilities,
+                ]
+            ]);
+        
+            return redirect()->route('admin.settings.index', ['page' => 'company-responsibilities'])
+                ->with(['success' => __('dashboard.contentCompanyResponsibilities updated successfully')]);
+        }
 
+        elseif ($setting->key === 'platform-usage') {
+            //   dd($request) ;     
+           // return "dfgdfg";
+
+            $settingRequest = $request->validate([
+                'contentPlatformUsage' => ['required', 'string', 'max:500'],
+            ]);
+
+            $setting->update([
+                "value" => [
+                    "ar" =>  $settingRequest['contentPlatformUsage'],
+                    "en" => $settingRequest['contentPlatformUsage'],
+                ]
+            ]);
+
+            return redirect()->route('admin.settings.index', ['page' => 'platform-usage'])
+                ->with(['success' => __('dashboard.platform-usage updated successfully')]);
+        }
+
+
+        elseif ($setting->key === 'account-suspension-policy') {
+            //   dd($request) ;     
+           // return "dfgdfg";
+
+            $settingRequest = $request->validate([
+                'contentAccountSuspensionPolicy' => ['required', 'string', 'max:500'],
+            ]);
+
+            $setting->update([
+                "value" => [
+                    "ar" =>  $settingRequest['contentAccountSuspensionPolicy'],
+                    "en" => $settingRequest['contentAccountSuspensionPolicy'],
+                ]
+            ]);
+
+            return redirect()->route('admin.settings.index', ['page' => 'account-suspension-policy'])
+                ->with(['success' => __('dashboard.account-suspension-policy updated successfully')]);
+        }
+
+        elseif ($setting->key === 'Help-Shape-Anceega') {
+            //   dd($request) ;     
+           // return "dfgdfg";
+
+            $settingRequest = $request->validate([
+                'contentHelpShapeAnceega' => ['required', 'string', 'max:500'],
+            ]);
+
+            $setting->update([
+                "value" => [
+                    "ar" =>  $settingRequest['contentHelpShapeAnceega'],
+                    "en" => $settingRequest['contentHelpShapeAnceega'],
+                ]
+            ]);
+
+            return redirect()->route('admin.settings.index', ['page' => 'Help-Shape-Anceega'])
+                ->with(['success' => __('dashboard.Help-Shape-Anceega updated successfully')]);
+        }
+        
+         elseif ($setting->key === 'custom-suggestions') {
+            // dd($request);
+            $settingRequest = $request->validate([
+                'items6' => ['required', 'array'],
+                'items6.*.contentCustomSuggestions' => ['required', 'string'],
+            ]);
+            // استخراج القيم النصية فقط
+            $contentCustomSuggestions = collect($settingRequest['items6'])->pluck('contentCustomSuggestions')->toArray();
+            // تحديث القيمة كـ JSON
+            $setting->update([
+                "value" => [
+                    "ar" => $contentCustomSuggestions, // نفس القيم لكلا اللغتين
+                    "en" => $contentCustomSuggestions,
+                ]
+            ]);
+        
+            return redirect()->route('admin.settings.index', ['page' => 'custom-suggestions'])
+                ->with(['success' => __('dashboard.custom-suggestions updated successfully')]);
+        }
+
+        elseif ($setting->key === 'your-rights') {
+            // dd($request);
+            $settingRequest = $request->validate([
+                'items7' => ['required', 'array'],
+                'items7.*.contentYourRights' => ['required', 'string'],
+            ]);
+            // استخراج القيم النصية فقط
+            $contentYourRights = collect($settingRequest['items7'])->pluck('contentYourRights')->toArray();
+            // تحديث القيمة كـ JSON
+            $setting->update([
+                "value" => [
+                    "ar" => $contentYourRights, // نفس القيم لكلا اللغتين
+                    "en" => $contentYourRights,
+                ]
+            ]);
+        
+            return redirect()->route('admin.settings.index', ['page' => 'your-rights'])
+                ->with(['success' => __('dashboard.your-rights updated successfully')]);
+        }
+
+
+         elseif ($setting->key === 'information-collect') {
+            // dd($request);
+            $settingRequest = $request->validate([
+                'items8' => ['required', 'array'],
+                'items8.*.contentInformationCollect' => ['required', 'string'],
+            ]);
+            // استخراج القيم النصية فقط
+            $contentInformationCollect = collect($settingRequest['items8'])->pluck('contentInformationCollect')->toArray();
+            // تحديث القيمة كـ JSON
+            $setting->update([
+                "value" => [
+                    "ar" => $contentInformationCollect, // نفس القيم لكلا اللغتين
+                    "en" => $contentInformationCollect,
+                ]
+            ]);
+        
+            return redirect()->route('admin.settings.index', ['page' => 'information-collect'])
+                ->with(['success' => __('dashboard.information-collect updated successfully')]);
+        }
+
+
+         elseif ($setting->key === 'how-use-data') {
+            //   dd($request) ;     
+           // return "dfgdfg";
+
+            $settingRequest = $request->validate([
+                'contentHowUseData' => ['required', 'string', 'max:500'],
+            ]);
+
+            $setting->update([
+                "value" => [
+                    "ar" =>  $settingRequest['contentHowUseData'],
+                    "en" => $settingRequest['contentHowUseData'],
+                ]
+            ]);
+
+            return redirect()->route('admin.settings.index', ['page' => 'how-use-data'])
+                ->with(['success' => __('dashboard.how-use-data updated successfully')]);
+        }
          
+        elseif ($setting->key === 'help-support') {
+            //   dd($request) ;     
+           // return "dfgdfg";
+
+            $settingRequest = $request->validate([
+                'contentHelpAndSupport' => ['required', 'string', 'max:500'],
+            ]);
+
+            $setting->update([
+                "value" => [
+                    "ar" =>  $settingRequest['contentHelpAndSupport'],
+                    "en" => $settingRequest['contentHelpAndSupport'],
+                ]
+            ]);
+
+            return redirect()->route('admin.settings.index', ['page' => 'help-support'])
+                ->with(['success' => __('dashboard.help-support updated successfully')]);
+        }
+
+
+         elseif ($setting->key === 'advertise-Anceega') {
+            //   dd($request) ;     
+           // return "dfgdfg";
+
+            $settingRequest = $request->validate([
+                'contentAdvertiseAnceega' => ['required', 'string', 'max:500'],
+            ]);
+
+            $setting->update([
+                "value" => [
+                    "ar" =>  $settingRequest['contentAdvertiseAnceega'],
+                    "en" => $settingRequest['contentAdvertiseAnceega'],
+                ]
+            ]);
+
+            return redirect()->route('admin.settings.index', ['page' => 'advertise-Anceega'])
+                ->with(['success' => __('dashboard.advertise-Anceega updated successfully')]);
+        }
         
 
+        elseif ($setting->key === 'why-advertise-withAnceega') {
+            // dd($request);
+            $settingRequest = $request->validate([
+                'items9' => ['required', 'array'],
+                'items9.*.contentWhyAdvertiseWithUs' => ['required', 'string'],
+                'imageWhyAdvertise' => ['required', 'image', 'mimes:jpg,jpeg,png,gif']
+            ]);
+            // dd($request);
         
+            // استخراج القيم النصية فقط
+            $contentWhyAdvertiseWithUs = collect($settingRequest['items9'])->pluck('contentWhyAdvertiseWithUs')->toArray();
+        
+            // حفظ الصورة في public storage
+            $imagepath = Storage::disk('public')->put('whyAdvertise-Anceega', $request->file('imageWhyAdvertise'));
+        
+            // تحديث القيمة كـ JSON
+            $setting->update([
+                "value" => [
+                    "ar" => $contentWhyAdvertiseWithUs,
+                    "en" => $contentWhyAdvertiseWithUs,
+                    'imagePath' => basename($imagepath)
+                ]
+            ]);
+        
+            return redirect()->route('admin.settings.index', ['page' => 'why-advertise-withAnceega'])
+                ->with(['success' => __('dashboard.why-advertise-withAnceega updated successfully')]);
+        }
+        
+
+
+
+        elseif ($setting->key === 'how-advertise-work-for-companies') {
+                
+            // dd($request) ; 
+
+            $settingRequest = $request->validate([
+                'contentAdvertiseForCompanies' => ['required', 'string'],
+                'videoAdvertiseForCompanies' => ['required', 'file', 'mimes:mp4,mov,avi,wmv,mkv,flv', 'max:20480'] // 20MB
+            ]);
+            // dd($settingRequest) ;
+             $imagepath = Storage::disk('public')->put('AdvertiseForCompaniesAnceega', $request->file('videoAdvertiseForCompanies'));
+            // dd($request) ; 
+
+            $setting->update([
+                "value" => [
+                    "ar" =>  $settingRequest['contentAdvertiseForCompanies'],
+                    "en" => $settingRequest['contentAdvertiseForCompanies'],
+                     'videoPath' => basename($imagepath)
+                ]
+                ]);
+
+            return redirect()->route('admin.settings.index', ['page' => 'how-advertise-work-for-companies'])
+                ->with(['success' => __('dashboard.how-advertise-work-for-companies  updated successfully')]);
+        }
+           
+        
+        elseif ($setting->key === 'how-advertise-work-for-users') {
+            //   dd($request) ;     
+           // return "dfgdfg";
+
+            $settingRequest = $request->validate([
+                'contentAdvertiseForUsers' => ['required', 'string'],
+                'videoAdvertiseForUsers' => ['required', 'file', 'mimes:mp4,mov,avi,wmv,mkv,flv', 'max:20480'] // 20MB
+            ]);
+            $imagepath = Storage::disk('public')->put('AdvertiseForUsers-Anceega', $request->file('videoAdvertiseForUsers'));
+            $setting->update([
+                "value" => [
+                    "ar" =>  $settingRequest['contentAdvertiseForUsers'],
+                    "en" => $settingRequest['contentAdvertiseForUsers'],
+                     'videoPath' => basename($imagepath) 
+                ]
+            ]);
+
+            return redirect()->route('admin.settings.index', ['page' => 'how-advertise-work-for-users'])
+                ->with(['success' => __('dashboard.how-advertise-work-for-users updated successfully')]);
+        }
+
+
+
 
 
 
