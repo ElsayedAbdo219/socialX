@@ -911,15 +911,23 @@
                     action="{{ route('admin.settings.update', $setting->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
-                    <div class="">
-                        <label for="">الصورة الحالية</label>
-                        <img style="height:200px ; width:100%" src="{{asset('storage/whyAdvertise-Anceega/'.$setting?->value['imagePath'])}}" alt="imagePathForwhyAdvertise-Anceega">
-                    </div><br>
-                    <input type="file"  name="imageWhyAdvertise" class="form-control me-2" placeholder="حمل الصورة .." required > <br>
+                    <div class="image-container d-flex flex-wrap" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                        <label for="">الصور الحالية</label>
+                        <div class="d-flex gap-2" style="display: flex; gap: 10px;">
+                            @foreach($setting?->value['imagePath'] as $img)
+                                <img class="preview-img" src="{{ asset('storage/whyAdvertise-Anceega/'.$img) }}" 
+                                     alt="imagePathForwhyAdvertise-Anceega"
+                                     style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid #ddd; padding: 5px; background: #fff;">
+                            @endforeach
+                        </div>
+                    </div>
+                    
+                    
+                    <input type="file"  name="imageWhyAdvertise[]" class="form-control me-2" placeholder="حمل الصورة .."  multiple> <br>
                     <div id="repeater9">
                         <div data-repeater-list="items9">
                             {{-- @dd($setting) --}}
-                            @foreach($setting->value['ar'] as $val)
+                            @foreach($setting->value['ar']  ?? [] as $val)
                             <div data-repeater-item class="d-flex align-items-center mb-3">
                                 <input type="text" value="{{ $val }}" name="items[][contentWhyAdvertiseWithUs]" class="form-control me-2" placeholder="الوصف" required >
                                 <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>حذف</button>
@@ -949,13 +957,18 @@
                                       action="{{ route('admin.settings.update', $setting->id) }}" enctype="multipart/form-data">
                                     @csrf
                                     @method('PATCH')
-                                    <div class="">
-                                        <label for="">الفيديو الحالي</label>
-                                        <video style="height: 200px; width: 100%;" controls>
-                                            <source src="{{ asset('storage/AdvertiseForCompanies-Anceega/'.$setting?->value['videoPath']) }}" type="video/mp4">
-                                        </video>
-                                    </div><br>
-                                     <input type="file" name="videoAdvertiseForCompanies"  id="videoAdvertiseForCompanies" class="form-control me-2" placeholder="حمل الفيديو .." required >
+                                    <div class="video-container d-flex flex-wrap" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                                        <label for="">الفيديوهات الحالية</label>
+                                        <div class="d-flex gap-2" style="display: flex; gap: 10px;">
+                                            @foreach($setting?->value['videoPath'] ?? [] as $video)
+                                                <video style="width: 200px; height: 150px; border-radius: 8px; border: 2px solid #ddd; padding: 5px; background: #fff;" controls>
+                                                    <source src="{{ asset('storage/AdvertiseForCompanies-Anceega/'.$video) }}" type="video/mp4">
+                                                    متصفحك لا يدعم تشغيل الفيديو.
+                                                </video>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                     <input type="file" name="videoAdvertiseForCompanies[]"  id="videoAdvertiseForCompanies" class="form-control me-2" placeholder="حمل الفيديو .." multiple >
                                      <br>
                                     <div class="row">
                                         <div class="form-group col-4 d-none">
@@ -998,13 +1011,18 @@
                                      action="{{ route('admin.settings.update', $setting->id) }}" enctype="multipart/form-data">
                                    @csrf
                                    @method('PATCH')
-                                   <div class="">
-                                    <label for="">الفيديو الحالي</label>
-                                    <video style="height: 200px; width: 100%;" controls>
-                                        <source src="{{ asset('storage/AdvertiseForUsers-Anceega/'.$setting?->value['videoPath']) }}" type="video/mp4">
-                                    </video>
-                                </div><br>
-                                 <input type="file" name="videoAdvertiseForUsers"  id="videoAdvertiseForUsers" class="form-control me-2" placeholder="حمل الفيديو .." required >
+                                   <div class="video-container d-flex flex-wrap" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                                    <label for="">الفيديوهات الحالية</label>
+                                    <div class="d-flex gap-2" style="display: flex; gap: 10px;">
+                                        @foreach($setting?->value['videoPath'] ?? [] as $video)
+                                            <video style="width: 200px; height: 150px; border-radius: 8px; border: 2px solid #ddd; padding: 5px; background: #fff;" controls>
+                                                <source src="{{ asset('storage/AdvertiseForUsers-Anceega/'.$video) }}" type="video/mp4">
+                                                متصفحك لا يدعم تشغيل الفيديو.
+                                            </video>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                 <input type="file" name="videoAdvertiseForUsers[]"  id="videoAdvertiseForUsers" class="form-control me-2" placeholder="حمل الفيديو .." multiple >
                                  <br>
                                    <div class="row">
                                        <div class="form-group col-4 d-none">
@@ -1026,7 +1044,7 @@
                                <button onclick="submitAdvertiseForUsers()"
                                        class="btn btn-primary mr-1 mb-1 m-3">{{ __('dashboard.edit') }}</button>
                            </div>
-                           @error('content')
+                           @error('contentAdvertiseForUsers')
                            <div style="font-size: 12px; margin:20px 10px;" class="text-danger ">
                                {{ $message }}</div>
                            @enderror

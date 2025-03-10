@@ -108,19 +108,19 @@ class SettingSeeder extends Seeder
                 'why-advertise-withAnceega' => [
                     'ar' => ['ميزة 1', 'ميزة 2'],
                     'en' => ['Feature 1', 'Feature 2'],
-                    'imagePath' => Storage::url('posts/6686f8d22b68f_3d ثيسؤ - Copy.jpg')
+                    'imagePath' => [ Storage::url('posts/6686f8d22b68f_3d ثيسؤ - Copy.jpg') , Storage::url('posts/6686f8d22b68f_3d ثيسؤ - Copy.jpg') ]
                 ],
                 
                 'how-advertise-work-for-companies' => [
                     'ar' => 'المساعدة في تشكيل عن ثقة',
                     'en' => 'Help shape Anceega with confidence',
-                    'videoPath' => Storage::url('posts/669bd50447475_٢٠٢٣-٠٨-١٢ at ١٤-٢٠-٥٣.mp4')
+                    'videoPath' => [ Storage::url('posts/669bd50447475_٢٠٢٣-٠٨-١٢ at ١٤-٢٠-٥٣.mp4') , Storage::url('posts/669bd50447475_٢٠٢٣-٠٨-١٢ at ١٤-٢٠-٥٣.mp4') ]
                 ],
                 
                 'how-advertise-work-for-users' => [
                     'ar' => 'المساعدة في تشكيل عن ثقة',
                     'en' => 'Help shape Anceega with confidence',
-                    'videoPath' => Storage::url('/669bd50447475_٢٠٢٣-٠٨-١٢ at ١٤-٢٠-٥٣.mp4')
+                    'videoPath' => [ Storage::url('/669bd50447475_٢٠٢٣-٠٨-١٢ at ١٤-٢٠-٥٣.mp4')  , Storage::url('/669bd50447475_٢٠٢٣-٠٨-١٢ at ١٤-٢٠-٥٣.mp4') ]
                 ],
                 
 

@@ -17,13 +17,13 @@ class Setting extends Model
     public $filters = [
         'key'
     ];
-    #getter
-     protected function getImagePathAttribute()
-    {
-       if(!empty($this->value['imagePath']))
-          return  asset('storage/'.$this->value['imagePath']);
-          return null;
-    } 
+    // #getter
+    //  protected function getImagePathAttribute()
+    // {
+    //    if(!empty($this->value['imagePath']))
+    //       return  asset('storage/'.$this->value['imagePath']);
+    //       return null;
+    // } 
     # Scopes
     public function scopeOfKey($query, $value)
     {

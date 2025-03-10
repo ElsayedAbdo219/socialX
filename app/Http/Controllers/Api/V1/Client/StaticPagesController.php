@@ -114,25 +114,61 @@ class StaticPagesController extends Controller
     ], */
     public function ads(): JsonResponse
     {
-        $advertiseAnceega = collect(Setting::where('key','advertise-Anceega')->get())->toArray();
-        $whyAdvertiseWithAnceega = collect(Setting::where('key','why-advertise-withAnceega')->get())->toArray();
-        $whyAdvertiseWithAnceega['imagePathValue'] = asset('storage/whyAdvertise-Anceega/'.$whyAdvertiseWithAnceega[0]['value']['imagePath']);   
-        
-        $howAdvertiseWorkforCompanies = collect(Setting::where('key','how-advertise-work-for-companies')->get())->toArray();
-        $howAdvertiseWorkforCompanies['videoPathValue'] = asset('storage/AdvertiseForCompaniesAnceega/'.$howAdvertiseWorkforCompanies[0]['value']['videoPath']);   
-        
-        $howAdvertiseWorkforUsers = collect(Setting::where('key','how-advertise-work-for-users')->get())->toArray();
-        $howAdvertiseWorkforUsers['videoPathValue'] = asset('storage/AdvertiseForUsersAnceega/'.$howAdvertiseWorkforUsers[0]['value']['videoPath']);   
-
-
-        $data['status'] = 200;
+        $advertiseAnceega = Setting::where('key', 'advertise-Anceega')->first();
+        $whyAdvertiseWithAnceega = Setting::where('key', 'why-advertise-withAnceega')->first();
+        $howAdvertiseWorkforCompanies = Setting::where('key', 'how-advertise-work-for-companies')->first();
+        $howAdvertiseWorkforUsers = Setting::where('key', 'how-advertise-work-for-users')->first();
+    
+        // تحويل القيم إلى مصفوفة للتأكد من القراءة الصحيحة
+        $whyAdvertiseWithAnceegaArray = $whyAdvertiseWithAnceega ? $whyAdvertiseWithAnceega->toArray() : [];
+        $howAdvertiseWorkforCompaniesArray = $howAdvertiseWorkforCompanies ? $howAdvertiseWorkforCompanies->toArray() : [];
+        $howAdvertiseWorkforUsersArray = $howAdvertiseWorkforUsers ? $howAdvertiseWorkforUsers->toArray() : [];
+    
+        // استخراج مسارات الصور
+        $imagesAds = [];
+        if (!empty($whyAdvertiseWithAnceegaArray['value'])) {
+            $value = json_decode(json_encode($whyAdvertiseWithAnceegaArray['value']), true);
+            if (!empty($value['imagePath']) && is_array($value['imagePath'])) {
+                foreach ($value['imagePath'] as $image) {
+                    $imagesAds[] = asset('storage/whyAdvertise-Anceega/' . $image);
+                }
+            }
+        }
+        $whyAdvertiseWithAnceegaArray['imagePathValue'] = $imagesAds;
+    
+        // استخراج مسارات الفيديوهات للشركات
+        $videoAdsForCompany = [];
+        if (!empty($howAdvertiseWorkforCompaniesArray['value'])) {
+            $value = json_decode(json_encode($howAdvertiseWorkforCompaniesArray['value']), true);
+            if (!empty($value['videoPath']) && is_array($value['videoPath'])) {
+                foreach ($value['videoPath'] as $video) {
+                    $videoAdsForCompany[] = asset('storage/AdvertiseForCompaniesAnceega/' . $video);
+                }
+            }
+        }
+        $howAdvertiseWorkforCompaniesArray['videoPathValue'] = $videoAdsForCompany;
+    
+        // استخراج مسارات الفيديوهات للمستخدمين
+        $videoAdsForUser = [];
+        if (!empty($howAdvertiseWorkforUsersArray['value'])) {
+            $value = json_decode(json_encode($howAdvertiseWorkforUsersArray['value']), true);
+            if (!empty($value['videoPath']) && is_array($value['videoPath'])) {
+                foreach ($value['videoPath'] as $video) {
+                    $videoAdsForUser[] = asset('storage/AdvertiseForUsersAnceega/' . $video);
+                }
+            }
+        }
+        $howAdvertiseWorkforUsersArray['videoPathValue'] = $videoAdsForUser;
+    
         return $this->respondWithArray([
             'advertiseAnceega' => $advertiseAnceega,
-            'whyAdvertiseWithAnceega' => $whyAdvertiseWithAnceega,
-            'howAdvertiseWorkforCompanies' => $howAdvertiseWorkforCompanies,
-            'howAdvertiseWorkforUsers' => $howAdvertiseWorkforUsers,
+            'whyAdvertiseWithAnceega' => $whyAdvertiseWithAnceegaArray,
+            'howAdvertiseWorkforCompanies' => $howAdvertiseWorkforCompaniesArray,
+            'howAdvertiseWorkforUsers' => $howAdvertiseWorkforUsersArray,
         ]);
     }
+    
+    
 
     public function help(): JsonResponse
     {

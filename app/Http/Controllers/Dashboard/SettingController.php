@@ -127,7 +127,7 @@ class SettingController extends Controller
                 'items1.*.contentSeekers' => ['required', 'string'],
             ]);
             // استخراج القيم النصية فقط
-            // $contentSeekers = collect($settingRequest['items1'])->pluck('contentSeekers')->toArray();
+             $contentSeekers = collect($settingRequest['items1'])->pluck('contentSeekers')->toArray();
             // تحديث القيمة كـ JSON
             $setting->update([
                 "value" => [
@@ -405,24 +405,29 @@ class SettingController extends Controller
             $settingRequest = $request->validate([
                 'items9' => ['required', 'array'],
                 'items9.*.contentWhyAdvertiseWithUs' => ['required', 'string'],
-                'imageWhyAdvertise' => ['required', 'image', 'mimes:jpg,jpeg,png,gif']
+                'imageWhyAdvertise' => ['nullable', 'array'],
+                'imageWhyAdvertise.*' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif']
             ]);
-            // dd($request);
+           // dd($request);
         
             // استخراج القيم النصية فقط
             $contentWhyAdvertiseWithUs = collect($settingRequest['items9'])->pluck('contentWhyAdvertiseWithUs')->toArray();
         
             // حفظ الصورة في public storage
-            $imagepath = Storage::disk('public')->put('whyAdvertise-Anceega', $request->file('imageWhyAdvertise'));
-        
+            $images = [];
+            foreach($settingRequest['imageWhyAdvertise'] ?? [] as  $imageWhyAdvertise)  {
+                $images[] = basename(Storage::disk('public')->put('whyAdvertise-Anceega', $imageWhyAdvertise )) ;
+            }    
+            // dd($images);
             // تحديث القيمة كـ JSON
             $setting->update([
                 "value" => [
                     "ar" => $contentWhyAdvertiseWithUs,
                     "en" => $contentWhyAdvertiseWithUs,
-                    'imagePath' => basename($imagepath)
+                    'imagePath' => !empty($images) ? $images : ($setting->value['imagePath'] ?? [])
                 ]
             ]);
+            
         
             return redirect()->route('admin.settings.index', ['page' => 'why-advertise-withAnceega'])
                 ->with(['success' => __('dashboard.why-advertise-withAnceega updated successfully')]);
@@ -437,17 +442,22 @@ class SettingController extends Controller
 
             $settingRequest = $request->validate([
                 'contentAdvertiseForCompanies' => ['required', 'string'],
-                'videoAdvertiseForCompanies' => ['required', 'file', 'mimes:mp4,mov,avi,wmv,mkv,flv', 'max:20480'] // 20MB
+                'videoAdvertiseForCompanies' => ['nullable', 'array'],// 20MB
+                'videoAdvertiseForCompanies.*' => ['nullable', 'file', 'mimes:mp4,mov,avi,wmv,mkv,flv', 'max:20480'] // 20MB
             ]);
             // dd($settingRequest) ;
-             $imagepath = Storage::disk('public')->put('AdvertiseForCompaniesAnceega', $request->file('videoAdvertiseForCompanies'));
+              // حفظ الصورة في public storage
+            $videos = [];
+            foreach($settingRequest['videoAdvertiseForCompanies'] ?? [] as  $videoWhyAdvertise)  {
+             $videos[] = basename(Storage::disk('public')->put('AdvertiseForCompaniesAnceega', $videoWhyAdvertise ));
+            }
             // dd($request) ; 
 
             $setting->update([
                 "value" => [
                     "ar" =>  $settingRequest['contentAdvertiseForCompanies'],
                     "en" => $settingRequest['contentAdvertiseForCompanies'],
-                     'videoPath' => basename($imagepath)
+                     'videoPath' => !empty($videos) ? $videos : ($setting->value['videoPath'] ?? [])
                 ]
                 ]);
 
@@ -457,19 +467,25 @@ class SettingController extends Controller
            
         
         elseif ($setting->key === 'how-advertise-work-for-users') {
-            //   dd($request) ;     
+            //  dd($request) ;     
            // return "dfgdfg";
 
             $settingRequest = $request->validate([
                 'contentAdvertiseForUsers' => ['required', 'string'],
-                'videoAdvertiseForUsers' => ['required', 'file', 'mimes:mp4,mov,avi,wmv,mkv,flv', 'max:20480'] // 20MB
+                'videoAdvertiseForUsers' => ['nullable', 'array'], // 20MB
+                'videoAdvertiseForUsers.*' => ['nullable', 'file', 'mimes:mp4,mov,avi,wmv,mkv,flv', 'max:20480'] // 20MB
             ]);
-            $imagepath = Storage::disk('public')->put('AdvertiseForUsers-Anceega', $request->file('videoAdvertiseForUsers'));
+            //  dd($request) ;   
+            $videos = [];
+            foreach($settingRequest['videoAdvertiseForUsers'] ?? [] as  $videoWhyAdvertise)  {  
+            $videos[] = basename(Storage::disk('public')->put('AdvertiseForUsers-Anceega', $videoWhyAdvertise ));
+            }
+
             $setting->update([
                 "value" => [
                     "ar" =>  $settingRequest['contentAdvertiseForUsers'],
                     "en" => $settingRequest['contentAdvertiseForUsers'],
-                     'videoPath' => basename($imagepath) 
+                     'videoPath' => !empty($videos) ? $videos : ($setting->value['videoPath'] ?? [])
                 ]
             ]);
 
