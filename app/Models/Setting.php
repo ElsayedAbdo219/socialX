@@ -17,13 +17,39 @@ class Setting extends Model
     public $filters = [
         'key'
     ];
-    // #getter
-    //  protected function getImagePathAttribute()
-    // {
-    //    if(!empty($this->value['imagePath']))
-    //       return  asset('storage/'.$this->value['imagePath']);
-    //       return null;
-    // } 
+
+         // #getter
+         public function getValueAttribute($value)
+         {
+             $decodedValue = json_decode($value, true);
+         
+             // إذا لم يكن مصفوفة، نرجع مصفوفة فارغة
+             if (!is_array($decodedValue)) {
+                 return [];
+             }
+         
+             // استخراج القيم النصية (ar & en) مع التحقق
+             $result = [
+                 'ar' => is_string($decodedValue['ar'] ?? '') 
+                     ? strip_tags($decodedValue['ar']) 
+                     : $decodedValue['ar'],
+         
+                 'en' => is_string($decodedValue['en'] ?? '') 
+                     ? strip_tags($decodedValue['en']) 
+                     : $decodedValue['en'],
+             ];
+         
+             // إضافة أي بيانات أخرى في `value` مثل `imagePath`
+             foreach ($decodedValue as $key => $val) {
+                 if (!in_array($key, ['ar', 'en'])) {
+                     $result[$key] = $val; // أضف باقي البيانات كما هي بدون تغيير
+                 }
+             }
+         
+             return $result;
+         }
+          
+        
     # Scopes
     public function scopeOfKey($query, $value)
     {
