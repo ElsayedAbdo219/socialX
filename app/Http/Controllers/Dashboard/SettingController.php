@@ -33,8 +33,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" => $settingRequest['contentTerms'],
-                    "en" => $settingRequest['contentTerms'],
+                    "ar" => strip_tags($settingRequest['contentTerms']),
+                    "en" => strip_tags($settingRequest['contentTerms']),
                 ]
             ]);
 
@@ -50,8 +50,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" =>  $settingRequest['contentAbout'],
-                    "en" => $settingRequest['contentAbout'],
+                    "ar" =>  strip_tags($settingRequest['contentAbout']),
+                    "en" =>  strip_tags($settingRequest['contentAbout']),
                 ]
             ]);
 
@@ -66,8 +66,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" => $settingRequest['content'],
-                    "en" => $settingRequest['content'],
+                    "ar" => strip_tags($settingRequest['content']),
+                    "en" => strip_tags($settingRequest['content']),
                 ]
             ]);
 
@@ -113,8 +113,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" =>  $settingRequest['content'],
-                    "en" => $settingRequest['content'],
+                    "ar" => strip_tags($settingRequest['content']),
+                    "en" => strip_tags($settingRequest['content']),
                 ]
             ]);
 
@@ -165,7 +165,7 @@ class SettingController extends Controller
             // dd($request);
             $settingRequest = $request->validate([
                 'items3' => ['required', 'array'],
-                'items3.*.contentCustomSuggestions' => ['required', 'string'],
+                'items3.*.contentKeyFeatures' => ['required', 'string'],
             ]);
             // استخراج القيم النصية فقط
             $contentKeyFeatures = collect($settingRequest['items3'])->pluck('contentKeyFeatures')->toArray();
@@ -232,8 +232,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" =>  $settingRequest['contentPlatformUsage'],
-                    "en" => $settingRequest['contentPlatformUsage'],
+                    "ar" =>  strip_tags($settingRequest['contentPlatformUsage']),
+                    "en" => strip_tags($settingRequest['contentPlatformUsage']),
                 ]
             ]);
 
@@ -252,8 +252,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" =>  $settingRequest['contentAccountSuspensionPolicy'],
-                    "en" => $settingRequest['contentAccountSuspensionPolicy'],
+                    "ar" =>  strip_tags($settingRequest['contentAccountSuspensionPolicy']),
+                    "en" => strip_tags($settingRequest['contentAccountSuspensionPolicy']),
                 ]
             ]);
 
@@ -271,8 +271,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" =>  $settingRequest['contentHelpShapeAnceega'],
-                    "en" => $settingRequest['contentHelpShapeAnceega'],
+                    "ar" =>  strip_tags($settingRequest['contentHelpShapeAnceega']),
+                    "en" => strip_tags($settingRequest['contentHelpShapeAnceega']),
                 ]
             ]);
 
@@ -352,8 +352,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" =>  $settingRequest['contentHowUseData'],
-                    "en" => $settingRequest['contentHowUseData'],
+                    "ar" =>  strip_tags($settingRequest['contentHowUseData']),
+                    "en" => strip_tags($settingRequest['contentHowUseData']),
                 ]
             ]);
 
@@ -371,8 +371,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" =>  $settingRequest['contentHelpAndSupport'],
-                    "en" => $settingRequest['contentHelpAndSupport'],
+                    "ar" =>  strip_tags($settingRequest['contentHelpAndSupport']),
+                    "en" => strip_tags($settingRequest['contentHelpAndSupport']),
                 ]
             ]);
 
@@ -391,8 +391,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" =>  $settingRequest['contentAdvertiseAnceega'],
-                    "en" => $settingRequest['contentAdvertiseAnceega'],
+                    "ar" =>  strip_tags($settingRequest['contentAdvertiseAnceega']),
+                    "en" => strip_tags($settingRequest['contentAdvertiseAnceega']),
                 ]
             ]);
 
@@ -456,8 +456,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" =>  $settingRequest['contentAdvertiseForCompanies'],
-                    "en" => $settingRequest['contentAdvertiseForCompanies'],
+                    "ar" =>  strip_tags($settingRequest['contentAdvertiseForCompanies']),
+                    "en" => strip_tags($settingRequest['contentAdvertiseForCompanies']),
                      'videoPath' => !empty($videos) ? $videos : ($setting->value['videoPath'] ?? [])
                 ]
                 ]);
@@ -484,8 +484,8 @@ class SettingController extends Controller
 
             $setting->update([
                 "value" => [
-                    "ar" =>  $settingRequest['contentAdvertiseForUsers'],
-                    "en" => $settingRequest['contentAdvertiseForUsers'],
+                    "ar" =>  strip_tags($settingRequest['contentAdvertiseForUsers']),
+                    "en" => strip_tags($settingRequest['contentAdvertiseForUsers']),
                      'videoPath' => !empty($videos) ? $videos : ($setting->value['videoPath'] ?? [])
                 ]
             ]);
