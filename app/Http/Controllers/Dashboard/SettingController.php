@@ -12,12 +12,13 @@ class SettingController extends Controller
 {
     public function index()
     {
-
+ 
         $page = isset($_GET['page']) ? $_GET['page'] : '';
         if (empty($page)) {
             $page = 'terms';
         }
         $settings = Setting::all();
+        // dd($settings) ;
         return view('dashboard.settings.list', compact('settings', 'page'));
     }
 
