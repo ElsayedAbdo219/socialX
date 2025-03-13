@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ftp.back.anceega.com
+          server: ftp.anceega.com
           username: sayed@anceega.com
           password: iVqDf1n-SX6E
           local-dir: ./  # The directory you want to upload (current directory)
-          server-dir: /home/ance95.../backAnceega  # Change this to your target directory on the server
+          server-dir: /home/ance9562/public_html/backAnceega  # Change this to your target directory on the server
