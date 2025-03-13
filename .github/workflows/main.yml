@@ -11,8 +11,8 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-         server: ftp.anceega.com
-          username:sayed@anceega.com
-          password:iVqDf1n-SX6E
-          # local-dir: ./  # The directory you want to upload (current directory)
-          # server-dir: /home/ance9562/public_html/backAnceega/  # Change this to your target directory on the server
+        server: ftp.anceega.com
+        username: sayed@anceega.com
+        password: iVqDf1n-SX6E
+        # local-dir: ./  # The directory you want to upload (current directory)
+        # server-dir: /home/ance9562/public_html/backAnceega/  # Change this to your target directory on the server   
