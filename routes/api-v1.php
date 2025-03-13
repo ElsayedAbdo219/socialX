@@ -79,7 +79,7 @@ Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
 
 
   });
-#test yml with github actions
+#test yml with github actions once
 Route::middleware('auth:sanctum')->group(function () {
 
 Route::prefix('auth')->group(function () {
