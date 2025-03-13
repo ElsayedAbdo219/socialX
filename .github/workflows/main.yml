@@ -1,22 +1,17 @@
-name: FTP Deploy
-
-on:
-  push:
-    branches:
-      - main  # Change this to your default branch if needed
-
+on: push
+name: 🚀 Deploy website on push
 jobs:
-  deploy:
+  web-deploy:
+    name: 🎉 Deploy
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ftp.anceega.com
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
+    
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+         server: ftp.anceega.com
           username: sayed@anceega.com
           password: iVqDf1n-SX6E
           # local-dir: ./  # The directory you want to upload (current directory)
