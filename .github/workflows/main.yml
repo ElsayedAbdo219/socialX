@@ -14,5 +14,3 @@ jobs:
         server: ftp.anceega.com
         username: elsayed1020@back.anceega.com
         password: 2*qVP.5GN1_Y
-        # local-dir: ./  # The directory you want to upload (current directory)
-        server-dir: /home/ance9562/public_html/backAnceega/  # Change this to your target directory on the server   
