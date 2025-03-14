@@ -914,11 +914,13 @@
                     <div class="image-container d-flex flex-wrap" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
                         <label for="">الصور الحالية</label>
                         <div class="d-flex gap-2" style="display: flex; gap: 10px;">
+                        @if(is_array($setting?->value['imagePath']))
                             @foreach($setting?->value['imagePath'] as $img)
                                 <img class="preview-img" src="{{ asset('storage/whyAdvertise-Anceega/'.$img) }}" 
                                      alt="imagePathForwhyAdvertise-Anceega"
                                      style="width: 150px; height: 150px; object-fit: cover; border-radius: 8px; border: 2px solid #ddd; padding: 5px; background: #fff;">
                             @endforeach
+                           @endif
                         </div>
                     </div>
                     
@@ -960,12 +962,14 @@
                                     <div class="video-container d-flex flex-wrap" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
                                         <label for="">الفيديوهات الحالية</label>
                                         <div class="d-flex gap-2" style="display: flex; gap: 10px;">
+                                             @if(is_array($setting?->value['videoPath']))
                                             @foreach($setting?->value['videoPath'] ?? [] as $video)
                                                 <video style="width: 200px; height: 150px; border-radius: 8px; border: 2px solid #ddd; padding: 5px; background: #fff;" controls>
                                                     <source src="{{ asset('storage/AdvertiseForCompanies-Anceega/'.$video) }}" type="video/mp4">
                                                     متصفحك لا يدعم تشغيل الفيديو.
                                                 </video>
                                             @endforeach
+                                            @endif
                                         </div>
                                     </div>
                                      <input type="file" name="videoAdvertiseForCompanies[]"  id="videoAdvertiseForCompanies" class="form-control me-2" placeholder="حمل الفيديو .." multiple >
@@ -1014,12 +1018,14 @@
                                    <div class="video-container d-flex flex-wrap" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
                                     <label for="">الفيديوهات الحالية</label>
                                     <div class="d-flex gap-2" style="display: flex; gap: 10px;">
+                                        @if(is_array($setting?->value['videoPath']))
                                         @foreach($setting?->value['videoPath'] ?? [] as $video)
                                             <video style="width: 200px; height: 150px; border-radius: 8px; border: 2px solid #ddd; padding: 5px; background: #fff;" controls>
                                                 <source src="{{ asset('storage/AdvertiseForUsers-Anceega/'.$video) }}" type="video/mp4">
                                                 متصفحك لا يدعم تشغيل الفيديو.
                                             </video>
                                         @endforeach
+                                        @endif
                                     </div>
                                 </div>
                                  <input type="file" name="videoAdvertiseForUsers[]"  id="videoAdvertiseForUsers" class="form-control me-2" placeholder="حمل الفيديو .." multiple >
