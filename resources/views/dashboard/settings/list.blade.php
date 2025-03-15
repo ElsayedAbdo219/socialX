@@ -965,7 +965,7 @@
                                              @if(is_array($setting?->value['videoPath']))
                                             @foreach($setting?->value['videoPath'] ?? [] as $video)
                                                 <video style="width: 200px; height: 150px; border-radius: 8px; border: 2px solid #ddd; padding: 5px; background: #fff;" controls>
-                                                    <source src="{{ asset('storage/AdvertiseForCompanies-Anceega/'.$video) }}" type="video/mp4">
+                                                    <source src="{{ asset('storage/AdvertiseForCompaniesAnceega/'.$video) }}" type="video/mp4">
                                                     متصفحك لا يدعم تشغيل الفيديو.
                                                 </video>
                                             @endforeach
