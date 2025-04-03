@@ -26,7 +26,8 @@ use App\Http\Controllers\Api\V1\Client\{
   FirebaseController,
   AuthController,
   SuggestionController,
-  ComplainController
+  ComplainController,
+  UserCoverController
                
 
 
@@ -257,5 +258,20 @@ Route::prefix('auth')->group(function () {
     Route::name('suggestions.')->prefix('suggestions')->group(function () {
       Route::post('add', [SuggestionController::class, 'send']);
     });
+
+
+     # suggestions
+    Route::name('suggestions.')->prefix('suggestions')->group(function () {
+      Route::post('add', [SuggestionController::class, 'send']);
+    });
+
+      # usercovers
+    Route::name('usercovers.')->prefix('usercovers')->group(function () {
+      Route::post('add', [UserCoverController::class, 'add']);
+      Route::post('show', [UserCoverController::class, 'show']);
+      Route::post('update', [UserCoverController::class, 'update']);
+      Route::post('delete', [UserCoverController::class, 'delete']);
+    });
+   
 
 }); 

@@ -44,7 +44,7 @@ public function register(RegisterClientRequest $request){
     // إنشاء Refresh Token بصلاحيات التحديث لمدة 7 أيام
     $refreshToken = $member->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
 
-   return $this->respondWithSuccess('User Logged In Successfully', [
+   return $this->respondWithSuccess('User Register Successfully', [
         'member' => $member,
         'access_token' => $accessToken,
         'refresh_token' => $refreshToken,
@@ -79,7 +79,6 @@ public function login(LoginClientRequest $request)
         'expires_in' => 60 * 60 // 1 ساعة
     ]);
 }
-
 
 
 #Refresh Token 
@@ -201,11 +200,11 @@ return auth()->user();
 }
 
 
-public function refresh()
-{
-return auth()->user();
+// public function refresh()
+// {
+// return auth()->user();
 
-}
+// }
 
 
 
