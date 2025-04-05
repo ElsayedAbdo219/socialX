@@ -16,19 +16,6 @@ class ReviewController extends Controller
 
     public function addComment(Request $request, Post $Post)
     {
-       
-      /*   $Post = Post::whereId($Post->id)->first();
-    
-        $Post->load('review');
-        
-        foreach ($Post->review as $review) {
-            if ($review->likes == 1) {
-                return response()->json(['message' => 'لقد قمت بالأعجاب بهذا المنشور من قبل']);
-            }
-        }
-        */
-
-        
         if($Post->company->type == UserTypeEnum::EMPLOYEE )
         {
             $companies =  $Post->company->experience->pluck('company_id')->toArray();
@@ -37,13 +24,10 @@ class ReviewController extends Controller
 
              return response()->json(['message' => 'ليس لديك صلاحيات لأضافة تعليق على هذا المنشور']);
 
-
             }
-
          }
          
         $user_id =  auth('api')->user()->id;
-
        
         $Post->review()->create([
             'comments' => $request->comments,

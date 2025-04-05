@@ -116,10 +116,13 @@ Route::prefix('auth')->group(function () {
 
   # Experience
   Route::name('experience.')->prefix('experience')->group(function () {
-
-    Route::post('/add', [ExperienceController::class, 'add']);
-
-    Route::get('get/{EMPLOYEE}', [ExperienceController::class, 'get']);
+    #updated
+    Route::get('/', [ExperienceController::class, 'all']); // only employee_id eqaul auth userID
+    Route::post('/', [ExperienceController::class, 'add']); // ADD experience
+    Route::get('/{ID}', [ExperienceController::class, 'show']); // SHOW experience
+    Route::patch('/{ID}', [ExperienceController::class, 'update']); // update experience
+    Route::delete('/{ID}', [ExperienceController::class, 'delete']); // delete experience
+    Route::get('/user/{UserID}', [ExperienceController::class, 'get']); // get user experience
   });
 
   
@@ -128,8 +131,13 @@ Route::prefix('auth')->group(function () {
   
   # education
   Route::name('education.')->prefix('education')->group(function () {
-    Route::get('get/{EMPLOYEE}', [EducationController::class, 'get']);
-    Route::post('/add', [EducationController::class, 'add']);
+    #updated
+    Route::get('/', [EducationController::class, 'all']); // only employee_id eqaul auth userID
+    Route::post('/', [EducationController::class, 'add']); // ADD education
+    Route::get('/{ID}', [EducationController::class, 'show']); // SHOW education
+    Route::patch('/{ID}', [EducationController::class, 'update']); // update education
+    Route::delete('/{ID}', [EducationController::class, 'delete']); // delete education
+    Route::get('/user/{UserID}', [EducationController::class, 'get']); // get user education
   });
 
   // # position
@@ -155,6 +163,13 @@ Route::prefix('auth')->group(function () {
     Route::post('/add', [RateController::class, 'add']);
     Route::get('/viewMyRate', [RateController::class, 'viewMyRate']);
     Route::get('getRate/{EMPLOYEE}', [RateController::class, 'getRate']);
+
+    Route::get('/', [RateController::class, 'all']); // only employee_id eqaul auth userID
+    Route::post('/', [RateController::class, 'add']); // ADD SKILL
+    Route::get('/employee/{ID}', [RateController::class, 'showEmployee']); // SHOW SKILL
+    Route::get('/company/{ID}', [RateController::class, 'showCompany']); // SHOW SKILL
+    Route::patch('/{ID}', [RateController::class, 'update']); // update SKILL
+    Route::delete('/{ID}', [RateController::class, 'delete']); // delete SKILL
   });
 
   # reviews
@@ -170,8 +185,12 @@ Route::prefix('auth')->group(function () {
 
     # skills
     Route::name('skills.')->prefix('skills')->group(function () {
-      Route::post('add', [SkillController::class, 'add']);
-      Route::get('get/{EMPLOYEE}', [SkillController::class, 'get']);
+      Route::get('/', [SkillController::class, 'all']); // only employee_id eqaul auth userID
+      Route::post('/', [SkillController::class, 'add']); // ADD SKILL
+      Route::get('/{ID}', [SkillController::class, 'show']); // SHOW SKILL
+      Route::patch('/{ID}', [SkillController::class, 'update']); // update SKILL
+      Route::delete('/{ID}', [SkillController::class, 'delete']); // delete SKILL
+      Route::get('/user/{UserID}', [SkillController::class, 'get']); // get user SKILL
     });
 
 
@@ -273,5 +292,47 @@ Route::prefix('auth')->group(function () {
       Route::post('delete', [UserCoverController::class, 'delete']);
     });
    
+
+
+     # skills
+    Route::name('usercovers.')->prefix('usercovers')->group(function () {
+      Route::post('add', [UserCoverController::class, 'add']);
+      Route::post('show', [UserCoverController::class, 'show']);
+      Route::post('update', [UserCoverController::class, 'update']);
+      Route::post('delete', [UserCoverController::class, 'delete']);
+    });
+
+
+
+
+
+     # reviews
+    Route::name('usercovers.')->prefix('usercovers')->group(function () {
+      Route::post('add', [UserCoverController::class, 'add']);
+      Route::post('show', [UserCoverController::class, 'show']);
+      Route::post('update', [UserCoverController::class, 'update']);
+      Route::post('delete', [UserCoverController::class, 'delete']);
+    });
+
+
+     # experience
+     Route::name('usercovers.')->prefix('usercovers')->group(function () {
+      Route::post('add', [UserCoverController::class, 'add']);
+      Route::post('show', [UserCoverController::class, 'show']);
+      Route::post('update', [UserCoverController::class, 'update']);
+      Route::post('delete', [UserCoverController::class, 'delete']);
+    });
+
+
+     # education
+     Route::name('usercovers.')->prefix('usercovers')->group(function () {
+      Route::post('add', [UserCoverController::class, 'add']);
+      Route::post('show', [UserCoverController::class, 'show']);
+      Route::post('update', [UserCoverController::class, 'update']);
+      Route::post('delete', [UserCoverController::class, 'delete']);
+    });
+
+
+
 
 }); 
