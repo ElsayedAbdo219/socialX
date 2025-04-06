@@ -160,10 +160,6 @@ Route::prefix('auth')->group(function () {
 
   # Rates
   Route::name('rate.')->prefix('rate')->group(function () {
-    Route::post('/add', [RateController::class, 'add']);
-    Route::get('/viewMyRate', [RateController::class, 'viewMyRate']);
-    Route::get('getRate/{EMPLOYEE}', [RateController::class, 'getRate']);
-
     Route::get('/', [RateController::class, 'all']); // only employee_id eqaul auth userID
     Route::post('/', [RateController::class, 'add']); // ADD SKILL
     Route::get('/employee/{ID}', [RateController::class, 'showEmployee']); // SHOW SKILL
@@ -315,7 +311,7 @@ Route::prefix('auth')->group(function () {
     });
 
 
-     # experience
+     # usercovers
      Route::name('usercovers.')->prefix('usercovers')->group(function () {
       Route::post('add', [UserCoverController::class, 'add']);
       Route::post('show', [UserCoverController::class, 'show']);

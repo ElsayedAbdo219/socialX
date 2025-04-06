@@ -17,6 +17,7 @@ class RateController extends Controller
 {
     public function all()
     {
+        // return auth('api')->id();
         if (auth('api')->user()->type === UserTypeEnum::COMPANY) {
             return RateEmployee::where('company_id', auth('api')->user()->id)->paginate();
         } else {
@@ -33,8 +34,9 @@ class RateController extends Controller
         }
     }
 
-    public function showEmployee(Member $employee)
+    public function showEmployee($employee)
     {
+        $employee = Member::findOrFail($employee);
         $myRates = RateCompany::OfEmployee($employee?->id)->get();
         $total = $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count() : 0;
         return response()->json([
@@ -43,8 +45,9 @@ class RateController extends Controller
         ]);
     }
 
-    public function showCompany(Member $company)
+    public function showCompany($company)
     {
+        $company = Member::findOrFail($company);
         $myRates = RateEmployee::OfCompany($company?->id)->get();
         $total = $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count() : 0;
         return response()->json([
@@ -80,7 +83,7 @@ class RateController extends Controller
             'comment' => ['nullable', 'string'],
             'employee_id' => [
                 'required',
-                Rule::exists('users', 'id')->where(function ($query) {
+                Rule::exists('members', 'id')->where(function ($query) {
                     $query->where('type', UserTypeEnum::EMPLOYEE);
                 })
             ],
@@ -98,7 +101,7 @@ class RateController extends Controller
             'comment' => ['nullable', 'string'],
             'company_id' => [
                 'required',
-                Rule::exists('users', 'id')->where(function ($query) {
+                Rule::exists('members', 'id')->where(function ($query) {
                     $query->where('type', UserTypeEnum::COMPANY);
                 })
             ],
@@ -117,7 +120,7 @@ class RateController extends Controller
             'comment' => ['nullable', 'string'],
             'employee_id' => [
                 'required',
-                Rule::exists('users', 'id')->where(function ($query) {
+                Rule::exists('members', 'id')->where(function ($query) {
                     $query->where('type', UserTypeEnum::EMPLOYEE);
                 })
             ],
@@ -136,7 +139,7 @@ class RateController extends Controller
             'comment' => ['nullable', 'string'],
             'company_id' => [
                 'required',
-                Rule::exists('users', 'id')->where(function ($query) {
+                Rule::exists('members', 'id')->where(function ($query) {
                     $query->where('type', UserTypeEnum::COMPANY);
                 })
             ],

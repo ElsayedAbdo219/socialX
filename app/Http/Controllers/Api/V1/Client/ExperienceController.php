@@ -18,6 +18,7 @@ class ExperienceController extends Controller
 
     public function add(Request $request)
     {
+        // return $request ; 
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'employment_type' => 'required|string|max:255',
@@ -49,18 +50,21 @@ class ExperienceController extends Controller
         ]);
     }
 
-    public function get(Member $member)
+    public function get($member)
     {
+        $member = Member::findOrFail($member);
         return $member?->load('experience');
     }
 
-    public function show(Experience $experience)
+    public function show($experience)
     {
+        $experience = Experience::findOrFail($experience);
         return $experience;
     }
 
-    public function update(Request $request, Experience $experience)
+    public function update(Request $request,$experience)
     {
+        // return $request ;
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'employment_type' => 'required|string|max:255',
@@ -75,7 +79,7 @@ class ExperienceController extends Controller
             'skill' => 'required|string|max:255',
             'media' => 'nullable|image|mimes:jpeg,png,jpg',
         ]);
-
+        $experience = Experience::findOrFail($experience);
         $data['employee_id'] = auth('api')->user()->id;
 
         if ($request->file('media')) {
@@ -92,8 +96,9 @@ class ExperienceController extends Controller
         ]);
     }
 
-    public function delete(Experience $experience)
+    public function delete($experience)
     {
+        $experience = Experience::findOrFail($experience);
         $experience->delete();
 
         return response()->json([

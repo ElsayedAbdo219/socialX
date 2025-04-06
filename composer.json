@@ -12,8 +12,8 @@
         "codezero/laravel-unique-translation": "^4.1",
         "consoletvs/charts": "6.*",
         "fx3costa/laravelchartjs": "^3.0",
-        "guzzlehttp/guzzle": "^7.8",
         "google/apiclient": "^2.17",
+        "guzzlehttp/guzzle": "^7.8",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "laravel/framework": "^10.10",
@@ -33,7 +33,6 @@
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^3.34",
-        "knuckleswtf/scribe": "^4.24",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "laravel/telescope": "^4.16",

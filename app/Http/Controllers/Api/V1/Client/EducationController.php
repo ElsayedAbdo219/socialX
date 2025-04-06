@@ -39,17 +39,19 @@ class EducationController extends Controller
         ]);
     }
 
-    public function get(Member $member)
+    public function get($member)
     {
+        $member = Member::findOrfail($member);
         return $member->load('education');
     }
 
-    public function show(Education $education)
+    public function show($education)
     {
+        $education = Member::findOrfail($education);
         return $education;
     }
 
-    public function update(Request $request, Education $education)
+    public function update(Request $request, $education)
     {
         $data = $request->validate([
             'school' => 'nullable|string|max:255',
@@ -63,7 +65,7 @@ class EducationController extends Controller
             'activities' => 'nullable|string',
             'description' => 'nullable|string',
         ]);
-
+        $education = Education::findOrFail($education);
         $data['employee_id'] = auth('api')->user()->id;
 
         $education->update($data);
@@ -74,8 +76,9 @@ class EducationController extends Controller
         ]);
     }
 
-    public function delete(Education $education)
+    public function delete($education)
     {
+        $education = Education::findOrFail($education);
         $education->delete();
 
         return response()->json([
