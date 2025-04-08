@@ -39,7 +39,7 @@ class PostController extends Controller {
         'period' => $data['period'],
         'is_published' => $data['is_published'],
         'status' => 'advertisement',
-        'company_id' => auth('api')->user()->id,
+        'user_id' => auth('api')->user()->id,
     ]);
 
       # sending a notification to the user   
@@ -66,7 +66,7 @@ class PostController extends Controller {
 
       $post = Post::create([
         'content' => $data['content'],
-        'company_id' => auth('api')->user()->id,
+        'user_id' => auth('api')->user()->id,
         'status' => 'normal', // Assuming 'status' can be null in your database schema
       ]);
 

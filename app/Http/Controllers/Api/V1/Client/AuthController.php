@@ -134,7 +134,7 @@ public function verifyOtp(Request $request){
     $member->email_verified_at = now();
     $member->save();
     $otpRecord->delete();
-    $token= $member->createToken('sanctumToken')->plainTextToken;
+    $token = $member->createToken('sanctumToken')->plainTextToken;
     return $this->respondWithSuccess('User verified successfully.' ,['token'=>$token]);
 }
 
@@ -195,17 +195,53 @@ public function resetPassword(Request $request)
 
 public function me()
 {
-return auth()->user();
-
+    $user = auth('api')->user();
+    return 
+    [
+        'user' => $user->type === UserTypeEnum::COMPANY ? $user->load(['Intros','followersTotal']) : $user->load(['followersTotal']) , 
+        'totalPosts' => $user->posts()->count(), 
+        'currentCompany' =>   $user->type === UserTypeEnum::EMPLOYEE ?  $user->experience()->latest()->first() : 'emp!', 
+    ];
 }
 
 
-// public function refresh()
-// {
-// return auth()->user();
 
-// }
 
+public function  update(Request $request )
+{
+       
+    $request->validate(
+        [
+             'user_id' => ['required' ,'exists:members,id' ],
+             'current_location' => ['nullable' ,'string' , 'max:255' ],
+             'country' =>  ['nullable' ,'string' , 'max:255' ],
+             'phone' =>  ['nullable' ,'numeric'  ],
+             'birth_date' =>  ['nullable' ,'date' , 'max:255' ],
+             'first_name' =>  ['nullable' ,'string' , 'max:255' ],
+             'last_name' =>  ['nullable' ,'string' , 'max:255' ],
+             'website' =>  ['nullable' ,'url'  ],
+             'full_name' =>  ['nullable' ,'string' , 'max:255' ],
+             'email' =>  ['nullable' , 'unique:members,email' ,'email' ],
+        ]
+        );
+     
+        $member = Member::find($request['user_id']);
+        $member->update(
+            [
+                'current_location' => $request['current_location'],
+                'country' => $request['country'] ,
+                'phone' => $request['phone'] ,
+                'birth_date' =>$request['birth_date'],
+                'first_name' => $request['first_name'],
+                'last_name' =>$request['last_name'],
+                'website' =>$request['website'],
+                'full_name' =>$request['full_name'],
+                'email' =>$request['email'],
+            ]
+            );
+
+            return $this->respondWithSuccess('Data Info UPdated Successfully');
+}
 
 
 

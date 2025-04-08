@@ -88,6 +88,7 @@ Route::prefix('auth')->group(function () {
   Route::get('/me', [AuthController::class, 'me']);
   Route::post('refresh', [AuthController::class, 'refreshToken']);
   Route::post('/reset-Password', [AuthController::class, 'resetPassword']);
+  Route::post('/update-info', [AuthController::class, 'update']);
 });
 
   ##############################################################################################

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Enum\UserTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Laravel\Sanctum\HasApiTokens;
 
 use Illuminate\Notifications\Notifiable;
-
+use App\Models\Experience;
 
  use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -17,12 +17,9 @@ use Illuminate\Notifications\Notifiable;
 class Member extends Authenticatable
 {
     use HasFactory,HasApiTokens,Notifiable;
-
-
-
     protected $guarded=[];
-
-
+     # Get (accessors)
+     
     protected function Logo(): Attribute
     {
         return Attribute::make(function ($value) {
@@ -54,7 +51,7 @@ class Member extends Authenticatable
 
     public function followersTotal()
     {
-        return $this->hasMany(Follow::class, 'followed_id')->selectraw('followed_id, count(*) as followersTotal')->groupBy('followed_id');
+        return $this->hasMany(Follow::class, 'followed_id')->selectraw('followed_id, count(*) as followersTotal')->groupBy('follower_id');
     }
 
     
@@ -104,7 +101,7 @@ class Member extends Authenticatable
 
     public function posts(){
 
-        return $this->hasMany(Post::class,'company_id');   
+        return $this->hasMany(Post::class,'user_id');   
 
 
     }
@@ -112,6 +109,10 @@ class Member extends Authenticatable
 
     public function experience(){
         return $this->hasMany(Experience::class,'employee_id');
+    }
+
+    public function currentCompany(){
+        return $this->hasMany(Experience::class,'company_id');
     }
 
     public function skills(){
@@ -128,7 +129,10 @@ class Member extends Authenticatable
         return $this->hasMany(Education::class,'employee_id');
     }
 
-
+    public function Intros()
+    {
+        return $this->hasMany(Intro::class,'company_id');
+    }
    
     public function calender()
     {
