@@ -51,7 +51,7 @@ class Member extends Authenticatable
 
     public function followersTotal()
     {
-        return $this->hasMany(Follow::class, 'followed_id')->selectraw('followed_id, count(*) as followersTotal')->groupBy('follower_id');
+        return $this->hasMany(Follow::class, 'followed_id')->selectraw('followed_id, count(*) as followersTotal')->groupBy('followed_id');
     }
 
     
