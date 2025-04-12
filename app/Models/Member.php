@@ -18,11 +18,17 @@ class Member extends Authenticatable
 {
     use HasFactory,HasApiTokens,Notifiable;
     protected $guarded=[];
+    protected $hidden =['email_verified_at','password','remember_token','','logo'];
+    protected $casts = [
+        'is_Active' => 'boolean'
+    ];
+
      # Get (accessors)
      
     protected function Logo(): Attribute
     {
-        return Attribute::make(function ($value) {
+        return Attribute::make(function ($value) 
+        {
             return !is_null($value) ? url('storage/members/'.$value) : null;
         });
     }
@@ -33,6 +39,11 @@ class Member extends Authenticatable
             get: fn (mixed $value) => !is_null($value) ? url('storage/members/'.$value) : null,
         );
     }
+
+   /*  protected function IsActive($value): Attribute
+    {
+        return (boolean) $value;
+    } */
 
      protected function PersonalPhoto(): Attribute
     {
@@ -48,12 +59,18 @@ class Member extends Authenticatable
     {
         return $this->hasMany(Follow::class, 'followed_id');
     }
-
+    # Count followers in two ways #
     public function followersTotal()
     {
         return $this->hasMany(Follow::class, 'followed_id')->selectraw('followed_id, count(*) as followersTotal')->groupBy('followed_id');
     }
+    
+    public function followersNumber()
+    {
+        return $this->follower()->count();
+    }
 
+    # End
     
 
     public function follower()
@@ -156,6 +173,13 @@ class Member extends Authenticatable
     {
         return $this->hasMany(UserCover::class);
     }
+
+
+    public function shares()
+    {
+        return $this->hasMany(SharedPost::class,'user_id');
+    }
+
 
 
 

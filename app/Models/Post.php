@@ -10,7 +10,10 @@ class Post extends Model
 {
     use HasFactory;
     protected $guarded=[];
-
+    protected $hidden = ['period','is_published'];
+    protected $casts = [
+        'is_Active' => 'boolean'
+    ];
 
       protected function FileName(): Attribute
     {
@@ -21,9 +24,13 @@ class Post extends Model
 
 
 
-    public function company(){
-        return $this->belongsTo(Member::class,'company_id');
+    public function user(){
+        return $this->belongsTo(Member::class,'user_id');
     }
+
+    /* public function creator(){
+        return $this->belongsTo(Member::class,'user_id')->hidden(['job','email','is_Active','phone']);
+    } */
 
     public function review(){
         return $this->hasMany(Review::class,'post_id');
@@ -54,6 +61,24 @@ class Post extends Model
                     ->groupBy('post_id');
     }
    
+
+    public function shares()
+    {
+        return $this->hasMany(SharedPost::class,'post_id');
+    }
+
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class,'post_id');
+    }
+
+
+    public function reacts()
+    {
+        return $this->hasMany(React::class,'post_id');
+    }
+
 
 
        # SCOPES

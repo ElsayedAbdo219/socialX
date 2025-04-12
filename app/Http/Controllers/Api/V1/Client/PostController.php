@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Client;
 
 use App\Models\Post;
+use App\Models\SharedPost;
 use App\Models\User;
 use App\Models\Member;
 use App\Models\Intro;
@@ -11,123 +12,164 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\ClientNotification;
+use App\Enum\PostTypeEnum;
+use Illuminate\Http\JsonResponse;
+use App\Services\PostService;
+use App\Http\Requests\Api\V1\Client\PostRequest;
 class PostController extends Controller {
   
   protected $postResource = PostResource::class;
-
-  public function addPost(Request $request, $type)
+  protected $postservice;
+  public function __construct(PostService $postservice)
   {
-
-   if ($type == "advertise") {
-
-
-    $data = $request->validate([
-        'content' => 'nullable|string',
-        'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov',
-        'period' => 'required|string',
-        'is_published' => 'required|string',
-    ]);
-
-    $file = $request->file('file_name'); // Get the uploaded file object
-    $fileName = uniqid() . '_' . $file->getClientOriginalName(); // Generate a unique filename
-
-    // Store the file in storage
-   $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
-    $post = Post::create([
-        'content' => $data['content'],
-        'file_name' => $fileName,
-        'period' => $data['period'],
-        'is_published' => $data['is_published'],
-        'status' => 'advertisement',
-        'user_id' => auth('api')->user()->id,
-    ]);
-
-      # sending a notification to the user   
-      $notifabels = User::first();
-      $notificationData = [
-        'title' => " اضافة اعلان جديدة ",
-        'body' => "تم اضافة اعلان جديد من شركة " . auth("api")->user()->full_name,
-      ];
-
-      \Illuminate\Support\Facades\Notification::send(
-        $notifabels,
-        new ClientNotification($notificationData, ['database', 'firebase'])
-      );
-
-      return response()->json(['message' => 'تم الاضافة بنجاح . انتظر 24 ساعة بعد تفعيل الاعلان'], 200);
-    } 
-    
-   
-    else {
-      $data = $request->validate([
-        'content' => 'required|string',
-        'file_name' => 'nullable|file|mimes:jpeg,png,mp4,avi,mov',
-      ]);
-
-      $post = Post::create([
-        'content' => $data['content'],
-        'user_id' => auth('api')->user()->id,
-        'status' => 'normal', // Assuming 'status' can be null in your database schema
-      ]);
-
-      if ($request->hasFile('file_name')) {
-
-       $file = $request->file('file_name'); // Get the uploaded file object
-      $fileName = uniqid() . '_' . $file->getClientOriginalName(); // Generate a unique filename
-
-    // Store the file in storage
-    $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
-
-
-        $post->update([
-          'file_name' => $fileName, // Corrected 'updated' to 'update'
-        ]);
-      }
-
-      // The following code for sending notification should be outside of the else block
-      // because it should run regardless of whether the post was created or not.
-      $notifiable = User::first(); // Example: You should fetch the correct user(s) to notify
-      $notificationData = [
-        'title' => 'اضافة منشور جديدة',
-        'body' => 'تم اضافة منشور جديد من شركة ' . auth('api')->user()->full_name,
-      ];
-
-      \Illuminate\Support\Facades\Notification::send(
-        $notifiable,
-        new ClientNotification($notificationData, ['database', 'firebase'])
-      );
-
-
-      // Return success response
-      return response()->json(['message' => 'تم الاضافة بنجاح'], 200);
-    }
+    $this->postservice = $postservice;
   }
+
+  public function all(): mixed
+  {
+      // البوستات الأصلية
+      $ownPosts = Post::with(['comments', 'reacts', 'user'])
+          ->where('is_Active', 1)
+          ->get()
+          ->map(function ($post) {
+              $post->type = 'original';
+              return $post;
+          });
+  
+      // البوستات المشتركة (بنستخدم post()->with()->first())
+      $sharedPosts = SharedPost::with('userShared')->get()->map(function ($sharedPost) {
+          $shared = $sharedPost->post()->with(['user', 'comments', 'reacts'])->first();
+          if ($shared) {
+              $shared->type = 'shared';
+              $shared->sharedPerson = $sharedPost->userShared;
+              return $shared;
+          }
+      })->filter();
+  
+      // دمج الكولكشنز
+      $allPosts = collect([$ownPosts, $sharedPosts])
+          ->collapse()
+          ->sortByDesc('created_at')
+          ->values();
+  
+      return $allPosts->customPaginate(5);
+  }
+  
+  
+
+  public function add(PostRequest $request)
+  {
+      if ($request['type'] == PostTypeEnum::ADVERTISE) {
+      return $this->postservice->addPostAdertise($request);
+      }else{
+        return $this->postservice->addPostNormal($request);
+      }
+  }
+
+  public function show($Post_Id) :mixed
+   {
+   return Post::whereId($Post_Id)->first();
+   }
+
+   public function update(PostRequest $request,$Post_Id)
+   {
+    // dd($request);
+     if ($request['type'] == PostTypeEnum::ADVERTISE) {
+      return $this->postservice->updatePostAdertise($request,$Post_Id);
+     }else{
+      return $this->postservice->updatePostNormal($request,$Post_Id);
+      }
+   }
+
+   public function get($User_Id)
+   {
+    $User = Member::find($User_Id);
+    $ownPosts = $User?->posts()->with(['comments','reacts'])->where('is_Active', 1)->get()->map(function($post){
+     $post->type = 'own';
+     return $post;
+    });
+    $sharedPosts = $User->shares()->get()->map(function($sharedPost){
+      $sharedPost =  $sharedPost?->post()->with(['comments','reacts'])->first();
+     $sharedPost->type = 'shared';
+     return $sharedPost;
+    });
+    $allPosts = $ownPosts->merge($sharedPosts)->sortByDesc('created_at')->values();
+    return $allPosts->customPaginate(5);
+   }
+
+  public function delete($Post_Id) :mixed
+   {
+   Post::whereId($Post_Id)->delete();
+   return response()->json(['message' => 'تم حذف المنشور بنجاح'], 200);
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
    public function addPostIntro(Request $request)
    {
-
-      $data = $request->validate([
+      $dataValidatedChecked = $request->validate([
         'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov,jfif',
     ]);
-
-    $file = $request->file('file_name'); // Get the uploaded file object
-    $fileName = uniqid() . '_' . $file->getClientOriginalName(); // Generate a unique filename
-
-    // Store the file in storage
-    $storage = Storage::put('public/posts/' . $fileName, file_get_contents($file));
-    
-  
-
-    $post = Intro::updateOrCreate(
-      [
-        'company_id' => auth('api')->user()->id,
-      ],
-      [
-        'file_name' => $fileName,
-      ]
-  );
-
-    // Any additional operations after creating the post
+    $fileName = basename(Storage::disk('public')->put('posts', file_get_contents($dataValidatedChecked['file_name'])));
+    $post = Intro::updateOrCreate([ 'company_id' => auth('api')->user()->id, ],['file_name' => $fileName]);
       # sending a notification to the user   
       $notifabels = User::first();
       $notificationData = [
@@ -139,96 +181,14 @@ class PostController extends Controller {
         $notifabels,
         new ClientNotification($notificationData, ['database', 'firebase'])
       );
-
-
       return response()->json(['message' => 'تم الاضافة بنجاح '], 200);
     }
 
-  public function getPosts()
-  {
-
-    $posts = Post::with(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum'])
-      ->orderByDesc('id')
-      ->where('is_Active', 1)
-      // ->where('status', '=', 'normal')
-      ->paginate(10);
-
-    return $posts ?? [];
-  }
-
   public function getPostIntro()
   {
-
-    $intro = Intro::where('company_id',auth('api')->user()->id)
+    return  Intro::where('company_id',auth('api')->user()->id)
     ->first();
-
-  return $intro ?? [];
   }
-
-  public function getAdvertises()
-  {
-    $posts = Post::with(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum'])
-      ->where('status', '=', 'advertisement')
-      ->where('is_Active', 1)->orderByDesc('id')->paginate(10);
-
-    return $posts ?? [];
-  }
-
-
-
-
-
-
-  public function getPost($post)
-  {
-    $post = Post::whereId($post)->first();
-    // return $post;
-    if (!$post) {
-      abort(404);
-    }
-    return $post->load(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum']);
-    //   return $this->postResource::make($postWithRelations) ?? [];
-
-  }
-
-
-  public function searchPost(Request $request)
-  {
-
-    return Member::query()->when($request->filled('keyword'), function ($query) use ($request) {
-
-      $query->where('full_name', 'like', '%' . $request->keyword . '%');
-    })->where('type', 'company')->get() ?? [];
-  }
-
-
-  public function getComments($post)
-  {
-
-    $post = Post::whereId($post)->first();
-
-
-    /* $postWithRelations = $post->with(['review'])->first(); */
-
-    if (!$post) {
-
-      abort(404);
-    }
-
-    return  $post->load(['company', 'review','review.member', 'likes','likes.member', 'likesSum','dislikes','dislikes.member','dislikesSum']);
-  }
-
-
-
-  public function showMember($member)
-  {
-    $posts = Post::whereHas('company', function ($query) use ($member) {
-      $query->where('company_id', $member);
-    })->orderByDesc('id')->paginate(10);
-
-    return $posts;
-  }
-
 
   //  
 }

@@ -27,7 +27,13 @@ use App\Http\Controllers\Api\V1\Client\{
   AuthController,
   SuggestionController,
   ComplainController,
-  UserCoverController
+  UserCoverController,
+  CommentController,
+  SharedPostController,
+  ReactController, 
+  ReactCommentController,
+  CommentReplyController
+
                
 
 
@@ -49,16 +55,6 @@ use App\Http\Controllers\FawaterkController;
 |
 */
 
-
-Route::post('/create-invoice', [FawaterkController::class, 'createInvoice']);
-Route::post('/fawaterk/webhook', [FawaterkController::class, 'handleWebhook']);
-
-# Status Pages 
-Route::get('/payment/success', [FawaterkController::class, 'success'])->name('payment.success');
-Route::get('/payment/fail', [FawaterkController::class, 'fail'])->name('payment.fail');
-Route::get('/payment/pending', [FawaterkController::class, 'pending'])->name('payment.pending');
-
-
 #Auth
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -76,9 +72,6 @@ Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
     Route::get('contact-us', [StaticPagesController::class, 'contactUs']);
     Route::post('contact-us', [StaticPagesController::class, 'contactUsSubmit']);
 
-
-
-
   });
 #test yml with github actions once
 Route::middleware('auth:sanctum')->group(function () {
@@ -91,32 +84,59 @@ Route::prefix('auth')->group(function () {
   Route::post('/update-info', [AuthController::class, 'update']);
 });
 
-  ##############################################################################################
-    # FirebaseController
-    Route::name('messages.')->prefix('messages')->group(function () {
-      Route::post('send', [FirebaseController::class, 'send']);
-    });
+   # posts
+Route::name('posts.')->prefix('posts')->group(function () {
+    #updated
+    Route::get('/', [PostController::class, 'all']); // all my posts
+    Route::post('/', [PostController::class, 'add']); // ADD post
+    Route::get('/{ID}', [PostController::class, 'show']); // SHOW post
+    Route::post('/update/{ID}', [PostController::class, 'update']); // update post
+    Route::delete('/{ID}', [PostController::class, 'delete']); // delete post
+    Route::get('/user/{UserID}', [PostController::class, 'get']); // get user posts
+});
 
-    ###############################################################################################
+# Post Shares 
+Route::name('post-shared.')->prefix('post-shared')->group(function () {
+  #updated
+  Route::post('/', [SharedPostController::class, 'add']); // ADD post
+  Route::post('/update/{ID}', [SharedPostController::class, 'update']); // update post
+  Route::delete('/{ID}', [SharedPostController::class, 'delete']); // delete post
+});
+
+   # Comments
+Route::name('comments.')->prefix('comments')->group(function () {
+    #updated
+    Route::post('/', [CommentController::class, 'add']); // ADD comment
+    Route::post('/update/{ID}', [CommentController::class, 'update']); // update comment
+    Route::delete('/{ID}', [CommentController::class, 'delete']); // delete comment
+});
+
+   # Reacts
+Route::name('reacts.')->prefix('reacts')->group(function () {
+    #updated
+    Route::post('/', [ReactController::class, 'add']); // ADD react
+    Route::delete('/{ID}', [ReactController::class, 'delete']); // delete react
+    Route::get('/{Post_Id}', [ReactController::class, 'getReactsInfo']); // delete react
+});
+   # Reacts on Comments
+   Route::name('comment_reacts.')->prefix('comment_reacts')->group(function () {
+    #updated
+    Route::post('/', [ReactCommentController::class, 'add']); // ADD comment_react
+    Route::delete('/{ID}', [ReactCommentController::class, 'delete']); // delete comment_react
+});
+
+# Reacts on Comments
+   Route::name('comment_replies.')->prefix('comment_replies')->group(function () {
+    #updated
+    Route::post('/', [CommentReplyController::class, 'add']); // ADD comment_reply
+    Route::post('/update/{ID}', [CommentReplyController::class, 'update']); // update comment
+    Route::delete('/{ID}', [CommentReplyController::class, 'delete']); // delete comment_reply
+});
 
 
-
-
-  # Posts
-  Route::post('addPost/{type}', [PostController::class, 'addPost']);
-  
-  Route::get('getPosts', [PostController::class, 'getPosts']);
-  Route::get('getAdvertises', [PostController::class, 'getAdvertises']);
-  Route::get('getPostIntro', [PostController::class, 'getPostIntro']);
-  Route::post('addPostIntro', [PostController::class, 'addPostIntro']);
-  
-  Route::get('getPost/{post}', [PostController::class, 'getPost']);
-  
-  Route::post('searchPost', [PostController::class, 'searchPost']);
-  Route::get('getComments/{post}', [PostController::class, 'getComments']);
 
   # Experience
-  Route::name('experience.')->prefix('experience')->group(function () {
+Route::name('experience.')->prefix('experience')->group(function () {
     #updated
     Route::get('/', [ExperienceController::class, 'all']); // only employee_id eqaul auth userID
     Route::post('/', [ExperienceController::class, 'add']); // ADD experience
@@ -124,14 +144,14 @@ Route::prefix('auth')->group(function () {
     Route::patch('/{ID}', [ExperienceController::class, 'update']); // update experience
     Route::delete('/{ID}', [ExperienceController::class, 'delete']); // delete experience
     Route::get('/user/{UserID}', [ExperienceController::class, 'get']); // get user experience
-  });
+});
 
   
 
   Route::get('showMember/{member}', [PostController::class, 'showMember']);
   
   # education
-  Route::name('education.')->prefix('education')->group(function () {
+Route::name('education.')->prefix('education')->group(function () {
     #updated
     Route::get('/', [EducationController::class, 'all']); // only employee_id eqaul auth userID
     Route::post('/', [EducationController::class, 'add']); // ADD education
@@ -139,15 +159,8 @@ Route::prefix('auth')->group(function () {
     Route::patch('/{ID}', [EducationController::class, 'update']); // update education
     Route::delete('/{ID}', [EducationController::class, 'delete']); // delete education
     Route::get('/user/{UserID}', [EducationController::class, 'get']); // get user education
-  });
+});
 
-  // # position
-  // Route::name('position.')->prefix('position')->group(function () {
-
-  //   Route::post('/add', [EducationController::class, 'add']);
-  // });
-
-  # education
   # position
   Route::name('position.')->prefix('position')->group(function () {
 
@@ -155,9 +168,6 @@ Route::prefix('auth')->group(function () {
     Route::get('get/{EMPLOYEE}', [PositionController::class, 'get']);
 
   });
-
- 
-
 
   # Rates
   Route::name('rate.')->prefix('rate')->group(function () {
@@ -174,12 +184,7 @@ Route::prefix('auth')->group(function () {
     Route::post('addComment/{post}', [ReviewController::class, 'addComment']);
     Route::post('addLike/{post}', [LikeController::class, 'addLike']);
     Route::post('addDisLike/{post}', [DislikeController::class, 'addDisLike']);
-   
-
-
   });
-  
-
     # skills
     Route::name('skills.')->prefix('skills')->group(function () {
       Route::get('/', [SkillController::class, 'all']); // only employee_id eqaul auth userID
@@ -189,11 +194,6 @@ Route::prefix('auth')->group(function () {
       Route::delete('/{ID}', [SkillController::class, 'delete']); // delete SKILL
       Route::get('/user/{UserID}', [SkillController::class, 'get']); // get user SKILL
     });
-
-
-
-
-
 
       # follow
       Route::name('follow.')->prefix('follow')->group(function () {
@@ -230,8 +230,6 @@ Route::prefix('auth')->group(function () {
       
       });
 
-
-
         # follow
         Route::name('news.')->prefix('news')->group(function () {
           Route::get('index', [NewsController::class, 'index']);
@@ -242,16 +240,8 @@ Route::prefix('auth')->group(function () {
 
      # Notifications
      Route::get('showNotifications', [NotificationController::class, 'showNotifications']);
-
-
-
-
      Route::get('getEmployeeData/{EMPLOYEE}', [EmployeeController::class, 'getEmployeeData']);
-
-
      Route::get('getJobs/{MEMBER}', [CompanyController::class, 'getJobs']);
-
-
   # calender
   Route::name('calender.')->prefix('calender')->group(function () {
     Route::post('add', [CalenderController::class, 'add']);
@@ -288,9 +278,6 @@ Route::prefix('auth')->group(function () {
       Route::post('update', [UserCoverController::class, 'update']);
       Route::post('delete', [UserCoverController::class, 'delete']);
     });
-   
-
-
      # skills
     Route::name('usercovers.')->prefix('usercovers')->group(function () {
       Route::post('add', [UserCoverController::class, 'add']);
@@ -298,11 +285,6 @@ Route::prefix('auth')->group(function () {
       Route::post('update', [UserCoverController::class, 'update']);
       Route::post('delete', [UserCoverController::class, 'delete']);
     });
-
-
-
-
-
      # reviews
     Route::name('usercovers.')->prefix('usercovers')->group(function () {
       Route::post('add', [UserCoverController::class, 'add']);
@@ -310,8 +292,6 @@ Route::prefix('auth')->group(function () {
       Route::post('update', [UserCoverController::class, 'update']);
       Route::post('delete', [UserCoverController::class, 'delete']);
     });
-
-
      # usercovers
      Route::name('usercovers.')->prefix('usercovers')->group(function () {
       Route::post('add', [UserCoverController::class, 'add']);
@@ -319,8 +299,6 @@ Route::prefix('auth')->group(function () {
       Route::post('update', [UserCoverController::class, 'update']);
       Route::post('delete', [UserCoverController::class, 'delete']);
     });
-
-
      # education
      Route::name('usercovers.')->prefix('usercovers')->group(function () {
       Route::post('add', [UserCoverController::class, 'add']);
