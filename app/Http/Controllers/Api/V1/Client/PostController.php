@@ -20,6 +20,8 @@ class PostController extends Controller {
   
   protected $postResource = PostResource::class;
   protected $postservice;
+  private $Relations = ['user', 'comments','comments.commentsPeplied','comments.ReactsTheComment', 'reacts'];
+
   public function __construct(PostService $postservice)
   {
     $this->postservice = $postservice;
@@ -27,8 +29,8 @@ class PostController extends Controller {
 
   public function all(): mixed
   {
-      // البوستات الأصلية
-      $ownPosts = Post::with(['comments', 'reacts', 'user'])
+          // البوستات الأصلية
+      $ownPosts = Post::with($this->Relations)
           ->where('is_Active', 1)
           ->get()
           ->map(function ($post) {
@@ -38,7 +40,7 @@ class PostController extends Controller {
   
       // البوستات المشتركة (بنستخدم post()->with()->first())
       $sharedPosts = SharedPost::with('userShared')->get()->map(function ($sharedPost) {
-          $shared = $sharedPost->post()->with(['user', 'comments', 'reacts'])->first();
+          $shared = $sharedPost->post()->with($this->Relations)->first();
           if ($shared) {
               $shared->type = 'shared';
               $shared->sharedPerson = $sharedPost->userShared;
@@ -84,17 +86,35 @@ class PostController extends Controller {
    public function get($User_Id)
    {
     $User = Member::find($User_Id);
-    $ownPosts = $User?->posts()->with(['comments','reacts'])->where('is_Active', 1)->get()->map(function($post){
-     $post->type = 'own';
-     return $post;
-    });
-    $sharedPosts = $User->shares()->get()->map(function($sharedPost){
-      $sharedPost =  $sharedPost?->post()->with(['comments','reacts'])->first();
-     $sharedPost->type = 'shared';
-     return $sharedPost;
-    });
-    $allPosts = $ownPosts->merge($sharedPosts)->sortByDesc('created_at')->values();
-    return $allPosts->customPaginate(5);
+
+    $Relations = ['user', 'comments','comments.commentsPeplied','comments.ReactsTheComment', 'reacts'];
+          // البوستات الأصلية
+      $ownPosts = $User?->posts()?->with($this->Relations)
+          ->where('is_Active', 1)
+          ->get()
+          ->map(function ($post) {
+              $post->type = 'original';
+              return $post;
+          });
+  
+      // البوستات المشتركة (بنستخدم post()->with()->first())
+      $sharedPosts = $User?->shares()->get()->map(function ($sharedPost) {
+          $shared = $sharedPost->post()->with($this->Relations)->first();
+          if ($shared) {
+              $shared->type = 'shared';
+              $shared->sharedPerson = $sharedPost->userShared;
+              return $shared;
+          }
+      })->filter();
+  
+      // دمج الكولكشنز
+      $allPosts = collect([$ownPosts, $sharedPosts])
+          ->collapse()
+          ->sortByDesc('created_at')
+          ->values();
+  
+      return $allPosts->customPaginate(5);
+
    }
 
   public function delete($Post_Id) :mixed

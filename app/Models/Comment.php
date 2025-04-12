@@ -16,8 +16,19 @@ class Comment extends Model
     {
       return $this->belongsTo(Post::class,'post_id');
     }
+
     public function user() 
     {
       return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function commentsPeplied() 
+    {
+      return $this->hasMany(CommentReply::class,'comment_id');
+    }
+
+    public function ReactsTheComment() 
+    {
+      return $this->hasMany(ReactComment::class,'comment_id');
     }
 }
