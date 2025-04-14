@@ -32,7 +32,8 @@ use App\Http\Controllers\Api\V1\Client\{
   SharedPostController,
   ReactController, 
   ReactCommentController,
-  CommentReplyController
+  CommentReplyController,
+  ProjectController
 
                
 
@@ -93,6 +94,18 @@ Route::name('posts.')->prefix('posts')->group(function () {
     Route::post('/update/{ID}', [PostController::class, 'update']); // update post
     Route::delete('/{ID}', [PostController::class, 'delete']); // delete post
     Route::get('/user/{UserID}', [PostController::class, 'get']); // get user posts
+});
+
+
+   # projects
+Route::name('projects.')->prefix('projects')->group(function () {
+    #updated
+    Route::get('/', [ProjectController::class, 'all']); // all my projects
+    Route::post('/', [ProjectController::class, 'add']); // ADD project
+    Route::get('/{ID}', [ProjectController::class, 'show']); // SHOW project
+    Route::post('/update/{ID}', [ProjectController::class, 'update']); // update project
+    Route::delete('/{ID}', [ProjectController::class, 'delete']); // delete project
+    Route::get('/user/{UserID}', [ProjectController::class, 'getProjects']); // get user projects
 });
 
 # Post Shares 
