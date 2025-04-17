@@ -25,6 +25,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\OtpMail;
+use App\Http\Requests\Api\Auth\UpdatePasswordRequest;
+use App\Http\Requests\Api\Auth\SetPrivateAccountRequest;
 
 class AuthController extends Controller
 {
@@ -206,13 +208,42 @@ public function me()
 
 
 
+public function updatePassword(UpdatePasswordRequest $request,$User_Id)
+{
+    $requestPasswordValidated = $request->validated();
+    $User = Member::find($User_Id);
+    if( $User instanceof Member)
+    {
+       $User->update(['password' => Hash::make($requestPasswordValidated['password'])]);
+       return $this->respondWithSuccess('Password Updated Successfully');
 
-public function  update(Request $request )
+    }
+    throw new \Exception('User Not Found Currently!');
+
+}
+
+
+
+public function setPrivateAccount(SetPrivateAccountRequest $request,$User_Id)
+{
+    $PrivateAccountValidated = $request->validated();
+    $User = Member::find($User_Id);
+    if( $User instanceof Member)
+    {
+        $User->update(['private_account' => $PrivateAccountValidated['private_account']]);
+       return $this->respondWithSuccess('Account Status Updated Successfully');
+
+    }
+    throw new \Exception('User Not Found Currently!');
+
+}
+
+
+public function  update(Request $request , $User_Id )
 {
        
     $request->validate(
         [
-             'user_id' => ['required' ,'exists:members,id' ],
              'current_location' => ['nullable' ,'string' , 'max:255' ],
              'country' =>  ['nullable' ,'string' , 'max:255' ],
              'phone' =>  ['nullable' ,'numeric'  ],
@@ -221,11 +252,12 @@ public function  update(Request $request )
              'last_name' =>  ['nullable' ,'string' , 'max:255' ],
              'website' =>  ['nullable' ,'url'  ],
              'full_name' =>  ['nullable' ,'string' , 'max:255' ],
-             'email' =>  ['nullable' , 'unique:members,email' ,'email' ],
+             'email' =>  ['nullable' , 'unique:members,email,'.$User_Id ,'email' ],
+             'private_account' => ['required', 'in:0,1','max:1'],
         ]
         );
      
-        $member = Member::find($request['user_id']);
+        $member = Member::find($User_Id);
         $member->update(
             [
                 'current_location' => $request['current_location'],
@@ -237,11 +269,14 @@ public function  update(Request $request )
                 'website' =>$request['website'],
                 'full_name' =>$request['full_name'],
                 'email' =>$request['email'],
+                'private_account' =>$request['private_account'],
             ]
             );
 
             return $this->respondWithSuccess('Data Info UPdated Successfully');
 }
+
+
 
 
 

@@ -82,7 +82,9 @@ Route::prefix('auth')->group(function () {
   Route::get('/me', [AuthController::class, 'me']);
   Route::post('refresh', [AuthController::class, 'refreshToken']);
   Route::post('/reset-Password', [AuthController::class, 'resetPassword']);
-  Route::post('/update-info', [AuthController::class, 'update']);
+  Route::post('/update-info/{User_Id}', [AuthController::class, 'update']);
+  Route::post('/update-Password/{User_Id}', [AuthController::class, 'updatePassword']);
+  Route::post('/set-Private-account/{User_Id}', [AuthController::class, 'setPrivateAccount']);
 });
 
    # posts
