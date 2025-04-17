@@ -281,7 +281,7 @@ class SettingController extends Controller
         }
         
          elseif ($setting->key === 'custom-suggestions') {
-            // dd($request);
+            //  dd($request);
             $settingRequest = $request->validate([
                 'items6' => ['required', 'array'],
                 'items6.*.contentCustomSuggestions' => ['required', 'string'],
