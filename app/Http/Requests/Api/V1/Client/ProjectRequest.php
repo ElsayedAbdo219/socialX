@@ -25,6 +25,12 @@ class ProjectRequest extends FormRequest
             'title' => ['required','string'],
             'description' => ['nullable','string'],
             'url' => ['required','string','url'],
+            'start_month' => ['required','numeric','min:1','max:12'],
+            'start_year' => ['required','numeric','min:1950'],
+            'status' => ['required','string','in:finished,continous'],
+            'end_month' => ['required_if:status,continous','numeric','min:1','max:12'],
+            'end_year' => ['required_if:status,continous','numeric','min:1950'],
+           
         ];
     }
 }

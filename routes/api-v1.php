@@ -78,24 +78,32 @@ Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
 Route::middleware('auth:sanctum')->group(function () {
 
 Route::prefix('auth')->group(function () {
-  #Auth
+  #Auth 
   Route::get('/me', [AuthController::class, 'me']);
   Route::post('refresh', [AuthController::class, 'refreshToken']);
   Route::post('/reset-Password', [AuthController::class, 'resetPassword']);
   Route::post('/update-info/{User_Id}', [AuthController::class, 'update']);
   Route::post('/update-Password/{User_Id}', [AuthController::class, 'updatePassword']);
   Route::post('/set-Private-account/{User_Id}', [AuthController::class, 'setPrivateAccount']);
+  Route::post('/addAvatar', [AuthController::class, 'addAvatar']);
 });
 
    # posts
 Route::name('posts.')->prefix('posts')->group(function () {
     #updated
-    Route::get('/', [PostController::class, 'all']); // all my posts
+    Route::get('/{Paginate_Size}', [PostController::class, 'all']); // all my posts
     Route::post('/', [PostController::class, 'add']); // ADD post
     Route::get('/{ID}', [PostController::class, 'show']); // SHOW post
     Route::post('/update/{ID}', [PostController::class, 'update']); // update post
     Route::delete('/{ID}', [PostController::class, 'delete']); // delete post
-    Route::get('/user/{UserID}', [PostController::class, 'get']); // get user posts
+    Route::get('/me/{Paginate_Size}', [PostController::class, 'getMyPosts']); // my posts 
+    Route::get('/shares/{Paginate_Size}/{ID}', [PostController::class, 'showSharesOfPost']); // shares for  post 
+    Route::get('/{Paginate_Size}/user/{UserID}', [PostController::class, 'get']); // get user posts
+    Route::post('/addPostIntro', [PostController::class, 'addPostIntro']); // addPostIntro
+    Route::get('/getPostIntro/{id}', [PostController::class, 'getPostIntro']); // addPostIntro
+    Route::delete('/deletePostIntro/{id}', [PostController::class, 'deletePostIntro']); // addPostIntro
+    
+    
 });
 
 
@@ -292,35 +300,11 @@ Route::name('education.')->prefix('education')->group(function () {
       Route::post('show', [UserCoverController::class, 'show']);
       Route::post('update', [UserCoverController::class, 'update']);
       Route::post('delete', [UserCoverController::class, 'delete']);
+      Route::post('updateTheCurrentPrimary', [UserCoverController::class, 'updateTheCurrentPrimary']);
+      
     });
-     # skills
-    Route::name('usercovers.')->prefix('usercovers')->group(function () {
-      Route::post('add', [UserCoverController::class, 'add']);
-      Route::post('show', [UserCoverController::class, 'show']);
-      Route::post('update', [UserCoverController::class, 'update']);
-      Route::post('delete', [UserCoverController::class, 'delete']);
-    });
-     # reviews
-    Route::name('usercovers.')->prefix('usercovers')->group(function () {
-      Route::post('add', [UserCoverController::class, 'add']);
-      Route::post('show', [UserCoverController::class, 'show']);
-      Route::post('update', [UserCoverController::class, 'update']);
-      Route::post('delete', [UserCoverController::class, 'delete']);
-    });
-     # usercovers
-     Route::name('usercovers.')->prefix('usercovers')->group(function () {
-      Route::post('add', [UserCoverController::class, 'add']);
-      Route::post('show', [UserCoverController::class, 'show']);
-      Route::post('update', [UserCoverController::class, 'update']);
-      Route::post('delete', [UserCoverController::class, 'delete']);
-    });
-     # education
-     Route::name('usercovers.')->prefix('usercovers')->group(function () {
-      Route::post('add', [UserCoverController::class, 'add']);
-      Route::post('show', [UserCoverController::class, 'show']);
-      Route::post('update', [UserCoverController::class, 'update']);
-      Route::post('delete', [UserCoverController::class, 'delete']);
-    });
+  
+   
 
 
 

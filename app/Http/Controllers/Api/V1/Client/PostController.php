@@ -27,7 +27,7 @@ class PostController extends Controller {
     $this->postservice = $postservice;
   }
 
-  public function all(): mixed
+  public function all($Paginate_Size): mixed
   {
           // البوستات الأصلية
       $ownPosts = Post::with($this->Relations)
@@ -54,7 +54,7 @@ class PostController extends Controller {
           ->sortByDesc('created_at')
           ->values();
   
-      return $allPosts->customPaginate(5);
+      return $allPosts->customPaginate($Paginate_Size);
   }
   
   
@@ -83,7 +83,7 @@ class PostController extends Controller {
       }
    }
 
-   public function get($User_Id)
+   public function get($Paginate_Size ,$User_Id)
    {
     $User = Member::find($User_Id);
 
@@ -113,7 +113,7 @@ class PostController extends Controller {
           ->sortByDesc('created_at')
           ->values();
   
-      return $allPosts->customPaginate(5);
+      return $allPosts->customPaginate($Paginate_Size);
 
    }
 
@@ -122,95 +122,65 @@ class PostController extends Controller {
    Post::whereId($Post_Id)->delete();
    return response()->json(['message' => 'تم حذف المنشور بنجاح'], 200);
    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   
+
+    public function getMyPosts($Paginate_Size)
+   {
+    return auth('api')->user()->posts()->orderByDesc('id')->paginate($Paginate_Size);    
+   }
+
+
+
+   public function showSharesOfPost($Paginate_Size,$Post)
+   {
+    return SharedPost::where('post_id',$Post)->with('userShared')->orderByDesc('id')->paginate($Paginate_Size);
+   }
+
 
    public function addPostIntro(Request $request)
    {
-      $dataValidatedChecked = $request->validate([
-        'file_name' => 'required|file|mimes:jpeg,png,mp4,avi,mov,jfif',
-    ]);
-    $fileName = basename(Storage::disk('public')->put('posts', file_get_contents($dataValidatedChecked['file_name'])));
-    $post = Intro::updateOrCreate([ 'company_id' => auth('api')->user()->id, ],['file_name' => $fileName]);
-      # sending a notification to the user   
-      $notifabels = User::first();
-      $notificationData = [
-        'title' => " اضافة فيديو تقديمي جديد ",
-        'body' => "تم اضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
-      ];
+       $dataValidatedChecked = $request->validate([
+           'file_name' => 'required|file|mimes:mp4,avi,mov,jfif',
+       ]);
+   
+       $file = $request->file('file_name');
+       $fileName = basename(Storage::disk('public')->putFile('posts', $file));
+   
+       $post = Intro::updateOrCreate(
+           ['company_id' => auth('api')->user()->id],
+           ['file_name' => $fileName]
+       );
+   
+       // إرسال إشعار
+       $notifabels = User::first(); // تأكد إن هذا المستخدم هو اللي يحتاج الإشعار
+       $notificationData = [
+           'title' => "إضافة فيديو تقديمي جديد",
+           'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
+       ];
+   
+       \Illuminate\Support\Facades\Notification::send(
+           $notifabels,
+           new ClientNotification($notificationData, ['database', 'firebase'])
+       );
+   
+       return response()->json(['message' => 'تمت الإضافة بنجاح'], 200);
+   }
+   
 
-      \Illuminate\Support\Facades\Notification::send(
-        $notifabels,
-        new ClientNotification($notificationData, ['database', 'firebase'])
-      );
-      return response()->json(['message' => 'تم الاضافة بنجاح '], 200);
-    }
-
-  public function getPostIntro()
+  public function getPostIntro($id)
   {
-    return  Intro::where('company_id',auth('api')->user()->id)
+    return  Intro::where('id',$id)
     ->first();
   }
 
   //  
+
+   public function deletePostIntro($id)
+  {
+    Intro::where('id',$id)
+    ->delete();
+    return response()->json(['message' => 'تمت الحذف بنجاح'], 200);
+  }
 }
 
 ?>

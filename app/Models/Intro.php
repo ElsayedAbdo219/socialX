@@ -10,15 +10,11 @@ class Intro extends Model
     use HasFactory;
 
     protected $guarded = [];
-    
-     protected function FileName(): Attribute
+    protected $appends = ['file_name_path'];
+
+    public function getFileNamePathAttribute()
     {
-        return Attribute::make(
-            get: fn (mixed $value) => !is_null($value) ? url('storage/posts/'.$value) : null ,
-        );
+        return url('storage/posts/'.$this->file_name);
     }
-
- /*    public function Member(){
-
-    } */
+    
 }

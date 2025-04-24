@@ -21,10 +21,11 @@ class EducationController extends Controller
             'degree' => 'required|string|max:255',
             'field_of_study' => 'required|string|max:255',
             'grade' => 'required|string|max:255',
-            'start_date' => 'required|string|max:255',
-            'start_date_year' => 'required|string|max:255',
-            'end_date' => 'required|string|max:255',
-            'end_date_year' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'start_date_year' => 'required|date',
+            'still_education' =>'required|in:0,1|numeric',
+            'end_date' => 'required_if:still_education,0',
+            'end_date_year' => 'required_if:still_education,0',
             'activities' => 'required|string',
             'description' => 'required|string',
         ]);
@@ -54,16 +55,17 @@ class EducationController extends Controller
     public function update(Request $request, $education)
     {
         $data = $request->validate([
-            'school' => 'nullable|string|max:255',
-            'degree' => 'nullable|string|max:255',
-            'field_of_study' => 'nullable|string|max:255',
-            'grade' => 'nullable|string|max:255',
-            'start_date' => 'nullable|string|max:255',
-            'start_date_year' => 'nullable|string|max:255',
-            'end_date' => 'nullable|string|max:255',
-            'end_date_year' => 'nullable|string|max:255',
-            'activities' => 'nullable|string',
-            'description' => 'nullable|string',
+            'school' => 'required|string|max:255',
+            'degree' => 'required|string|max:255',
+            'field_of_study' => 'required|string|max:255',
+            'grade' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'start_date_year' => 'required|date',
+            'still_education' =>'required|in:0,1|numeric',
+            'end_date' => 'required_if:still_education,0',
+            'end_date_year' => 'required_if:still_education,0',
+            'activities' => 'required|string',
+            'description' => 'required|string',
         ]);
         $education = Education::findOrFail($education);
         $data['employee_id'] = auth('api')->user()->id;

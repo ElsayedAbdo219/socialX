@@ -10,4 +10,5 @@ class Education extends Model
     use HasFactory;
 
      protected $guarded=[];
+     protected $casts = ['still_education' => 'boolean'];
 }

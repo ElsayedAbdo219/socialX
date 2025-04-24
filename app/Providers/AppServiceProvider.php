@@ -66,9 +66,9 @@ class AppServiceProvider extends ServiceProvider
          * @return array
          */
         Collection::macro('customPaginate', function ($perPage, $total = null, $page = null, $pageName = 'page') {
-    $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
+    $page = $page ?:  LengthAwarePaginator::resolveCurrentPage($pageName);
     return new LengthAwarePaginator(
-        $this->forPage($page, $perPage)->values(), // 👈 دي الإضافة المهمة
+        $this->forPage((int)$page, (int)$perPage)->values(), // 👈 دي الإضافة المهمة
         $total ?: $this->count(),
         $perPage,
         $page,

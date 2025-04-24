@@ -10,6 +10,7 @@ class UserCover extends Model
     use HasFactory;
     protected $fillable =['member_id','image','is_primary'];
     protected $appends = ['imagepath'] ;
+    protected $casts =['is_primary' => 'boolean'];
 
 
     #Relations

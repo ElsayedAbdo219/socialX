@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Mail\OtpMail;
 use App\Http\Requests\Api\Auth\UpdatePasswordRequest;
 use App\Http\Requests\Api\Auth\SetPrivateAccountRequest;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -200,7 +201,7 @@ public function me()
     $user = auth('api')->user();
     return 
     [
-        'user' => $user->type === UserTypeEnum::COMPANY ? $user->load(['Intros','followersTotal']) : $user->load(['followersTotal']) , 
+        'user' => $user->type === UserTypeEnum::COMPANY ? $user->load(['Intros','followersTotal','userCover']) : $user->load(['followersTotal','userCover','Intros']) , 
         'totalPosts' => $user->posts()->count(), 
         'currentCompany' =>   $user->type === UserTypeEnum::EMPLOYEE ?  $user->experience()->latest()->first() : 'emp!', 
     ];
@@ -237,6 +238,33 @@ public function setPrivateAccount(SetPrivateAccountRequest $request,$User_Id)
     throw new \Exception('User Not Found Currently!');
 
 }
+public function addAvatar(Request $request)
+{
+    $request->validate([
+        'avatar' => ['required', 'mimes:png,jpg,jpeg', 'image'],
+    ]);
+
+    $user = auth('api')->user();
+
+    // حذف الصورة القديمة
+    if (!empty($user->avatar)) {
+        Storage::disk('public')->delete('avatars/' . $user->avatar);
+    }
+
+    // رفع الصورة الجديدة
+    $avatarName = basename(Storage::disk('public')->put('avatars', $request->file('avatar')));
+
+    // تحديث بيانات العضو
+    $member = Member::find($user->id);
+    if ($member) {
+        $member->update([
+            'avatar' => $avatarName,
+        ]);
+    }
+
+    return $this->respondWithSuccess('Avatar Updated Successfully');
+}
+
 
 
 public function  update(Request $request , $User_Id )
@@ -254,6 +282,8 @@ public function  update(Request $request , $User_Id )
              'full_name' =>  ['nullable' ,'string' , 'max:255' ],
              'email' =>  ['nullable' , 'unique:members,email,'.$User_Id ,'email' ],
              'private_account' => ['required', 'in:0,1','max:1'],
+             'bio' => ['nullable' ,'string' , 'max:255'],
+             'job' => ['nullable' ,'string' , 'max:255'],
         ]
         );
      
@@ -270,14 +300,13 @@ public function  update(Request $request , $User_Id )
                 'full_name' =>$request['full_name'],
                 'email' =>$request['email'],
                 'private_account' =>$request['private_account'],
+                'bio' =>$request['bio'],
+                'job' =>$request['job'],
             ]
             );
 
             return $this->respondWithSuccess('Data Info UPdated Successfully');
 }
-
-
-
 
 
 }

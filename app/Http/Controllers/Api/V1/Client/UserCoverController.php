@@ -101,4 +101,23 @@ class UserCoverController extends Controller
         return $this->respondWithSuccess('userCover Deleted Successfully');
     }
 
+
+    public function  updateTheCurrentPrimary(Request $request)
+    {
+        $request->validate([
+            'id' => ['required','exists:user_covers,id' ],
+            'is_primary' => ['nullable','in:0,1' ],
+           ]);
+
+           $userCover = UserCover::find($request['id']);
+            # UPDATE
+           $userCover->update(
+            [
+                'is_primary' => $request['is_primary'],
+            ]
+            );
+    
+            return $this->respondWithSuccess('userCover Updated Successfully', ['userCover' => $userCover ] );
+    }
+
 }

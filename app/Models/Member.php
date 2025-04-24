@@ -18,13 +18,18 @@ class Member extends Authenticatable
 {
     use HasFactory,HasApiTokens,Notifiable;
     protected $guarded=[];
-    protected $hidden =['email_verified_at','password','remember_token','','logo'];
+    protected $hidden =['email_verified_at','password','remember_token','logo'];
     protected $casts = [
         'is_Active' => 'boolean'
     ];
+    protected $appends = ['avatar_path'];
 
      # Get (accessors)
-     
+
+    public function getavatarPathAttribute()
+    {
+        return url('storage/avatars/'.$this->avatar);
+    }
     protected function Logo(): Attribute
     {
         return Attribute::make(function ($value) 
