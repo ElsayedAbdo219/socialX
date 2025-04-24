@@ -178,8 +178,10 @@ class PostController extends Controller {
    public function deletePostIntro($id)
   {
     $intro = Intro::where('id',$id)
-    ->delete();
-    Storage::delete('posts/'.$intro ->file_name);
+    ->first();
+    Storage::delete('posts/'.$intro?->file_name);
+    $intro->delete();
+  
     return response()->json(['message' => 'تمت الحذف بنجاح'], 200);
   }
 }
