@@ -39,10 +39,17 @@ class UserCoverController extends Controller
        $member = Member::find( auth('api')->user()->id  );
     //    dd($member);
 
-       if($member->userCover->count() >= 3 )
+      if($member->userCover->count() >= 3 )
        {
         return throw new \Exception('أقصي عدد للصور هو 3 صور');
        }
+
+      if($request['is_primary'] == 1 && $member?->userCover->count() > 0 && $member?->userCover?->where('is_primary',1)->first()?->exists())
+        {
+            $member?->userCover?->where('is_primary',1)->first()->update(['is_primary' => 0 ]);
+        }
+
+      
        $imageName = basename(Storage::disk('public')->put('user-covers', $request['image'] ));
 
        $userCover = UserCover::create(
@@ -69,6 +76,17 @@ class UserCoverController extends Controller
            DB::beginTransaction();
 
            $userCover = UserCover::find($request['id']);
+
+           if($member->userCover->count() >= 3 )
+       {
+        return throw new \Exception('أقصي عدد للصور هو 3 صور');
+       }
+ 
+       if($request['is_primary'] == 1 && $member?->userCover->count() > 0 && $member?->userCover?->where('is_primary',1)->first()?->exists())
+        {
+            $member?->userCover?->where('is_primary',1)->first()->update(['is_primary' => 0 ]);
+        }
+
            if(!empty($request['image']))
            {
             Storage::delete('public/user-covers/'.$userCover?->image );
@@ -108,6 +126,12 @@ class UserCoverController extends Controller
             'id' => ['required','exists:user_covers,id' ],
             'is_primary' => ['nullable','in:0,1' ],
            ]);
+           $member = Member::find( auth('api')->user()->id  );
+
+      if($request['is_primary'] == 1 && $member?->userCover->count() > 0 && $member?->userCover?->where('is_primary',1)->first()?->exists())
+        {
+            $member?->userCover?->where('is_primary',1)->first()->update(['is_primary' => 0 ]);
+        }
 
            $userCover = UserCover::find($request['id']);
             # UPDATE
