@@ -76,11 +76,8 @@ class UserCoverController extends Controller
            DB::beginTransaction();
 
            $userCover = UserCover::find($request['id']);
-
-           if($member->userCover->count() >= 3 )
-       {
-        return throw new \Exception('أقصي عدد للصور هو 3 صور');
-       }
+           $member = Member::find( auth('api')->user()->id  );
+          
  
        if($request['is_primary'] == 1 && $member?->userCover->count() > 0 && $member?->userCover?->where('is_primary',1)->first()?->exists())
         {
