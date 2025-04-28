@@ -20,7 +20,7 @@ class ProjectController extends Controller
 
     public function  show($Project_Id)
     {
-        return Project::where('id',$Project_Id)->get();
+        return Project::where('id',$Project_Id)->first();
     }
 
     public function add(ProjectRequest $request)

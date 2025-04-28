@@ -110,7 +110,8 @@ Route::name('posts.')->prefix('posts')->group(function () {
    # projects
 Route::name('projects.')->prefix('projects')->group(function () {
     #updated
-    Route::get('/', [ProjectController::class, 'all']); // all my projects
+    Route::get('/', [ProjectController::class, 'all']); // all  my projects
+    // Route::get('/me', [ProjectController::class, 'myProjects']); // all my projects
     Route::post('/', [ProjectController::class, 'add']); // ADD project
     Route::get('/{ID}', [ProjectController::class, 'show']); // SHOW project
     Route::post('/update/{ID}', [ProjectController::class, 'update']); // update project
@@ -167,6 +168,8 @@ Route::name('experience.')->prefix('experience')->group(function () {
     Route::patch('/{ID}', [ExperienceController::class, 'update']); // update experience
     Route::delete('/{ID}', [ExperienceController::class, 'delete']); // delete experience
     Route::get('/user/{UserID}', [ExperienceController::class, 'get']); // get user experience
+    Route::get('/citiesWorked/{USERID}', [ExperienceController::class, 'getCitiesWorked']); // getCitiesWorked
+    
 });
 
   

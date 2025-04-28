@@ -23,26 +23,22 @@ class ExperienceController extends Controller
             'title' => 'required|string|max:255',
             'employment_type' => 'required|string|max:255',
             'company_id' => 'required|integer|exists:members,id,type,' . UserTypeEnum::COMPANY,
-            'location' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'location_type' => 'required|string|max:255',
             'status_works' => 'required|string|max:255|in:work,notWork',
-            'start_date_year' => 'required|string|max:255',
-            'end_date_year' => 'required|string|max:255',
+            'still_working' => 'nullable|in:0,1',
+            'start_date' => 'required|numeric',
+            'end_date' => 'required_if:still_working,0|numeric',
+            'start_date_year' => 'required|numeric',
+            'end_date_year' => 'required_if:still_working,0|numeric|max:'.date("Y"),
             'description' => 'required|string|max:255',
             'profile_headline' => 'required|string|max:255',
-            'skill' => 'required|string|max:255',
-            'media' => 'nullable|image|mimes:jpeg,png,jpg',
         ]);
 
         $data['employee_id'] = auth('api')->user()->id;
 
-        if ($request->file('media')) {
-            $media = uniqid() . '_' . $request->file('media')->getClientOriginalName();
-            Storage::disk("local")->put($media, file_get_contents($request->file('media')));
-            $data['media'] = $media;
-        }
+        
 
         $experience = Experience::create($data);
 
@@ -56,6 +52,11 @@ class ExperienceController extends Controller
     {
         $member = Member::findOrFail($member);
         return $member?->load('experience');
+    }
+    public function getCitiesWorked($Member)
+    {
+        $Member = Member::find($Member);
+        return array_unique($Member->experience()->pluck('city')->toArray());
     }
 
     public function show($experience)
@@ -71,26 +72,20 @@ class ExperienceController extends Controller
             'title' => 'required|string|max:255',
             'employment_type' => 'required|string|max:255',
             'company_id' => 'required|integer|exists:members,id,type,' . UserTypeEnum::COMPANY,
-            'location' => 'required|string|max:255',
              'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'location_type' => 'required|string|max:255',
             'status_works' => 'required|string|max:255|in:work,notWork',
-            'start_date_year' => 'required|string|max:255',
-            'end_date_year' => 'required|string|max:255',
+            'still_working' => 'nullable|in:0,1',
+            'start_date' => 'required|numeric',
+            'end_date' => 'required_if:still_working,0|numeric',
+            'start_date_year' => 'required|numeric',
+            'end_date_year' => 'required_if:still_working,0|numeric|max:'.date("Y"),
             'description' => 'required|string|max:255',
             'profile_headline' => 'required|string|max:255',
-            'skill' => 'required|string|max:255',
-            'media' => 'nullable|image|mimes:jpeg,png,jpg',
         ]);
         $experience = Experience::findOrFail($experience);
         $data['employee_id'] = auth('api')->user()->id;
-
-        if ($request->file('media')) {
-            $media = uniqid() . '_' . $request->file('media')->getClientOriginalName();
-            Storage::disk("local")->put($media, file_get_contents($request->file('media')));
-            $data['media'] = $media;
-        }
 
         $experience->update($data);
 

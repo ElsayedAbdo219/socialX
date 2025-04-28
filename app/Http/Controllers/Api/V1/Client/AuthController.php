@@ -199,11 +199,19 @@ public function resetPassword(Request $request)
 public function me()
 {
     $user = auth('api')->user();
+    $exps = auth('api')->user()->experience;
+    $totalExpYears = 0;
+    foreach($exps as $exp){
+        $startYear = $exp->start_date_year;
+        $endYear = $exp->end_date_year ?? \Carbon\Carbon::now()->year;
+        $totalExpYears += $endYear - $startYear;
+    }
     return 
     [
         'user' => $user->type === UserTypeEnum::COMPANY ? $user->load(['Intros','followersTotal','userCover']) : $user->load(['followersTotal','userCover','Intros']) , 
         'totalPosts' => $user->posts()->count(), 
-        'currentCompany' =>   $user->type === UserTypeEnum::EMPLOYEE ?  $user->experience()->latest()->first() : 'emp!', 
+        'currentCompany' =>   $user->type === UserTypeEnum::EMPLOYEE ?  $user->experience()->latest()->with('company')->first() : 'emp!', 
+        'expYearsNumbers' =>   $user->type === UserTypeEnum::EMPLOYEE ? $totalExpYears : 'emp!', 
     ];
 }
 
