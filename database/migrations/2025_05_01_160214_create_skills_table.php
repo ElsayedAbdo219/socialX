@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
+use App\Models\Category;
 return new class extends Migration
 {
     /**
@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('skills', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id');
-            $table->string('skill');
+            $table->string('name');
+            $table->foreignIdFor(Category::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

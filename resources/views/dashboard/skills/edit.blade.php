@@ -1,6 +1,6 @@
 @extends('components.dashboard.layouts.master')
 @section('title')
-    {{__('dashboard.suppliers')}}
+    {{__('dashboard.skills')}}
 @endsection
 <!-- BEGIN: Content-->
 @section('content')
@@ -8,9 +8,9 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
-            <x-dashboard.layouts.breadcrumb now="{{$trader->name}}">
-                <li class="breadcrumb-item"><a href="{{route('admin.traders.suppliers.index')}}">
-                        {{__('dashboard.goods_list')}}
+            <x-dashboard.layouts.breadcrumb now="{{$skill->name}}">
+                <li class="breadcrumb-item"><a href="{{route('admin.skills.index')}}">
+                        {{__('dashboard.skills_list')}}
                     </a></li>
             </x-dashboard.layouts.breadcrumb>
             <div class="col-12 mt-3">
@@ -20,42 +20,36 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-vertical" method="POST" action="{{route('admin.traders.suppliers.update',$trader->id)}}" >
+                            <form class="form form-vertical" method="POST" action="{{route('admin.skills.update',$skill->id)}}" >
                                 @csrf
                                 @method('PATCH')
                                <div class="row">
                                     <div class="form-group col-sm-3">
-                                        <label for="name_en">{{__('dashboard.name')}}
-                                            <input type="text"  class="form-control" name="name" placeholder="{{__('dashboard.name')}}" value="{{$trader->name ?? old('name')}}" />
+                                        <label for="title">{{__('dashboard.name')}}
+                                            <input type="text"  class="form-control" name="name" placeholder="{{__('dashboard.title')}}" value="{{$skill->name ?? old('name')}}" />
                                             @error('name')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>
                                     </div>
+
                                     <div class="form-group col-sm-3">
-                                        <label for="name_en">{{__('dashboard.phone')}}
-                                            <input type="text"  class="form-control" name="phone" placeholder="{{__('dashboard.phone')}}" value="{{$trader->phone ?? old('phone')}}" />
-                                            @error('phone')
+                                        <label for="name_en">الفئة
+                                            <select name="category_id" class="select2 cat" >
+                                                @foreach($categories as $value)
+                                                    <option value="{{ $value->id }}" {{ $value->id == $skill?->category_id ? 'selected' : '' }}>
+                                                        {{ $value->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            
+                                            @error('category_id')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
-                                        </label>
+                                        </label> 
                                     </div>
-                                    <div class="form-group col-sm-3">
-                                        <label for="name_en">{{__('dashboard.credit_balance')}}
-                                            <input type="text"  class="form-control" name="credit_balance" placeholder="{{__('dashboard.credit_balance')}}" value="{{$trader->credit_balance ?? old('credit_balance')}}" />
-                                            @error('credit_balance')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </label>
-                                    </div>
-                                    <div class="form-group col-sm-3">
-                                        <label for="name_en">{{__('dashboard.debit_balance')}}
-                                            <input type="text"  class="form-control" name="debit_balance" placeholder="{{__('dashboard.debit_balance')}}" value="{{$trader->debit_balance ?? old('debit_balance')}}" />
-                                            @error('debit_balance')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </label>
-                                    </div>
+
+                           
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary mr-1 mb-1" class="edit">{{__('dashboard.edit')}}</button>
@@ -71,7 +65,7 @@
 @section('script')
     <script>
         $(document).ready(function () {
-            $('.statusArray').select2(
+            $('.cat').select2(
                 {
                     placeholder: "{{__('dashboard.choose_status')}}",
                 }

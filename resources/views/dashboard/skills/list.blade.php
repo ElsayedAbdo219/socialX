@@ -3,7 +3,7 @@
     @stack('datatableStyles')
 @endsection
 @section('title')
-    {{__('dashboard.registration_requests')}}
+    {{__('dashboard.skills')}}
 @endsection
 <!-- BEGIN: Content-->
 @section('content')
@@ -16,7 +16,7 @@
             <div class="content-body">
                 <!-- users list start -->
                 <section class="users-list-wrapper">
-                    <x-dashboard.layouts.breadcrumb  now="{{__('dashboard.registration_requests')}}">
+                    <x-dashboard.layouts.breadcrumb  now="{{__('dashboard.skills')}}">
                     </x-dashboard.layouts.breadcrumb>
                     <!-- Column selectors with Export Options and print table -->
                     <section id="column-selectors">
@@ -24,16 +24,17 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">{{__('dashboard.registration_requests')}}</h4>
+                                        <h4 class="card-title">{{__('dashboard.skills')}}</h4>
                                     </div>
                                     <div class="card-content">
+                                        {{-- @dd($dataTable); --}}
                                         <div class="card-body card-dashboard">
                                             <x-pages.datatable
                                                
-                                                :title="__('dashboard.trader_category_add')"
-                                                route="admin.registration_requests"
+                                                :title="__('dashboard.add')"
+                                                route="admin.skills"
                                                 :datatable="$dataTable"
-                                                :create='false'
+                                                :create='true'
                                             />
                                         </div>
                                     </div>

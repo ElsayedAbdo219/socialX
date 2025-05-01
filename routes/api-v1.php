@@ -219,6 +219,7 @@ Route::name('education.')->prefix('education')->group(function () {
       Route::patch('/{ID}', [SkillController::class, 'update']); // update SKILL
       Route::delete('/{ID}', [SkillController::class, 'delete']); // delete SKILL
       Route::get('/user/{UserID}', [SkillController::class, 'get']); // get user SKILL
+      Route::get('/category/{CATEGORY_ID}', [SkillController::class, 'getSkillsByCatgory']); // get user SKILL
     });
 
       # follow

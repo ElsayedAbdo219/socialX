@@ -3,7 +3,7 @@
     @stack('datatableStyles')
 @endsection
 @section('title')
-    {{__('dashboard.companies')}}
+    {{__('dashboard.categories')}}
 @endsection
 <!-- BEGIN: Content-->
 @section('content')
@@ -16,7 +16,7 @@
             <div class="content-body">
                 <!-- users list start -->
                 <section class="users-list-wrapper">
-                    <x-dashboard.layouts.breadcrumb  now="{{__('dashboard.companies')}}">
+                    <x-dashboard.layouts.breadcrumb  now="{{__('dashboard.categories')}}">
                     </x-dashboard.layouts.breadcrumb>
                     <!-- Column selectors with Export Options and print table -->
                     <section id="column-selectors">
@@ -24,14 +24,14 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">{{__('dashboard.companies')}}</h4>
+                                        <h4 class="card-title">{{__('dashboard.categories')}}</h4>
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body card-dashboard">
                                             <x-pages.datatable
                                                
                                                 :title="__('dashboard.add')"
-                                                route="admin.traders.companies"
+                                                route="admin.categories"
                                                 :datatable="$dataTable"
                                                 :create='true'
                                             />

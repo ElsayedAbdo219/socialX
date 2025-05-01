@@ -108,20 +108,57 @@
 
 
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.posts') }}</span>
+             <li class=" nav-item"><a href="#"><i class="feather icon-user"></i>
+                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.employees') }}</span>
                 </a>
                 <ul class="menu-content">
 
-                    <li class="{{ Route::is('admin.posts.index') ? 'active' : '' }}">
-                        <a href="{{ route('admin.posts.index') }}">
+                    <li class="{{ Route::is('admin.employees.index') ? 'active' : '' }}">
+                        <a href="{{ route('admin.employees.index') }}">
                             <i class="feather icon-eye"></i>
-                            <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_posts') }}</span>
+                            <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_employees') }}</span>
                         </a>
                     </li>
 
                 </ul>
             </li>
+
+
+
+        
+
+            <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i>
+                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.categories') }}</span>
+                </a>
+                <ul class="menu-content">
+
+                    <li class="{{ Route::is('admin.categories.index') ? 'active' : '' }}">
+                        <a href="{{ route('admin.categories.index') }}">
+                            <i class="feather icon-eye"></i>
+                            <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_categories') }}</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+
+
+                <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i>
+                <span class="menu-title" data-i18n="Data List">{{ __('dashboard.skills') }}</span>
+            </a>
+            <ul class="menu-content">
+
+                <li class="{{ Route::is('admin.skills.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.skills.index') }}">
+                        <i class="feather icon-eye"></i>
+                        <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_skills') }}</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
 
 
             <li class=" nav-item">

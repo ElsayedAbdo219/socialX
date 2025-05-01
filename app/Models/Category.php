@@ -5,15 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Skill extends Model
+class Category extends Model
 {
     use HasFactory;
+    protected $fillable = ['name'];
 
-    protected $fillable = ['name','category_id'];
-
-
-    public function category(){
-        return $this->belongsTo(Category::class);
+    public function skills(){
+        return $this->hasMany(Skill::class);
     }
 
 
@@ -21,9 +19,4 @@ class Skill extends Model
     {
       return $query->where('name','LIKE','%'.$value.'%');
     }
-
-
-    ///2024_05_27_093323_create_skills_table   
-
-    
 }

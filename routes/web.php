@@ -17,6 +17,8 @@ use App\Http\Controllers\Dashboard\{
    JobController,
    AdvertiseController,
    PaymobController,
+   SkillController,
+   CategoryController,
 };
 /*
 |--------------------------------------------------------------------------
@@ -62,9 +64,6 @@ Route::name('admin.')->prefix('admin')->group(function () {
       Route::get('/edit', [AuthController::class, 'edit'])->name('profile.edit');
 
 
-
-
-
       # Profile
       Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
       Route::patch('profile/edit-personal', [ProfileController::class, 'updatePersonal'])->name('profile.personal.update');
@@ -102,6 +101,14 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
       # advertises
       Route::resource('advertises', AdvertiseController::class);
+
+      # category
+      Route::resource('categories', CategoryController::class);
+     # skills
+     Route::resource('skills', SkillController::class);
+
+      
+
    });
 });
 

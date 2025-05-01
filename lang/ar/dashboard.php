@@ -187,10 +187,15 @@ return [
     "edit_post"=> "تعديل بيانات الطلب",
     'Suggestion_send_from' => " تم اضافة اقتراج جديد من خلال " ,
     'Suggestion added successfully' => "تم اضافة الاقتراح بنجاح " , 
-
-
-
-
+    'categories' => " فئات المهارات",
+    'show_categories' => " عرض فئات المهارات",
+    'skills' => " المهارت",
+    'show_skills' => " عرض المهارات",
+    'categories_add' => 'اضافة الفئة',
+    'created_Category' => 'تم انشاء الفئة بنجاح!',
+     'categories_list' => 'قائمة الفئات',
+     'category' => 'الفئة' ,
+     'skill_add' => "اضافة مهارة" ,
 ];
 
 

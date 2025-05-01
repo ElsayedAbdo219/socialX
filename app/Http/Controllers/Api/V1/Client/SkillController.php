@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Client;
 
-use App\Models\Skill;
+use App\Models\{Skill,Category,SkillEmployee};
 use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,22 +11,34 @@ class SkillController extends Controller
 {
     public function all()
     {
-        return Skill::where('employee_id', auth('api')->id())->paginate(10);
+        return SkillEmployee::where('employee_id', auth('api')->id())->paginate(10);
+    }
+
+    public function getSkillsByCatgory($Category)
+    {
+       return array_unique(Skill::where('category_id',$Category)->pluck('name')->toArray());
+
     }
 
     public function add(Request $request)
     {
+        // return $request;
         $data = $request->validate([
-            'skill' => ['required', 'string', 'max:255'],
+            'skill_id' => ['required', 'array'],
+            'skill_id' => ['required'],
+            'category_id' => ['required'],
         ]);
+        // return $data;
 
-        $data['employee_id'] = auth('api')->id();
-        $skill = Skill::create($data);
+        foreach($data['skill_id'] as $val){
+            SkillEmployee::create([
+                'employee_id' => auth('api')->id(),
+                'skill_id' => $val,
+                'category_id' => $data['category_id'],
+            ]);
+        }
 
-        return response()->json([
-            'message' => 'تم اضافة مهارة جديدة بنجاح',
-            'skill' => $skill
-        ]);
+        return response()->json([ 'message' => 'تم اضافة مهارة جديدة بنجاح'  ]);
     }
 
     public function get($member)
@@ -35,13 +47,13 @@ class SkillController extends Controller
         return $member->load('skills');
     }
 
-    public function show($skill)
+    public function show($SkillEmployee)
     {
-        $skill = Skill::findOrFail($skill);
-        if ($skill->employee_id !== auth('api')->id()) {
+        $SkillEmployee = SkillEmployee::findOrFail($SkillEmployee);
+        if ($SkillEmployee->employee_id !== auth('api')->id()) {
             return response()->json(['message' => 'غير مصرح لك بعرض هذه المهارة'], 403);
         }
-        return $skill;
+        return $SkillEmployee;
     }
 
     public function update(Request $request, $skill)
@@ -68,7 +80,7 @@ class SkillController extends Controller
 
     public function delete($skill)
     {
-        $skill = Skill::findOrFail($skill);
+        $skill = SkillEmployee::findOrFail($skill);
         if ($skill->employee_id !== auth('api')->id()) {
             return response()->json(['message' => 'غير مصرح لك بحذف هذه المهارة'], 403);
         }

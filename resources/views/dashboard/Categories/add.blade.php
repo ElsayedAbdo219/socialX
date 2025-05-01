@@ -1,6 +1,6 @@
 @extends('components.dashboard.layouts.master')
 @section('title')
-    {{__('dashboard.suppliers')}}
+    {{__('dashboard.categories_add')}}
 @endsection
 <!-- BEGIN: Content-->
 @section('content')
@@ -13,39 +13,29 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
-            <x-dashboard.layouts.breadcrumb now="{{__('dashboard.suppliers')}}">
-                <li class="breadcrumb-item"><a href="{{route('admin.traders.suppliers.index')}}">
-                        {{__('dashboard.suppliers')}}
+            <x-dashboard.layouts.breadcrumb now="{{__('dashboard.categories_add')}}">
+                <li class="breadcrumb-item"><a href="{{url('admin/categories/')}}">
+                        {{__('dashboard.categories')}}
                     </a></li>
             </x-dashboard.layouts.breadcrumb>
             <div class="col-12 mt-3">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">{{__('dashboard.add_supplier')}}</h4>
+                        <h4 class="card-title">{{__('dashboard.categories_add')}}</h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-vertical" method="POST" action="{{route('admin.traders.suppliers.store')}}" >
+                            <form class="form form-vertical" method="POST" action="{{route('admin.categories.store')}}" >
                                 @csrf
                               <div class="row">
                                     <div class="form-group col-sm-3">
-                                        <label for="name_en">{{__('dashboard.name')}}
-                                            <input type="text"  class="form-control" name="name" placeholder="{{__('dashboard.name')}}"  />
+                                        <label for="name_en">الاسم
+                                            <input type="text"  class="form-control" name="name" placeholder="العنوان" value="{{ old('name')}}" style="width:200px; height:40px;" ></input>
                                             @error('name')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label> 
                                     </div>
-
-                                    <div class="form-group col-sm-3">
-                                        <label for="name_en">{{__('dashboard.phone')}}
-                                            <input type="text"  class="form-control" name="phone" placeholder="{{__('dashboard.phone')}}"  />
-                                            @error('phone')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </label> 
-                                    </div>
-                               
 
                                 </div>
                                 <div class="col-12">
