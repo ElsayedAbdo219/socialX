@@ -10,11 +10,27 @@ class RateCompany extends Model
     use HasFactory;
     protected $guarded=[];
 
+    public function employee(){
 
-#scopes
-public function scopeOfEmployee($query,$value){
-   return $query->where('employee_id',$value);
+        return $this->belongsTo(Member::class,'employee_id');
+       }
+    
+    
+       public function company(){
+    
+        return $this->belongsTo(Member::class,'company_id');
+       }
+  #scopes
+  public function scopeOfCompany($query, $value)
+  {
+    return $query->where('company_id', $value);
+  }
 
-}
+
+  public function scopeOfEmployee($query, $value)
+  {
+    return $query->where('employee_id', $value);
+  }
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 }

@@ -11,9 +11,15 @@ class RateEmployee extends Model
   protected $guarded = [];
 
 
-   public function member(){
+   public function employee(){
 
     return $this->belongsTo(Member::class,'employee_id');
+   }
+
+
+   public function company(){
+
+    return $this->belongsTo(Member::class,'company_id');
    }
 
 
@@ -23,5 +29,10 @@ class RateEmployee extends Model
     return $query->where('company_id', $value);
   }
 
+
+  public function scopeOfEmployee($query, $value)
+  {
+    return $query->where('employee_id', $value);
+  }
 
 }

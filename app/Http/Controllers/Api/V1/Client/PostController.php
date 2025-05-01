@@ -27,8 +27,10 @@ class PostController extends Controller {
     $this->postservice = $postservice;
   }
 
-  public function all($Paginate_Size): mixed
+  public function all(Request $request): mixed
   {
+    $Paginate_Size = $request->query('Paginate_Size') ?? 10;
+    
           // البوستات الأصلية
       $ownPosts = Post::with($this->Relations)
           ->where('is_Active', 1)
@@ -83,8 +85,9 @@ class PostController extends Controller {
       }
    }
 
-   public function get($Paginate_Size ,$User_Id)
+   public function get(Request $request ,$User_Id)
    {
+    $Paginate_Size = $request->query('Paginate_Size') ?? 10;
     $User = Member::find($User_Id);
 
     $Relations = ['user', 'comments','comments.commentsPeplied','comments.ReactsTheComment', 'reacts'];
@@ -124,8 +127,10 @@ class PostController extends Controller {
    }
   
 
-    public function getMyPosts($Paginate_Size)
-   {
+    public function getMyPosts(Request $request)
+    {
+        //   dd($request->query('Paginate_Size'));
+     $Paginate_Size = $request->query('Paginate_Size') ?? 10;
     return auth('api')->user()->posts()->orderByDesc('id')->paginate($Paginate_Size);    
    }
 

@@ -15,13 +15,53 @@ use Illuminate\Validation\Rule;
 
 class RateController extends Controller
 {
-    public function all()
+    public function all(Request $request)
     {
         // return auth('api')->id();
+        $paginateSize = $request->query('paginateSize');
+
         if (auth('api')->user()->type === UserTypeEnum::COMPANY) {
-            return RateEmployee::where('company_id', auth('api')->user()->id)->paginate();
+
+            $myRates = RateCompany::OfCompany(auth('api')->user()->id)->get();
+            $total = $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count() : 0;
+            $ratesMiddleOneStar = $myRates?->where('rate',1)->count();
+            $ratesMiddleTwoStar = $myRates?->where('rate',2)->count();
+            $ratesMiddleThreeStar = $myRates?->where('rate',3)->count();
+            $ratesMiddleFourStar = $myRates?->where('rate',4)->count();
+            $ratesMiddleFiveStar = $myRates?->where('rate',5)->count();
+
+            return response()->json([
+                 'ratesNumber' => $myRates?->count(),
+                 'ratesMiddleOneStar' => $ratesMiddleOneStar,
+                 'ratesMiddleTwoStar' => $ratesMiddleTwoStar,
+                 'ratesMiddleThreeStar' => $ratesMiddleThreeStar,
+                 'ratesMiddleFourStar' => $ratesMiddleFourStar,
+                 'ratesMiddleFiveStar' => $ratesMiddleFiveStar,
+                 'ratesMiddleTotal' => round($total, 1),
+                 'data' =>  RateCompany::where('company_id', auth('api')->user()->id)->with('employee')->paginate($paginateSize),
+            ]);
+
         } else {
-            return RateCompany::where('employee_id', auth('api')->user()->id)->paginate();
+
+            $myRates = RateEmployee::OfEmployee(auth('api')->user()->id)->get();
+            $total = $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count() : 0;
+            $ratesMiddleOneStar = $myRates?->where('rate',1)->count();
+            $ratesMiddleTwoStar = $myRates?->where('rate',2)->count();
+            $ratesMiddleThreeStar = $myRates?->where('rate',3)->count();
+            $ratesMiddleFourStar = $myRates?->where('rate',4)->count();
+            $ratesMiddleFiveStar = $myRates?->where('rate',5)->count();
+
+            return response()->json([
+                 'ratesNumber' => $myRates?->count(),
+                 'ratesMiddleOneStar' => $ratesMiddleOneStar,
+                 'ratesMiddleTwoStar' => $ratesMiddleTwoStar,
+                 'ratesMiddleThreeStar' => $ratesMiddleThreeStar,
+                 'ratesMiddleFourStar' => $ratesMiddleFourStar,
+                 'ratesMiddleFiveStar' => $ratesMiddleFiveStar,
+                 'ratesMiddleTotal' => round($total, 1),
+                 'data' =>  RateEmployee::where('employee_id', auth('api')->user()->id)->with('company')->paginate($paginateSize),
+            ]);
+
         }
     }
 
@@ -34,26 +74,53 @@ class RateController extends Controller
         }
     }
 
-    public function showEmployee($employee)
+    public function showEmployee(Request $request,$employee)
     {
+        $paginateSize = $request->query('paginateSize');
         $employee = Member::findOrFail($employee);
-        $myRates = RateCompany::OfEmployee($employee?->id)->get();
+        $myRates = RateEmployee::OfEmployee($employee?->id)->get();
+
         $total = $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count() : 0;
+        $ratesMiddleOneStar = $myRates?->where('rate',1)->count();
+        $ratesMiddleTwoStar = $myRates?->where('rate',2)->count();
+        $ratesMiddleThreeStar = $myRates?->where('rate',3)->count();
+        $ratesMiddleFourStar = $myRates?->where('rate',4)->count();
+        $ratesMiddleFiveStar = $myRates?->where('rate',5)->count();
+
         return response()->json([
-            'rates' => round($total, 1),
-            'comments' => $myRates->pluck('comment'),
-        ]);
+            'ratesNumber' => $myRates?->count(),
+            'ratesMiddleOneStar' => $ratesMiddleOneStar,
+            'ratesMiddleTwoStar' => $ratesMiddleTwoStar,
+            'ratesMiddleThreeStar' => $ratesMiddleThreeStar,
+            'ratesMiddleFourStar' => $ratesMiddleFourStar,
+            'ratesMiddleFiveStar' => $ratesMiddleFiveStar,
+            'ratesMiddleTotal' => round($total, 1),
+            'data' =>  RateEmployee::where('employee_id', $employee->id)->with('company')->paginate($paginateSize),
+       ]);
     }
 
-    public function showCompany($company)
+    public function showCompany(Request $request,$company)
     {
+        $paginateSize = $request->query('paginateSize');
         $company = Member::findOrFail($company);
-        $myRates = RateEmployee::OfCompany($company?->id)->get();
+        $myRates = RateCompany::OfCompany($company?->id)->get();
         $total = $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count() : 0;
+        $ratesMiddleTwoStar = $myRates?->where('rate',2)->count();
+        $ratesMiddleOneStar = $myRates?->where('rate',1)->count();
+        $ratesMiddleFourStar = $myRates?->where('rate',4)->count();
+        $ratesMiddleThreeStar = $myRates?->where('rate',3)->count();
+        $ratesMiddleFiveStar = $myRates?->where('rate',5)->count();
+
         return response()->json([
-            'rates' => round($total, 1),
-            'comments' => $myRates->pluck('comment'),
-        ]);
+            'ratesNumber' => $myRates?->count(),
+            'ratesMiddleOneStar' => $ratesMiddleOneStar,
+            'ratesMiddleTwoStar' => $ratesMiddleTwoStar,
+            'ratesMiddleThreeStar' => $ratesMiddleThreeStar,
+            'ratesMiddleFourStar' => $ratesMiddleFourStar,
+            'ratesMiddleFiveStar' => $ratesMiddleFiveStar,
+            'ratesMiddleTotal' => round($total, 1),
+            'data' =>  RateCompany::where('company_id', $company->id)->with('employee')->paginate($paginateSize),
+       ]);
     }
 
     public function update(Request $request, $rateId)
