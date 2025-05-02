@@ -90,6 +90,7 @@ class PostService
       $dataValidatedChecked = $request->validated();
       $dataValidatedChecked['status']  = PostTypeEnum::NORMAL;
       $dataValidatedChecked['user_id']  = auth('api')->user()->id;
+     unset($dataValidatedChecked['type']);
       $Post = Post::create($dataValidatedChecked);
       if ($request->hasFile('file_name')) {
        $fileName = basename(Storage::disk('public')->put('posts', file_get_contents($dataValidatedChecked['file_name'])));
