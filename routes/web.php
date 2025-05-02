@@ -41,8 +41,8 @@ Route::get('/form-map', function () {
 
 
 ///  payment paymob
-Route::get('/credit', [PaymobController::class, 'credit'])->name('payment');
-Route::get('/callback', [PaymobController::class, 'callback'])->name('payment');
+// Route::get('/credit', [PaymobController::class, 'credit'])->name('payment');
+// Route::get('/callback', [PaymobController::class, 'callback'])->name('payment');
 // Route::get('/payment',[PaymobController::class,'payment'])->name('payment');
 
 

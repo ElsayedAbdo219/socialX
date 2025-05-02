@@ -44,7 +44,6 @@ use App\Http\Controllers\Api\V1\Client\{
 
 };
 
-use App\Http\Controllers\FawaterkController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -57,13 +56,14 @@ use App\Http\Controllers\FawaterkController;
 */
 
 #Auth
+
+Route::get('/me', [PostController::class, 'getMyPosts']); // my posts 
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forget-Password', [AuthController::class, 'forgetPassword']);
 Route::post('/verify-Otp', [AuthController::class, 'verifyotp']);
 Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
-Route::get('/me', [PostController::class, 'getMyPosts']); // my posts 
-
   # Static Pages
   Route::group(['prefix' => 'static-pages'], function () {
     Route::get('about-app', [StaticPagesController::class, 'aboutApp']);
@@ -103,7 +103,6 @@ Route::name('posts.')->prefix('posts')->group(function () {
     Route::post('/addPostIntro', [PostController::class, 'addPostIntro']); // addPostIntro
     Route::get('/getPostIntro/{id}', [PostController::class, 'getPostIntro']); // addPostIntro
     Route::delete('/deletePostIntro/{id}', [PostController::class, 'deletePostIntro']); // addPostIntro
-    
     
 });
 
