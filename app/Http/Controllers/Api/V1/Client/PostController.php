@@ -33,7 +33,7 @@ class PostController extends Controller {
     
           // البوستات الأصلية
       $ownPosts = Post::with($this->Relations)
-          ->where('is_Active', 1)
+        //   ->where('is_Active', 1)
           ->get()
           ->map(function ($post) {
               $post->type = 'original';
@@ -93,7 +93,7 @@ class PostController extends Controller {
     $Relations = ['user', 'comments','comments.commentsPeplied','comments.ReactsTheComment', 'reacts'];
           // البوستات الأصلية
       $ownPosts = $User?->posts()?->with($this->Relations)
-          ->where('is_Active', 1)
+        //   ->where('is_Active', 1)
           ->get()
           ->map(function ($post) {
               $post->type = 'original';
@@ -129,9 +129,12 @@ class PostController extends Controller {
 
     public function getMyPosts(Request $request)
     {
+        return '123';
         //   dd($request->query('Paginate_Size'));
      $Paginate_Size = $request->query('Paginate_Size') ?? 10;
-    return auth('api')->user()->posts()->where('is_Active', 1)->orderByDesc('id')->paginate($Paginate_Size);    
+    // return auth('api')->user()->posts()->where('is_Active', 1)->orderByDesc('id')->paginate($Paginate_Size);  
+    return auth('api')->user()->posts()->orderByDesc('id')->paginate($Paginate_Size);    
+
    }
 
 
