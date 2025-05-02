@@ -129,7 +129,7 @@ class PostController extends Controller {
 
     public function getMyPosts(Request $request)
     {
-        return '123';
+        // return '123';
         //   dd($request->query('Paginate_Size'));
      $Paginate_Size = $request->query('Paginate_Size') ?? 10;
     // return auth('api')->user()->posts()->where('is_Active', 1)->orderByDesc('id')->paginate($Paginate_Size);  
