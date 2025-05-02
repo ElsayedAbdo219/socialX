@@ -138,7 +138,7 @@ class Member extends Authenticatable
     }
 
     public function skills(){
-        return $this->hasMany(Skill::class,'employee_id');
+        return $this->hasMany(SkillEmployee::class,'employee_id');
     }
 
 

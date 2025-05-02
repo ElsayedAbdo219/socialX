@@ -199,7 +199,7 @@ public function resetPassword(Request $request)
 public function me()
 {
     $user = auth('api')->user();
-    $exps = auth('api')->user()->experience;
+    $exps = $user->experience;
     $totalExpYears = 0;
     foreach($exps as $exp){
         $startYear = $exp->start_date_year;
