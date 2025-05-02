@@ -131,7 +131,7 @@ class PostController extends Controller {
     {
         //   dd($request->query('Paginate_Size'));
      $Paginate_Size = $request->query('Paginate_Size') ?? 10;
-    return auth('api')->user()->posts()->orderByDesc('id')->paginate($Paginate_Size);    
+    return auth('api')->user()->posts()->where('is_Active', 1)->orderByDesc('id')->paginate($Paginate_Size);    
    }
 
 
