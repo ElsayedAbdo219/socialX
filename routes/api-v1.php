@@ -56,9 +56,6 @@ use App\Http\Controllers\Api\V1\Client\{
 */
 
 #Auth
-
-Route::get('/me', [PostController::class, 'getMyPosts']); // my posts 
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forget-Password', [AuthController::class, 'forgetPassword']);
@@ -98,6 +95,7 @@ Route::name('posts.')->prefix('posts')->group(function () {
     Route::get('/{ID}', [PostController::class, 'show']); // SHOW post
     Route::post('/update/{ID}', [PostController::class, 'update']); // update post
     Route::delete('/{ID}', [PostController::class, 'delete']); // delete post
+    Route::get('/me', [PostController::class, 'getMyPosts']); // my posts 
     Route::get('/shares/{Paginate_Size}/{ID}', [PostController::class, 'showSharesOfPost']); // shares for  post 
     Route::get('/user/{UserID}', [PostController::class, 'get']); // get user posts
     Route::post('/addPostIntro', [PostController::class, 'addPostIntro']); // addPostIntro
