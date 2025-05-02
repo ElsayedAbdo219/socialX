@@ -11,6 +11,7 @@ class Post extends Model
     use HasFactory;
     protected $guarded=[];
     protected $hidden = ['period','is_published'];
+    protected $appends = ['total_shares'];
     protected $casts = [
         'is_Active' => 'boolean'
     ];
@@ -93,7 +94,11 @@ class Post extends Model
     }
 
 
-
+      public function gettotalSharesAttribute()
+      {
+        // dd($this->withCount($this->shares()));
+        return $this->shares()->count();
+      }
 
 
 }
