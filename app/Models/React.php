@@ -9,6 +9,7 @@ class React extends Model
 {
     use HasFactory;
     protected $fillable = ['post_id' , 'user_id' ,'react_type'] ;
+    protected $with = ['user'];
 
     # Relations
     public function post() 
@@ -17,6 +18,6 @@ class React extends Model
     }
     public function user() 
     {
-      return $this->belongsTo(User::class,'user_id');
+      return $this->belongsTo(Member::class,'user_id');
     }
 }

@@ -20,7 +20,7 @@ class PostController extends Controller {
   
   protected $postResource = PostResource::class;
   protected $postservice;
-  private $Relations = ['user', 'comments','comments.commentsPeplied','comments.ReactsTheComment', 'reacts'];
+  private $Relations = ['user', 'comments.user','comments.commentsPeplied.user','comments.ReactsTheComment.user', 'reacts.user'];
 
   public function __construct(PostService $postservice)
   {
@@ -89,8 +89,8 @@ class PostController extends Controller {
    {
     $Paginate_Size = $request->query('Paginate_Size') ?? 10;
     $User = Member::find($User_Id);
+     $Relations = ['user', 'comments.user','comments.commentsPeplied.user','comments.ReactsTheComment.user', 'reacts.user'];
 
-    $Relations = ['user', 'comments','comments.commentsPeplied','comments.ReactsTheComment', 'reacts'];
           // البوستات الأصلية
       $ownPosts = $User?->posts()?->with($this->Relations)
         //   ->where('is_Active', 1)

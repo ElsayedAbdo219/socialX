@@ -9,6 +9,7 @@ class ReactComment extends Model
 {
     use HasFactory;
     protected $fillable = ['comment_id' , 'user_id' ,'react_type'] ;
+    protected $with = ['user'];
 
     # Relations
     public function comment() 

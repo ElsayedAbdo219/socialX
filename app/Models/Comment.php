@@ -10,6 +10,8 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = ['post_id' , 'user_id' ,'comment'] ;
+    protected $with = ['user'];
+
 
     # Relations
     public function post() 
@@ -19,7 +21,7 @@ class Comment extends Model
 
     public function user() 
     {
-      return $this->belongsTo(User::class,'user_id');
+      return $this->belongsTo(Member::class,'user_id');
     }
 
     public function commentsPeplied() 

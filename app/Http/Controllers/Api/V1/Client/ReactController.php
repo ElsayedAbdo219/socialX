@@ -36,7 +36,7 @@ class ReactController extends Controller {
    {
 
      $Post = Post::find($Post_Id);
-     return $Post->reacts()->paginate(10);
+     return $Post->reacts()->with('user')->paginate(10);
     }
 
 }
