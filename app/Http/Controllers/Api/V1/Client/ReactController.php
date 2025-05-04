@@ -34,9 +34,9 @@ class ReactController extends Controller {
 
    public function getReactsInfo($Post_Id)
    {
-
+    //  return  React::where('post_id',$Post_Id)->paginate(10);
      $Post = Post::find($Post_Id);
-     return $Post->reacts()->with('user')->paginate(10);
+     return $Post?->reacts()?->paginate(10);
     }
 
 }
