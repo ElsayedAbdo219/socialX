@@ -96,7 +96,7 @@ Route::name('posts.')->prefix('posts')->group(function () {
     Route::post('/update/{ID}', [PostController::class, 'update']); // update post
     Route::delete('/{ID}', [PostController::class, 'delete']); // delete post
     Route::get('/user/me', [PostController::class, 'getMyPosts']); // my posts 
-    Route::get('/shares/{Paginate_Size}/{ID}', [PostController::class, 'showSharesOfPost']); // shares for  post 
+    Route::get('/shares/{ID}', [PostController::class, 'showSharesOfPost']); // shares for  post 
     Route::get('/user/{UserID}', [PostController::class, 'get']); // get user posts
     Route::post('/addPostIntro', [PostController::class, 'addPostIntro']); // addPostIntro
     Route::get('/getPostIntro/{id}', [PostController::class, 'getPostIntro']); // addPostIntro

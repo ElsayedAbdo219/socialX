@@ -139,8 +139,9 @@ class PostController extends Controller {
 
 
 
-   public function showSharesOfPost($Paginate_Size,$Post)
+   public function showSharesOfPost(Request $request,$Post)
    {
+    $Paginate_Size = $request->query('Paginate_Size') ?? 10;
     return SharedPost::where('post_id',$Post)->with('userShared')->orderByDesc('id')->paginate($Paginate_Size);
    }
 
