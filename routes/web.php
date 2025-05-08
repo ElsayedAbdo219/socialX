@@ -58,6 +58,18 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
 
    Route::middleware(['auth:web'])->group(function () {
+
+      Route::post('/admin/set-language', function (Illuminate\Http\Request $request) {
+         $lang = $request->input('lang');
+     
+         if (in_array($lang, ['en', 'ar'])) {
+             session(['locale' => $lang]);
+         }
+         return redirect()->back(); 
+     })->name('setLanguage');
+     
+
+
       Route::get('/home', [AuthController::class, 'home'])->name('home');
       Route::get('/markered', [AuthController::class, 'markered'])->name('notification.markAsRead');
       Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

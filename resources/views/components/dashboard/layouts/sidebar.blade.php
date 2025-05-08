@@ -72,8 +72,22 @@
                 </ul>
             </li>
          
+             <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i>
+                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.posts') }}</span>
+                </a>
+                <ul class="menu-content">
 
-            {{-- <li class=" nav-item"><a href="#"><i class="feather icon-dollar-sign"></i>
+                    <li class="{{ Route::is('admin.posts.index') ? 'active' : '' }}">
+                        <a href="{{ route('admin.posts.index') }}">
+                            <i class="feather icon-eye"></i>
+                            <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_posts') }}</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li> 
+
+               <li class=" nav-item"><a href="#"><i class="feather icon-dollar-sign"></i>
                     <span class="menu-title" data-i18n="Data List">{{ __('dashboard.advertises') }}</span>
                 </a>
                 <ul class="menu-content">
@@ -86,7 +100,7 @@
                     </li>
 
                 </ul>
-            </li> --}}
+            </li> 
 
 
 
@@ -106,26 +120,6 @@
                 </ul>
             </li>
 
-
-
-             <li class=" nav-item"><a href="#"><i class="feather icon-user"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.employees') }}</span>
-                </a>
-                <ul class="menu-content">
-
-                    <li class="{{ Route::is('admin.employees.index') ? 'active' : '' }}">
-                        <a href="{{ route('admin.employees.index') }}">
-                            <i class="feather icon-eye"></i>
-                            <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_employees') }}</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </li>
-
-
-
-        
 
             <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i>
                     <span class="menu-title" data-i18n="Data List">{{ __('dashboard.categories') }}</span>

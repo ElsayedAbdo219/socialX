@@ -12,6 +12,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\App;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         Schema::defaultStringLength(191);
         //date_default_timezone_set(Config::get('app.timezone', 'Africa/Cairo'));
+        // App::setLocale(session('locale', config('app.locale')));
 
         # Enforce Morph Model
         $modelFiles = Storage::disk('app')->files('Models');

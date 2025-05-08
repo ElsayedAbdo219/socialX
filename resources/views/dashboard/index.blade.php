@@ -162,8 +162,8 @@
                     <div class="col-lg-12">
                         <div class="page-title">
                             <div class="title">
-                                <h3>لوحة التحكم</h3>
-                                <p>مرحبا بك في لوحة التحكم {{ Auth::user()->name }}</p>
+                                <h3> {{__('dashboard.dashboard')}}</h3>
+                                <p>   {{__('dashboard.welcome_to_dashboard')}} {{ Auth::user()->name }}</p>
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                             </div>
                             <div class="details">
                                 <h5>{{ $jobs }}</h5>
-                                <span>عدد وظائف اليوم</span>
+                                <span>{{__('dashboard.number_of_jobs_this_Day')}}</span>
                             </div>
                         </div>
                     </div>
@@ -185,7 +185,7 @@
                             </div>
                             <div class="details">
                                 <h5>{{ $companies }}</h5>
-                                <span>عدد الشركات</span>
+                                <span>{{__('dashboard.number_of_companies')}}</span>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                             </div>
                             <div class="details">
                                 <h5>{{ $employees }}</h5>
-                                <span>عدد المستقلين</span>
+                                <span>{{__('dashboard.number_of_employees')}}</span>
                             </div>
                         </div>
                     </div>
@@ -207,7 +207,7 @@
                             </div>
                             <div class="details">
                                 <h5>{{ $Advertises }}</h5>
-                                <span>عدد  الاعلانات اليوم</span>
+                                <span>{{__('dashboard.number_of_advertises_this_day')}}</span>
                             </div>
                         </div>
                     </div>
@@ -215,7 +215,7 @@
                         <div class="revenu-chart">
                             <div class="revenu-title">
                                 <div class="title">
-                                    <h3>الوظائف</h3>
+                                    <h3>{{__('dashboard.jobs')}}</h3>
                                 </div>
                                 <div class="page-title-sorts">
                                     {{-- <a href="#" class="sort-two">
@@ -226,7 +226,7 @@
                             </div>
                             <div class="revenu-heading">
                                 <div class="title">
-                                    <h5>الكل</h5>
+                                    <h5>{{__('dashboard.all')}}</h5>
                                     <span>{{ $all_jobs }}</span>
                                 </div>
                                 <div class="summery-menu">
@@ -253,7 +253,7 @@
                         <div class="order-summery">
                             <div class="summery-heading">
                                 <div class="title">
-                                    <h5>تفاصيل الشركات</h5>
+                                    <h5>{{__('dashboard.details_of_companies')}}</h5>
                                 </div>
                                 <div class="summery-menu">
                                     {{-- <button class="active">يوميا</button>
@@ -265,24 +265,25 @@
                             <div class="summerys">
                                 <div class="single-summery">
                                     <h4>{{ $disactiveCompanies }}</h4>
-                                    <p>الغير فعالين</p>
+                                    <p>{{__('dashboard.disactives')}}</p>
                                 </div>
                                 <div class="single-summery">
                                     <h4>{{ $activeCompanies }}</h4>
-                                    <p>الفعالين</p>
+                                    <p>{{__('dashboard.actives')}}</p>
                                 </div>
                                 <div class="single-summery">
                                     <h4>{{ $companies }}</h4>
-                                    <p>الاجمالي</p>
+                                    <p>{{__('dashboard.total')}}</p>
                                 </div>
                             </div>
                             <div class="new-order">
-                                <p>طلب تفعيل</p>
+                                    <p>{{__('dashboard.active_request')}}</p>
+
                                 <div class="number">
                                     <span>{{ $disactiveCompanies }}</span>
                                 </div>
                                 <div class="view-btn">
-                                    <a href="{{ route('admin.companies.index') }}">رؤية الكل <i class="fas fa-long-arrow-alt-right"></i></a>
+                                    <a href="{{ route('admin.companies.index') }}"> {{__('dashboard.view_all')}} <i class="fas fa-long-arrow-alt-right"></i></a>
                                 </div>
                             </div>
 
@@ -297,7 +298,7 @@
                         <div class="order-summery">
                             <div class="summery-heading">
                                 <div class="title">
-                                    <h5>تفاصيل المستقلين</h5>
+                                    <h5>{{__('dashboard.details_of_employees')}}</h5>
                                 </div>
                                 <div class="summery-menu">
                                     {{-- <button class="active">يوميا</button>
@@ -309,24 +310,24 @@
                             <div class="summerys">
                                 <div class="single-summery">
                                     <h4>{{ $disactiveEmployees }}</h4>
-                                    <p>الغير فعالين</p>
+                                    <p>{{__('dashboard.disactives')}}</p>
                                 </div>
                                 <div class="single-summery">
                                     <h4>{{ $activeEmployees }}</h4>
-                                    <p>الفعالين</p>
+                                    <p>{{__('dashboard.actives')}}</p>
                                 </div>
                                 <div class="single-summery">
                                     <h4>{{ $employees }}</h4>
-                                    <p>الاجمالي</p>
+                                    <p>{{__('dashboard.total')}}</p>
                                 </div>
                             </div>
                             <div class="new-order">
-                                <p>طلب تفعيل</p>
+                                    <p>{{__('dashboard.active_request')}}</p>
                                 <div class="number">
                                     <span>{{ $disactiveEmployees }}</span>
                                 </div>
                                 <div class="view-btn">
-                                    <a href="{{ route('admin.employees.index') }}">رؤية الكل <i class="fas fa-long-arrow-alt-right"></i></a>
+                                    <a href="{{ route('admin.employees.index') }}"> {{__('dashboard.view_all')}} <i class="fas fa-long-arrow-alt-right"></i></a>
                                 </div>
                             </div>
 

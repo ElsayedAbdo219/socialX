@@ -116,8 +116,37 @@
 <input type="hidden" id="noCancel" value="{{ __("dashboard.No, cancel")}}">
 <input type="hidden" id="deletedDone" value="{{ __("dashboard.deleted done")}}">
 <input type="hidden" id="deleteMessage" value="{{ __("dashboard.delete")}}">
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 
 <script>
+  /*   $(document).ready(function () {
+    $('#languageSwitcher').on('change', function (event) {
+        event.preventDefault();
+        // alert('lang switcher run!');
+        let lang = $(this).val();
+        console.log(lang);
+        $.ajax({
+            url: '/admin/set-language',
+            method: 'POST',
+            data: {
+                lang: lang,
+                _token: '{{ csrf_token() }}'
+            },
+            // alert(data.lang);
+            // console.log('ajax done!');
+            success: function (res) {
+                if (res.status === 'success') {
+                    console.log('Language changed to: ' + lang);
+                     location.reload(); // لو حابب تعيد تحميل الصفحة
+                }
+            },
+            error: function () {
+                alert('فشل تغيير اللغة');
+            }
+        });
+    });
+});
+ */
 
     $.ajaxSetup({
         headers: {
@@ -220,8 +249,8 @@
         }
 
 
-
     
+
 
 
 

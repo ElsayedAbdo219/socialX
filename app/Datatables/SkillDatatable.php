@@ -42,7 +42,7 @@ class SkillDatatable extends BaseDatatable
     protected function getColumns(): array
     {
         return [
-            Column::computed('name')->title('العنوان')->className('text-center'),
+            Column::computed('name')->title(__('dashboard.name'))->className('text-center'),
             Column::computed('category')->title(__('dashboard.category'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 

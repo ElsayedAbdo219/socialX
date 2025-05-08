@@ -132,7 +132,41 @@
         font-weight: bold;
         color: #333;
     }
+.language-dropdown {
+    position: relative;
+    display: inline-block;
+}
 
+.language-dropdown select {
+    background-color: #fff;
+    border: 2px solid blue;
+    padding: 10px 14px;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #222;
+    font-weight: bold;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M35 50l35 35 35-35' fill='none' stroke='%23000' stroke-width='15'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 35px;
+    box-shadow: blue;
+    transition: all 0.3s ease;
+}
+
+.language-dropdown select:hover {
+    border-color: #2ecc71;
+    box-shadow: 0 0 12px rgba(0, 255, 0, 0.5);
+}
+
+/* تنبيه: بعض المتصفحات تتجاهل هذا الجزء */
+.language-dropdown option {
+    background-color: #f0fff0;
+    color: #222;
+    font-weight: bold;
+}
 
     </style>
 </head>

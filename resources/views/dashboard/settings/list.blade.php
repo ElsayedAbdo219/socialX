@@ -60,92 +60,93 @@
                                 <p class="p-1 m-1 {{ $page == 'our-vision' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'our-vision']) }}"
                                        class="{{ $page == 'our-vision' ? 'setting-nav-active' : '' }}">
-                                       رؤيتنا
+                                       {{ __('dashboard.our-vision') }}
                                     </a>
                                 </p>
                                  <p class="p-1 m-1 {{ $page == 'why-choose-anceega-for-seekers' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index' , ['page' => 'why-choose-anceega-for-seekers']) }}"
                                        class="{{ $page == 'why-choose-anceega-for-seekers' ? 'setting-nav-active' : '' }}">
-                                       لماذا تختار Anceega للباحثين؟
+                                       {{__('dashboard.why-choose-anceega-for-seekers')}}
                                     </a>
                                 </p>
                                  <p class="p-1 m-1 {{ $page == 'why-choose-anceega-for-business-and-freelancers' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'why-choose-anceega-for-business-and-freelancers']) }}"
                                        class="{{ $page == 'why-choose-anceega-for-business-and-freelancers' ? 'setting-nav-active' : '' }}">
-                                       لماذا تختار Anceega للأعمال والمستقلين؟
+                                       {{__('dashboard.why-choose-anceega-for-business-and-freelancers')}}
+
                                     </a>
                                 </p>
                                 <p class="p-1 m-1 {{ $page == 'key-features' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'key-features']) }}"
                                        class="{{ $page == 'key-features' ? 'setting-nav-active' : '' }}">
-                                       الميزات الرئيسية
+                                       {{__('dashboard.key-features')}}
+
                                     </a>
                                 </p> <p class="p-1 m-1 {{ $page == 'user-responsibilities' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'user-responsibilities']) }}"
                                        class="{{ $page == 'user-responsibilities' ? 'setting-nav-active' : '' }}">
-                                       مسؤوليات المستخدم
+                                       {{__('dashboard.user-responsibilities')}}
                                     </a>
                                 </p> <p class="p-1 m-1 {{ $page == 'company-responsibilities' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'company-responsibilities']) }}"
                                        class="{{ $page == 'company-responsibilities' ? 'setting-nav-active' : '' }}">
-                                       مسؤوليات الشركة
+                                       {{__('dashboard.company-responsibilities')}}
                                     </a>
                                 </p> <p class="p-1 m-1 {{ $page == 'platform-usage' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'platform-usage']) }}"
                                        class="{{ $page == 'platform-usage' ? 'setting-nav-active' : '' }}">
-                                       استخدام المنصة
+                                       {{__('dashboard.platform-usage')}}
                                     </a>
                                 </p> <p class="p-1 m-1 {{ $page == 'account-suspension-policy' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'account-suspension-policy']) }}"
                                        class="{{ $page == 'account-suspension-policy' ? 'setting-nav-active' : '' }}">
-                                       سياسة تعليق الحساب
-
+                                       {{__('dashboard.account-suspension-policy')}}
                                     </a>
                                </p> <p class="p-1 m-1 {{ $page == 'Help-Shape-Anceega' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'Help-Shape-Anceega']) }}"
                                        class="{{ $page == 'Help-Shape-Anceega' ? 'setting-nav-active' : '' }}">
-                                          المساعدة في تشكيل عن ثقة  
+                                       {{__('dashboard.Help-Shape-Anceega')}}
                                     </a>
 
                                 </p> <p class="p-1 m-1 {{ $page == 'custom-suggestions' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'custom-suggestions']) }}"
                                        class="{{ $page == 'points' ? 'setting-nav-active' : '' }}">
-                                       اقتراحات مخصصة
+                                       {{__('dashboard.custom-suggestions')}}
                                     </a>
                                 </p> 
                                   
                                  <p class="p-1 m-1 {{ $page == 'your-rights' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'your-rights']) }}"
                                        class="{{ $page == 'your-rights' ? 'setting-nav-active' : '' }}">
-                                        حقوقك
+                                       {{__('dashboard.your-rights')}}
                                     </a>
                                 </p>
                                     
                                      <p class="p-1 m-1 {{ $page == 'information-collect' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'information-collect']) }}"
                                        class="{{ $page == 'information-collect' ? 'setting-nav-active' : '' }}">
-                                        معلومات مجمعة
+                                       {{__('dashboard.information-collect')}}
                                     </a>
                                 </p> 
                                 <p class="p-1 m-1 {{ $page == 'how-use-data' ? 'setting-nav-active' : '' }}">
                                 
                                     <a href="{{ route('admin.settings.index', ['page' => 'how-use-data']) }}"
                                        class="{{ $page == 'how-use-data' ? 'setting-nav-active' : '' }}">
-                                       كيف تستخدم البيانات ؟
+                                       {{__('dashboard.how-use-data')}}
                                     </a>
                                 </p> 
                                 
                                 <p class="p-1 m-1 {{ $page == 'help-support' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'help-support']) }}"
                                        class="{{ $page == 'help-support' ? 'setting-nav-active' : '' }}">
-                                        المساعدة & الدعم
+                                       {{__('dashboard.help-support')}}
                                     </a>
                                 </p> 
 
                                 <p class="p-1 m-1 {{ $page == 'advertise-Anceega' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'advertise-Anceega']) }}"
                                        class="{{ $page == 'advertise-Anceega' ? 'setting-nav-active' : '' }}">
-                                       اعلانات عن ثقة
+                                       {{__('dashboard.advertise-Anceega')}}
                                     </a>
                                 </p> 
 
@@ -154,21 +155,22 @@
                                 <p class="p-1 m-1 {{ $page == 'why-advertise-withAnceega' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'why-advertise-withAnceega']) }}"
                                        class="{{ $page == 'why-advertise-withAnceega' ? 'setting-nav-active' : '' }}">
-                                       لماذا الاعلانات مع عن ثقة 
+                                       {{__('dashboard.why-advertise-withAnceega')}}
+
                                     </a>
                                 </p> 
 
                                 <p class="p-1 m-1 {{ $page == 'how-advertise-work-for-companies' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'how-advertise-work-for-companies']) }}"
                                        class="{{ $page == 'how-advertise-work-for-companies' ? 'setting-nav-active' : '' }}">
-                                       كيف تعمل الاعلانات (للشركات)
+                                       {{__('dashboard.how-advertise-work-for-companies')}}
                                     </a>
                                 </p> 
 
                                 <p class="p-1 m-1 {{ $page == 'how-advertise-work-for-users' ? 'setting-nav-active' : '' }}">
                                     <a href="{{ route('admin.settings.index', ['page' => 'how-advertise-work-for-users']) }}"
                                        class="{{ $page == 'how-advertise-work-for-users' ? 'setting-nav-active' : '' }}">
-                                       كيف تعمل الاعلانات (للمستخدمين)
+                                       {{__('dashboard.how-advertise-work-for-users')}}
                                     </a>
                                 </p> 
 

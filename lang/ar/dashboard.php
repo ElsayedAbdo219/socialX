@@ -196,6 +196,48 @@ return [
      'categories_list' => 'قائمة الفئات',
      'category' => 'الفئة' ,
      'skill_add' => "اضافة مهارة" ,
+    'welcome_to_dashboard' => 'مرحبا بك في لوحة التحكم',
+    'number_of_jobs_this_Day' => 'عدد الوظائف اليوم',
+    'number_of_companies' => 'عدد الشركات',
+   'number_of_employees' => 'عدد الموظفين',
+   'number_of_advertises_this_day' => 'عدد الاعلانات اليوم',
+   'jobs'=>'الوظائف',
+   'all'=>'الكل',
+   'view_all'=>'رؤية الكل',
+   'details_of_companies' => 'تفاصيل الشركات',
+   'details_of_employees' => 'تفاصيل الموظفين',
+   'disactives' => 'الغير نشيطين',
+   'actives' => 'النشيطين',
+   'total' => 'الاجمالي',
+   'active_request' =>'طلب تنشيط',
+   'number_of_appliers' => 'عدد المتقدمين',
+   'number_of_jobs' => 'عدد الوظائف',
+   'our-vision'=> 'رؤيتنا',
+   'why-choose-anceega-for-seekers'=> 'لماذا تختار Anceega للباحثين؟',
+   'why-choose-anceega-for-business-and-freelancers'=> ' لماذا تختار Anceega للأعمال والمستقلين؟   ',
+   'key-features'=> ' الميزات الرئيسية   ',
+   'user-responsibilities'=> 'مسؤليات المستخدم',
+   'company-responsibilities'=> 'مسؤليات الشركة',
+   'platform-usage'=> 'استخدام المنصة',
+   'account-suspension-policy'=> 'سياسة تعليق الحساب',
+   'Help-Shape-Anceega'=> 'المساعدة في تشكيل عن ثقة',
+   'custom-suggestions'=> 'اقتراحات مخصصة',
+   'your-rights'=> 'حقوقك',
+   'information-collect'=> 'معلومات مجمعة',
+   'how-use-data'=> 'كيفية استخدام البيانات ؟',
+   'help-support'=> 'المساعدة & الدعم',
+   'advertise-Anceega'=> 'اعلانات عن ثقة',
+   'why-advertise-withAnceega'=> ' لماذا الاعلانات مع عن ثقة   ',
+   'how-advertise-work-for-companies'=> '   كيف تعمل الاعلانات (للشركات)   ',
+   'how-advertise-work-for-users'=> '   كيف تعمل الاعلانات (للمستخدمين)   ',
+
+
+
+
+
+
+
+
 ];
 
 

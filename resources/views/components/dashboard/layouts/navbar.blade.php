@@ -10,7 +10,18 @@
                         <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i class="ficon feather icon-maximize"></i></a></li>
                     </ul>
                 </div>
+                <form action="{{ route('admin.setLanguage') }}" method="POST">
+                    @csrf
+                    <div class="language-dropdown">
+                        <select name="lang" id="languageSwitcher" onchange="this.form.submit()">
+                            <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>🇬🇧 English</option>
+                            <option value="ar" {{ app()->getLocale() == 'ar' ? 'selected' : '' }}>🇸🇦 العربية</option>
+                        </select>
+                    </div>
+                </form>
+                {{-- @dd(app()->getLocale()) --}}
                 <ul class="nav navbar-nav float-right">
+
                     @if(auth()->user())
                         <li class="dropdown dropdown-notification nav-item" id="notifications-icon"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span class="badge badge-pill badge-primary badge-up">{{auth()->user()->unreadNotifications()->count()}}</span></a>
                             <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">

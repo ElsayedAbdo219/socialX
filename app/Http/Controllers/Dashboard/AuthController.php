@@ -38,21 +38,11 @@ class AuthController extends Controller
 
         $activeCompanies = Member::where('is_Active' , 1)->where('type',UserTypeEnum::COMPANY)->count();
         $disactiveCompanies = Member::where('is_Active' , 0)->where('type',UserTypeEnum::COMPANY)->count();
-
-
         $activeEmployees = Member::where('is_Active' , 1)->where('type',UserTypeEnum::EMPLOYEE)->count();
         $disactiveEmployees = Member::where('is_Active' , 0)->where('type',UserTypeEnum::EMPLOYEE)->count();
-
-
-
-
-
         $jobs = Job::whereDate('created_at', Carbon::today())->count();
-
         $all_jobs = Job::count();
         $jobs_appliers = UserApplyJob::count();
-
-
 
         $Advertises = Post::where('status','advertisement')
         ->whereDate('created_at', Carbon::today())
@@ -73,7 +63,7 @@ class AuthController extends Controller
         ->name('pieChartTest')
         ->type('pie')
         ->size(['width' => 400, 'height' => 200])
-        ->labels(['عدد الوظائف', 'عدد المتقدمين'])
+        ->labels([__('dashboard.number_of_jobs'), __('dashboard.number_of_appliers')])
         ->datasets([
             [
                 'backgroundColor' => ['#FF6384', '#36A2EB'],
