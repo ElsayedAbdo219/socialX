@@ -12,7 +12,7 @@ class CategoryController extends Controller
 {
     protected string $datatable = CategoryDatatable::class;
     protected string $route = 'admin.categories';
-    protected string $viewPath = 'dashboard.Categories.list';
+    protected string $viewPath = 'dashboard.categories.list';
 
     public function index()
     {
