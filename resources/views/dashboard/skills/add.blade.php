@@ -36,8 +36,6 @@
                                             @enderror
                                         </label> 
                                     </div>
-                                    <br>
-                                    <br>
                                     <div class="form-group col-sm-3">
                                         <label for="name_en">الفئة
                                             <select name="category_id" id="" class="select2">
@@ -50,8 +48,6 @@
                                             @enderror
                                         </label> 
                                     </div>
-
-                                  
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary mr-1 mb-1" class="store">{{__('dashboard.submit')}}</button>

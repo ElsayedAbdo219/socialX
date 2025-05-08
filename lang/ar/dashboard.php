@@ -230,6 +230,9 @@ return [
    'why-advertise-withAnceega'=> ' لماذا الاعلانات مع عن ثقة   ',
    'how-advertise-work-for-companies'=> '   كيف تعمل الاعلانات (للشركات)   ',
    'how-advertise-work-for-users'=> '   كيف تعمل الاعلانات (للمستخدمين)   ',
+   'skill_add' => 'اضافة مهارة',
+   'news_add' =>'اضافة خبر',
+
 
 
 

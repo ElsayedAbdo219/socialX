@@ -26,7 +26,7 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request)
-    {
+    { 
         $data = $request->validate(['name' => 'required|string','max:255']);
         Category::create($data);
         return redirect()->route($this->route . '.' . 'index')->with('success', __('dashboard.created_Category'));

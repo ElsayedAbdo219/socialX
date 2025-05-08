@@ -259,7 +259,9 @@ return [
    'advertise-Anceega'=> 'advertise-Anceega',
    'why-advertise-withAnceega'=> 'why-advertise-withAnceega',
    'how-advertise-work-for-companies'=> 'how-advertise-work-for-companies',
-   'how-advertise-work-for-users' => 'how-advertise-work-for-users'
+   'how-advertise-work-for-users' => 'how-advertise-work-for-users',
+   'skill_add' => "Add Skill",
+   'news_add' => 'Add New'
    
 
 
