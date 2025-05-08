@@ -80,6 +80,8 @@ class Post extends Model
         return $this->hasMany(React::class,'post_id');
     }
 
+    
+
 
 
        # SCOPES

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Client;
 
 use App\Models\Post;
+use App\Models\Follow;
 use App\Models\SharedPost;
 use App\Models\User;
 use App\Models\Member;
@@ -30,15 +31,23 @@ class PostController extends Controller {
   public function all(Request $request): mixed
   {
     $Paginate_Size = $request->query('Paginate_Size') ?? 10;
-    
-          // البوستات الأصلية
       $ownPosts = Post::with($this->Relations)
         //   ->where('is_Active', 1)
           ->get()
           ->map(function ($post) {
               $post->type = 'original';
-              return $post;
+                $post->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+                $post->my_react = $post->reacts()->where('user_id',auth('api')->id())?->first() ?? null;
+                $post->reacts = $post->reacts->map(function($react) use ($post){
+                  $react->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',$react?->user_id)?->first()?->exists() ? true : false ;
+                });
+                $post->comments = $post->comments->map(function($comment) use ($post){
+                  $comment->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',$comment?->user_id)?->first()?->exists() ? true : false ;
+                });
+
+                return $post;
           });
+        //   return $ownPosts;
   
       // البوستات المشتركة (بنستخدم post()->with()->first())
       $sharedPosts = SharedPost::with('userShared')->get()->map(function ($sharedPost) {
@@ -92,14 +101,22 @@ class PostController extends Controller {
      $Relations = ['user', 'comments.user','comments.commentsPeplied.user','comments.ReactsTheComment.user', 'reacts.user'];
 
           // البوستات الأصلية
-      $ownPosts = $User?->posts()?->with($this->Relations)
-        //   ->where('is_Active', 1)
-          ->get()
-          ->map(function ($post) {
-              $post->type = 'original';
-              return $post;
-          });
+          $ownPosts = Post::with($this->Relations)
+          //   ->where('is_Active', 1)
+            ->get()
+            ->map(function ($post) {
+                $post->type = 'original';
+                  $post->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+                  $post->my_react = $post->reacts()->where('user_id',auth('api')->id())?->first() ?? null;
+                  $post->reacts = $post->reacts->map(function($react) use ($post){
+                    $react->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',$react?->user_id)?->first()?->exists() ? true : false ;
+                  });
+                  $post->comments = $post->comments->map(function($comment) use ($post){
+                    $comment->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',$comment?->user_id)?->first()?->exists() ? true : false ;
+                  });
   
+                  return $post;
+            });
       // البوستات المشتركة (بنستخدم post()->with()->first())
       $sharedPosts = $User?->shares()->get()->map(function ($sharedPost) {
           $shared = $sharedPost->post()->with($this->Relations)->first();
