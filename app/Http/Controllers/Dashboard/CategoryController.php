@@ -12,7 +12,7 @@ class CategoryController extends Controller
 {
     protected string $datatable = CategoryDatatable::class;
     protected string $route = 'admin.categories';
-    protected string $viewPath = 'dashboard.categories.list';
+    protected string $viewPath = 'dashboard.Categories.list';
 
     public function index()
     {
@@ -22,7 +22,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('dashboard.categories.add');
+        return view('dashboard.Categories.add');
     }
 
     public function store(Request $request)
@@ -34,7 +34,7 @@ class CategoryController extends Controller
 
     public function edit(Category $Category)
     {
-        return view('dashboard.categories.edit',
+        return view('dashboard.Categories.edit',
             [
                 'category' => $Category,
             ]
