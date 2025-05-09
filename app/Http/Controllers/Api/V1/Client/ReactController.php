@@ -18,11 +18,17 @@ use App\Http\Requests\Api\V1\Client\ReactRequest;
 
 class ReactController extends Controller {
   
-  public function add(ReactRequest $request) : JsonResponse
+  public function add(ReactRequest $request) 
   {
     $requestDataValidated = $request->validated();
     $requestDataValidated['user_id'] = auth('api')->id();
+    $recordExists = React::where('user_id',auth('api')->id())->where('post_id',$requestDataValidated['post_id'])->first();
+    // return $recordExists;
+      if($recordExists){
+        $recordExists?->delete();
+      }
     React::create($requestDataValidated);
+
     return response()->json(['message' => 'تم اضافة تفاعلك علي المنشور بنجاح' ],200);
   }
 

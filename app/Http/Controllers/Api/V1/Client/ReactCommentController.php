@@ -13,7 +13,13 @@ class ReactCommentController extends Controller {
   {
     $requestDataValidated = $request->validated();
     $requestDataValidated['user_id'] = auth('api')->id();
-    ReactComment::create($requestDataValidated);
+    $recordExists = ReactComment::where('user_id',auth('api')->id())->where('comment_id',$requestDataValidated['comment_id'])->first();
+    // return $recordExists;
+      if($recordExists){
+        $recordExists?->delete();
+      }
+      ReactComment::create($requestDataValidated);
+    
     return response()->json(['message' => 'تم اضافة تفاعلك علي التعليق بنجاح' ],200);
   }
 

@@ -106,19 +106,19 @@ class PostController extends Controller {
           //   ->where('is_Active', 1)
             ->get()
             ->map(function ($post) {
-                $post->type = 'original';
-                  $post->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
-                  $post->my_react = $post->reacts()->where('user_id',auth('api')->id())?->first() ?? null;
-                  $post->reacts = $post->reacts->map(function($react) use ($post){
-                    $react->user->is_following = Follow::where('followed_id',$post?->reacts->user->id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
-                  });
-                  $post->comments = $post->comments->map(function($comment) use ($post){
-                    $comment->user->is_following = Follow::where('followed_id',$post?->comments->user->id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
-                    $comment->my_react = $post->comments->ReactsTheComment()->where('user_id',auth('api')->id())?->first() ?? null;
-                  });
-  
-                  return $post;
-            });
+            $post->type = 'original';
+              $post->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+              $post->my_react = $post->reacts()->where('user_id',auth('api')->id())?->first() ?? null;
+              $post->reacts = $post->reacts->map(function($react){
+                $react->user->is_following = Follow::where('followed_id',$react->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+              });
+              $post->comments = $post->comments->map(function($comment){
+                $comment->user->is_following = Follow::where('followed_id',$comment?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+                $comment->my_react = $comment->ReactsTheComment()->where('user_id',auth('api')->id())?->first() ?? null;
+              });
+
+              return $post;
+        });
             
       // البوستات المشتركة (بنستخدم post()->with()->first())
       $sharedPosts = $User?->shares()->get()->map(function ($sharedPost) {
@@ -214,5 +214,7 @@ class PostController extends Controller {
     return response()->json(['message' => 'تمت الحذف بنجاح'], 200);
   }
 }
+
+
 
 ?>
