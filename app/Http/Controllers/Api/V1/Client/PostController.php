@@ -44,7 +44,14 @@ class PostController extends Controller {
               $post->comments = $post->comments->map(function($comment){
                 $comment->user->is_following = Follow::where('followed_id',$comment?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
                 $comment->my_react = $comment->ReactsTheComment()->where('user_id',auth('api')->id())?->first() ?? null;
+                $comment->reacts_the_comment = $comment->ReactsTheComment->map(function($react){
+                  $react->user->is_following =  Follow::where('followed_id',$react?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;         
+                });
               });
+
+             /*   $post->comments->first()->ReactsTheComment = $post->comments?->ReactsTheComment->map(function($react){
+                $react->user->is_following = Follow::where('followed_id',$react?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+              });  */
 
               return $post;
         });
