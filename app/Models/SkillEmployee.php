@@ -10,6 +10,7 @@ class SkillEmployee extends Model
     use HasFactory;
     protected $table = 'skills_employee';
     protected $fillable = ['employee_id','skill_id','category_id'];
+    protected $with = ['employee','category','skill'];
 
 
     public function employee()
