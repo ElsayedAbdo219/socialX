@@ -212,6 +212,7 @@ Route::name('education.')->prefix('education')->group(function () {
     # skills
     Route::name('skills.')->prefix('skills')->group(function () {
       Route::get('/', [SkillController::class, 'all']); // only employee_id eqaul auth userID
+      Route::get('/all', [SkillController::class, 'allSkills']); // only employee_id eqaul auth userID
       Route::post('/', [SkillController::class, 'add']); // ADD SKILL
       Route::get('/{ID}', [SkillController::class, 'show']); // SHOW SKILL
       Route::patch('/{ID}', [SkillController::class, 'update']); // update SKILL

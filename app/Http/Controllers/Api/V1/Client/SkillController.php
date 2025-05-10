@@ -19,13 +19,18 @@ class SkillController extends Controller
        return array_unique(Skill::where('category_id',$Category)->pluck('name')->toArray());
 
     }
-
+    public function  allSkills(Request $request)
+    { 
+      return Skill::when($request->name,function($query) use ($request){
+        $query->where('name','LIKE','%'.$request->name.'%');
+      })->paginate(10);
+    }
     public function add(Request $request)
     {
         // return $request;
         $data = $request->validate([
             'skill_id' => ['required', 'array'],
-            'skill_id' => ['required'],
+            'skill_id.*' => ['required','exists:skills,id'],
             'category_id' => ['required'],
         ]);
         // return $data;

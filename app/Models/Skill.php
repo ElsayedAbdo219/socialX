@@ -10,6 +10,7 @@ class Skill extends Model
     use HasFactory;
 
     protected $fillable = ['name','category_id'];
+    protected $with = ['category'];
 
 
     public function category(){
