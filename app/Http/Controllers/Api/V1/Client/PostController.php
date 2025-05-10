@@ -48,11 +48,6 @@ class PostController extends Controller {
                   $react->user->is_following =  Follow::where('followed_id',$react?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;         
                 });
               });
-
-             /*   $post->comments->first()->ReactsTheComment = $post->comments?->ReactsTheComment->map(function($react){
-                $react->user->is_following = Follow::where('followed_id',$react?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
-              });  */
-
               return $post;
         });
         //   return $ownPosts;
@@ -108,24 +103,25 @@ class PostController extends Controller {
     $User = Member::find($User_Id);
      $Relations = ['user', 'comments.user','comments.commentsPeplied.user','comments.ReactsTheComment.user', 'reacts.user'];
 
-          // البوستات الأصلية
-          $ownPosts = Post::with($this->Relations)
-          //   ->where('is_Active', 1)
-            ->get()
-            ->map(function ($post) {
-            $post->type = 'original';
-              $post->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
-              $post->my_react = $post->reacts()->where('user_id',auth('api')->id())?->first() ?? null;
-              $post->reacts = $post->reacts->map(function($react){
-                $react->user->is_following = Follow::where('followed_id',$react->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
-              });
-              $post->comments = $post->comments->map(function($comment){
-                $comment->user->is_following = Follow::where('followed_id',$comment?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
-                $comment->my_react = $comment->ReactsTheComment()->where('user_id',auth('api')->id())?->first() ?? null;
-              });
-
-              return $post;
-        });
+     $ownPosts = Post::with($this->Relations)
+     //   ->where('is_Active', 1)
+       ->get()
+       ->map(function ($post) {
+         $post->type = 'original';
+           $post->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+           $post->my_react = $post->reacts()->where('user_id',auth('api')->id())?->first() ?? null;
+           $post->reacts = $post->reacts->map(function($react){
+             $react->user->is_following = Follow::where('followed_id',$react->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+           });
+           $post->comments = $post->comments->map(function($comment){
+             $comment->user->is_following = Follow::where('followed_id',$comment?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+             $comment->my_react = $comment->ReactsTheComment()->where('user_id',auth('api')->id())?->first() ?? null;
+             $comment->reacts_the_comment = $comment->ReactsTheComment->map(function($react){
+               $react->user->is_following =  Follow::where('followed_id',$react?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;         
+             });
+           });
+           return $post;
+     });
             
       // البوستات المشتركة (بنستخدم post()->with()->first())
       $sharedPosts = $User?->shares()->get()->map(function ($sharedPost) {
@@ -156,11 +152,29 @@ class PostController extends Controller {
 
     public function getMyPosts(Request $request)
     {
-        // return '123';
-        //   dd($request->query('Paginate_Size'));
+      $ownPosts = auth('api')->user()->posts()->with($this->Relations)
+      ->orderByDesc('id')
+      //   ->where('is_Active', 1)
+        ->get()
+        ->map(function ($post) {
+          $post->type = 'original';
+            $post->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+            $post->my_react = $post->reacts()->where('user_id',auth('api')->id())?->first() ?? null;
+            $post->reacts = $post->reacts->map(function($react){
+              $react->user->is_following = Follow::where('followed_id',$react->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+            });
+            $post->comments = $post->comments->map(function($comment){
+              $comment->user->is_following = Follow::where('followed_id',$comment?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+              $comment->my_react = $comment->ReactsTheComment()->where('user_id',auth('api')->id())?->first() ?? null;
+              $comment->reacts_the_comment = $comment->ReactsTheComment->map(function($react){
+                $react->user->is_following =  Follow::where('followed_id',$react?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;         
+              });
+            });
+            return $post;
+      });
+
      $Paginate_Size = $request->query('Paginate_Size') ?? 10;
-    // return auth('api')->user()->posts()->where('is_Active', 1)->orderByDesc('id')->paginate($Paginate_Size);  
-    return auth('api')->user()->posts()->orderByDesc('id')->paginate($Paginate_Size);    
+    return $ownPosts->customPaginate($Paginate_Size);    
 
    }
 
