@@ -9,8 +9,8 @@ class SkillEmployee extends Model
 {
     use HasFactory;
     protected $table = 'skills_employee';
-    protected $fillable = ['employee_id','skill_id','category_id'];
-    protected $with = ['employee','category','skill'];
+    protected $fillable = ['employee_id','skill_id'];
+    protected $with = ['employee','skill'];
 
 
     public function employee()
@@ -18,10 +18,10 @@ class SkillEmployee extends Model
         return $this->belongsTo(Member::class,'employee_id');
     }
 
-    public function category()
+    /* public function category()
     {
         return $this->belongsTo(Category::class);
-    }
+    } */
 
     public function skill()
     {

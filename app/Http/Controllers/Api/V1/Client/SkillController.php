@@ -31,15 +31,13 @@ class SkillController extends Controller
         $data = $request->validate([
             'skill_id' => ['required', 'array'],
             'skill_id.*' => ['required','exists:skills,id'],
-            'category_id' => ['required'],
         ]);
         // return $data;
 
         foreach($data['skill_id'] as $val){
-            SkillEmployee::create([
+            SkillEmployee::updateOrCreate([
                 'employee_id' => auth('api')->id(),
                 'skill_id' => $val,
-                'category_id' => $data['category_id'],
             ]);
         }
 
@@ -83,15 +81,17 @@ class SkillController extends Controller
         ]);
     }
 
-    public function delete($skill)
+    public function delete(Request $request)
     {
-        $skill = SkillEmployee::findOrFail($skill);
-        if ($skill->employee_id !== auth('api')->id()) {
-            return response()->json(['message' => 'غير مصرح لك بحذف هذه المهارة'], 403);
-        }
 
-        $skill->delete();
-
+        SkillEmployee::whereIn('id',$request->id)->delete();
         return response()->json(['message' => 'تم حذف المهارة بنجاح']);
+        
+        /* if(in_array($request->id,SkillEmployee::pluck('id')->toArray())){
+        SkillEmployee::whereIn('id',$request->id)->delete();
+        return response()->json(['message' => 'تم حذف المهارة بنجاح']);
+        }
+        return response()->json(['message' => 'المهارات المدخلة غير موجودة!'],422); */
+
     }
 }

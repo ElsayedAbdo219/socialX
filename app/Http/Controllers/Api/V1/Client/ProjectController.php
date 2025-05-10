@@ -15,7 +15,7 @@ class ProjectController extends Controller
 
     public function  all()
     {
-        return Project::where('user_id',auth('api')->id())->paginate(10);
+        return Project::where('user_id',auth('api')->id())->paginate(2);
     }
 
     public function  show($Project_Id)
