@@ -83,8 +83,12 @@ class SkillController extends Controller
 
     public function delete(Request $request)
     {
+         $data = $request->validate([
+            'id' => ['required', 'array'],
+            'id.*' => ['required','exists:skills_employee,id'],
+        ]);
 
-        SkillEmployee::whereIn('id',$request->id)->delete();
+        SkillEmployee::whereIn('id',$data['id'])->delete();
         return response()->json(['message' => 'تم حذف المهارة بنجاح']);
         
         /* if(in_array($request->id,SkillEmployee::pluck('id')->toArray())){
