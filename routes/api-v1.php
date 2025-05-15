@@ -225,7 +225,10 @@ Route::name('education.')->prefix('education')->group(function () {
       Route::name('follow.')->prefix('follow')->group(function () {
         Route::post('add', [FollowController::class, 'add']);
         Route::post('Undo', [FollowController::class, 'Undo']);
-        
+        Route::get('followers/me', [FollowController::class, 'getFollowersMe']);
+        Route::get('following/me', [FollowController::class, 'getFollowingMe']);
+        Route::get('followers/user/{userId}', [FollowController::class, 'getFollowersUser']);
+        Route::get('following/user/{userId}', [FollowController::class, 'getFollowingUser']);
       });
 
        # jobs
