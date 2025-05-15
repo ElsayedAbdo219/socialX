@@ -208,7 +208,7 @@ public function me()
     }
     return 
     [
-        'user' => $user->type === UserTypeEnum::COMPANY ? $user->load(['Intros','followersTotal','userCover']) : $user->load(['followersTotal','userCover','Intros','skills']) , 
+        'user' => $user->type === UserTypeEnum::COMPANY ? $user->load(['Intros','followersTotal','userCover','followedTotal']) : $user->load(['followersTotal','followedTotal','userCover','Intros','skills']) , 
         'totalPosts' => $user->posts()->count(), 
         'currentCompany' =>   $user->type === UserTypeEnum::EMPLOYEE ?  $user->experience()->latest()->with('company')->first() : 'emp!', 
         'expYearsNumbers' =>   $user->type === UserTypeEnum::EMPLOYEE ? $totalExpYears : 'emp!', 
