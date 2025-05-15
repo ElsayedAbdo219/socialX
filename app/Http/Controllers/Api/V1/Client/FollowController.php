@@ -37,23 +37,25 @@ class FollowController extends Controller
 
     public function getFollowersMe()
     {
-        return auth('api')->user()->followers()->paginate(10);
+        // return \DB::table('follows')->where('followed_id',auth()->id())->selectRaw('followed_id As followers_total')->groupBy('followed_id')->get(['id','follower_id']);
+        return Follow::where('followed_id',auth('api')->id())->with('userfollower')->paginate(10);
+        // return auth('api')->user()->follower()?->first()?->userfollower()->paginate(10);
     }
 
     public function getFollowingMe()
     {
-        return auth('api')->user()->followed()->paginate(10);
+        return Follow::where('follower_id',auth('api')->id())->with('userfollowed')->paginate(10);
     }
 
-    public function getFollowersUser(Member $member)
+    public function getFollowersUser($member)
     {
-        return $member->followers()->paginate(10);
+        return Follow::where('followed_id',$member)->with('userfollower')->paginate(10);
     }
 
 
-    public function getFollowingUser(Member $member)
+    public function getFollowingUser($member)
     {
-        return $member->followed()->paginate(10);
+        return Follow::where('follower_id',$member)->with('userfollowed')->paginate(10);
     }
 
 
