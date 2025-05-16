@@ -8,6 +8,7 @@ use App\Models\Experience;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\ClientNotification;
 
 class ExperienceController extends Controller
 {
@@ -41,6 +42,19 @@ class ExperienceController extends Controller
         
 
         $experience = Experience::create($data);
+
+         # sending a notification to the user   
+        $notifabels = Member::find($data['company_id']);
+        $notificationData = [
+            'title' => " اضافة تعليق عن موظف ",
+            'body' => "قام " . auth('api')->user()?->first_name.' '.auth('api')->user()?->last_name . " باضافتكم كشركة عمل بها!",
+
+        ];
+
+        \Illuminate\Support\Facades\Notification::send(
+            $notifabels,
+            new ClientNotification($notificationData, ['database', 'firebase'])
+        );
 
         return response()->json([
             'message' => 'تم إضافة الخبرة بنجاح',
@@ -87,7 +101,20 @@ class ExperienceController extends Controller
         $experience = Experience::findOrFail($experience);
         $data['employee_id'] = auth('api')->user()->id;
 
+
+        
         $experience->update($data);
+        # sending a notification to the user   
+        $notifabels = Member::find($data['company_id']);
+        $notificationData = [
+            'title' => " اضافة تعليق عن موظف ",
+            'body' => "قام " . auth('api')->user()?->first_name.' '.auth('api')->user()?->last_name . " باضافتكم كشركة عمل بها!",
+        ];
+
+        \Illuminate\Support\Facades\Notification::send(
+            $notifabels,
+            new ClientNotification($notificationData, ['database', 'firebase'])
+        );
 
         return response()->json([
             'message' => 'تم تحديث تفاصيل الخبرة بنجاح',

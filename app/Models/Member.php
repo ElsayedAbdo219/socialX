@@ -198,6 +198,11 @@ class Member extends Authenticatable
         return $this->hasMany(OverView::class,'company_id');
     }
 
+
+        public function employeeOverview()
+    {
+        return $this->hasMany(OverView::class,'employee_id');
+    }
    # Scopes
    public function scopeOfName($query, $value)
    {

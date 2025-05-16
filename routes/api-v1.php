@@ -314,7 +314,7 @@ Route::name('education.')->prefix('education')->group(function () {
     # overviews
     Route::name('overviews.')->prefix('overviews')->group(function () {
       Route::post('/', [OverViewController::class, 'add']);
-      // Route::get('/', [OverViewController::class, 'show']);
+      Route::get('/{employeeId}', [OverViewController::class, 'show']);
       Route::put('/{Id}', [OverViewController::class, 'update']);
       Route::delete('/{Id}', [OverViewController::class, 'delete']);
     });

@@ -33,6 +33,14 @@ class OverViewController extends Controller
         // \DB::commit();
         // return response()->json(['message' => 'عملية خاطئة! حاول مرة أخري'],422);
     }
+
+    #SHOW
+    public function show(Request $request,$employeeId)
+    {
+      $paginateSize = $request->query('paginateSize');
+      $employee = Member::find($employeeId);
+      return $employee->employeeOverview()->paginate($paginateSize);
+    }
      # UPDATE
     public function update(Request $request,$id)
     {
