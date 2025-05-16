@@ -208,7 +208,7 @@ public function me()
     }
     return 
     [
-        'user' => $user->type === UserTypeEnum::COMPANY ? $user->load(['Intros','followersTotal','userCover','followedTotal']) : $user->load(['followersTotal','followedTotal','userCover','Intros','skills']) , 
+        'user' => $user->type === UserTypeEnum::COMPANY ? $user->load(['Intros','followersTotal','userCover','followedTotal','overview']) : $user->load(['followersTotal','followedTotal','userCover','Intros','skills']) , 
         'totalPosts' => $user->posts()->count(), 
         'currentCompany' =>   $user->type === UserTypeEnum::EMPLOYEE ?  $user->experience()->latest()->with('company')->first() : 'emp!', 
         'expYearsNumbers' =>   $user->type === UserTypeEnum::EMPLOYEE ? $totalExpYears : 'emp!', 
@@ -292,6 +292,8 @@ public function  update(Request $request , $User_Id )
              'private_account' => ['required', 'in:0,1','max:1'],
              'bio' => ['nullable' ,'string' , 'max:255'],
              'job' => ['nullable' ,'string' , 'max:255'],
+             'field' => ['nullable' ,'string' , 'max:255'],
+             'employees_number' => ['nullable' ,'string' , 'max:255'],
         ]
         );
      
@@ -310,6 +312,8 @@ public function  update(Request $request , $User_Id )
                 'private_account' =>$request['private_account'],
                 'bio' =>$request['bio'],
                 'job' =>$request['job'],
+                'field' =>$request['field'],
+                'employees_number' =>$request['employees_number'],
             ]
             );
 

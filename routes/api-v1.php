@@ -33,7 +33,9 @@ use App\Http\Controllers\Api\V1\Client\{
   ReactController, 
   ReactCommentController,
   CommentReplyController,
-  ProjectController
+  ProjectController,
+  OverViewController,
+  ReportController
 
                
 
@@ -309,9 +311,20 @@ Route::name('education.')->prefix('education')->group(function () {
       Route::post('updateTheCurrentPrimary', [UserCoverController::class, 'updateTheCurrentPrimary']);
       
     });
-  
-   
+    # overviews
+    Route::name('overviews.')->prefix('overviews')->group(function () {
+      Route::post('/', [OverViewController::class, 'add']);
+      // Route::get('/', [OverViewController::class, 'show']);
+      Route::put('/{Id}', [OverViewController::class, 'update']);
+      Route::delete('/{Id}', [OverViewController::class, 'delete']);
+    });
 
+     # overviews
+    Route::name('report.')->prefix('report')->group(function () {
+      Route::post('/', [ReportController::class, 'add']);
+      Route::put('/{Id}', [ReportController::class, 'update']);
+      Route::delete('/{Id}', [ReportController::class, 'delete']);
+    });
 
 
 

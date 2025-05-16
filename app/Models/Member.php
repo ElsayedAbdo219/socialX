@@ -28,7 +28,10 @@ class Member extends Authenticatable
 
     public function getavatarPathAttribute()
     {
-        return url('storage/avatars/'.$this->avatar);
+        if(!is_null($this->avatar)){
+            return url('storage/avatars/'.$this->avatar);
+        }
+        return null;
     }
     protected function Logo(): Attribute
     {
@@ -190,9 +193,10 @@ class Member extends Authenticatable
         return $this->hasMany(SharedPost::class,'user_id');
     }
 
-
-
-
+    public function overview()
+    {
+        return $this->hasMany(OverView::class,'company_id');
+    }
 
    # Scopes
    public function scopeOfName($query, $value)
