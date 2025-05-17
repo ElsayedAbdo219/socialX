@@ -75,6 +75,7 @@ class PostController extends Controller {
 
   public function add(PostRequest $request)
   {
+    // dd($request);
       if ($request['type'] == PostTypeEnum::ADVERTISE) {
       return $this->postservice->addPostAdertise($request);
       }else{

@@ -19,7 +19,10 @@ class PostService
     $dataValidatedChecked['status']  = PostTypeEnum::ADVERTISE;
     $dataValidatedChecked['user_id']  = auth('api')->user()->id;
     unset($dataValidatedChecked['type']);
-    $dataValidatedChecked['file_name'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['file_name']));
+    unset($dataValidatedChecked['coupon_code']);
+    if(!empty($dataValidatedChecked['file_name'])){
+      $dataValidatedChecked['file_name'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['file_name']));
+    }
     Post::create($dataValidatedChecked);
     # sending a notification to the user #  
     $notifabels = User::first();
@@ -66,8 +69,11 @@ class PostService
     $dataValidatedChecked = $request->validated();
     $dataValidatedChecked['status']  = PostTypeEnum::ADVERTISE;
     $dataValidatedChecked['user_id']  = auth('api')->user()->id;
-     unset($dataValidatedChecked['type']);
-     $dataValidatedChecked['file_name'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['file_name'] ));
+    unset($dataValidatedChecked['type']);
+    unset($dataValidatedChecked['coupon_code']);
+    if(!empty($dataValidatedChecked['file_name'])){
+      $dataValidatedChecked['file_name'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['file_name']));
+    }
     $Post = Post::find($Post_Id);
     $Post->update($dataValidatedChecked);
     # sending a notification to the user #  
