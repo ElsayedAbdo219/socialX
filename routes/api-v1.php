@@ -35,7 +35,8 @@ use App\Http\Controllers\Api\V1\Client\{
   CommentReplyController,
   ProjectController,
   OverViewController,
-  ReportController
+  ReportController,
+  PostReportController
 
                
 
@@ -324,6 +325,13 @@ Route::name('education.')->prefix('education')->group(function () {
       Route::post('/', [ReportController::class, 'add']);
       Route::put('/{Id}', [ReportController::class, 'update']);
       Route::delete('/{Id}', [ReportController::class, 'delete']);
+    });
+
+     # overviews
+    Route::name('post-report.')->prefix('post-report')->group(function () {
+      Route::post('/', [PostReportController::class, 'add']);
+      Route::put('/{Id}', [PostReportController::class, 'update']);
+      Route::delete('/{Id}', [PostReportController::class, 'delete']);
     });
 
 
