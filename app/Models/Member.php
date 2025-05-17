@@ -18,7 +18,7 @@ class Member extends Authenticatable
 {
     use HasFactory,HasApiTokens,Notifiable;
     protected $guarded=[];
-    protected $hidden = ['email_verified_at','password','remember_token','logo','field','avatar','personal_info','personal_photo','coverletter'];
+    protected $hidden = ['email_verified_at','password','remember_token','logo','avatar','personal_info','personal_photo','coverletter'];
     protected $casts = [
         'is_Active' => 'boolean'
     ];
