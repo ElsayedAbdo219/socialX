@@ -38,7 +38,7 @@ class PostRequest extends FormRequest
             'end_time' => [Rule::requiredIf($isVideo), 'date_format:H:i'],
             'start_date' => [Rule::requiredIf($isVideo), 'date'],
             'end_date' => [Rule::requiredIf($isVideo), 'date'],
-            'coupon_code' => [Rule::requiredIf($isVideo), 'string'],
+            'coupon_code' => ['nullable', 'string'],
         ];
     }
     
