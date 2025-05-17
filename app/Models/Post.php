@@ -10,7 +10,7 @@ class Post extends Model
 {
     use HasFactory;
     protected $guarded=[];
-    protected $hidden = ['period','is_published'];
+    protected $hidden = ['is_published'];
     protected $appends = ['total_shares'];
     protected $casts = [
         'is_Active' => 'boolean'
