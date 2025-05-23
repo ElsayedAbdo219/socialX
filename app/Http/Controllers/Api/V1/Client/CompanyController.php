@@ -22,16 +22,14 @@ class CompanyController extends Controller
      public function index(Request $request){
         $paginateSize = $request->query('paginateSize', 20);
         $companyName = $request->query('companyName');
-        return response()->json(Member::where('is_Active', '1')
-        ->where('type', UserTypeEnum::COMPANY)->when($companyName, fn($query) =>
+        return response()->json(Member::where('type', UserTypeEnum::COMPANY)->when($companyName, fn($query) =>
             $query->where('full_name', 'like', "%{$companyName}%")
         )->with('posts','followersTotal','rateCompany','rateCompanyTotal','follower')->paginate($paginateSize));
     }
 
     public function indexofEmployee(Request $request){
         $paginateSize = $request->input('paginateSize', 20);
-        return response()->json(Member::where('is_Active', '1')
-        ->where('type', UserTypeEnum::EMPLOYEE)->with('posts','experience','followersTotal','skills','position','education','rateEmployee','rateEmployeeTotal','follower')->paginate($paginateSize));
+        return response()->json(Member::where('type', UserTypeEnum::EMPLOYEE)->with('posts','experience','followersTotal','skills','position','education','rateEmployee','rateEmployeeTotal','follower')->paginate($paginateSize));
     }
 
      public function getJobs($id, Request $request){
