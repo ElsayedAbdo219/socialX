@@ -14,12 +14,10 @@ class EmployeeController extends Controller
     }
 
 
-    public function getEmployeeData($employeeId){
-      
-            
-           $member =  Member::where('id', $employeeId)->first();
+    public function getMemberData($memberId){
 
-           return $member->load(['experience','posts','skills','position','education','rateEmployeeTotal']);
+           $member =  Member::where('id', $memberId)->first();
+           return $member->type === UserTypeEnum::COMPANY ? $member->load(['Intros','followersTotal','userCover','followedTotal','overview']) : $member->load(['followersTotal','followedTotal','userCover','Intros','skills','employeeOverview']);
     }
 
 

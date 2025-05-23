@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Enums\UserTypeEnum;
+use App\Enum\UserTypeEnum;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use App\Models\{
@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function register(Request $request, $type)
     {
      
-        if($type == UserTypeEnum::Employee){
+        if($type == UserTypeEnum::EMPLOYEE){
            $data= $request->validate([
                 'name' => 'required|string|max:255',
                 'job' => 'required|string|max:255',
@@ -70,7 +70,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if($type == UserTypeEnum::Employee){
+        if($type == UserTypeEnum::EMPLOYEE){
             $employee = Employee::where('email', $request->email)->first();
 
             if (!$employee || !Hash::check($request->password, $employee->password)) {
@@ -110,7 +110,7 @@ class AuthController extends Controller
     {
         $user = Auth::user();
     
-        if ($type == UserTypeEnum::Employee) {
+        if ($type == UserTypeEnum::EMPLOYEE) {
             $user->tokens()->where('name', 'auth_token')->delete();
         } elseif ($type == UserTypeEnum::COMPANY) {
             $user->tokens()->where('name', 'auth_token')->delete();
@@ -124,7 +124,7 @@ class AuthController extends Controller
 
     public function update(Request $request,string $type)
     {
-        if($type == UserTypeEnum::Employee){
+        if($type == UserTypeEnum::EMPLOYEE){
            $data= $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',

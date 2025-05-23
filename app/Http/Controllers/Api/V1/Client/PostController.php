@@ -128,7 +128,7 @@ class PostController extends Controller {
       }
   }
 
-  public function show($Post_Id) :mixed
+  public function show($Post_Id) : mixed
    {
    return Post::whereId($Post_Id)->first();
    }
