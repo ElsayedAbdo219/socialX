@@ -41,10 +41,10 @@ class EducationController extends Controller
         ]);
     }
 
-    public function get($member)
+    public function get(Request $request, $member)
     {
-        $member = Member::findOrfail($member);
-        return $member->load('education');
+        $paginateSize = $request->query('paginateSize',10);
+        return Education::where('employee_id', $member)->paginate($paginateSize);
     }
 
     public function show($education)

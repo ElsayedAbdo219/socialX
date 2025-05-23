@@ -63,10 +63,17 @@ class ExperienceController extends Controller
         ]);
     }
 
-    public function get($member)
+    public function get(Request $request, $member)
+    {
+        $paginateSize = $request->query('paginateSize', 10);
+        $member = Member::findOrFail($member);
+        return Experience::where('employee_id', $member->id)->with('company')->paginate($paginateSize);
+    }
+
+    public function getAll($member)
     {
         $member = Member::findOrFail($member);
-        return $member?->load('experience');
+        return Experience::where('employee_id', $member->id)->with('company')->get();
     }
     public function getCitiesWorked($Member)
     {
