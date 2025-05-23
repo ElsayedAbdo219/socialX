@@ -35,33 +35,34 @@ class FollowController extends Controller
 
     }
 
-    public function getFollowersMe()
+    public function getFollowersMe(Request $request)
     {
-        // return \DB::table('follows')->where('followed_id',auth()->id())->selectRaw('followed_id As followers_total')->groupBy('followed_id')->get(['id','follower_id']);
-        return Follow::where('followed_id',auth('api')->id())->with('userfollower')->paginate(10);
-        // return auth('api')->user()->follower()?->first()?->userfollower()->paginate(10);
+        $paginateSize = $request->query('paginateSize', 10);
+        return Follow::where('followed_id',auth('api')->id())->with('userfollower')->paginate($paginateSize);
     }
 
-    public function getFollowingMe()
+    public function getFollowingMe(Request $request)
     {
-        return Follow::where('follower_id',auth('api')->id())->with('userfollowed')->paginate(10);
+        $paginateSize = $request->query('paginateSize', 10);
+        return Follow::where('follower_id',auth('api')->id())->with('userfollowed')->paginate($paginateSize);
     }
 
-    public function getFollowersUser($member)
+    public function getFollowersUser($member, Request $request)
     {
-        return Follow::where('followed_id',$member)->with('userfollower')->paginate(10);
-    }
-
-
-    public function getFollowingUser($member)
-    {
-        return Follow::where('follower_id',$member)->with('userfollowed')->paginate(10);
+        $paginateSize = $request->query('paginateSize', 10);
+        return Follow::where('followed_id',$member)->with('userfollower')->paginate($paginateSize);
     }
 
 
+    public function getFollowingUser($member, Request $request)
+    {
+        $paginateSize = $request->query('paginateSize', 10);
+        return Follow::where('follower_id',$member)->with('userfollowed')->paginate($paginateSize);
+    }
 
 
 
 
-    
+
+
 }

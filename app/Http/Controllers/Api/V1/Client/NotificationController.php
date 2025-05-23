@@ -11,8 +11,11 @@ use App\Http\Resources\Api\V1\Client\{NotificationResource};
 class NotificationController extends Controller
 {
 
-    public function showNotifications()
+    public function showNotifications(Request $request)
     {
+        // Get the pagination size from the request, default to 20
+        $paginateSize = $request->query('paginateSize', 20);
+        
         // Get the authenticated user
         $user = auth('api')->user();
         
@@ -22,15 +25,12 @@ class NotificationController extends Controller
         }
         
         // Get notifications for the authenticated user
-        $notifications = Notification::where('notifiable_id', $user->id)->latest('created_at')->paginate(20);
+        $notifications = Notification::where('notifiable_id', $user->id)->latest('created_at')->paginate($paginateSize);
         
         // Transform the notifications using a resource collection
         return NotificationResource::collection($notifications);
     }
-    
-
-
-
+  
 
 
 }

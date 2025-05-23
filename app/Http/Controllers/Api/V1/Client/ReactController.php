@@ -38,12 +38,12 @@ class ReactController extends Controller {
    return response()->json(['message' => 'تم ازالة تفاعلك علي  المنشور بنجاح'], 200);
    }
 
-   public function getReactsInfo($Post_Id)
+   public function getReactsInfo(Request $request, $Post_Id) : JsonResponse
    {
-    //  return  React::where('post_id',$Post_Id)->paginate(10);
-     $Post = Post::find($Post_Id);
-     return $Post?->reacts()?->paginate(10);
-    }
+    $paginateSize = $request->query('paginateSize', 10);
+    return response()->json(React::where('post_id',$Post_Id)->with('user')->paginate($paginateSize));
+   }
+  
 
 }
 

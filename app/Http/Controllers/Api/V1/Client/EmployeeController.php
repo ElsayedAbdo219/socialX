@@ -8,8 +8,9 @@ use App\Enum\UserTypeEnum;
 
 class EmployeeController extends Controller
 {
-    public function index(){
-        return response()->json(Member::with(['rate','posts'])->where('type', UserTypeEnum::EMPLOYEE)->paginate(20));
+    public function index(Request $request){
+        $paginateSize = $request->query('paginateSize', 20);
+        return response()->json(Member::with(['rate','posts'])->where('type', UserTypeEnum::EMPLOYEE)->paginate($paginateSize));
     }
 
 

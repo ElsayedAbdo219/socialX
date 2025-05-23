@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\News;
 class NewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $news  = News::orderBy('id','desc')->limit(10)->get() ;
-        return response()->json(['news'=>$news ,'yesCount' => News::where('yes',1)->count(),'noCount' => News::where('no',1)->count() ]);
-        // ['yesCount' => News::where('yes',1)->count()],['noCount' => News::where('no',1)->count()]
+        $paginateSize = $request->query('paginateSize', 10);
+        return response()->json(News::with('user')->orderBy('id','desc')->paginate($paginateSize));
     }
+
+    
 
     public function yes($id)
     {

@@ -12,9 +12,10 @@ use App\Notifications\ClientNotification;
 
 class ExperienceController extends Controller
 {
-    public function all() 
+    public function all(Request $request)
     {
-        return Experience::where('employee_id', auth('api')->user()->id)->paginate(10);
+        $paginateSize = $request->query('paginateSize', 10);
+        return response()->json(Experience::where('employee_id', auth('api')->user()->id)->with('company')->paginate($paginateSize));
     }
 
     public function add(Request $request)

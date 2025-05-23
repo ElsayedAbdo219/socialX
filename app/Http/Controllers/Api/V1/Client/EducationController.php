@@ -9,9 +9,10 @@ use App\Http\Controllers\Controller;
 
 class EducationController extends Controller
 {
-    public function all()
+    public function all(Request $request)
     {
-        return Education::where('employee_id', auth('api')->user()->id)->paginate(10);
+        $paginateSize = $request->query('paginateSize',10);
+        return Education::where('employee_id', auth('api')->user()->id)->paginate($paginateSize);
     }
 
     public function add(Request $request)

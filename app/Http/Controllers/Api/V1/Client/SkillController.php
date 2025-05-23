@@ -9,9 +9,10 @@ use App\Http\Controllers\Controller;
 
 class SkillController extends Controller
 {
-    public function all()
+    public function all(Request $request)
     {
-        return SkillEmployee::where('employee_id', auth('api')->id())->paginate(10);
+        $paginateSize = $request->query('paginateSize', 10);
+        return SkillEmployee::where('employee_id', auth('api')->id())->paginate($paginateSize);
     }
 
     public function getSkillsByCatgory($Category)
@@ -21,9 +22,10 @@ class SkillController extends Controller
     }
     public function  allSkills(Request $request)
     { 
-      return Skill::when($request->name,function($query) use ($request){
-        $query->where('name','LIKE','%'.$request->name.'%');
-      })->paginate(10);
+        $paginateSize = $request->query('paginateSize', 10);
+        return Skill::when($request->name,function($query) use ($request){
+            $query->where('name','LIKE','%'.$request->name.'%');
+        })->paginate($paginateSize);
     }
     public function add(Request $request)
     {

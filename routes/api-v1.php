@@ -264,7 +264,7 @@ Route::name('education.')->prefix('education')->group(function () {
 
         # follow
         Route::name('news.')->prefix('news')->group(function () {
-          Route::get('index', [NewsController::class, 'index']);
+          Route::get('/', [NewsController::class, 'index']);
           Route::post('yes/{id}', [NewsController::class, 'yes']);
           Route::post('no/{id}', [NewsController::class, 'no']);
         });

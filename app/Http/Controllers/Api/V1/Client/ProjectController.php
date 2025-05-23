@@ -13,9 +13,10 @@ class ProjectController extends Controller
 {
      use ApiResponseTrait;
 
-    public function  all()
+    public function  all(Request $request)
     {
-        return Project::where('user_id',auth('api')->id())->paginate(2);
+        $paginateSize = $request->query('paginateSize', 2);
+        return Project::where('user_id',auth('api')->id())->paginate($paginateSize);
     }
 
     public function  show($Project_Id)
@@ -49,9 +50,10 @@ class ProjectController extends Controller
         return $this->respondWithSuccess('Project Deleted Successfully!');
     }
 
-    public function  getProjects($User_Id)
+    public function  getProjects(Request $request,$User_Id)
     {
-        return Project::where('user_id',$User_Id)->paginate(10);
+        $paginateSize = $request->query('paginateSize', 2);
+        return Project::where('user_id',$User_Id)->paginate($paginateSize);
     }
 
 
