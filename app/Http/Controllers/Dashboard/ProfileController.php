@@ -76,7 +76,7 @@ class ProfileController extends Controller
         $user = auth()->user();
         $currentPassword = $request->input('current_password');
         if ( !(Hash::check($currentPassword,auth()->user()->password))){
-            return throw ValidationException::withMessages([
+             throw ValidationException::withMessages([
                 'current_password' => [__('dashboard.false_password')]
             ]);
         } else {

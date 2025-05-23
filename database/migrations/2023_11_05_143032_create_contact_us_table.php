@@ -17,7 +17,7 @@ return new class () extends Migration {
             $table->string('email')->nullable();
             $table->string('mobile')->nullable();
             $table->text('message')->nullable();
-            $table->enum('message_type', \App\Enum\ContactUsTypesEnum::values())->nullable();
+            // $table->enum('message_type', \App\Enum\ContactUsTypesEnum::values())->nullable();
             $table->timestamps();
         });
     }

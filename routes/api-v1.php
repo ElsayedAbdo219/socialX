@@ -335,5 +335,13 @@ Route::name('education.')->prefix('education')->group(function () {
     });
 
 
+     # overviews
+    Route::name('ads.')->prefix('ads')->group(function () {
+      Route::get('/me', [PostController::class, 'allAds']);
+    });
+
+
+
+
 
 }); 

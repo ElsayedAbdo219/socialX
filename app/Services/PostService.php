@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Services;
+
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Member;
@@ -12,17 +14,37 @@ use Illuminate\Http\JsonResponse;
 
 class PostService
 {
-   # Advertise Post ##############
-  public function addPostAdertise($request) : JsonResponse
+  # Advertise Post ##############
+  public function addPostAdertise($request): JsonResponse
   {
     $dataValidatedChecked = $request->validated();
     $dataValidatedChecked['status']  = PostTypeEnum::ADVERTISE;
     $dataValidatedChecked['user_id']  = auth('api')->user()->id;
     unset($dataValidatedChecked['type']);
     unset($dataValidatedChecked['coupon_code']);
-    if(!empty($dataValidatedChecked['file_name'])){
-      $dataValidatedChecked['file_name'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['file_name']));
+    if (!empty($dataValidatedChecked['file_name'])) {
+      // حفظ الملف
+      $path = Storage::disk('public')->put('posts', $dataValidatedChecked['file_name']);
+      $dataValidatedChecked['file_name'] = basename($path);
+
+      // التحقق من الامتداد
+    //   $extension = pathinfo($path, PATHINFO_EXTENSION);
+    //   $videoExtensions = ['mp4', 'avi', 'mov'];
+    //   $isVideo = in_array(strtolower($extension), $videoExtensions);
+
+    //   if ($isVideo) {
+    //     // التحقق من مدة الفيديو
+    //     $getID3 = new \getID3;
+    //     $file = $getID3->analyze(storage_path('app/public/' . $path));
+    //     // dd($file);
+    //     if (isset($file['playtime_seconds']) && $file['playtime_seconds'] > 60) {
+    //       return response()->json(['message' => 'فشل في استخراج مدة الفيديو'], 422);
+    //     }
+    //   }
+    // } else {
+    //   return response()->json(['message' => 'فشل في حفظ الملف'], 422);
     }
+
     Post::create($dataValidatedChecked);
     # sending a notification to the user #  
     $notifabels = User::first();
@@ -39,31 +61,31 @@ class PostService
     return response()->json(['message' => 'تم الاضافة بنجاح . انتظر 24 ساعة بعد تفعيل الاعلان'], 200);
   }
   # Normal Post ###################
-  public function addPostNormal($request) : JsonResponse
+  public function addPostNormal($request): JsonResponse
   {
-      $dataValidatedChecked = $request->validated();
-      $dataValidatedChecked['status']  = PostTypeEnum::NORMAL;
-      $dataValidatedChecked['user_id']  = auth('api')->user()->id;
-      unset($dataValidatedChecked['type']);
-      Post::create($dataValidatedChecked);
-       # # # sending a notification to the user # # #  
-      $notifiable = User::first();
-      $notificationData = [
-        'title' => 'اضافة منشور جديدة',
-        'body' => 'تم اضافة منشور جديد من  ' . auth('api')->user()->full_name,
-      ];
+    $dataValidatedChecked = $request->validated();
+    $dataValidatedChecked['status']  = PostTypeEnum::NORMAL;
+    $dataValidatedChecked['user_id']  = auth('api')->user()->id;
+    unset($dataValidatedChecked['type']);
+    Post::create($dataValidatedChecked);
+    # # # sending a notification to the user # # #  
+    $notifiable = User::first();
+    $notificationData = [
+      'title' => 'اضافة منشور جديدة',
+      'body' => 'تم اضافة منشور جديد من  ' . auth('api')->user()->full_name,
+    ];
 
-      \Illuminate\Support\Facades\Notification::send(
-        $notifiable,
-        new ClientNotification($notificationData, ['database', 'firebase'])
-      );
-      return response()->json(['message' => 'تم الاضافة بنجاح'], 200);
+    \Illuminate\Support\Facades\Notification::send(
+      $notifiable,
+      new ClientNotification($notificationData, ['database', 'firebase'])
+    );
+    return response()->json(['message' => 'تم الاضافة بنجاح'], 200);
   }
 
-    
+
 
   ### Advertise Post ##############
-  public function updatePostAdertise($request,$Post_Id) : JsonResponse
+  public function updatePostAdertise($request, $Post_Id): JsonResponse
   {
     // dd($request->json());
     $dataValidatedChecked = $request->validated();
@@ -71,7 +93,7 @@ class PostService
     $dataValidatedChecked['user_id']  = auth('api')->user()->id;
     unset($dataValidatedChecked['type']);
     unset($dataValidatedChecked['coupon_code']);
-    if(!empty($dataValidatedChecked['file_name'])){
+    if (!empty($dataValidatedChecked['file_name'])) {
       $dataValidatedChecked['file_name'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['file_name']));
     }
     $Post = Post::find($Post_Id);
@@ -91,30 +113,29 @@ class PostService
     return response()->json(['message' => 'تم تحديث الاعلان بنجاح '], 200);
   }
   # Normal Post ###################
-  public function updatePostNormal($request,$Post_Id) : JsonResponse
+  public function updatePostNormal($request, $Post_Id): JsonResponse
   {
-      $dataValidatedChecked = $request->validated();
-      $dataValidatedChecked['status']  = PostTypeEnum::NORMAL;
-      $dataValidatedChecked['user_id']  = auth('api')->user()->id;
-     unset($dataValidatedChecked['type']);
-      $Post = Post::find($Post_Id);
-      $Post->update($dataValidatedChecked);
-      if ($request->hasFile('file_name')) {
-       $fileName = basename(Storage::disk('public')->put('posts', file_get_contents($dataValidatedChecked['file_name'])));
-       $Post->update(['file_name' => $fileName]);
-       }
-       # # # sending a notification to the user # # #  
-      $notifiable = User::first();
-      $notificationData = [
-        'title' => " تحديث منشور جديدة ",
-        'body' => "تم تحديث المنشور من شركة " . auth("api")->user()->full_name,
-      ];
+    $dataValidatedChecked = $request->validated();
+    $dataValidatedChecked['status']  = PostTypeEnum::NORMAL;
+    $dataValidatedChecked['user_id']  = auth('api')->user()->id;
+    unset($dataValidatedChecked['type']);
+    $Post = Post::find($Post_Id);
+    $Post->update($dataValidatedChecked);
+    if ($request->hasFile('file_name')) {
+      $fileName = basename(Storage::disk('public')->put('posts', file_get_contents($dataValidatedChecked['file_name'])));
+      $Post->update(['file_name' => $fileName]);
+    }
+    # # # sending a notification to the user # # #  
+    $notifiable = User::first();
+    $notificationData = [
+      'title' => " تحديث منشور جديدة ",
+      'body' => "تم تحديث المنشور من شركة " . auth("api")->user()->full_name,
+    ];
 
-      \Illuminate\Support\Facades\Notification::send(
-        $notifiable,
-        new ClientNotification($notificationData, ['database', 'firebase'])
-      );
-      return response()->json(['message' => 'تم تحديث المنشور بنجاح'], 200);
+    \Illuminate\Support\Facades\Notification::send(
+      $notifiable,
+      new ClientNotification($notificationData, ['database', 'firebase'])
+    );
+    return response()->json(['message' => 'تم تحديث المنشور بنجاح'], 200);
   }
-
 }

@@ -15,7 +15,8 @@ return new class extends Migration
             // dd(Schema::getColumnListing('skills_employee'));
             // dd(Schema::hasColumn('skills_employee','category_id'));
             // $table->dropForeign('skills_employee_category_id_foreign');
-            $table->dropColumn('category_id');
+             $table->dropForeign('skills_employee_category_id_foreign');
+             $table->dropColumn('category_id');
         });
     }
 

@@ -71,6 +71,51 @@ class PostController extends Controller {
       return $allPosts->customPaginate($Paginate_Size);
   }
   
+
+   public function allAds(Request $request): mixed
+  {
+    
+    $Paginate_Size = $request->query('Paginate_Size') ?? 10;
+      $ownPosts = Post::with($this->Relations)
+        //   ->where('is_Active', 1)
+        ->where('status',PostTypeEnum::ADVERTISE)
+          ->get()
+          ->map(function ($post) {
+            $post->type = 'original';
+              $post->user->is_following = Follow::where('followed_id',$post?->user->id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+              $post->my_react = $post->reacts()->where('user_id',auth('api')->id())?->first() ?? null;
+              $post->reacts = $post->reacts->map(function($react){
+                $react->user->is_following = Follow::where('followed_id',$react->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+              });
+              $post->comments = $post->comments->map(function($comment){
+                $comment->user->is_following = Follow::where('followed_id',$comment?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;
+                $comment->my_react = $comment->ReactsTheComment()->where('user_id',auth('api')->id())?->first() ?? null;
+                $comment->reacts_the_comment = $comment->ReactsTheComment->map(function($react){
+                  $react->user->is_following =  Follow::where('followed_id',$react?->user_id)->where('follower_id',auth('api')->id())?->first()?->exists() ? true : false ;         
+                });
+              });
+              return $post;
+        });
+        //   return $ownPosts;
+  
+      // البوستات المشتركة (بنستخدم post()->with()->first())
+      $sharedPosts = SharedPost::with('userShared')->get()->map(function ($sharedPost) {
+          $shared = $sharedPost->post()->with($this->Relations)->first();
+          if ($shared) {
+              $shared->type = 'shared';
+              $shared->sharedPerson = $sharedPost->userShared;
+              return $shared;
+          }
+      })->filter();
+  
+      // دمج الكولكشنز
+      $allPosts = collect([$ownPosts, $sharedPosts])
+          ->collapse()
+          ->sortByDesc('created_at')
+          ->values();
+  
+      return $allPosts->customPaginate($Paginate_Size);
+  }
   
 
   public function add(PostRequest $request)
@@ -155,6 +200,7 @@ class PostController extends Controller {
     {
       $ownPosts = auth('api')->user()->posts()->with($this->Relations)
       ->orderByDesc('id')
+      ->where('status',PostTypeEnum::NORMAL)
       //   ->where('is_Active', 1)
         ->get()
         ->map(function ($post) {

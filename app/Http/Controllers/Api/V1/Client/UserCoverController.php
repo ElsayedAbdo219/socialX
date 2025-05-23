@@ -41,7 +41,7 @@ class UserCoverController extends Controller
 
       if($member->userCover->count() >= 3 )
        {
-        return throw new \Exception('أقصي عدد للصور هو 3 صور');
+         throw new \Exception('أقصي عدد للصور هو 3 صور');
        }
 
       if($request['is_primary'] == 1 && $member?->userCover->count() > 0 && $member?->userCover?->where('is_primary',1)->first()?->exists())

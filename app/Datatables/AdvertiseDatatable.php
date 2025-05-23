@@ -14,7 +14,7 @@ class AdvertiseDatatable extends BaseDatatable
 
     public function query(): Builder
     {
-        return Post::query()->where('status','advertisement')->when(request('search')['value'],function ($q){
+        return Post::query()->where('status','advertise')->when(request('search')['value'],function ($q){
             $q->ofName(request('search')['value']);
         })->latest();
     }
@@ -23,7 +23,7 @@ class AdvertiseDatatable extends BaseDatatable
     {
         return [
             'company_id' => function ($model) {
-                $title = $model->Company?->full_name ;
+                $title = $model->user?->full_name ;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
             'content' => function ($model) {
@@ -31,7 +31,7 @@ class AdvertiseDatatable extends BaseDatatable
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
             'file_name' => function ($model) {
-                $image = asset('/storage/posts/'.$model->file_name);
+                $image = asset($model->file_name);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
              'period' => function ($model) {

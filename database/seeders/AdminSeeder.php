@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
         DB::table("users")->truncate();
 
         User::create([
-            'name' => 'Admin123',
+            // 'name' => 'Admin123',
             'email' => 'admin@admin.com',
             'password' => Hash::make('s7&^sd-(*)'),
             'type'=> 'admin',

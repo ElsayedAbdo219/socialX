@@ -16,6 +16,7 @@
         "guzzlehttp/guzzle": "^7.8",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
+        "james-heinrich/getid3": "*",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/socialite": "^5.15",

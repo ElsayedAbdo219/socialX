@@ -6,7 +6,7 @@ use App\Traits\EnumToArray;
 
 enum ContactUsTypesEnum: string
 {
-    use EnumToArray;
+    // use EnumToArray;
     case REQUEST = 'request';
     case SUGGESTION = 'suggestion';
     case INQUIRY = 'inquiry';
