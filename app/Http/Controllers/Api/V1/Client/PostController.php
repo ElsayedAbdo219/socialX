@@ -149,7 +149,7 @@ class PostController extends Controller {
     $User = Member::find($User_Id);
      $Relations = ['user', 'comments.user','comments.commentsPeplied.user','comments.ReactsTheComment.user', 'reacts.user'];
 
-     $ownPosts = Post::with($this->Relations)
+     $ownPosts = Post::where('user_id',$User_Id)->with($this->Relations)
      //   ->where('is_Active', 1)
        ->get()
        ->map(function ($post) {
