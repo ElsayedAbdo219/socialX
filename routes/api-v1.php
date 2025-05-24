@@ -340,6 +340,11 @@ Route::name('education.')->prefix('education')->group(function () {
       Route::get('/me', [PostController::class, 'allAds']);
     });
 
+     # analysis
+    Route::name('analysis.')->prefix('analysis')->group(function () {
+      Route::get('/{CompanyId}', [CompanyController::class, 'getAnalysis']);
+    });
+
 
 
 

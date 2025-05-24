@@ -20,6 +20,7 @@ class EmployeeController extends Controller
     {
 
         $member =  Member::where('id', $memberId)->first();
+        $isFollowing = $member->followed()->where('follower_id', auth('api')->id())->exists();
         $exps = $member->experience;
         $totalExpYears = 0;
         foreach ($exps as $exp) {
@@ -33,6 +34,7 @@ class EmployeeController extends Controller
                 'totalPosts' => $member->posts()->count(),
                 'currentCompany' =>   $member->type === UserTypeEnum::EMPLOYEE ?  $member->experience()->latest()->with('company')->first() : 'emp!',
                 'expYearsNumbers' =>   $member->type === UserTypeEnum::EMPLOYEE ? $totalExpYears : 'emp!',
+                'is_following' => $isFollowing ? true : false
             ];
     }
 }
