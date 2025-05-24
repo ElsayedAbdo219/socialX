@@ -39,7 +39,14 @@ class OverViewController extends Controller
     {
       $paginateSize = $request->query('paginateSize');
       $employee = Member::find($employeeId);
-      return $employee->employeeOverview()->paginate($paginateSize);
+        $hasOverview = Overview::where('company_id',auth('api')->id())
+        ->where('employee_id',$employee->id)
+        ->count();
+
+       return response()->json([
+            'hasOverview' => $hasOverview > 0 ? true : false ,
+            'data' =>  $employee->employeeOverview()->paginate($paginateSize),
+       ]);
     }
      # UPDATE
     public function update(Request $request,$id)
