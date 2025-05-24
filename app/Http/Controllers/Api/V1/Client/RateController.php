@@ -86,8 +86,11 @@ class RateController extends Controller
         $ratesMiddleThreeStar = $myRates?->where('rate',3)->count();
         $ratesMiddleFourStar = $myRates?->where('rate',4)->count();
         $ratesMiddleFiveStar = $myRates?->where('rate',5)->count();
+        $hasRate = RateEmployee::OfEmployee($employee?->id)->OfCompany(auth('api')->user()->id)->count();
+
 
         return response()->json([
+            'hasRate' => $hasRate > 0 ? true : false ,
             'ratesNumber' => $myRates?->count(),
             'ratesMiddleOneStar' => $ratesMiddleOneStar,
             'ratesMiddleTwoStar' => $ratesMiddleTwoStar,
@@ -103,16 +106,19 @@ class RateController extends Controller
     {
         $paginateSize = $request->query('Paginate_Size');
         $company = Member::findOrFail($company);
-        $myRates = RateCompany::OfCompany($company?->id)->get();
-        $total = $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count() : 0;
-        $ratesMiddleTwoStar = $myRates?->where('rate',2)->count();
-        $ratesMiddleOneStar = $myRates?->where('rate',1)->count();
-        $ratesMiddleFourStar = $myRates?->where('rate',4)->count();
-        $ratesMiddleThreeStar = $myRates?->where('rate',3)->count();
-        $ratesMiddleFiveStar = $myRates?->where('rate',5)->count();
+        $Rates = RateCompany::OfCompany($company?->id)->get();
+        $total = $Rates?->count() > 0 ? $Rates->sum('rate') / $Rates?->count() : 0;
+        $ratesMiddleTwoStar = $Rates?->where('rate',2)->count();
+        $ratesMiddleOneStar = $Rates?->where('rate',1)->count();
+        $ratesMiddleFourStar = $Rates?->where('rate',4)->count();
+        $ratesMiddleThreeStar = $Rates?->where('rate',3)->count();
+        $ratesMiddleFiveStar = $Rates?->where('rate',5)->count();
+        $hasRate = RateCompany::OfCompany($company?->id)->OfEmployee(auth('api')->user()->id)->count();
+
 
         return response()->json([
-            'ratesNumber' => $myRates?->count(),
+            'hasRate' => $hasRate > 0 ? true : false ,
+            'ratesNumber' => $Rates?->count(),
             'ratesMiddleOneStar' => $ratesMiddleOneStar,
             'ratesMiddleTwoStar' => $ratesMiddleTwoStar,
             'ratesMiddleThreeStar' => $ratesMiddleThreeStar,
