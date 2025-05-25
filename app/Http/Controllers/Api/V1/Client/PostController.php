@@ -250,34 +250,51 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
   }
 
 
-  public function addPostIntro(Request $request)
-  {
+ public function addPostIntro(Request $request)
+{
     $dataValidatedChecked = $request->validate([
-      'file_name' => 'required|file|mimes:mp4,avi,mov,jfif',
+        'file_name' => 'required|file|mimes:mp4,avi,mov',
     ]);
 
     $file = $request->file('file_name');
+
+    // تحليل الملف مباشرة من المسار المؤقت
+    $extension = strtolower($file->getClientOriginalExtension());
+    $videoExtensions = ['mp4', 'avi', 'mov'];
+
+    if (in_array($extension, $videoExtensions)) {
+        $getID3 = new \getID3;
+        $analysis = $getID3->analyze($file->getRealPath());
+
+        if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
+            return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
+        }
+    }
+
+    // حفظ الملف
     $fileName = basename(Storage::disk('public')->putFile('posts', $file));
 
+    // حفظ في قاعدة البيانات
     $post = Intro::updateOrCreate(
-      ['company_id' => auth('api')->user()->id],
-      ['file_name' => $fileName]
+        ['company_id' => auth('api')->user()->id],
+        ['file_name' => $fileName]
     );
 
     // إرسال إشعار
-    $notifabels = User::first(); // تأكد إن هذا المستخدم هو اللي يحتاج الإشعار
-    $notificationData = [
-      'title' => "إضافة فيديو تقديمي جديد",
-      'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
-    ];
+    $admin = User::first(); // يفضل تغييرها لمستخدم محدد
+          $notificationData = [
+              'title' => "إضافة فيديو تقديمي جديد",
+              'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
+          ];
 
     \Illuminate\Support\Facades\Notification::send(
-      $notifabels,
-      new ClientNotification($notificationData, ['database', 'firebase'])
+        $admin,
+        new ClientNotification($notificationData, ['database', 'firebase'])
     );
 
     return response()->json(['message' => 'تمت الإضافة بنجاح'], 200);
-  }
+}
+
 
 
   public function getPostIntro($id)
