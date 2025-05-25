@@ -35,21 +35,24 @@ class CompanyController extends Controller
     }
     
 
-   public function getAnalysis(Request $request, $companyId)
+public function getAnalysis(Request $request, $companyId)
 {
     $member = Member::findOrFail($companyId);
     $month = $request->query('month', date('m'));
     $year = $request->query('year', date('Y'));
 
-    $postsQuery = $member->posts()
+    $posts = $member->posts()
         ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-        ->when($year, fn($q) => $q->whereYear('created_at', $year));
+        ->when($year, fn($q) => $q->whereYear('created_at', $year))
+        ->withCount(['reacts', 'comments', 'shares'])
+        ->get();
 
-    $total_react = (clone $postsQuery)->withCount('reacts')->get()->sum('reacts_count');
-    $total_comments = (clone $postsQuery)->withCount('comments')->get()->sum('comments_count');
-    $total_shares = (clone $postsQuery)->withCount('shares')->get()->sum('shares_count');
-    $total_posts = $postsQuery->count(); 
+    $total_react = $posts->sum('reacts_count');
+    $total_comments = $posts->sum('comments_count');
+    $total_shares = $posts->sum('shares_count');
+    $total_posts = $posts->count();
 
+    // المتابعين
     $total_followers = $member->follower()
         ->when($month, fn($q) => $q->whereMonth('created_at', $month))
         ->when($year, fn($q) => $q->whereYear('created_at', $year))
@@ -69,6 +72,7 @@ class CompanyController extends Controller
         'total_following' => $total_following
     ]);
 }
+
 
 
 
