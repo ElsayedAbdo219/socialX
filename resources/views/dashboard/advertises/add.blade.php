@@ -34,13 +34,13 @@
 
                                     <div class="form-group col-sm-3">
                                         <label for="name_en">{{ __('dashboard.company') }}</label>
-                                        <select class="form-control" name="company_id" id="company_id">
+                                        <select class="form-control" name="user_id" id="user_id">
                                             
                                             @foreach ($companies as $company)
                                                 <option value="{{ $company->id }}">{{ $company->full_name }}</option>
                                             @endforeach
                                         </select>
-                                        @error('company_id')
+                                        @error('user_id')
                                             <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>

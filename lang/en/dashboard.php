@@ -261,7 +261,19 @@ return [
    'how-advertise-work-for-companies'=> 'how-advertise-work-for-companies',
    'how-advertise-work-for-users' => 'how-advertise-work-for-users',
    'skill_add' => "Add Skill",
-   'news_add' => 'Add New'
+   'news_add' => 'Add New',
+   'reason' => 'Reason',
+   'pending' => 'Pending',
+    'approved' => 'Approved',
+    'rejected' => 'Rejected',
+    'cancelled' => 'Cancelled',
+    'status' => 'Status',
+    'reason_cancelled' => 'Reason Cancelled',
+    'adsStatus' => 'Ads Status',
+    'advertise' => 'Advertise',
+    'advertises_list' => 'Advertises List',
+    'advertise_add' => 'Add Advertise',
+    'advertise_edit' => 'Edit Advertise',
    
 
 

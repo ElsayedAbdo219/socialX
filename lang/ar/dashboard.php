@@ -232,6 +232,14 @@ return [
    'how-advertise-work-for-users'=> '   كيف تعمل الاعلانات (للمستخدمين)   ',
    'skill_add' => 'اضافة مهارة',
    'news_add' =>'اضافة خبر',
+   'reason' => 'السبب',
+   'pending' => 'قيد الانتظار',
+    'cancelled' => 'ملغي',
+    'rejected' => 'مرفوض',
+    'approved' => 'موافق عليه',
+    'status' => 'الحالة',
+    'reason_cancelled' => 'سبب الالغاء',
+    'adsStatus' => 'حالة الاعلان',
 
 
 

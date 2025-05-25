@@ -12,6 +12,7 @@ class Post extends Model
     protected $guarded=[];
     protected $hidden = ['is_published'];
     protected $appends = ['total_shares'];
+    protected $with = ['adsStatus'];
     protected $casts = [
         'is_Active' => 'boolean'
     ];
@@ -79,16 +80,18 @@ class Post extends Model
     {
         return $this->hasMany(React::class,'post_id');
     }
-
     
-
+    public function adsStatus()
+    {
+        return $this->hasOne(AdsStatus::class, 'ads_id');
+    }
 
 
        # SCOPES
 
        public function scopeOfName($query,$value){
 
-        return $query->whereHas('company',function($query ) use ($value){
+        return $query->whereHas('user',function($query ) use ($value){
 
             $query->where('full_name','like',"%$value%");
 

@@ -8,7 +8,7 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
-            <x-dashboard.layouts.breadcrumb now="{{$post->company->name}}">
+            <x-dashboard.layouts.breadcrumb now="{{$Advertise?->user->full_name}}">
                 <li class="breadcrumb-item"><a href="{{route('admin.advertises.index')}}">
                         {{__('dashboard.edit_advertise')}}
                     </a></li>
@@ -20,83 +20,35 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-vertical" method="POST" action="{{route('admin.advertises.update',$post->id)}}" enctype="multipart/form-data">
+                            <form class="form form-vertical" method="POST" action="{{route('admin.advertises.update',$Advertise->id)}}">
                                 @csrf
                                 @method('PATCH')
-
                                 <div class="form-group col-4">
                                     <label class="w-100" for="slogo">الحالة
-                                        <select class="form-control" name="is_Active">
-                                            <option value="1" {{ $post->is_Active == 1 ?  'selected' : ''  }}>نشط</option>
-                                            <option value="0" {{ $post->is_Active == 0 ?  'selected' : ''  }}>غير نشط</option>
-                                        </select>
-                                           @error('is_Active')
+                                        <select class="form-control select2 status" name="status">
+                                            @foreach( $adsStatus as $status)
+                                                <option value="{{ $status }}" {{ $Advertise?->adsStatus?->status === $status ? 'selected' : '' }} >
+                                                    {{ $status}}
+                                                </option>
+                                            @endforeach
+                                            </select>
+                                        @error('status')
                                         <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                         @enderror
                                     </label>
                                 </div>
 
-                                {{-- <div class="row">
-                                    <div class="form-group col-4">
-                                        <label class="w-100" for="logo">الملف
-                                            <input type="file"  class="form-control" value="{{ $post->file_name }}" name="file_name" placeholder="الملف المرفوع" value="{{ old('file_name')}}" />
-                                            @error('file_name')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </label>
-                                    </div> --}}
-
-                                    {{-- <div class="form-group col-sm-3">
-                                        <label for="name_en">{{ __('dashboard.good_type') }}</label>
-                                        <select class="form-control" name="company_id" id="company_id">
-                                            
-                                            @foreach ($companies as $company)
-                                                <option value="{{ $company->id }}"  >{{ $company->full_name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('company_id')
-                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                <div class="form-group col-4 reason" style="display: none">
+                                    <label class="w-100" for="slogo">السبب
+                                        <textarea type="text" class="form-control" name="reason_cancelled" placeholder="{{__('dashboard.reason_cancelled')}}">{{ old('reason_cancelled', $Advertise?->adsStatus?->reason_cancelled) }}</textarea>
+                                        @error('reason_cancelled')
+                                        <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                         @enderror
-                                    </div> --}}
+                                    </label>
+                                </div>
 
-
-                                      {{-- <div class="form-group col-4">
-                                        <label class="w-100" for="email">{{__('dashboard.content')}}
-                                            <textarea name="content" id="contentTextArea" cols="30" placeholder="{{__('dashboard.content')}}" class="form-control" rows="10" class="d-none" readonly>{{ $post->content }}</textarea>
-                                            @error('content')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </label>
-                                    </div> --}}
-
-
-
-                                    {{-- <div class="form-group col-4">
-                                        <label class="w-100" for="period">{{__('dashboard.period')}} (دقيقة)
-                                            <input type="string"  class="form-control" name="period" placeholder="{{__('dashboard.period')}}" value="{{ $post->period ??  old('period')}}" />
-                                            @error('period')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </label>
-                                    </div>
-
-                                      <div class="form-group col-4">
-                                        <label class="w-100" for="slogo">{{ __('dashboard.is_published') }}(بالايام)
-                                            <input type="string"  class="form-control" name="is_published" placeholder="{{ __('dashboard.is_published') }}" value="{{$post->is_published ?? old('is_published')}}" />
-                                            @error('is_published')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
-                                            @enderror
-                                        </label>
-                                    </div> --}}
-
-
-
-                                   
-                                    
-                                   
-                                 
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary mr-1 mb-1">{{__('dashboard.add')}}</button>
+                                    <button type="submit" class="btn btn-primary mr-1 mb-1">{{__('dashboard.edit')}}</button>
                                 </div>
                             </form>
                         </div>
@@ -105,4 +57,24 @@
             </div>
         </div>
     </div>
+@endsection
+
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            if($('.status').val() === 'cancelled'){
+                $('.reason').show();
+            }else{
+                $('.reason').hide();
+            }
+            $('.status').on('change',function(){
+                if($(this).val() === 'cancelled'){
+                    $('.reason').show();
+                }else{
+                    $('.reason').hide();
+                }
+            })
+        });
+    </script>
 @endsection

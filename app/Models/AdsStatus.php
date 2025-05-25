@@ -21,7 +21,7 @@ class AdsStatus extends Model
 
     public function post()
     {
-        return $this->belongsTo(Post::class, 'ads_id');
+        return $this->belongsTo(Post::class, 'ads_id')->where('type', 'advertise');
     }
  
 }

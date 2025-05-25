@@ -16,13 +16,13 @@ class AdvertiseDatatable extends BaseDatatable
     {
         return Post::query()->where('status','advertise')->when(request('search')['value'],function ($q){
             $q->ofName(request('search')['value']);
-        })->latest();
+        })->with('adsStatus')->latest();
     }
 
     protected function getCustomColumns(): array
     {
         return [
-            'company_id' => function ($model) {
+            'user_id' => function ($model) {
                 $title = $model->user?->full_name ;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
@@ -48,23 +48,29 @@ class AdvertiseDatatable extends BaseDatatable
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
-           'is_Active' => function ($model) {
-                $active = $model?->is_Active;  
+           'active' => function ($model) {
+                $active = $model?->adsStatus?->status;
+                // dd($active);
             return view('components.datatable.includes.columns.active', compact('active'));
            },
+          'reason_cancelled' => function ($model) {
+                $title = $model?->adsStatus?->reason_cancelled ?? '';
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
         ];
     }
 
     protected function getColumns(): array
     {
         return [
-            Column::computed('company_id')->title(__('dashboard.company'))->className('text-center'),
+            Column::computed('user_id')->title(__('dashboard.company'))->className('text-center'),
             Column::computed('content')->title(__('dashboard.content'))->className('text-center'),
             Column::computed('file_name')->title(__('dashboard.file_name'))->className('text-center'),
             Column::computed('period')->title(__('dashboard.period'))->className('text-center'),
             Column::computed('is_published')->title(__('dashboard.is_published'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
-            Column::computed('is_Active')->title(__('dashboard.is_Active'))->className('text-center'),
+            Column::computed('active')->title(__('dashboard.is_Active'))->className('text-center'),
+            Column::computed('reason_cancelled')->title(__('dashboard.reason_cancelled'))->className('text-center'),
         ];
     }
 }
