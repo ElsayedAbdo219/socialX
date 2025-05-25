@@ -345,6 +345,11 @@ Route::name('education.')->prefix('education')->group(function () {
       Route::get('/{CompanyId}', [CompanyController::class, 'getAnalysis']);
     });
 
+     # views
+    Route::name('views.')->prefix('views')->group(function () {
+      Route::post('/{adsId}', [PostController::class, 'addView']);
+    });
+
 
 
 

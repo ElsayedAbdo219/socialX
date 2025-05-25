@@ -297,4 +297,20 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
 
     return response()->json(['message' => 'تمت الحذف بنجاح'], 200);
   }
+
+
+  public function addView(Request $request, $postId): JsonResponse
+  {
+    $userId = auth('api')->id();
+    $post = Post::findOrFail($postId);
+
+    if (!$post) {
+      return response()->json(['message' => 'Post not found'], 404);
+    }
+    if ($post->views()->where('user_id', $userId)->exists()) {
+      return response()->json(['message' => 'You have already viewed this video'], 400);
+    }
+    $post->views()->create(['user_id' => $userId]);
+    return response()->json(['message' => 'Video view recorded successfully'], 200);
+  }
 }

@@ -44,12 +44,13 @@ public function getAnalysis(Request $request, $companyId)
     $posts = $member->posts()
         ->when($month, fn($q) => $q->whereMonth('created_at', $month))
         ->when($year, fn($q) => $q->whereYear('created_at', $year))
-        ->withCount(['reacts', 'comments', 'shares'])
+        ->withCount(['reacts', 'comments', 'shares', 'views'])
         ->get();
 
     $total_react = $posts->sum('reacts_count');
     $total_comments = $posts->sum('comments_count');
     $total_shares = $posts->sum('shares_count');
+    $total_views = $posts->sum('views_count');
     $total_posts = $posts->count();
 
     // المتابعين
@@ -64,6 +65,7 @@ public function getAnalysis(Request $request, $companyId)
         ->count();
 
     return response()->json([
+        'total_views' => $total_views,
         'total_react' => $total_react,
         'total_comments' => $total_comments,
         'total_posts' => $total_posts,

@@ -86,6 +86,11 @@ class Post extends Model
         return $this->hasOne(AdsStatus::class, 'ads_id');
     }
 
+    public function views()
+    {
+        return $this->hasMany(VideoView::class, 'video_id');
+    }
+
 
        # SCOPES
 
