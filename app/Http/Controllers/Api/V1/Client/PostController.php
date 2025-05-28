@@ -176,6 +176,11 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
       //   ->where('is_Active', 1)
       ->get()
       ->map(function ($post) {
+        if ($post->status === PostTypeEnum::NORMAL) {
+            $post->makeHidden([
+                'resolution', 'start_time', 'end_time', 'start_date', 'end_date' , 'period','adsStatus'
+            ]);
+        }
         $post->type = 'original';
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
         $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
