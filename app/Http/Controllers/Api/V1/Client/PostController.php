@@ -24,7 +24,7 @@ class PostController extends Controller
 
   protected $postResource = PostResource::class;
   protected $postservice;
-  private $Relations = ['user', 'comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
+  private $Relations = ['user','views', 'comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
 
   public function __construct(PostService $postservice)
   {
@@ -52,6 +52,9 @@ class PostController extends Controller
                 'resolution', 'start_time', 'end_time', 'start_date', 'end_date' , 'period','adsStatus'
             ]);
         }
+          elseif ($post->status === PostTypeEnum::ADVERTISE) {
+              $post->views_count = $post->views()->count();
+          }
         $post->type = 'original';
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
         $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
@@ -164,7 +167,7 @@ class PostController extends Controller
   {
     $Paginate_Size = $request->query('paginateSize') ?? 10;
     $User = Member::find($User_Id);
-    $Relations = ['user', 'comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
+    $Relations = ['user', 'views','comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
 $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
       ->orWhere(function ($query) {
         $query->where('status', PostTypeEnum::ADVERTISE)
@@ -181,6 +184,9 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
                 'resolution', 'start_time', 'end_time', 'start_date', 'end_date' , 'period','adsStatus'
             ]);
         }
+          elseif ($post->status === PostTypeEnum::ADVERTISE) {
+              $post->views_count = $post->views()->count();
+          }
         $post->type = 'original';
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
         $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
