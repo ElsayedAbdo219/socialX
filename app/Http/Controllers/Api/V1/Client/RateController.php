@@ -18,7 +18,7 @@ class RateController extends Controller
     public function all(Request $request)
     {
         // return auth('api')->id();
-        $paginateSize = $request->query('Paginate_Size');
+        $paginateSize = $request->query('paginateSize');
 
         if (auth('api')->user()->type === UserTypeEnum::COMPANY) {
 
@@ -76,7 +76,7 @@ class RateController extends Controller
 
     public function showEmployee(Request $request,$employee)
     {
-        $paginateSize = $request->query('Paginate_Size');
+        $paginateSize = $request->query('paginateSize');
         $employee = Member::findOrFail($employee);
         $myRates = RateEmployee::OfEmployee($employee?->id)->get();
 
@@ -104,7 +104,7 @@ class RateController extends Controller
 
     public function showCompany(Request $request,$company)
     {
-        $paginateSize = $request->query('Paginate_Size');
+        $paginateSize = $request->query('paginateSize');
         $company = Member::findOrFail($company);
         $Rates = RateCompany::OfCompany($company?->id)->get();
         $total = $Rates?->count() > 0 ? $Rates->sum('rate') / $Rates?->count() : 0;

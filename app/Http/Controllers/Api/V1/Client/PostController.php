@@ -33,7 +33,7 @@ class PostController extends Controller
 // Call to undefined method Illuminate\\Database\\Eloquent\\Builder::makeHidden()
   public function all(Request $request): mixed
   {
-    $Paginate_Size = $request->query('Paginate_Size') ?? 10;
+    $Paginate_Size = $request->query('paginateSize') ?? 10;
     $posts = Post::where('status', PostTypeEnum::NORMAL)
       ->orWhere(function ($query) {
         $query->where('status', PostTypeEnum::ADVERTISE)
@@ -87,7 +87,7 @@ class PostController extends Controller
   public function allAds(Request $request): mixed
   {
 
-    $Paginate_Size = $request->query('Paginate_Size') ?? 10;
+    $Paginate_Size = $request->query('paginateSize') ?? 10;
     $ownPosts = Post::with($this->Relations)
       //   ->where('is_Active', 1)
       ->where('status', PostTypeEnum::ADVERTISE)
@@ -157,7 +157,7 @@ class PostController extends Controller
 
   public function get(Request $request, $User_Id)
   {
-    $Paginate_Size = $request->query('Paginate_Size') ?? 10;
+    $Paginate_Size = $request->query('paginateSize') ?? 10;
     $User = Member::find($User_Id);
     $Relations = ['user', 'comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
 $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
@@ -237,7 +237,7 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
         return $post;
       });
 
-    $Paginate_Size = $request->query('Paginate_Size') ?? 10;
+    $Paginate_Size = $request->query('paginateSize') ?? 10;
     return $ownPosts->customPaginate($Paginate_Size);
   }
 
@@ -245,7 +245,7 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
 
   public function showSharesOfPost(Request $request, $Post)
   {
-    $Paginate_Size = $request->query('Paginate_Size') ?? 10;
+    $Paginate_Size = $request->query('paginateSize') ?? 10;
     return SharedPost::where('post_id', $Post)->with('userShared')->orderByDesc('id')->paginate($Paginate_Size);
   }
 
