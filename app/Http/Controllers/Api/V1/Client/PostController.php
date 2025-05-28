@@ -24,13 +24,13 @@ class PostController extends Controller
 
   protected $postResource = PostResource::class;
   protected $postservice;
-  private $Relations = ['user','views', 'comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
+  private $Relations = ['user', 'views', 'comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
 
   public function __construct(PostService $postservice)
   {
     $this->postservice = $postservice;
   }
-// Call to undefined method Illuminate\\Database\\Eloquent\\Builder::makeHidden()
+  // Call to undefined method Illuminate\\Database\\Eloquent\\Builder::makeHidden()
   public function all(Request $request): mixed
   {
     $Paginate_Size = $request->query('paginateSize') ?? 10;
@@ -47,14 +47,20 @@ class PostController extends Controller
       //   ->where('is_Active', 1)
       ->get()
       ->map(function ($post) {
-         if ($post->status === PostTypeEnum::NORMAL) {
-            $post->makeHidden([
-                'resolution', 'start_time', 'end_time', 'start_date', 'end_date' , 'period','adsStatus'
-            ]);
+        if ($post->status === PostTypeEnum::NORMAL) {
+          $post->makeHidden([
+            'resolution',
+            'start_time',
+            'end_time',
+            'start_date',
+            'end_date',
+            'period',
+            'adsStatus',
+            'views'
+          ]);
+        } elseif ($post->status === PostTypeEnum::ADVERTISE) {
+          $post->views_count = $post->views()->count();
         }
-          elseif ($post->status === PostTypeEnum::ADVERTISE) {
-              $post->views_count = $post->views()->count();
-          }
         $post->type = 'original';
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
         $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
@@ -167,8 +173,7 @@ class PostController extends Controller
   {
     $Paginate_Size = $request->query('paginateSize') ?? 10;
     $User = Member::find($User_Id);
-    $Relations = ['user', 'views','comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
-$posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
+    $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
       ->orWhere(function ($query) {
         $query->where('status', PostTypeEnum::ADVERTISE)
           ->whereHas('adsStatus', function ($q) {
@@ -180,13 +185,19 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
       ->get()
       ->map(function ($post) {
         if ($post->status === PostTypeEnum::NORMAL) {
-            $post->makeHidden([
-                'resolution', 'start_time', 'end_time', 'start_date', 'end_date' , 'period','adsStatus'
-            ]);
+          $post->makeHidden([
+            'resolution',
+            'start_time',
+            'end_time',
+            'start_date',
+            'end_date',
+            'period',
+            'adsStatus',
+            'views'
+          ]);
+        } elseif ($post->status === PostTypeEnum::ADVERTISE) {
+          $post->views_count = $post->views()->count();
         }
-          elseif ($post->status === PostTypeEnum::ADVERTISE) {
-              $post->views_count = $post->views()->count();
-          }
         $post->type = 'original';
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
         $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
@@ -231,12 +242,33 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
 
   public function getMyPosts(Request $request)
   {
-    $ownPosts = auth('api')->user()->posts()->with($this->Relations)
+    $posts = auth('api')->user()->posts()->where('status', PostTypeEnum::NORMAL)
+      ->orWhere(function ($query) {
+        $query->where('status', PostTypeEnum::ADVERTISE)
+          ->whereHas('adsStatus', function ($q) {
+            $q->where('status', AdsStatusEnum::APPROVED);
+          });
+      });
+
+
+    $ownPosts = $posts->with($this->Relations)
       ->orderByDesc('id')
-      ->where('status', PostTypeEnum::NORMAL)
-      //   ->where('is_Active', 1)
       ->get()
       ->map(function ($post) {
+         if ($post->status === PostTypeEnum::NORMAL) {
+          $post->makeHidden([
+            'resolution',
+            'start_time',
+            'end_time',
+            'start_date',
+            'end_date',
+            'period',
+            'adsStatus',
+            'views'
+          ]);
+        } elseif ($post->status === PostTypeEnum::ADVERTISE) {
+          $post->views_count = $post->views()->count();
+        }
         $post->type = 'original';
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
         $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
@@ -266,10 +298,10 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
   }
 
 
- public function addPostIntro(Request $request)
-{
+  public function addPostIntro(Request $request)
+  {
     $dataValidatedChecked = $request->validate([
-        'file_name' => 'required|file|mimes:mp4,avi,mov',
+      'file_name' => 'required|file|mimes:mp4,avi,mov',
     ]);
 
     $file = $request->file('file_name');
@@ -279,12 +311,12 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
     $videoExtensions = ['mp4', 'avi', 'mov'];
 
     if (in_array($extension, $videoExtensions)) {
-        $getID3 = new \getID3;
-        $analysis = $getID3->analyze($file->getRealPath());
+      $getID3 = new \getID3;
+      $analysis = $getID3->analyze($file->getRealPath());
 
-        if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
-            return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
-        }
+      if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
+        return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
+      }
     }
 
     // حفظ الملف
@@ -292,24 +324,24 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
 
     // حفظ في قاعدة البيانات
     $post = Intro::updateOrCreate(
-        ['company_id' => auth('api')->user()->id],
-        ['file_name' => $fileName]
+      ['company_id' => auth('api')->user()->id],
+      ['file_name' => $fileName]
     );
 
     // إرسال إشعار
     $admin = User::first(); // يفضل تغييرها لمستخدم محدد
-          $notificationData = [
-              'title' => "إضافة فيديو تقديمي جديد",
-              'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
-          ];
+    $notificationData = [
+      'title' => "إضافة فيديو تقديمي جديد",
+      'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
+    ];
 
     \Illuminate\Support\Facades\Notification::send(
-        $admin,
-        new ClientNotification($notificationData, ['database', 'firebase'])
+      $admin,
+      new ClientNotification($notificationData, ['database', 'firebase'])
     );
 
     return response()->json(['message' => 'تمت الإضافة بنجاح'], 200);
-}
+  }
 
 
 
@@ -340,10 +372,7 @@ $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
     if (!$post) {
       return response()->json(['message' => 'Post not found'], 404);
     }
-    if ($post->views()->where('user_id', $userId)->exists()) {
-      return response()->json(['message' => 'You have already viewed this video'], 400);
-    }
-    $post->views()->create(['user_id' => $userId]);
+    $post->views()->updateOrCreate(['user_id' => $userId]);
     return response()->json(['message' => 'Video view recorded successfully'], 200);
   }
 }
