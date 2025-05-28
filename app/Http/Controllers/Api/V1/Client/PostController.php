@@ -30,7 +30,7 @@ class PostController extends Controller
   {
     $this->postservice = $postservice;
   }
-
+// Call to undefined method Illuminate\\Database\\Eloquent\\Builder::makeHidden()
   public function all(Request $request): mixed
   {
     $Paginate_Size = $request->query('Paginate_Size') ?? 10;
@@ -45,7 +45,7 @@ class PostController extends Controller
     $ownPosts = $posts->with($this->Relations)
       ->orderByDesc('id')
       //   ->where('is_Active', 1)
-      ->get()
+      ->get()->makeHidden(['resolution', 'start_time', 'end_time', 'start_date', 'end_date'])
       ->map(function ($post) {
         $post->type = 'original';
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
