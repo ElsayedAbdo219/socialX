@@ -100,25 +100,24 @@ class Member extends Authenticatable
     }
 
     public function rateEmployeeTotal(){
-        return $this->hasMany(RateCompany::class,'employee_id')->selectraw('employee_id, round(sum(rate) / count(*),1) as rateCompanyTotal')->groupBy('employee_id');
+        return $this->hasMany(RateCompany::class,'employee_id')->selectraw('employee_id, round(sum(rate) / count(*),1) as rateMemberTotal')->groupBy('employee_id');
 
     }
 
 
 
-    public function rateCompany(){
+    public function rateMember(){
 
-        return $this->hasMany(RateCompany::class,'company_id');
+        return $this->hasMany(RateCompany::class,'member_id');
 
 
     }
 
 
-    public function rateCompanyTotal(){
-        return $this->hasMany(RateCompany::class,'company_id')->selectraw('company_id, round(sum(rate) / count(*),1) as rateCompanyTotal')->groupBy('company_id');
+    public function rateMemberTotal(){
+        return $this->hasMany(RateCompany::class,'member_id')->selectraw('member_id, round(sum(rate) / count(*),1) as rateMemberTotal')->groupBy('member_id');
 
     }
-
 
     
  # relationships

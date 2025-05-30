@@ -90,7 +90,7 @@ class AuthEmployeeController extends Controller
 
         
 
-        return response()->json(['token' => $token, 'employee' => $employee->load('experience','posts','rateEmployee','rateEmployeeTotal','rateCompany','education','position','skills')]);
+        return response()->json(['token' => $token, 'employee' => $employee->load('experience','posts','rateEmployee','rateEmployeeTotal','rateMember','education','position','skills')]);
     }
 
 

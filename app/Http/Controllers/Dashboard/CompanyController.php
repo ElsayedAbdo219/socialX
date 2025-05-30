@@ -16,7 +16,8 @@ use App\Http\Requests\Api\Auth\RegisterClientRequest;
 
 class CompanyController extends Controller
 {
-    use ApiResponseDashboard;
+    use ApiResponseDashboard; 
+    
 
     protected string $datatable = CompanyDataTable::class;
     protected string $route = 'admin.companies';

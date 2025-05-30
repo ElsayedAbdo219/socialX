@@ -21,7 +21,7 @@ class CompanyController extends Controller
         $companyName = $request->query('companyName');
         return response()->json(Member::where('type', UserTypeEnum::COMPANY)->when($companyName, fn($query) =>
             $query->where('full_name', 'like', "%{$companyName}%")
-        )->with('posts','followersTotal','rateCompany','rateCompanyTotal','follower')->paginate($paginateSize));
+        )->with('posts','followersTotal','rateMember','rateMemberTotal','follower')->paginate($paginateSize));
     }
 
     public function indexofEmployee(Request $request){
