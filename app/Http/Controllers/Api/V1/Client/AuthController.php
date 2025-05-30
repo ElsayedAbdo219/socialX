@@ -290,7 +290,7 @@ public function  update(Request $request , $User_Id )
              'full_name' =>  ['nullable' ,'string' , 'max:255' ],
              'email' =>  ['nullable' , 'unique:members,email,'.$User_Id ,'email' ],
              'private_account' => ['required', 'in:0,1','max:1'],
-             'bio' => ['nullable' ,'string' , 'max:255'],
+             'bio' => ['nullable' ,'string'],
              'job' => ['nullable' ,'string' , 'max:255'],
              'field' => ['nullable' ,'string' , 'max:255'],
              'employees_number' => ['nullable' ,'string' , 'max:255'],
