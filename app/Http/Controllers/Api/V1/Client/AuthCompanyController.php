@@ -91,7 +91,7 @@ class AuthCompanyController extends Controller
 
         // Mail::to($company->email)->send(new OTPMail($code));
 
-        return response()->json(['token' => $token, 'company' => $company->load(['posts','followersTotal','rateCompany','rateCompanyTotal','follower'])]);
+        return response()->json(['token' => $token, 'company' => $company->load(['posts','followersTotal','rateMember','rateMemberTotal','follower'])]);
     }
     // public function changePassword(Request $request){
 
