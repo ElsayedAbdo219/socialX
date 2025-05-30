@@ -174,13 +174,11 @@ class RateController extends Controller
             'comment' => ['nullable', 'string'],
             'company_id' => [
                 'required',
-                Rule::exists('members', 'id')->where(function ($query) {
-                    $query->where('type', UserTypeEnum::COMPANY);
-                })
+              'exists:members,id'
             ],
             'rate' => ['required', 'numeric', 'min:1', 'max:5'],
         ]);
-
+       // edit( the company id can be employee also , i mean company id can be employee id )
         $data['employee_id'] = auth('api')->user()->id;
         RateCompany::create($data);
         return response()->json(['message' => 'تم اضافة تقيم بنجاح']);
@@ -212,9 +210,7 @@ class RateController extends Controller
             'comment' => ['nullable', 'string'],
             'company_id' => [
                 'required',
-                Rule::exists('members', 'id')->where(function ($query) {
-                    $query->where('type', UserTypeEnum::COMPANY);
-                })
+                'exists:members,id'
             ],
             'rate' => ['required', 'numeric', 'min:1', 'max:5'],
         ]);
