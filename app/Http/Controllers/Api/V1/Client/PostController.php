@@ -180,8 +180,8 @@ class PostController extends Controller
     $Paginate_Size = $request->query('paginateSize') ?? 10;
     $User = Member::find($User_Id);
     $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
-      ->orWhere(function ($query) {
-        $query->where('status', PostTypeEnum::ADVERTISE)
+      ->orWhere(function ($query) use ($User_Id) {
+        $query->where('status', PostTypeEnum::ADVERTISE)->where('user_id', $User_Id)
           ->whereHas('adsStatus', function ($q) {
             $q->where('status', AdsStatusEnum::APPROVED);
           });
