@@ -41,7 +41,6 @@ class PostController extends Controller
             $q->where('status', AdsStatusEnum::APPROVED);
           });
       });
-
     $ownPosts = $posts->with($this->Relations)
       ->orderByDesc('id')
       //   ->where('is_Active', 1)
@@ -60,6 +59,9 @@ class PostController extends Controller
           ]);
         } elseif ($post->status === PostTypeEnum::ADVERTISE) {
           $post->views_count = $post->views()->count();
+          $post->makeHidden([
+            'views'
+          ]);
         }
         $post->type = 'original';
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
@@ -107,6 +109,10 @@ class PostController extends Controller
       ->where('status', PostTypeEnum::ADVERTISE)
       ->get()
       ->map(function ($post) {
+        $post->views_count = $post->views()->count();
+        $post->makeHidden([
+          'views'
+        ]);
         $post->type = 'original';
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
         $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
@@ -197,6 +203,9 @@ class PostController extends Controller
           ]);
         } elseif ($post->status === PostTypeEnum::ADVERTISE) {
           $post->views_count = $post->views()->count();
+          $post->makeHidden([
+            'views'
+          ]);
         }
         $post->type = 'original';
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
@@ -244,7 +253,7 @@ class PostController extends Controller
   {
     $posts = auth('api')->user()->posts()->where('status', PostTypeEnum::NORMAL)
       ->orWhere(function ($query) {
-        $query->where('status', PostTypeEnum::ADVERTISE)
+        $query->where('status', PostTypeEnum::ADVERTISE)->where('user_id', auth('api')->id())
           ->whereHas('adsStatus', function ($q) {
             $q->where('status', AdsStatusEnum::APPROVED);
           });
@@ -268,6 +277,9 @@ class PostController extends Controller
           ]);
         } elseif ($post->status === PostTypeEnum::ADVERTISE) {
           $post->views_count = $post->views()->count();
+          $post->makeHidden([
+            'views'
+          ]);
         }
         $post->type = 'original';
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
