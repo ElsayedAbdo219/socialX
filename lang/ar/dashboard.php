@@ -256,6 +256,7 @@ return [
     'sponser_status' => 'حالة الراعي',
     'add_sponser' => 'اضافة راعي جديد',
     'edit_sponser' => 'تعديل بيانات الراعي',
+    'show_sponsers' => 'عرض الرعاة',
 
 
 

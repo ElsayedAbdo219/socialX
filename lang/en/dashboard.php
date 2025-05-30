@@ -287,6 +287,7 @@ return [
     'sponser_created_successfully' => 'Sponser created successfully',
     'sponser_updated_successfully' => 'Sponser updated successfully',
     'sponser_deleted_successfully' => 'Sponser deleted successfully',
+    'show_sponsers' => 'Show Sponsers',
 
 ];
 

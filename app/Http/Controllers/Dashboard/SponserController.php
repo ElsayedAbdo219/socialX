@@ -53,6 +53,7 @@ class SponserController extends Controller
     public function destroy(Sponser $Sponser)
     {
         $Sponser->delete();
+        Storage::disk('public')->delete('sponsers/' . $Sponser->image);
         if (request()->expectsJson()) {
             return self::apiCode(200)->apiResponse();
         }

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class SponserDatatable extends BaseDatatable
 {
-    protected ?string $actionable = 'index|edit|delete';
+    protected ?string $actionable = 'index|delete';
     
     public function query(): Builder
     {
@@ -44,8 +44,8 @@ class SponserDatatable extends BaseDatatable
 
 
             'status' => function ($model) {
-                $url = $model?->status;
-                return view('components.datatable.includes.columns.link', compact('url'));
+                $title = $model?->status;
+                return view('components.datatable.includes.columns.title', compact('title'));
             },
 
             'payment_status' => function ($model) {
