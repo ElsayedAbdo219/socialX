@@ -19,6 +19,7 @@ use App\Http\Controllers\Dashboard\{
    PaymobController,
    SkillController,
    CategoryController,
+   SponserController
 };
 /*
 |--------------------------------------------------------------------------
@@ -118,8 +119,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
       Route::resource('categories', CategoryController::class);
      # skills
      Route::resource('skills', SkillController::class);
-
-      
+     # sponsers
+     Route::resource('sponsers', SponserController::class);
 
    });
 });

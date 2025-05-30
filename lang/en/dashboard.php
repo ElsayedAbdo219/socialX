@@ -274,17 +274,20 @@ return [
     'advertises_list' => 'Advertises List',
     'advertise_add' => 'Add Advertise',
     'advertise_edit' => 'Edit Advertise',
-   
+    'sponsers' => 'Sponsers',
+    'sponsers_list' => 'Sponsers List',
+    'add_sponser' => 'Add Sponser',
+    'edit_sponser' => 'Edit Sponser',
+    'sponser' => 'Sponser',
+    'days_number' => 'Days Number', 
+    'price' => 'Price',
+    'payment_status' => 'Payment Status',
+    'image' => 'Image',
+    'sponser_status' => 'Sponser Status',
+    'sponser_created_successfully' => 'Sponser created successfully',
+    'sponser_updated_successfully' => 'Sponser updated successfully',
+    'sponser_deleted_successfully' => 'Sponser deleted successfully',
 
-
-
-
-
-
-]
-    
-
-
-
+];
 
 ?>

@@ -240,6 +240,22 @@ return [
     'status' => 'الحالة',
     'reason_cancelled' => 'سبب الالغاء',
     'adsStatus' => 'حالة الاعلان',
+    'sponsers' => 'الرعاة',
+    'sponsers_list' => 'قائمة الرعاة',
+    'add_sponser' => 'اضافة راعي جديد',
+    'edit_sponser' => 'تعديل بيانات الراعي',
+    'sponser' => 'الراعي',
+    'days_number' => 'عدد الايام',
+    'price' => 'السعر',
+    'payment_status' => 'حالة الدفع',
+    'image' => 'الصورة',
+    'user_id' => 'المستخدم',
+    'sponser_created_successfully' => 'تم انشاء الراعي بنجاح',
+    'sponser_updated_successfully' => 'تم تحديث بيانات الراعي بنجاح',
+    'sponser_deleted_successfully' => 'تم حذف الراعي بنجاح',
+    'sponser_status' => 'حالة الراعي',
+    'add_sponser' => 'اضافة راعي جديد',
+    'edit_sponser' => 'تعديل بيانات الراعي',
 
 
 

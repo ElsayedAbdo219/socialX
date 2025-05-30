@@ -55,11 +55,9 @@
                                         </label>
                                     </div>
 
-
-
                                     <div class="form-group col-4">
                                         <label class="w-100" for="period">{{__('dashboard.period')}} (دقيقة)
-                                            <input type="string"  class="form-control" name="period" placeholder="{{__('dashboard.period')}}" value="{{old('period')}}" />
+                                            <input type="number"  class="form-control" name="period" placeholder="{{__('dashboard.period')}}" value="{{old('period')}}" />
                                             @error('period')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
@@ -68,18 +66,12 @@
 
                                       <div class="form-group col-4">
                                         <label class="w-100" for="slogo">{{ __('dashboard.is_published') }}(بالايام)
-                                            <input type="string"  class="form-control" name="is_published" placeholder="{{ __('dashboard.is_published') }}" value="{{old('is_published')}}" />
+                                            <input type="number"  class="form-control" name="is_published" placeholder="{{ __('dashboard.is_published') }}" value="{{old('is_published')}}" />
                                             @error('is_published')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>
                                     </div>
-
-
-
-                                   
-                                    
-                                   
                                  
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary mr-1 mb-1">{{__('dashboard.add')}}</button>

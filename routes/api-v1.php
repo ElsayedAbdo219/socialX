@@ -36,7 +36,8 @@ use App\Http\Controllers\Api\V1\Client\{
   ProjectController,
   OverViewController,
   ReportController,
-  PostReportController
+  PostReportController,
+  SponserController
 
                
 
@@ -348,6 +349,11 @@ Route::name('education.')->prefix('education')->group(function () {
      # views
     Route::name('views.')->prefix('views')->group(function () {
       Route::post('/{adsId}', [PostController::class, 'addView']);
+    });
+
+     # sponsers
+    Route::name('sponsers.')->prefix('sponsers')->group(function () {
+      Route::get('/', [SponserController::class, 'index']);
     });
 
 
