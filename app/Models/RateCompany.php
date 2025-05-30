@@ -16,14 +16,14 @@ class RateCompany extends Model
        }
     
     
-       public function company(){
+       public function member(){
     
-        return $this->belongsTo(Member::class,'company_id');
+        return $this->belongsTo(Member::class,'member_id');
        }
   #scopes
-  public function scopeOfCompany($query, $value)
+  public function scopeOfMember($query, $value)
   {
-    return $query->where('company_id', $value);
+    return $query->where('member_id', $value);
   }
 
 

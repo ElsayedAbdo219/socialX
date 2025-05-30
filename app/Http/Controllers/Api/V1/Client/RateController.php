@@ -22,7 +22,7 @@ class RateController extends Controller
 
         if (auth('api')->user()->type === UserTypeEnum::COMPANY) {
 
-            $myRates = RateCompany::OfCompany(auth('api')->user()->id)->get();
+            $myRates = RateCompany::OfMember(auth('api')->user()->id)->get();
             $total = $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count() : 0;
             $ratesMiddleOneStar = $myRates?->where('rate',1)->count();
             $ratesMiddleTwoStar = $myRates?->where('rate',2)->count();
@@ -38,7 +38,7 @@ class RateController extends Controller
                  'ratesMiddleFourStar' => $ratesMiddleFourStar,
                  'ratesMiddleFiveStar' => $ratesMiddleFiveStar,
                  'ratesMiddleTotal' => round($total, 1),
-                 'data' =>  RateCompany::where('company_id', auth('api')->user()->id)->with('employee')->paginate($paginateSize),
+                 'data' =>  RateCompany::where('member_id', auth('api')->user()->id)->with('employee')->paginate($paginateSize),
             ]);
 
         } else {
@@ -76,8 +76,10 @@ class RateController extends Controller
 
     public function showEmployee(Request $request,$employee)
     {
-        $paginateSize = $request->query('paginateSize');
+      $paginateSize = $request->query('paginateSize');
         $employee = Member::findOrFail($employee);
+
+       if(auth('api')->user()->type == UserTypeEnum::COMPANY) {
         $myRates = RateEmployee::OfEmployee($employee?->id)->get();
 
         $total = $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count() : 0;
@@ -87,7 +89,17 @@ class RateController extends Controller
         $ratesMiddleFourStar = $myRates?->where('rate',4)->count();
         $ratesMiddleFiveStar = $myRates?->where('rate',5)->count();
         $hasRate = RateEmployee::OfEmployee($employee?->id)->OfCompany(auth('api')->user()->id)->count();
+        } else {
+        $myRates = RateCompany::OfMember($employee?->id)->get();
+        $total = $myRates?->count() > 0 ? $myRates->sum('rate') / $myRates?->count() : 0;
+        $ratesMiddleOneStar = $myRates?->where('rate',1)->count();
+        $ratesMiddleTwoStar = $myRates?->where('rate',2)->count();
+        $ratesMiddleThreeStar = $myRates?->where('rate',3)->count();
+        $ratesMiddleFourStar = $myRates?->where('rate',4)->count();
+        $ratesMiddleFiveStar = $myRates?->where('rate',5)->count();
+        $hasRate = RateCompany::OfMember($employee?->id)->OfEmployee(auth('api')->user()->id)->count();
 
+        }
 
         return response()->json([
             'hasRate' => $hasRate > 0 ? true : false ,
@@ -98,22 +110,24 @@ class RateController extends Controller
             'ratesMiddleFourStar' => $ratesMiddleFourStar,
             'ratesMiddleFiveStar' => $ratesMiddleFiveStar,
             'ratesMiddleTotal' => round($total, 1),
-            'data' =>  RateEmployee::where('employee_id', $employee->id)->with('company')->paginate($paginateSize),
+            'data' =>  auth('api')->user()->type === UserTypeEnum::COMPANY ?
+                RateEmployee::where('employee_id', $employee->id)->with('company')->paginate($paginateSize) :
+                RateCompany::where('member_id', $employee->id)->with('employee')->paginate($paginateSize),
        ]);
     }
 
     public function showCompany(Request $request,$company)
     {
         $paginateSize = $request->query('paginateSize');
-        $company = Member::findOrFail($company);
-        $Rates = RateCompany::OfCompany($company?->id)->get();
+        $member = Member::findOrFail($company);
+        $Rates = RateCompany::OfMember($member?->id)->get();
         $total = $Rates?->count() > 0 ? $Rates->sum('rate') / $Rates?->count() : 0;
         $ratesMiddleTwoStar = $Rates?->where('rate',2)->count();
         $ratesMiddleOneStar = $Rates?->where('rate',1)->count();
         $ratesMiddleFourStar = $Rates?->where('rate',4)->count();
         $ratesMiddleThreeStar = $Rates?->where('rate',3)->count();
         $ratesMiddleFiveStar = $Rates?->where('rate',5)->count();
-        $hasRate = RateCompany::OfCompany($company?->id)->OfEmployee(auth('api')->user()->id)->count();
+        $hasRate = RateCompany::OfMember($member?->id)->OfEmployee(auth('api')->user()->id)->count();
 
 
         return response()->json([
@@ -125,7 +139,7 @@ class RateController extends Controller
             'ratesMiddleFourStar' => $ratesMiddleFourStar,
             'ratesMiddleFiveStar' => $ratesMiddleFiveStar,
             'ratesMiddleTotal' => round($total, 1),
-            'data' =>  RateCompany::where('company_id', $company->id)->with('employee')->paginate($paginateSize),
+            'data' =>  RateCompany::where('member_id', $member->id)->with('employee')->paginate($paginateSize),
        ]);
     }
 
@@ -152,6 +166,8 @@ class RateController extends Controller
     # Add rate functions
     public function validateAddCompany(Request $request)
     {
+        // dd($request->all());
+
         $data = $request->validate([
             'comment' => ['nullable', 'string'],
             'employee_id' => [
@@ -162,7 +178,7 @@ class RateController extends Controller
             ],
             'rate' => ['required', 'numeric', 'min:1', 'max:5'],
         ]);
-
+        // dd($data);
         $data['company_id'] = auth('api')->user()->id;
         RateEmployee::create($data);
         return response()->json(['message' => 'تم اضافة تقيم بنجاح']);
@@ -172,12 +188,13 @@ class RateController extends Controller
     {
         $data = $request->validate([
             'comment' => ['nullable', 'string'],
-            'company_id' => [
+            'member_id' => [
                 'required',
               'exists:members,id'
             ],
             'rate' => ['required', 'numeric', 'min:1', 'max:5'],
         ]);
+        // dd($data);
        // edit( the company id can be employee also , i mean company id can be employee id )
         $data['employee_id'] = auth('api')->user()->id;
         RateCompany::create($data);
@@ -208,14 +225,9 @@ class RateController extends Controller
     {
         $data = $request->validate([
             'comment' => ['nullable', 'string'],
-            'company_id' => [
-                'required',
-                'exists:members,id'
-            ],
             'rate' => ['required', 'numeric', 'min:1', 'max:5'],
         ]);
-
-        $data['employee_id'] = auth('api')->user()->id;
+        // dd($data);
         $rate = RateCompany::findOrFail($rateId);
         $rate->update($data);
         return response()->json(['message' => 'تم تحديث التقييم بنجاح']);
