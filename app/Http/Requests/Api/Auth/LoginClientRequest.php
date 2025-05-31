@@ -35,8 +35,9 @@ class LoginClientRequest extends FormRequest
      */
     public function rules()
     {
+      // dd('here');
         return [
-            'email' => ['required', Rule::exists('members', 'email')],
+            'email' => ['required','email:filter' ,  Rule::exists('members', 'email')],
             'password' => ['required', 'string', Password::default()],
         ];
     }

@@ -22,7 +22,7 @@ class AuthController extends Controller
            $data= $request->validate([
                 'name' => 'required|string|max:255',
                 'job' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                'email' => 'required|string|email:filter|max:255|unique:users',
                 'password' => 'required|string',
                 'personal_photo' => 'string|image,mimes:jpeg,png,jpg',
                 'personal_info' => 'string',
@@ -42,7 +42,7 @@ class AuthController extends Controller
           
                 $data=$request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                'email' => 'required|string|email:filter|max:255|unique:users',
                 'password' => 'required|string',
                 'logo' => 'image,mimes:jpeg,png,jpg',
                 'slogo' => 'string',
@@ -66,7 +66,7 @@ class AuthController extends Controller
     public function login(Request $request,$type)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email:filter',
             'password' => 'required',
         ]);
 
@@ -127,7 +127,7 @@ class AuthController extends Controller
         if($type == UserTypeEnum::EMPLOYEE){
            $data= $request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                'email' => 'required|string|email:filter|max:255|unique:users',
                 'password' => 'required',
                 'personal_photo' => 'string|image,mimes:jpeg,png,jpg',
                 'personal_info' => 'string',
@@ -145,7 +145,7 @@ class AuthController extends Controller
         elseif($type == UserTypeEnum::COMPANY){
             $data=$request->validate([
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                'email' => 'required|string|email:filter|max:255|unique:users',
                 'password' => 'required',
                 'logo' => 'image,mimes:jpeg,png,jpg',
                 'slogo' => 'string',

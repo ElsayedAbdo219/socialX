@@ -1,0 +1,113 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "image": "https://back.anceega.com/storage/sponsers/cESS78rvwXUHcdEfwTMKM7yEk15m6B1X3gMgj6ic.jpg",
+            "company": {
+                "id": 134,
+                "full_name": "Mohamed Compnay Organization MSI",
+                "job": null,
+                "website": "https://mohamed-hamdy-tobal.github.io/My_Portfolio/",
+                "email": "mohamedcompnayorg@gmail.com",
+                "is_Active": true,
+                "phone": "+201555400809",
+                "country": "Egypt",
+                "birth_date": "2009-01-20T21:00:00.000Z",
+                "field": "Software",
+                "type": "company",
+                "bio": "Very Goodd, for test",
+                "created_at": "2025-05-16T08:44:47.000000Z",
+                "updated_at": "2025-05-24T08:26:20.000000Z",
+                "first_name": null,
+                "last_name": null,
+                "current_location": null,
+                "private_account": "0",
+                "employees_number": "500",
+                "avatar_path": "https://back.anceega.com/storage/avatars/6iIK6QPutuURZvugyejVGZDR0P12bgHmnq4fKoSM.jpg"
+            }
+        },
+        {
+            "id": 2,
+            "image": "https://back.anceega.com/storage/sponsers/YmQa9lUOXKbTFcMYLE8c5c6Ma4y749yfUmrzwSTR.jpg",
+            "company": {
+                "id": 29,
+                "full_name": "Elsayed Rabeaa Company",
+                "job": null,
+                "website": null,
+                "email": "dddddddsd@ss.com",
+                "is_Active": true,
+                "phone": "01012003030",
+                "country": "مصر",
+                "birth_date": "2003-03-03",
+                "field": "it",
+                "type": "company",
+                "bio": null,
+                "created_at": "2024-06-21T07:36:43.000000Z",
+                "updated_at": "2024-06-22T08:37:24.000000Z",
+                "first_name": null,
+                "last_name": null,
+                "current_location": "",
+                "private_account": "0",
+                "employees_number": null,
+                "avatar_path": null
+            }
+        },
+        {
+            "id": 3,
+            "image": "https://back.anceega.com/storage/sponsers/GvaLO0G36b5hW8IwtWXudmTRf5RjZxP84rXhMFeg.jpg",
+            "company": {
+                "id": 66,
+                "full_name": "Morsy",
+                "job": null,
+                "website": null,
+                "email": "morsy@gmail.com",
+                "is_Active": false,
+                "phone": "01016470809",
+                "country": "Jordan",
+                "birth_date": "2024-07-02",
+                "field": "Finance & Insurance",
+                "type": "company",
+                "bio": null,
+                "created_at": "2024-07-22T09:54:20.000000Z",
+                "updated_at": "2024-07-22T09:54:20.000000Z",
+                "first_name": null,
+                "last_name": null,
+                "current_location": "",
+                "private_account": "0",
+                "employees_number": null,
+                "avatar_path": null
+            }
+        }
+    ],
+    "links": {
+        "first": "https://back.anceega.com/client-api/v1/sponsers?page=1",
+        "last": "https://back.anceega.com/client-api/v1/sponsers?page=1",
+        "prev": null,
+        "next": null
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 1,
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "https://back.anceega.com/client-api/v1/sponsers?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "path": "https://back.anceega.com/client-api/v1/sponsers",
+        "per_page": 10,
+        "to": 3,
+        "total": 3
+    }

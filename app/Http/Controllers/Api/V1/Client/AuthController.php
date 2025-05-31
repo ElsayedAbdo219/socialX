@@ -115,7 +115,7 @@ public function login(LoginClientRequest $request)
 # Verification
 public function verifyOtp(Request $request){
     $dataRequest = $request->validate([
-        'email' => 'required|email|exists:members,email',
+        'email' => 'required|email:filter|exists:members,email',
         'otp' => 'required|digits:6'
     ]);
 
@@ -161,7 +161,7 @@ public function forgetPassword(Request $request)
 {
    
     $dataRequest = $request->validate([
-        'email' => 'required|email|exists:members,email'
+        'email' => 'required|email:filter|exists:members,email'
     ]);
     // حذف أي رموز OTP قديمة لنفس البريد الإلكتروني
     OtpAuthenticate::where('email', $dataRequest['email'])->delete();
