@@ -21,6 +21,10 @@ class Sponser extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+    public function getImageAttribute($value)
+    {
+        return asset('storage/sponsers/' . $value);
+    }
     public function company()
     {
         return $this->belongsTo(Member::class, 'user_id');
