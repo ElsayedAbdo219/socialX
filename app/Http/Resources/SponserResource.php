@@ -17,7 +17,7 @@ class SponserResource extends JsonResource
         return [
             "id" => $this->id,
             "image" => url('storage/sponsers/'.$this->image),
-            "companyName" =>  $this?->user?->full_name
+            "company" =>  $this?->user
         ];
     }
 }
