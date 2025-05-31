@@ -21,7 +21,7 @@ class Sponser extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
-    public function user()
+    public function company()
     {
         return $this->belongsTo(Member::class, 'user_id');
     }
@@ -29,7 +29,7 @@ class Sponser extends Model
 
     public function scopeOfName($query, $name)
     {
-        return $query->whereHas('user', function ($q) use ($name) {
+        return $query->whereHas('company', function ($q) use ($name) {
             $q->where('full_name', 'like', "%{$name}%");
         });
     }
