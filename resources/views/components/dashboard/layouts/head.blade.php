@@ -8,7 +8,9 @@
     <meta name="_token" content="{{csrf_token()}}">
 
      <!-- favicon -->
-     <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+      <link rel="shortcut icon" href="{{ asset('favicon.svg') }}" type="image/x-icon">
+    
+      
      <!-- google fonts -->
      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
@@ -156,10 +158,10 @@
     transition: all 0.3s ease;
 }
 
-.language-dropdown select:hover {
+/* .language-dropdown select:hover {
     border-color: #2ecc71;
     box-shadow: 0 0 12px rgba(0, 255, 0, 0.5);
-}
+} */
 
 /* تنبيه: بعض المتصفحات تتجاهل هذا الجزء */
 .language-dropdown option {

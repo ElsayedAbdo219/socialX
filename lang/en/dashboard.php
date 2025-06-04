@@ -308,6 +308,8 @@ return [
     'promotion_status' => 'Promotion Status',
     'promotion_status_active' => 'Active',
     'promotion_status_inactive' => 'Inactive',
+    'Search' => 'Search',
+    'search_placeholder' => 'Search by name, email, or phone number',
 ];
 
 ?>

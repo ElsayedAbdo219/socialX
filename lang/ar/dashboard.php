@@ -281,6 +281,8 @@ return [
     'promotion_end_date' => 'تاريخ انتهاء العرض الترويجي',
     'promotion_is_active' => 'العرض الترويجي نشط',
     'promotion_is_inactive' => 'العرض الترويجي غير نشط',
+    'Search' => 'بحث',
+    'search_placeholder' => 'ابحث هنا...',
 
 
 

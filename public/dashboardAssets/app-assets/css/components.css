@@ -293,12 +293,12 @@ body.fixed-footer footer.footer-dark {
         padding: 7px;
         margin: -7px -7px 0 -7px; }
       .main-menu.menu-light .navigation li a {
-        color: #3232CD;
+        color: black;
         padding: 10px 15px 10px 15px;
         line-height: 1.45;
         transition: padding 0.35s ease 0s !important; }
         .main-menu.menu-light .navigation li a span.menu-sub-title {
-          color: #3232CD; }
+          color: black; }
       .main-menu.menu-light .navigation li.hover > a {
         padding-left: 25px;
         transition: padding 0.35s ease 0s !important; }
@@ -319,15 +319,15 @@ body.fixed-footer footer.footer-dark {
         .main-menu.menu-light .navigation > li:not(.open) > ul {
           display: none; }
         .main-menu.menu-light .navigation > li.active > a {
-          background: linear-gradient(118deg, #7367f0, rgba(115, 103, 240, 0.7));
-          box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7);
+          background: linear-gradient(118deg, black);
+          box-shadow: 0 0 10px 1px black;
           color: #fff;
           font-weight: 400;
           border-radius: 4px; }
         .main-menu.menu-light .navigation > li .active {
           background: #f0f0f0; }
           .main-menu.menu-light .navigation > li .active > a {
-            color: #7367f0;
+            color:black;
             margin-bottom: 0; }
           .main-menu.menu-light .navigation > li .active .hover > a {
             background: whitesmoke; }

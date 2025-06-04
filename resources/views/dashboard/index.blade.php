@@ -1,6 +1,6 @@
 @extends('components.dashboard.layouts.master')
 @section('title')
-        {{__('dashboard.dashboard')}}
+    {{ __('dashboard.dashboard') }}
 @endsection
 @section('content')
     <div class="app-content content">
@@ -36,9 +36,9 @@
                     </div>  --}}
 
 
-                       
 
-                       {{-- <div class="row">
+
+                {{-- <div class="row">
 
 
                         <div class="col-lg-3 col-md-6 col-12 card_stats">
@@ -59,7 +59,7 @@
                         </div>  --}}
 
 
-                       {{-- <div class="card_stats">
+                {{-- <div class="card_stats">
                         <div class="card-body">
                             <h5 class="card-title">الشركات</h5>
                             <div class="row">
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                     </div> --}}
-{{-- 
+                {{-- 
                     <div class="card_stats">
                         <div class="card-body">
                             <h5 class="card-title">المستقلين</h5>
@@ -105,7 +105,7 @@
                      --}}
 
 
-                    {{-- <div class="card_stats">
+                {{-- <div class="card_stats">
                         <div class="card-body">
                             <h5 class="card-title">الوظائف</h5>
                             </h5>
@@ -121,10 +121,10 @@
                             </div>
                         </div>
                     </div> --}}
-                    
 
 
-                    {{-- <div class="card_stats">
+
+                {{-- <div class="card_stats">
                         <div class="card-body">
                             <h5 class="card-title">الشكاوي</h5>
                             <div class="row">
@@ -154,219 +154,221 @@
                      --}}
 
 
+              <div class="main-content d-flex justify-content-center align-items-center min-vh-100">
 
- <div class="main-content" style="margin-right: 150px">
-        <div class="dashboard-content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="page-title">
-                            <div class="title">
-                                <h3> {{__('dashboard.dashboard')}}</h3>
-                                <p>   {{__('dashboard.welcome_to_dashboard')}} {{ Auth::user()->name }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-details">
-                            <div class="icon">
-                                <img src="{{ asset('assets/images/details-icon-1.png') }}" alt="images" />
-                            </div>
-                            <div class="details">
-                                <h5>{{ $jobs }}</h5>
-                                <span>{{__('dashboard.number_of_jobs_this_Day')}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-details">
-                            <div class="icon">
-                                <img src="{{ asset('assets/images/details-icon-4.png') }}" alt="images" />
-                            </div>
-                            <div class="details">
-                                <h5>{{ $companies }}</h5>
-                                <span>{{__('dashboard.number_of_companies')}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-details">
-                            <div class="icon">
-                                <img src="{{ asset('assets/images/menu-img-5.png') }}" alt="images" />
-                            </div>
-                            <div class="details">
-                                <h5>{{ $employees }}</h5>
-                                <span>{{__('dashboard.number_of_employees')}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-details">
-                            <div class="icon">
-                                <img src="{{ asset('assets/images/details-icon-2.png') }}" alt="images" />
-                            </div>
-                            <div class="details">
-                                <h5>{{ $Advertises }}</h5>
-                                <span>{{__('dashboard.number_of_advertises_this_day')}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="revenu-chart">
-                            <div class="revenu-title">
-                                <div class="title">
-                                    <h3>{{__('dashboard.jobs')}}</h3>
+                     <div class="dashboard-content" style="width: 1000px;">
+                        <div class="container-fluid" >
+                       <div class="row align-items-center">
+                                <div class="col-lg-12 " >
+                                    <div class="page-title" >
+                                        <div class="title">
+                                            <h3> {{ __('dashboard.dashboard') }}</h3>
+                                            <p> {{ __('dashboard.welcome_to_dashboard') }} {{ Auth::user()->name }}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="page-title-sorts">
-                                    {{-- <a href="#" class="sort-two">
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <div class="single-details" style="width: 100%;">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/images/details-icon-1.png') }}" alt="images" />
+                                        </div>
+                                        <div class="details">
+                                            <h5 style="text-align: center">{{ $jobs }}</h5>
+                                            <span style="text-align: center">{{ __('dashboard.number_of_jobs_this_Day') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <div class="single-details">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/images/details-icon-4.png') }}" alt="images" />
+                                        </div>
+                                        <div class="details">
+                                            <h5 style="text-align: center">{{ $companies }}</h5>
+                                            <span style="text-align: center">{{ __('dashboard.number_of_companies') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <div class="single-details">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/images/menu-img-5.png') }}" alt="images" />
+                                        </div>
+                                        <div class="details">
+                                            <h5 style="text-align: center">{{ $employees }}</h5>
+                                            <span style="text-align: center">{{ __('dashboard.number_of_employees') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                    <div class="single-details">
+                                        <div class="icon">
+                                            <img src="{{ asset('assets/images/details-icon-2.png') }}" alt="images" />
+                                        </div>
+                                        <div class="details">
+                                            <h5 style="text-align: center">{{ $Advertises }}</h5>
+                                            <span style="text-align: center">{{ __('dashboard.number_of_advertises_this_day') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="revenu-chart">
+                                        <div class="revenu-title">
+                                            <div class="title">
+                                                <h3>{{ __('dashboard.jobs') }}</h3>
+                                            </div>
+                                            <div class="page-title-sorts">
+                                                {{-- <a href="#" class="sort-two">
                                         <span>شهريا</span>
                                         <i class="fas fa-sort-down"></i>
                                     </a> --}}
-                                </div>
-                            </div>
-                            <div class="revenu-heading">
-                                <div class="title">
-                                    <h5>{{__('dashboard.all')}}</h5>
-                                    <span>{{ $all_jobs }}</span>
-                                </div>
-                                <div class="summery-menu">
-                                    {{-- <button class="active">يوميا</button>
+                                            </div>
+                                        </div>
+                                        <div class="revenu-heading">
+                                            <div class="title">
+                                                <h5>{{ __('dashboard.all') }}</h5>
+                                                <span>{{ $all_jobs }}</span>
+                                            </div>
+                                            <div class="summery-menu">
+                                                {{-- <button class="active">يوميا</button>
                                     <button>اسبوعيا</button>
                                     <button>شهريا</button> --}}
-                                    <span>#</span>
+                                                <span>#</span>
+                                            </div>
+                                        </div>
+
+                                        {{--    <canvas id="barChart" width="400" height="200"></canvas> --}}
+
+                                        {!! $chart->render() !!}
+
+
+
+
+                                    </div>
+
                                 </div>
-                            </div>
-
-                          {{--    <canvas id="barChart" width="400" height="200"></canvas> --}}
-
-                            {!! $chart->render() !!}
 
 
-
-
-                        </div>
-                       
-                    </div>
-
-                    
-                    <div class="col-lg-6">
-                        <div class="order-summery">
-                            <div class="summery-heading">
-                                <div class="title">
-                                    <h5>{{__('dashboard.details_of_companies')}}</h5>
-                                </div>
-                                <div class="summery-menu">
-                                    {{-- <button class="active">يوميا</button>
+                                <div class="col-lg-6">
+                                    <div class="order-summery">
+                                        <div class="summery-heading">
+                                            <div class="title">
+                                                <h5>{{ __('dashboard.details_of_companies') }}</h5>
+                                            </div>
+                                            <div class="summery-menu">
+                                                {{-- <button class="active">يوميا</button>
                                     <button>اسبوعيا</button>
                                     <button>شهريا</button> --}}
-                                    <span>#</span>
-                                </div>
-                            </div>
-                            <div class="summerys">
-                                <div class="single-summery">
-                                    <h4>{{ $disactiveCompanies }}</h4>
-                                    <p>{{__('dashboard.disactives')}}</p>
-                                </div>
-                                <div class="single-summery">
-                                    <h4>{{ $activeCompanies }}</h4>
-                                    <p>{{__('dashboard.actives')}}</p>
-                                </div>
-                                <div class="single-summery">
-                                    <h4>{{ $companies }}</h4>
-                                    <p>{{__('dashboard.total')}}</p>
-                                </div>
-                            </div>
-                            <div class="new-order">
-                                    <p>{{__('dashboard.active_request')}}</p>
+                                                <span>#</span>
+                                            </div>
+                                        </div>
+                                        <div class="summerys">
+                                            <div class="single-summery">
+                                                <h4>{{ $disactiveCompanies }}</h4>
+                                                <p>{{ __('dashboard.disactives') }}</p>
+                                            </div>
+                                            <div class="single-summery">
+                                                <h4>{{ $activeCompanies }}</h4>
+                                                <p>{{ __('dashboard.actives') }}</p>
+                                            </div>
+                                            <div class="single-summery">
+                                                <h4>{{ $companies }}</h4>
+                                                <p>{{ __('dashboard.total') }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="new-order">
+                                            <p>{{ __('dashboard.active_request') }}</p>
 
-                                <div class="number">
-                                    <span>{{ $disactiveCompanies }}</span>
-                                </div>
-                                <div class="view-btn">
-                                    <a href="{{ route('admin.companies.index') }}"> {{__('dashboard.view_all')}} <i class="fas fa-long-arrow-alt-right"></i></a>
-                                </div>
-                            </div>
-
-
-                            
-                        </div>
-                    
-                    </div>
+                                            <div class="number">
+                                                <span>{{ $disactiveCompanies }}</span>
+                                            </div>
+                                            <div class="view-btn">
+                                                <a href="{{ route('admin.companies.index') }}">
+                                                    {{ __('dashboard.view_all') }} <i
+                                                        class="fas fa-long-arrow-alt-right"></i></a>
+                                            </div>
+                                        </div>
 
 
-                    <div class="col-lg-6">
-                        <div class="order-summery">
-                            <div class="summery-heading">
-                                <div class="title">
-                                    <h5>{{__('dashboard.details_of_employees')}}</h5>
+
+                                    </div>
+
                                 </div>
-                                <div class="summery-menu">
-                                    {{-- <button class="active">يوميا</button>
+
+
+                                <div class="col-lg-6">
+                                    <div class="order-summery">
+                                        <div class="summery-heading">
+                                            <div class="title">
+                                                <h5>{{ __('dashboard.details_of_employees') }}</h5>
+                                            </div>
+                                            <div class="summery-menu">
+                                                {{-- <button class="active">يوميا</button>
                                     <button>اسبوعيا</button>
                                     <button>شهريا</button> --}}
-                                    <span>#</span>
-                                </div>
-                            </div>
-                            <div class="summerys">
-                                <div class="single-summery">
-                                    <h4>{{ $disactiveEmployees }}</h4>
-                                    <p>{{__('dashboard.disactives')}}</p>
-                                </div>
-                                <div class="single-summery">
-                                    <h4>{{ $activeEmployees }}</h4>
-                                    <p>{{__('dashboard.actives')}}</p>
-                                </div>
-                                <div class="single-summery">
-                                    <h4>{{ $employees }}</h4>
-                                    <p>{{__('dashboard.total')}}</p>
-                                </div>
-                            </div>
-                            <div class="new-order">
-                                    <p>{{__('dashboard.active_request')}}</p>
-                                <div class="number">
-                                    <span>{{ $disactiveEmployees }}</span>
-                                </div>
-                                <div class="view-btn">
-                                    <a href="{{ route('admin.employees.index') }}"> {{__('dashboard.view_all')}} <i class="fas fa-long-arrow-alt-right"></i></a>
-                                </div>
-                            </div>
+                                                <span>#</span>
+                                            </div>
+                                        </div>
+                                        <div class="summerys">
+                                            <div class="single-summery">
+                                                <h4>{{ $disactiveEmployees }}</h4>
+                                                <p>{{ __('dashboard.disactives') }}</p>
+                                            </div>
+                                            <div class="single-summery">
+                                                <h4>{{ $activeEmployees }}</h4>
+                                                <p>{{ __('dashboard.actives') }}</p>
+                                            </div>
+                                            <div class="single-summery">
+                                                <h4>{{ $employees }}</h4>
+                                                <p>{{ __('dashboard.total') }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="new-order">
+                                            <p>{{ __('dashboard.active_request') }}</p>
+                                            <div class="number">
+                                                <span>{{ $disactiveEmployees }}</span>
+                                            </div>
+                                            <div class="view-btn">
+                                                <a href="{{ route('admin.employees.index') }}">
+                                                    {{ __('dashboard.view_all') }} <i
+                                                        class="fas fa-long-arrow-alt-right"></i></a>
+                                            </div>
+                                        </div>
 
 
-                            
+
+                                    </div>
+
+                                </div>
+
+
+
+
+
+                            </div>
                         </div>
-                    
                     </div>
-
-                    
-               
-               
-                   
                 </div>
+                <!-- main-content end -->
+
+
+
+
+
+
+
+
+
             </div>
+            </section>
         </div>
     </div>
-    <!-- main-content end -->
-
-
-
-
-
-                     
-
-
-                       
-                    </div>
-                </section>
-            </div>
-        </div>
     </div>
 
 
 
     <script>
-
-
-var ctx = document.getElementById('revenueChart').getContext('2d');
+        var ctx = document.getElementById('revenueChart').getContext('2d');
         var gradientColor = ctx.createLinearGradient(0, 0, 0, 400);
         gradientColor.addColorStop(0, "rgba(253, 104, 62, 1)");
         gradientColor.addColorStop(1, "rgba(255, 255, 255, 0)");
@@ -384,14 +386,14 @@ var ctx = document.getElementById('revenueChart').getContext('2d');
             },
             options: {
                 legend: {
-                display: false,
-                labels: {
-                    fontColor: '#ffffff'
-                }
-            },
+                    display: false,
+                    labels: {
+                        fontColor: '#ffffff'
+                    }
+                },
                 scales: {
                     yAxes: [{
-                        
+
                         ticks: {
                             beginAtZero: true
                         }
@@ -407,90 +409,86 @@ var ctx = document.getElementById('revenueChart').getContext('2d');
 
 
         var options = {
-          series: [{
-          name: 'Males',
-          data: [0.4, 0.65, 0.76, 0.88, 1.5, 2.1, 2.9, 3.8, 3.9, 4.2, 4, 4.3, 4.1, 4.2, 4.5,
-            3.9, 3.5, 3
-          ]
-        },
-        {
-          name: 'Females',
-          data: [-0.8, -1.05, -1.06, -1.18, -1.4, -2.2, -2.85, -3.7, -3.96, -4.22, -4.3, -4.4,
-            -4.1, -4, -4.1, -3.4, -3.1, -2.8
-          ]
-        }
-        ],
-        chart: {
-          type: 'bar',
-          height: 300,
-          stacked: true,
-          
-        },
-        colors: ['#FD683E', '#2BC155'],
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            barHeight: '100%',
-            // borderRadius: 7,
-            radiusOnLastStackedBar: true,
-          },
-          
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          width: 1,
-          colors: ["#fff"]
-        },
-        
-        grid: {
-          xaxis: {
-            lines: {
-              show: false
-            }
-          },
-          yaxis: {
-            lines: {
-              show: true,
-            }
-          }
-        },
-        yaxis: {
-          min: -15,
-          max: 15,          
-        },
-        tooltip: {
-          shared: false,
-          x: {
-            formatter: function (val) {
-              return val
-            }
-          },
-          y: {
-            formatter: function (val) {
-              return Math.abs(val) + "%"
-            }
-          }
-        },
-        xaxis: {
-          categories: ['85+', '80-84', '75-79', '70-74', '65-69', '60-64', '55-59', '50-54',
-            '45-49', '40-44', '35-39', '30-34', '25-29', '20-24', '15-19', '10-14', '5-9',
-            '0-4'
-          ],
-          labels: {
-            formatter: function (val) {
-              return Math.abs(Math.round(val)) + "%"
-            }
-          }
-        },
+            series: [{
+                    name: 'Males',
+                    data: [0.4, 0.65, 0.76, 0.88, 1.5, 2.1, 2.9, 3.8, 3.9, 4.2, 4, 4.3, 4.1, 4.2, 4.5,
+                        3.9, 3.5, 3
+                    ]
+                },
+                {
+                    name: 'Females',
+                    data: [-0.8, -1.05, -1.06, -1.18, -1.4, -2.2, -2.85, -3.7, -3.96, -4.22, -4.3, -4.4,
+                        -4.1, -4, -4.1, -3.4, -3.1, -2.8
+                    ]
+                }
+            ],
+            chart: {
+                type: 'bar',
+                height: 300,
+                stacked: true,
+
+            },
+            colors: ['#FD683E', '#2BC155'],
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    barHeight: '100%',
+                    // borderRadius: 7,
+                    radiusOnLastStackedBar: true,
+                },
+
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 1,
+                colors: ["#fff"]
+            },
+
+            grid: {
+                xaxis: {
+                    lines: {
+                        show: false
+                    }
+                },
+                yaxis: {
+                    lines: {
+                        show: true,
+                    }
+                }
+            },
+            yaxis: {
+                min: -15,
+                max: 15,
+            },
+            tooltip: {
+                shared: false,
+                x: {
+                    formatter: function(val) {
+                        return val
+                    }
+                },
+                y: {
+                    formatter: function(val) {
+                        return Math.abs(val) + "%"
+                    }
+                }
+            },
+            xaxis: {
+                categories: ['85+', '80-84', '75-79', '70-74', '65-69', '60-64', '55-59', '50-54',
+                    '45-49', '40-44', '35-39', '30-34', '25-29', '20-24', '15-19', '10-14', '5-9',
+                    '0-4'
+                ],
+                labels: {
+                    formatter: function(val) {
+                        return Math.abs(Math.round(val)) + "%"
+                    }
+                }
+            },
         };
 
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
-
-
-
-
     </script>
 @endsection

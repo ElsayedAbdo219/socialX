@@ -9,11 +9,12 @@
                     <ul class="nav navbar-nav bookmark-icons">
                         <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i class="ficon feather icon-maximize"></i></a></li>
                     </ul>
+                    {{-- <input type="text" placeholder="{{__('dashboard.Search')}}" class="search.." style="border-radius: 10px; align: center; border: 1px solid #ccc; width: 300px;height: 60px;"  id="search-input" /> --}}
                 </div>
                 <form action="{{ route('admin.setLanguage') }}" method="POST">
                     @csrf
                     <div class="language-dropdown">
-                        <select name="lang" id="languageSwitcher" onchange="this.form.submit()">
+                        <select class="form-select" name="lang" id="languageSwitcher" onchange="this.form.submit()"  style="width: 150px; height: 38px; border-radius: 10px; border: 1px solid #ccc;">
                             <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>🇬🇧 English</option>
                             <option value="ar" {{ app()->getLocale() == 'ar' ? 'selected' : '' }}>🇸🇦 العربية</option>
                         </select>
