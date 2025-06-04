@@ -288,7 +288,26 @@ return [
     'sponser_updated_successfully' => 'Sponser updated successfully',
     'sponser_deleted_successfully' => 'Sponser deleted successfully',
     'show_sponsers' => 'Show Sponsers',
-
+    'promotions' => 'Promotions',
+    'promotions_list' => 'Promotions List',
+    'add_promotion' => 'Add Promotion',
+    'edit_promotion' => 'Edit Promotion',
+    'promotion' => 'Promotion',
+    'promotion_created_successfully' => 'Promotion created successfully',
+    'promotion_updated_successfully' => 'Promotion updated successfully',
+    'promotion_deleted_successfully' => 'Promotion deleted successfully',
+    'show_promotions' => 'Show Promotions',
+    'discount' => 'Discount',
+    'start_date' => 'Start Date',
+    'end_date' => 'End Date',
+    'inactive' => 'Inactive',
+    'active' => 'Active',
+    'en_lang_only' => 'English Language Only',
+    'ar_lang_only' => 'Arabic Language Only',
+    'promotion_status_updated' => 'Promotion status updated successfully',
+    'promotion_status' => 'Promotion Status',
+    'promotion_status_active' => 'Active',
+    'promotion_status_inactive' => 'Inactive',
 ];
 
 ?>

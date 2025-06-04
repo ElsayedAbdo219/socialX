@@ -108,6 +108,22 @@
             </li>
 
 
+            {{-- promotions  --}}
+            <li class=" nav-item"><a href="#"><i class="feather icon-target"></i>
+                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.promotions') }}</span>
+                </a>
+                <ul class="menu-content">
+
+                    <li class="{{ Route::is('admin.promotions.index') ? 'active' : '' }}">
+                        <a href="{{ route('admin.promotions.index') }}">
+                            <i class="feather icon-eye"></i>
+                            <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_promotions') }}</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
 
 
             <li class=" nav-item"><a href="#"><i class="feather icon-user"></i>
@@ -125,7 +141,7 @@
                 </ul>
             </li>
 
-               {{-- sponsers  --}}
+            {{-- sponsers  --}}
             <li class=" nav-item"><a href="#"><i class="feather icon-user"></i>
                     <span class="menu-title" data-i18n="Data List">{{ __('dashboard.sponsers') }}</span>
                 </a>

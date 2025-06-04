@@ -103,7 +103,6 @@ class Post extends Model
         });
     }
 
-
       public function gettotalSharesAttribute()
       {
         // dd($this->withCount($this->shares()));

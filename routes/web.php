@@ -19,7 +19,8 @@ use App\Http\Controllers\Dashboard\{
    PaymobController,
    SkillController,
    CategoryController,
-   SponserController
+   SponserController,
+   PromotionController
 };
 /*
 |--------------------------------------------------------------------------
@@ -36,9 +37,9 @@ use App\Http\Controllers\Dashboard\{
 //    return view('map');
 // });
 
-Route::get('/form-map', function () {
-   return view('form-map');
-});
+// Route::get('/form-map', function () {
+//    return view('form-map');
+// });
 
 
 ///  payment paymob
@@ -122,8 +123,16 @@ Route::name('admin.')->prefix('admin')->group(function () {
      # sponsers
      Route::resource('sponsers', SponserController::class);
 
+    # promotions
+     Route::resource('promotions', PromotionController::class);
+
+
+    //  # bitcoin-stock
+    //  Route::get('bitcoin-stock', function(){
+    //   return view('bitcoin');
+    //  });
+
    });
 });
 
-// 
 // composer create-project --prefer-dist laravel/laravel chatapp

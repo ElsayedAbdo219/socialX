@@ -1,6 +1,6 @@
 @isset($active)
     <td class="text-center">
-        @if ($active == true  && $active != 'pending' && $active != 'cancelled' && $active != 'approved')
+        @if ($active == true  && $active != 'pending' && $active != 'cancelled' && $active != 'approved' || $active == 1)
             <span class="badge badge-success text-white">{{__('dashboard.active')}}</span>
             @elseif($active === 'pending')
             <span class="badge badge-warning text-white">{{__('dashboard.pending')}}</span>
