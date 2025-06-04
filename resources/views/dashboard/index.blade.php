@@ -241,7 +241,45 @@
 
                                         {!! $chart->render() !!}
 
+                                    
 
+
+                                    </div>
+
+                                </div>
+
+
+                                  <div class="col-lg-6">
+                                    <div class="revenu-chart">
+                                        <div class="revenu-title">
+                                            <div class="title">
+                                                <h3>{{ __('dashboard.posts') }}</h3>
+                                            </div>
+                                            <div class="page-title-sorts">
+                                                {{-- <a href="#" class="sort-two">
+                                        <span>شهريا</span>
+                                        <i class="fas fa-sort-down"></i>
+                                    </a> --}}
+                                            </div>
+                                        </div>
+                                        <div class="revenu-heading">
+                                            <div class="title">
+                                                <h5>{{ __('dashboard.all') }}</h5>
+                                                <span>{{ $Advertises }}</span>
+                                            </div>
+                                            <div class="summery-menu">
+                                                {{-- <button class="active">يوميا</button>
+                                    <button>اسبوعيا</button>
+                                    <button>شهريا</button> --}}
+                                                <span>#</span>
+                                            </div>
+                                        </div>
+
+                                        {{--    <canvas id="barChart" width="400" height="200"></canvas> --}}
+
+                                      {!! $chartPosts->render() !!}
+
+                                    
 
 
                                     </div>

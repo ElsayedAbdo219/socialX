@@ -20,141 +20,136 @@ use App\Http\Requests\Dashboard\LoginRequest;
 class AuthController extends Controller
 {
 
-    public function index()
-    {
-        return view('dashboard.auth-login');
-    }
+  public function index()
+  {
+    return view('dashboard.auth-login');
+  }
 
 
-        public function loginASview()
-    {
-        return view('dashboard.auth-login');
-    }
+  public function loginASview()
+  {
+    return view('dashboard.auth-login');
+  }
 
-         public function home()
-    {
-        $companies = Member::where('type',UserTypeEnum::COMPANY)->count();
-        $employees = Member::where('type',UserTypeEnum::EMPLOYEE)->count();
+  public function home()
+  {
+    $companies = Member::where('type', UserTypeEnum::COMPANY)->count();
+    $employees = Member::where('type', UserTypeEnum::EMPLOYEE)->count();
 
-        $activeCompanies = Member::where('is_Active' , 1)->where('type',UserTypeEnum::COMPANY)->count();
-        $disactiveCompanies = Member::where('is_Active' , 0)->where('type',UserTypeEnum::COMPANY)->count();
-        $activeEmployees = Member::where('is_Active' , 1)->where('type',UserTypeEnum::EMPLOYEE)->count();
-        $disactiveEmployees = Member::where('is_Active' , 0)->where('type',UserTypeEnum::EMPLOYEE)->count();
-        $jobs = Job::whereDate('created_at', Carbon::today())->count();
-        $all_jobs = Job::count();
-        $jobs_appliers = UserApplyJob::count();
+    $activeCompanies = Member::where('is_Active', 1)->where('type', UserTypeEnum::COMPANY)->count();
+    $disactiveCompanies = Member::where('is_Active', 0)->where('type', UserTypeEnum::COMPANY)->count();
+    $activeEmployees = Member::where('is_Active', 1)->where('type', UserTypeEnum::EMPLOYEE)->count();
+    $disactiveEmployees = Member::where('is_Active', 0)->where('type', UserTypeEnum::EMPLOYEE)->count();
+    $jobs = Job::whereDate('created_at', Carbon::today())->count();
+    $all_jobs = Job::count();
+    $jobs_appliers = UserApplyJob::count();
 
-        $Advertises = Post::where('status','advertisement')
-        ->whereDate('created_at', Carbon::today())
-        ->count();
+    $Advertises = Post::where('status', 'advertise')
+      ->whereDate('created_at', Carbon::today())
+      ->count();
 
-        // start chat js script
-        // $chart = new SampleChart;
-        // $chart->labels(['One', 'Two', 'Three', 'Four']);
-        // $chart->dataset('My dataset', 'line', [1, 2, 3, 4]);
-
-
-        //   $data = [
-        //     'labels' => ['عدد الوظائف', 'عدد المتقدمين'],
-        //     'data' => [$all_jobs, $jobs_appliers]
-        // ];
-
-         $chart = app()->chartjs
-        ->name('pieChartTest')
-        ->type('pie')
-        ->size(['width' => 400, 'height' => 200])
-        ->labels([__('dashboard.number_of_jobs'), __('dashboard.number_of_appliers')])
-        ->datasets([
-            [
-                'backgroundColor' => ['#FF6384', '#36A2EB'],
-                'hoverBackgroundColor' => ['#FF6384', '#36A2EB'],
-                'data' => [$all_jobs, $jobs_appliers]
-            ]
-        ])
-        ->options([]);
- 
-        // End chat js script
+    // start chat js script
+    // $chart = new SampleChart;
+    // $chart->labels(['One', 'Two', 'Three', 'Four']);
+    // $chart->dataset('My dataset', 'line', [1, 2, 3, 4]);
 
 
-        return view('dashboard.index',
+    //   $data = [
+    //     'labels' => ['عدد الوظائف', 'عدد المتقدمين'],
+    //     'data' => [$all_jobs, $jobs_appliers]
+    // ];
+
+    $chart = app()->chartjs
+      ->name('pieChartjobs')
+      ->type('pie')
+      ->size(['width' => 400, 'height' => 200])
+      ->labels([__('dashboard.number_of_jobs'), __('dashboard.number_of_appliers')])
+      ->datasets([
         [
-            'companies' => $companies ,
-            'employees' => $employees ,
-
-            'activeCompanies' => $activeCompanies ,
-            'disactiveCompanies' => $disactiveCompanies ,
-
-            'activeEmployees' => $activeEmployees ,
-            'disactiveEmployees' => $disactiveEmployees ,
-
-
-
-            'jobs' => $jobs ,
-            'Advertises' => $Advertises ,
-            'all_jobs' => $all_jobs ,
-
-            
-
-
-           'chart' => $chart ,
-
-            //'data' => $data ,
-
-
-            
-
-
-
-
+          'backgroundColor' => ['#FF6384', '#36A2EB'],
+          'hoverBackgroundColor' => ['#FF6384', '#36A2EB'],
+          'data' => [$all_jobs, $jobs_appliers]
         ]
-      
-    
+      ])
+      ->options([]);
+
+    $chartPosts = app()->chartjs
+      ->name('pieChartPPosts')
+      ->type('pie')
+      ->size(['width' => 400, 'height' => 200])
+      ->labels([__('dashboard.number_of_posts'), __('dashboard.number_of_advertises')])
+      ->datasets([
+        [
+          'backgroundColor' => ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2'],
+          'hoverBackgroundColor' => ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2'],
+          'data' => [Post::count(), $Advertises]
+        ]
+
+      ])
+      ->options([]);
+
+    // End chat js script
+
+
+    return view(
+      'dashboard.index',
+      [
+        'companies' => $companies,
+        'employees' => $employees,
+        'activeCompanies' => $activeCompanies,
+        'disactiveCompanies' => $disactiveCompanies,
+        'activeEmployees' => $activeEmployees,
+        'disactiveEmployees' => $disactiveEmployees,
+        'jobs' => $jobs,
+        'Advertises' => $Advertises,
+        'all_jobs' => $all_jobs,
+        'chart' => $chart,
+        'chartPosts' => $chartPosts,
+        //'data' => $data ,
+      ]
     );
+  }
+
+
+
+  public function login(Request $request)
+  {
+    $data = $request->validate([
+      'email' => 'string|exists:users,email',
+      'password' => 'string|max:10',
+    ]);
+    if (auth('web')->attempt($data)) {
+      session()->regenerate();
+      return redirect()->route('admin.home');
     }
+    return back()->with(['error' => "البريد الالكتروني او كلمة المرور خطأ"]);
+  }
 
-    
-
-    public function login(Request $request)
-    {
-        $data=$request->validate([
-         'email'=>'string|exists:users,email',
-         'password'=>'string|max:10',
-        ]);
-        if (auth('web')->attempt($data)) {
-            session()->regenerate();
-            return redirect()->route('admin.home');
-        }
-        return back()->with(['error' => "البريد الالكتروني او كلمة المرور خطأ"]);
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('admin.login');
-    }
+  public function logout()
+  {
+    Auth::logout();
+    return redirect()->route('admin.login');
+  }
 
 
 
 
-    public function markered(Request $request)
-    {
-        $request->user()->unreadNotifications->markAsRead();
-        return redirect()->route('admin.home');
-    }
+  public function markered(Request $request)
+  {
+    $request->user()->unreadNotifications->markAsRead();
+    return redirect()->route('admin.home');
+  }
 
 
-     public function edit(User  $user)
-    {
+  public function edit(User  $user)
+  {
 
-         return view('dashboard.profile.edit',
-         [
-            'user'=>$user
-         ]
-        
-        );
-    }
-    
-    
+    return view(
+      'dashboard.profile.edit',
+      [
+        'user' => $user
+      ]
 
-
+    );
+  }
 }

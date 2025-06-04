@@ -310,6 +310,9 @@ return [
     'promotion_status_inactive' => 'Inactive',
     'Search' => 'Search',
     'search_placeholder' => 'Search by name, email, or phone number',
+    'number_of_posts' => 'Number of Posts',
+    'number_of_advertises' => 'Number of Advertises',
+    
 ];
 
 ?>

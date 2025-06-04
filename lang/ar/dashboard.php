@@ -283,6 +283,10 @@ return [
     'promotion_is_inactive' => 'العرض الترويجي غير نشط',
     'Search' => 'بحث',
     'search_placeholder' => 'ابحث هنا...',
+    'number_of_posts' => 'عدد المنشورات',
+    'number_of_advertises' => 'عدد الاعلانات',
+    'number_of_companies' => 'عدد الشركات',
+    'number_of_employees' => 'عدد الموظفين',
 
 
 
