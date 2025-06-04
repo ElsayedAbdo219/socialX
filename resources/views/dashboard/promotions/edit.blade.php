@@ -37,7 +37,7 @@
                                 <div class="form-group col-4">
                                     <label class="w-100" for="discount">{{ __('dashboard.discount') }} %
                                         <input type="number" class="form-control" name="discount"
-                                            placeholder="{{ __('dashboard.discount') }}" value="{{ old('discount', $promotion->discount) }}" />
+                                            placeholder="{{ __('dashboard.discount') }}" value="{{ old('discount', $promotion->discount) }}" max="100" />
                                         @error('discount')
                                             <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                         @enderror
