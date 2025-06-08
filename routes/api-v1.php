@@ -77,7 +77,10 @@ Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
     Route::post('contact-us', [StaticPagesController::class, 'contactUsSubmit']);
 
   });
-#test yml with github actions once
+
+
+  
+#test yml with github actions once tesTTTTTTTTTTTTTTTTTTTTTTT!!!!!!
 Route::middleware('auth:sanctum')->group(function () {
 
 Route::prefix('auth')->group(function () {
