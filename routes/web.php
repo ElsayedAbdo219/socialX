@@ -33,9 +33,9 @@ use App\Http\Controllers\Dashboard\{
 |
 */
 
-// Route::get('/', function () {
-//    return view('map');
-// });
+Route::get('/', function () {
+   return view('welcome');
+});
 
 // Route::get('/form-map', function () {
 //    return view('form-map');
