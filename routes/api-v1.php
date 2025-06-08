@@ -59,7 +59,7 @@ use App\Http\Controllers\Api\V1\Client\{
 |
 */
 
-#Auth
+#Auth updated
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forget-Password', [AuthController::class, 'forgetPassword']);
