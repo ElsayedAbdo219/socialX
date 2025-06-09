@@ -351,7 +351,7 @@ class PostController extends Controller
     $convertedPath = Storage::disk('public')->path($fileName . '_480p.mp4');
     $getID3 = new \getID3;
     $convertedAnalysis = $getID3->analyze($convertedPath);
-
+     dd($getID3);
     $width = $convertedAnalysis['video']['resolution_x'] ?? null;
     $height = $convertedAnalysis['video']['resolution_y'] ?? null;
     // end check resolution
