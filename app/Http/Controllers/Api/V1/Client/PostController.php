@@ -341,7 +341,7 @@ public function addPostIntro(Request $request)
 
     return response()->json([
         'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',
-        'file_url' => asset('storage/' . $path),
+        // 'file_url' => asset('storage/' . $path),
     ], 200);
 }
 
