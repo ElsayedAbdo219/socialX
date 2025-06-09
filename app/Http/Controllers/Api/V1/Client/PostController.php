@@ -319,7 +319,7 @@ class PostController extends Controller
     // $request->validate([
     //     'file_name' => 'required|file|mimes:mp4,avi,mov|max:10240', 
     // ]);
-
+dd($request->all(), $request->file('file_name'));
     // خزن الفيديو قبل تمريره للجوب
     $path = Storage::disk('public')->putFile('posts', $request->file('file_name'));
     
