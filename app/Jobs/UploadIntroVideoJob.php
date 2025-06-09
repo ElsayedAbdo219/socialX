@@ -34,14 +34,14 @@ class UploadIntroVideoJob implements ShouldQueue
         $fileName = pathinfo($this->path, PATHINFO_FILENAME);
 
         $extension = strtolower(pathinfo($fullPath, PATHINFO_EXTENSION));
-        if (in_array($extension, ['mp4', 'avi', 'mov'])) {
-            $getID3 = new \getID3;
-            $analysis = $getID3->analyze($fullPath);
-            if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
-                Storage::disk('public')->delete($this->path);
-                return;
-            }
-        }
+        // if (in_array($extension, ['mp4', 'avi', 'mov'])) {
+        //     $getID3 = new \getID3;
+        //     $analysis = $getID3->analyze($fullPath);
+        //     if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
+        //         Storage::disk('public')->delete($this->path);
+        //         return;
+        //     }
+        // }
 
         \DB::beginTransaction();
 
