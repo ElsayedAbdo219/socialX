@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d62ec398820bf801103e55c69d3a3b1c",
+    "content-hash": "d97fc00084995893513cfef1467b428f",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1220,6 +1220,53 @@
                 }
             ],
             "time": "2025-03-06T22:45:56+00:00"
+        },
+        {
+            "name": "evenement/evenement",
+            "version": "v3.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igorw/evenement.git",
+                "reference": "0a16b0d71ab13284339abb99d9d2bd813640efbc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igorw/evenement/zipball/0a16b0d71ab13284339abb99d9d2bd813640efbc",
+                "reference": "0a16b0d71ab13284339abb99d9d2bd813640efbc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9 || ^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Evenement\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch"
+                }
+            ],
+            "description": "Événement is a very simple event dispatching library for PHP",
+            "keywords": [
+                "event-dispatcher",
+                "event-emitter"
+            ],
+            "support": {
+                "issues": "https://github.com/igorw/evenement/issues",
+                "source": "https://github.com/igorw/evenement/tree/v3.0.2"
+            },
+            "time": "2023-08-08T05:53:35+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -5113,6 +5160,85 @@
             "time": "2024-09-04T12:51:01+00:00"
         },
         {
+            "name": "pbmedia/laravel-ffmpeg",
+            "version": "8.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/protonemedia/laravel-ffmpeg.git",
+                "reference": "596804eee95b97bca146653770e7622159976bb1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/protonemedia/laravel-ffmpeg/zipball/596804eee95b97bca146653770e7622159976bb1",
+                "reference": "596804eee95b97bca146653770e7622159976bb1",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.0|^11.0|^12.0",
+                "php": "^8.1|^8.2|^8.3|^8.4",
+                "php-ffmpeg/php-ffmpeg": "^1.2",
+                "ramsey/collection": "^2.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.21",
+                "league/flysystem-memory": "^3.10",
+                "mockery/mockery": "^1.4.4",
+                "nesbot/carbon": "^2.66|^3.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^10.4|^11.5.3",
+                "spatie/image": "^2.2|^3.3",
+                "spatie/phpunit-snapshot-assertions": "^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FFMpeg": "ProtoneMedia\\LaravelFFMpeg\\Support\\FFMpeg"
+                    },
+                    "providers": [
+                        "ProtoneMedia\\LaravelFFMpeg\\Support\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ProtoneMedia\\LaravelFFMpeg\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pascal Baljet",
+                    "email": "pascal@protone.media",
+                    "homepage": "https://protone.media",
+                    "role": "Developer"
+                }
+            ],
+            "description": "FFMpeg for Laravel",
+            "homepage": "https://github.com/protonemedia/laravel-ffmpeg",
+            "keywords": [
+                "ffmpeg",
+                "laravel",
+                "laravel-ffmpeg",
+                "protone media",
+                "protonemedia"
+            ],
+            "support": {
+                "issues": "https://github.com/protonemedia/laravel-ffmpeg/issues",
+                "source": "https://github.com/protonemedia/laravel-ffmpeg/tree/8.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pascalbaljet",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-04-01T21:11:35+00:00"
+        },
+        {
             "name": "phenx/php-font-lib",
             "version": "0.5.6",
             "source": {
@@ -5201,6 +5327,95 @@
                 "source": "https://github.com/dompdf/php-svg-lib/tree/0.5.4"
             },
             "time": "2024-04-08T12:52:34+00:00"
+        },
+        {
+            "name": "php-ffmpeg/php-ffmpeg",
+            "version": "v1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-FFMpeg/PHP-FFMpeg.git",
+                "reference": "8e74bdc07ad200da7a6cfb21ec2652875e4368e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-FFMpeg/PHP-FFMpeg/zipball/8e74bdc07ad200da7a6cfb21ec2652875e4368e0",
+                "reference": "8e74bdc07ad200da7a6cfb21ec2652875e4368e0",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "^3.0",
+                "php": "^8.0 || ^8.1 || ^8.2 || ^8.3 || ^8.4",
+                "psr/log": "^1.0 || ^2.0 || ^3.0",
+                "spatie/temporary-directory": "^2.0",
+                "symfony/cache": "^5.4 || ^6.0 || ^7.0",
+                "symfony/process": "^5.4 || ^6.0 || ^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "phpunit/phpunit": "^9.5.10 || ^10.0"
+            },
+            "suggest": {
+                "php-ffmpeg/extras": "A compilation of common audio & video drivers for PHP-FFMpeg"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FFMpeg\\": "src/FFMpeg",
+                    "Alchemy\\BinaryDriver\\": "src/Alchemy/BinaryDriver"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Romain Neutron",
+                    "email": "imprec@gmail.com",
+                    "homepage": "http://www.lickmychip.com/"
+                },
+                {
+                    "name": "Phraseanet Team",
+                    "email": "info@alchemy.fr",
+                    "homepage": "http://www.phraseanet.com/"
+                },
+                {
+                    "name": "Patrik Karisch",
+                    "email": "patrik@karisch.guru",
+                    "homepage": "http://www.karisch.guru"
+                },
+                {
+                    "name": "Romain Biard",
+                    "email": "romain.biard@gmail.com",
+                    "homepage": "https://www.strime.io/"
+                },
+                {
+                    "name": "Jens Hausdorf",
+                    "email": "hello@jens-hausdorf.de",
+                    "homepage": "https://jens-hausdorf.de"
+                },
+                {
+                    "name": "Pascal Baljet",
+                    "email": "pascal@protone.media",
+                    "homepage": "https://protone.media"
+                }
+            ],
+            "description": "FFMpeg PHP, an Object Oriented library to communicate with AVconv / ffmpeg",
+            "keywords": [
+                "audio",
+                "audio processing",
+                "avconv",
+                "avprobe",
+                "ffmpeg",
+                "ffprobe",
+                "video",
+                "video processing"
+            ],
+            "support": {
+                "issues": "https://github.com/PHP-FFMpeg/PHP-FFMpeg/issues",
+                "source": "https://github.com/PHP-FFMpeg/PHP-FFMpeg/tree/v1.3.2"
+            },
+            "time": "2025-04-01T20:36:46+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",
@@ -7108,6 +7323,180 @@
                 }
             ],
             "time": "2025-01-13T13:04:43+00:00"
+        },
+        {
+            "name": "symfony/cache",
+            "version": "v7.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/cache.git",
+                "reference": "c4b217b578c11ec764867aa0c73e602c602965de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/c4b217b578c11ec764867aa0c73e602c602965de",
+                "reference": "c4b217b578c11ec764867aa0c73e602c602965de",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "psr/cache": "^2.0|^3.0",
+                "psr/log": "^1.1|^2|^3",
+                "symfony/cache-contracts": "^3.6",
+                "symfony/deprecation-contracts": "^2.5|^3.0",
+                "symfony/service-contracts": "^2.5|^3",
+                "symfony/var-exporter": "^6.4|^7.0"
+            },
+            "conflict": {
+                "doctrine/dbal": "<3.6",
+                "symfony/dependency-injection": "<6.4",
+                "symfony/http-kernel": "<6.4",
+                "symfony/var-dumper": "<6.4"
+            },
+            "provide": {
+                "psr/cache-implementation": "2.0|3.0",
+                "psr/simple-cache-implementation": "1.0|2.0|3.0",
+                "symfony/cache-implementation": "1.1|2.0|3.0"
+            },
+            "require-dev": {
+                "cache/integration-tests": "dev-master",
+                "doctrine/dbal": "^3.6|^4",
+                "predis/predis": "^1.1|^2.0",
+                "psr/simple-cache": "^1.0|^2.0|^3.0",
+                "symfony/clock": "^6.4|^7.0",
+                "symfony/config": "^6.4|^7.0",
+                "symfony/dependency-injection": "^6.4|^7.0",
+                "symfony/filesystem": "^6.4|^7.0",
+                "symfony/http-kernel": "^6.4|^7.0",
+                "symfony/messenger": "^6.4|^7.0",
+                "symfony/var-dumper": "^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Cache\\": ""
+                },
+                "classmap": [
+                    "Traits/ValueWrapper.php"
+                ],
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides extended PSR-6, PSR-16 (and tags) implementations",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "caching",
+                "psr6"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/cache/tree/v7.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-05-06T19:00:13+00:00"
+        },
+        {
+            "name": "symfony/cache-contracts",
+            "version": "v3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/cache-contracts.git",
+                "reference": "5d68a57d66910405e5c0b63d6f0af941e66fc868"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/cache-contracts/zipball/5d68a57d66910405e5c0b63d6f0af941e66fc868",
+                "reference": "5d68a57d66910405e5c0b63d6f0af941e66fc868",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "psr/cache": "^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
+                "branch-alias": {
+                    "dev-main": "3.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Contracts\\Cache\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Generic abstractions related to caching",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "abstractions",
+                "contracts",
+                "decoupling",
+                "interfaces",
+                "interoperability",
+                "standards"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/cache-contracts/tree/v3.6.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-03-13T15:25:07+00:00"
         },
         {
             "name": "symfony/console",
@@ -9270,6 +9659,83 @@
             "time": "2025-04-09T07:34:50+00:00"
         },
         {
+            "name": "symfony/var-exporter",
+            "version": "v7.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/var-exporter.git",
+                "reference": "c9a1168891b5aaadfd6332ef44393330b3498c4c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/c9a1168891b5aaadfd6332ef44393330b3498c4c",
+                "reference": "c9a1168891b5aaadfd6332ef44393330b3498c4c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "symfony/deprecation-contracts": "^2.5|^3"
+            },
+            "require-dev": {
+                "symfony/property-access": "^6.4|^7.0",
+                "symfony/serializer": "^6.4|^7.0",
+                "symfony/var-dumper": "^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\VarExporter\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Allows exporting any serializable PHP data structure to plain PHP code",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "clone",
+                "construct",
+                "export",
+                "hydrate",
+                "instantiate",
+                "lazy-loading",
+                "proxy",
+                "serialize"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/var-exporter/tree/v7.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-05-15T09:04:05+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "v2.3.0",
             "source": {
@@ -10185,53 +10651,6 @@
                 }
             ],
             "time": "2024-05-06T16:37:16+00:00"
-        },
-        {
-            "name": "evenement/evenement",
-            "version": "v3.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/igorw/evenement.git",
-                "reference": "0a16b0d71ab13284339abb99d9d2bd813640efbc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/igorw/evenement/zipball/0a16b0d71ab13284339abb99d9d2bd813640efbc",
-                "reference": "0a16b0d71ab13284339abb99d9d2bd813640efbc",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9 || ^6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Evenement\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Igor Wiedler",
-                    "email": "igor@wiedler.ch"
-                }
-            ],
-            "description": "Événement is a very simple event dispatching library for PHP",
-            "keywords": [
-                "event-dispatcher",
-                "event-emitter"
-            ],
-            "support": {
-                "issues": "https://github.com/igorw/evenement/issues",
-                "source": "https://github.com/igorw/evenement/tree/v3.0.2"
-            },
-            "time": "2023-08-08T05:53:35+00:00"
         },
         {
             "name": "fakerphp/faker",

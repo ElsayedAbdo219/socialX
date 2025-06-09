@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Client;
 
+use FFMpeg\FFMpeg;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Intro;
@@ -12,11 +13,13 @@ use App\Models\SharedPost;
 use App\Enum\AdsStatusEnum;
 use Illuminate\Http\Request;
 use App\Services\PostService;
+use FFMpeg\Format\Video\X264;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\ClientNotification;
+use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\Api\V1\Client\PostRequest;
 
 class PostController extends Controller
@@ -310,50 +313,60 @@ class PostController extends Controller
   }
 
 
-  public function addPostIntro(Request $request)
-  {
-    $dataValidatedChecked = $request->validate([
-      'file_name' => 'required|file|mimes:mp4,avi,mov',
+public function addPostIntro(Request $request)
+{
+    $request->validate([
+        'file_name' => 'required|file|mimes:mp4,avi,mov',
     ]);
 
     $file = $request->file('file_name');
 
-    // تحليل الملف مباشرة من المسار المؤقت
     $extension = strtolower($file->getClientOriginalExtension());
-    $videoExtensions = ['mp4', 'avi', 'mov'];
+    if (in_array($extension, ['mp4', 'avi', 'mov'])) {
+        $getID3 = new getID3;
+        $analysis = $getID3->analyze($file->getRealPath());
 
-    if (in_array($extension, $videoExtensions)) {
-      $getID3 = new \getID3;
-      $analysis = $getID3->analyze($file->getRealPath());
-
-      if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
-        return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
-      }
+        if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
+            return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
+        }
     }
 
-    // حفظ الملف
-    $fileName = basename(Storage::disk('public')->putFile('posts', $file));
+    $path = Storage::disk('public')->putFile('posts', $file);
+    $fileName = pathinfo($path, PATHINFO_FILENAME); // بدون الامتداد
 
-    // حفظ في قاعدة البيانات
-    $post = Intro::updateOrCreate(
-      ['company_id' => auth('api')->user()->id],
-      ['file_name' => $fileName]
+    \DB::beginTransaction();
+
+    // ✅ تحويل الفيديو إلى 480p
+    FFMpeg::fromDisk('public')
+        ->open($path)
+        ->export()
+        ->toDisk('public')
+        ->inFormat(new X264('aac', 'libx264'))
+        ->resize(854, 480)
+        ->save($fileName . '_480p.mp4');
+
+    Storage::disk('public')->delete($path);
+$width = $analysis['video']['resolution_x'] ?? null;
+$height = $analysis['video']['resolution_y'] ?? null;
+    // ✅ حفظ اسم الملف الجديد في قاعدة البيانات
+    Intro::updateOrCreate(
+        ['company_id' => auth('api')->user()->id],
+        ['file_name' => $fileName . '_480p.mp4']
     );
 
-    // إرسال إشعار
-    $admin = User::first(); // يفضل تغييرها لمستخدم محدد
-    $notificationData = [
-      'title' => "إضافة فيديو تقديمي جديد",
-      'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
-    ];
+    $admin = User::first();
+    Notification::send($admin, new ClientNotification([
+        'title' => "إضافة فيديو تقديمي جديد",
+        'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
+    ], ['database', 'firebase']));
 
-    \Illuminate\Support\Facades\Notification::send(
-      $admin,
-      new ClientNotification($notificationData, ['database', 'firebase'])
-    );
+    \DB::commit();
 
-    return response()->json(['message' => 'تمت الإضافة بنجاح'], 200);
-  }
+    return response()->json(['message' => 'تمت الإضافة بنجاح',
+  'resolution' => "{$width}x{$height}",
+
+  ], 200);
+}
 
 
 
