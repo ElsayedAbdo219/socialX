@@ -37,26 +37,26 @@ class UploadIntroVideoJob implements ShouldQueue
             $userId = $this->userId;
             $fileName = pathinfo($path, PATHINFO_FILENAME); // بدون الامتداد
 
-            // ✅ تحويل الفيديو إلى 480p بنفس الاسم الأصلي (overwrite)
-            \FFMpeg::fromDisk('public')
-                ->open($path)
-                ->export()
-                ->toDisk('public')
-                ->inFormat(new X264('aac', 'libx264'))
-                ->resize(854, 480)
-                ->save('posts/' . $fileName . '.mp4');
+            // // ✅ تحويل الفيديو إلى 480p بنفس الاسم الأصلي (overwrite)
+            // \FFMpeg::fromDisk('public')
+            //     ->open($path)
+            //     ->export()
+            //     ->toDisk('public')
+            //     ->inFormat(new X264('aac', 'libx264'))
+            //     ->resize(854, 480)
+            //     ->save('posts/' . $fileName . '.mp4');
 
-            // ✅ حذف النسخة الأصلية إذا كانت محفوظة خارج نفس الاسم
-            if ($path !== 'posts/' . $fileName . '.mp4') {
-                Storage::disk('public')->delete($path);
-            }
+            // // ✅ حذف النسخة الأصلية إذا كانت محفوظة خارج نفس الاسم
+            // if ($path !== 'posts/' . $fileName . '.mp4') {
+            //     Storage::disk('public')->delete($path);
+            // }
 
-            // ✅ تحليل الفيديو الجديد للتحقق من الجودة
-            $convertedPath = Storage::disk('public')->path('posts/' . $fileName . '.mp4');
-            $getID3 = new \getID3;
-            $convertedAnalysis = $getID3->analyze($convertedPath);
-            $width = $convertedAnalysis['video']['resolution_x'] ?? null;
-            $height = $convertedAnalysis['video']['resolution_y'] ?? null;
+            // // ✅ تحليل الفيديو الجديد للتحقق من الجودة
+            // $convertedPath = Storage::disk('public')->path('posts/' . $fileName . '.mp4');
+            // $getID3 = new \getID3;
+            // $convertedAnalysis = $getID3->analyze($convertedPath);
+            // $width = $convertedAnalysis['video']['resolution_x'] ?? null;
+            // $height = $convertedAnalysis['video']['resolution_y'] ?? null;
 
             // ✅ حفظ في قاعدة البيانات
             Intro::updateOrCreate(
