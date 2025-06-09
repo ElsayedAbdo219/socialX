@@ -323,7 +323,7 @@ public function addPostIntro(Request $request)
 
     $extension = strtolower($file->getClientOriginalExtension());
     if (in_array($extension, ['mp4', 'avi', 'mov'])) {
-        $getID3 = new getID3;
+        $getID3 = new \getID3;
         $analysis = $getID3->analyze($file->getRealPath());
 
         if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
