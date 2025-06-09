@@ -337,25 +337,25 @@ class PostController extends Controller
     \DB::beginTransaction();
 
     // ✅ تحويل الفيديو إلى 480p
+    $convertedFileName = $fileName . '_480p.mp4';
+
     FFMpeg::fromDisk('public')
       ->open($path)
       ->export()
       ->toDisk('public')
       ->inFormat(new X264('aac', 'libx264'))
-      ->resize(854, 480)
-      ->save($fileName . '_480p.mp4');
+      ->addFilter('-vf', 'scale=854:480')
+      ->save($convertedFileName);
 
-    Storage::disk('public')->delete($path);
-
-    // satrt check resolution
-    $convertedPath = Storage::disk('public')->path($fileName . '_480p.mp4');
+    // تحليل الفيديو الناتج مش الأصلي
+    $convertedPath = storage_path("app/public/posts/" . $convertedFileName);
     $getID3 = new \getID3;
     $convertedAnalysis = $getID3->analyze($convertedPath);
-     dd($getID3);
     $width = $convertedAnalysis['video']['resolution_x'] ?? null;
     $height = $convertedAnalysis['video']['resolution_y'] ?? null;
+
     // end check resolution
-  
+
     // ✅ حفظ اسم الملف الجديد في قاعدة البيانات
     Intro::updateOrCreate(
       ['company_id' => auth('api')->user()->id],
