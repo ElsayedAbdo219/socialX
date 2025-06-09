@@ -68,7 +68,7 @@ class UploadIntroVideoJob implements ShouldQueue
       $admin = User::first();
       Notification::send($admin, new ClientNotification([
         'title' => "إضافة فيديو تقديمي جديد",
-        'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . User::find($userId)->full_name,
+        'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . (User::find($userId)->full_name ?? 'Unknown'),
       ], ['database', 'firebase']));
 
       \DB::commit();
