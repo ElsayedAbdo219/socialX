@@ -317,7 +317,7 @@ class PostController extends Controller
   public function addPostIntro(Request $request)
 {
     $request->validate([
-        'file_name' => 'required|file|mimes:mp4,avi,mov|max:10240', // max 10MB مثلاً
+        'file_name' => 'required|file|mimes:mp4,avi,mov|max:10240', 
     ]);
 
     // خزن الفيديو قبل تمريره للجوب
@@ -325,7 +325,7 @@ class PostController extends Controller
     
     // مرر المسار و ID المستخدم فقط
     dd(UploadIntroVideoJob::class);
-    UploadIntroVideoJob::dispatch($path, auth('api')->id());
+    // UploadIntroVideoJob::dispatch($path, auth('api')->id());
 
     return response()->json([
         'message' => 'تمت الإضافة بنجاح',
