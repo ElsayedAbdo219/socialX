@@ -77,7 +77,7 @@ Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
     Route::post('contact-us', [StaticPagesController::class, 'contactUsSubmit']);
 
   });
-// fot testing!!
+// fot testing!!سشغثيييييييييييييييييييييييييييييييييييي
 Route::get('/firebase-token', [FirebaseController::class, 'getFirebaseToken']);
 #test2Yaml-File
 #test yml with github actions once tesTTTTTTTTTTTTTTTTTTTTTTT!!!!!!coop
