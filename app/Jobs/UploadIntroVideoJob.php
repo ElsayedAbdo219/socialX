@@ -24,6 +24,7 @@ class UploadIntroVideoJob implements ShouldQueue
 
     public function __construct($path, $userId)
     {
+      \Log::info("Dispatching job for video: $path by user: $userId");
         $this->path = $path; // مسار نصي فقط
         $this->userId = $userId;
     }

@@ -322,7 +322,7 @@ class PostController extends Controller
 
     // خزن الفيديو قبل تمريره للجوب
     $path = Storage::disk('public')->putFile('posts', $request->file('file_name'));
-
+    
     // مرر المسار و ID المستخدم فقط
     UploadIntroVideoJob::dispatch($path, auth('api')->id());
 
