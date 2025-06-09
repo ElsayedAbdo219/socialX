@@ -77,8 +77,8 @@ Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
     Route::post('contact-us', [StaticPagesController::class, 'contactUsSubmit']);
 
   });
-
-
+// fot testing!!
+Route::get('/firebase-token', [FirebaseController::class, 'getFirebaseToken']);
 #test2Yaml-File
 #test yml with github actions once tesTTTTTTTTTTTTTTTTTTTTTTT!!!!!!coop
 Route::middleware('auth:sanctum')->group(function () {
