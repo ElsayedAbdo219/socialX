@@ -313,69 +313,73 @@ class PostController extends Controller
   }
 
 
-  public function addPostIntro(Request $request)
-  {
+public function addPostIntro(Request $request)
+{
     $request->validate([
-      'file_name' => 'required|file|mimes:mp4,avi,mov',
+        'file_name' => 'required|file|mimes:mp4,avi,mov',
     ]);
 
     $file = $request->file('file_name');
-
     $extension = strtolower($file->getClientOriginalExtension());
-    if (in_array($extension, ['mp4', 'avi', 'mov'])) {
-      $getID3 = new \getID3;
-      $analysis = $getID3->analyze($file->getRealPath());
 
-      if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
-        return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
-      }
+    if (in_array($extension, ['mp4', 'avi', 'mov'])) {
+        $getID3 = new \getID3;
+        $analysis = $getID3->analyze($file->getRealPath());
+
+        if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
+            return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
+        }
     }
 
+    // ✅ حفظ الملف مؤقتًا
     $path = Storage::disk('public')->putFile('posts', $file);
     $fileName = pathinfo($path, PATHINFO_FILENAME); // بدون الامتداد
 
     \DB::beginTransaction();
 
-    // ✅ تحويل الفيديو إلى 480p
-    $convertedFileName = $fileName . '_480p.mp4';
-
+    // ✅ تحويل الفيديو إلى 480p بنفس الاسم الأصلي (overwrite)
     FFMpeg::fromDisk('public')
-      ->open($path)
-      ->export()
-      ->toDisk('public')
-      ->inFormat(new X264('aac', 'libx264'))
-      ->addFilter('-vf', 'scale=854:480')
-      ->save($convertedFileName);
+        ->open($path)
+        ->export()
+        ->toDisk('public')
+        ->inFormat(new X264('aac', 'libx264'))
+        ->resize(854, 480)
+        ->save('posts/' . $fileName . '.mp4');
 
-    // تحليل الفيديو الناتج مش الأصلي
-    $convertedPath = storage_path("app/public/posts/" . $convertedFileName);
+    // ✅ حذف النسخة الأصلية إذا كانت محفوظة خارج نفس الاسم
+    if ($path !== 'posts/' . $fileName . '.mp4') {
+        Storage::disk('public')->delete($path);
+    }
+
+    // ✅ تحليل الفيديو الجديد للتحقق من الجودة
+    $convertedPath = Storage::disk('public')->path('posts/' . $fileName . '.mp4');
     $getID3 = new \getID3;
     $convertedAnalysis = $getID3->analyze($convertedPath);
     $width = $convertedAnalysis['video']['resolution_x'] ?? null;
     $height = $convertedAnalysis['video']['resolution_y'] ?? null;
 
-    // end check resolution
-
-    // ✅ حفظ اسم الملف الجديد في قاعدة البيانات
+    // ✅ حفظ في قاعدة البيانات
     Intro::updateOrCreate(
-      ['company_id' => auth('api')->user()->id],
-      ['file_name' => $fileName . '_480p.mp4']
+        ['company_id' => auth('api')->user()->id],
+        ['file_name' => $fileName . '.mp4']
     );
 
+    // ✅ إشعار الأدمن
     $admin = User::first();
     Notification::send($admin, new ClientNotification([
-      'title' => "إضافة فيديو تقديمي جديد",
-      'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
+        'title' => "إضافة فيديو تقديمي جديد",
+        'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
     ], ['database', 'firebase']));
 
     \DB::commit();
 
     return response()->json([
-      'message' => 'تمت الإضافة بنجاح',
-      'resolution' => "{$width}x{$height}",
-
+        'message' => 'تمت الإضافة بنجاح',
+        'resolution' => "{$width}x{$height}",
+        'file_url' => asset('storage/posts/' . $fileName . '.mp4'),
     ], 200);
-  }
+}
+
 
 
 
