@@ -324,8 +324,8 @@ class PostController extends Controller
     $path = Storage::disk('public')->putFile('posts', $request->file('file_name'));
     
     // مرر المسار و ID المستخدم فقط
-    dd(UploadIntroVideoJob::class);
-    // UploadIntroVideoJob::dispatch($path, auth('api')->id());
+    // dd(UploadIntroVideoJob::class);
+    UploadIntroVideoJob::dispatch($path, auth('api')->id());
 
     return response()->json([
         'message' => 'تمت الإضافة بنجاح',
