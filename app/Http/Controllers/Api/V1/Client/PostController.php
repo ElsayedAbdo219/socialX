@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\V1\Client;
 
-use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Intro;
@@ -14,12 +13,14 @@ use App\Enum\AdsStatusEnum;
 use Illuminate\Http\Request;
 use App\Services\PostService;
 use FFMpeg\Format\Video\X264;
+use App\Jobs\UploadIntroVideoJob;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\ClientNotification;
 use Illuminate\Support\Facades\Notification;
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 use App\Http\Requests\Api\V1\Client\PostRequest;
 
 class PostController extends Controller
@@ -314,78 +315,22 @@ class PostController extends Controller
 
 
   public function addPostIntro(Request $request)
-  {
+{
     $request->validate([
-      'file_name' => 'required|file|mimes:mp4,avi,mov',
+        'file_name' => 'required|file|mimes:mp4,avi,mov|max:10240', // max 10MB مثلاً
     ]);
 
-    $file = $request->file('file_name');
-    $extension = strtolower($file->getClientOriginalExtension());
+    // خزن الفيديو قبل تمريره للجوب
+    $path = Storage::disk('public')->putFile('posts', $request->file('file_name'));
 
-    if (in_array($extension, ['mp4', 'avi', 'mov'])) {
-      $getID3 = new \getID3;
-      $analysis = $getID3->analyze($file->getRealPath());
-
-      if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
-        return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
-      }
-    }
-
-    // ✅ حفظ الملف مؤقتًا
-    $path = Storage::disk('public')->putFile('posts', $file);
-    $fileName = pathinfo($path, PATHINFO_FILENAME); // بدون الامتداد
-
-    \DB::beginTransaction();
-
-    $tempName = $fileName . '-temp.mp4';
-    $finalName = $fileName . '.mp4';
-
-    // ✅ احفظ أولاً باسم مؤقت
-    FFMpeg::fromDisk('public')
-      ->open($path)
-      ->export()
-      ->toDisk('public')
-      ->inFormat(new X264('aac', 'libx264'))
-      ->resize(854, 480)
-      ->save('posts/' . $tempName);
-
-    // ✅ حذف الأصلي ثم إعادة تسمية المؤقت
-    Storage::disk('public')->delete($path);
-    Storage::disk('public')->move('posts/' . $tempName, 'posts/' . $finalName);
-
-
-    // ✅ حذف النسخة الأصلية إذا كانت محفوظة خارج نفس الاسم
-    if ($path !== 'posts/' . $fileName . '.mp4') {
-      Storage::disk('public')->delete($path);
-    }
-
-    // ✅ تحليل الفيديو الجديد للتحقق من الجودة
-    $convertedPath = Storage::disk('public')->path('posts/' . $fileName . '.mp4');
-    $getID3 = new \getID3;
-    $convertedAnalysis = $getID3->analyze($convertedPath);
-    $width = $convertedAnalysis['video']['resolution_x'] ?? null;
-    $height = $convertedAnalysis['video']['resolution_y'] ?? null;
-
-    // ✅ حفظ في قاعدة البيانات
-    Intro::updateOrCreate(
-      ['company_id' => auth('api')->user()->id],
-      ['file_name' => $fileName . '.mp4']
-    );
-
-    // ✅ إشعار الأدمن
-    $admin = User::first();
-    Notification::send($admin, new ClientNotification([
-      'title' => "إضافة فيديو تقديمي جديد",
-      'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . auth("api")->user()->full_name,
-    ], ['database', 'firebase']));
-
-    \DB::commit();
+    // مرر المسار و ID المستخدم فقط
+    UploadIntroVideoJob::dispatch($path, auth('api')->id());
 
     return response()->json([
-      'message' => 'تمت الإضافة بنجاح',
-      'resolution' => "{$width}x{$height}",
+        'message' => 'تمت الإضافة بنجاح',
     ], 200);
-  }
+}
+
 
 
 
