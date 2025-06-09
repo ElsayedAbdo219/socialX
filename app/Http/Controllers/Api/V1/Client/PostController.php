@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Client;
 
-use FFMpeg\FFMpeg;
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Intro;
