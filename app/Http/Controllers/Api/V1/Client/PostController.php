@@ -331,7 +331,7 @@ public function addPostIntro(Request $request)
     //         return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
     //     }
     // }
-
+      dd(auth('api')->user()->id);
     // ✅ حفظ الملف مؤقتًا
     $path = Storage::disk('public')->putFile('posts', $file);
     $fileName = pathinfo($path, PATHINFO_FILENAME); // بدون الامتداد
