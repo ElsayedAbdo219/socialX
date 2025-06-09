@@ -316,9 +316,9 @@ class PostController extends Controller
 
   public function addPostIntro(Request $request)
 {
-    $request->validate([
-        'file_name' => 'required|file|mimes:mp4,avi,mov|max:10240', 
-    ]);
+    // $request->validate([
+    //     'file_name' => 'required|file|mimes:mp4,avi,mov|max:10240', 
+    // ]);
 
     // خزن الفيديو قبل تمريره للجوب
     $path = Storage::disk('public')->putFile('posts', $request->file('file_name'));
