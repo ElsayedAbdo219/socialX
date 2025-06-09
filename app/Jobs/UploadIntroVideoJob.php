@@ -17,60 +17,64 @@ use getID3;
 use FFMpeg\Format\Video\X264;
 class UploadIntroVideoJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+      use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $path;
-    public $userId;
+    protected $path;
+    protected $userId;
 
     public function __construct($path, $userId)
     {
-      \Log::info("Dispatching job for video: $path by user: $userId");
-        $this->path = $path; // مسار نصي فقط
+        $this->path = $path;
         $this->userId = $userId;
     }
 
     public function handle()
     {
-        $fullPath = Storage::disk('public')->path($this->path);
-        $fileName = pathinfo($this->path, PATHINFO_FILENAME);
-
-        $extension = strtolower(pathinfo($fullPath, PATHINFO_EXTENSION));
-        // if (in_array($extension, ['mp4', 'avi', 'mov'])) {
-        //     $getID3 = new \getID3;
-        //     $analysis = $getID3->analyze($fullPath);
-        //     if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
-        //         Storage::disk('public')->delete($this->path);
-        //         return;
-        //     }
-        // }
-
         \DB::beginTransaction();
 
-        $tempName = $fileName . '-temp.mp4';
-        $finalName = $fileName . '.mp4';
+        try {
+            $path = $this->path;
+            $userId = $this->userId;
+            $fileName = pathinfo($path, PATHINFO_FILENAME); // بدون الامتداد
 
-        FFMpeg::fromDisk('public')
-            ->open($this->path)
-            ->export()
-            ->toDisk('public')
-            ->inFormat(new X264('aac', 'libx264'))
-            ->resize(854, 480)
-            ->save('posts/' . $tempName);
+            // ✅ تحويل الفيديو إلى 480p بنفس الاسم الأصلي (overwrite)
+            \FFMpeg::fromDisk('public')
+                ->open($path)
+                ->export()
+                ->toDisk('public')
+                ->inFormat(new X264('aac', 'libx264'))
+                ->resize(854, 480)
+                ->save('posts/' . $fileName . '.mp4');
 
-        Storage::disk('public')->delete($this->path);
-        Storage::disk('public')->move('posts/' . $tempName, 'posts/' . $finalName);
+            // ✅ حذف النسخة الأصلية إذا كانت محفوظة خارج نفس الاسم
+            if ($path !== 'posts/' . $fileName . '.mp4') {
+                Storage::disk('public')->delete($path);
+            }
 
-        Intro::updateOrCreate(
-            ['company_id' => $this->userId],
-            ['file_name' => $finalName]
-        );
+            // ✅ تحليل الفيديو الجديد للتحقق من الجودة
+            $convertedPath = Storage::disk('public')->path('posts/' . $fileName . '.mp4');
+            $getID3 = new \getID3;
+            $convertedAnalysis = $getID3->analyze($convertedPath);
+            $width = $convertedAnalysis['video']['resolution_x'] ?? null;
+            $height = $convertedAnalysis['video']['resolution_y'] ?? null;
 
-        $admin = User::first();
-        Notification::send($admin, new ClientNotification([
-            'title' => "إضافة فيديو تقديمي جديد",
-            'body' => "تمت إضافة فيديو تقديمي جديد من شركة {$this->userId}", // ما تقدر تستخدم auth هنا
-        ], ['database', 'firebase']));
+            // ✅ حفظ في قاعدة البيانات
+            Intro::updateOrCreate(
+                ['company_id' => $userId],
+                ['file_name' => $fileName . '.mp4']
+            );
 
-        \DB::commit();
+            // ✅ إشعار الأدمن
+            $admin = User::first();
+            Notification::send($admin, new ClientNotification([
+                'title' => "إضافة فيديو تقديمي جديد",
+                'body' => "تمت إضافة فيديو تقديمي جديد من شركة " . User::find($userId)->full_name,
+            ], ['database', 'firebase']));
+
+            \DB::commit();
+        } catch (\Throwable $e) {
+            \DB::rollBack();
+            throw $e; // يخلي ال job تعيد المحاولة تلقائيًا لو فيه tries
+        }
     }
 }
