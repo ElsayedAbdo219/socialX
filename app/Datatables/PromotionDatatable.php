@@ -29,14 +29,6 @@ class PromotionDatatable extends BaseDatatable
                 $title = $model?->discount . '%';
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
-            'start_date' => function ($model) {
-                $title = \Carbon\Carbon::parse($model?->start_date)->translatedFormat('d M Y');
-                return view('components.datatable.includes.columns.title', compact('title'));
-            },
-             'end_date' => function ($model) {
-                $title = \Carbon\Carbon::parse($model?->end_date)->translatedFormat('d M Y');
-                return view('components.datatable.includes.columns.title', compact('title'));
-            },
            'active' => function ($model) {
             // dd($model?->is_active);
                 $active = $model?->is_active;
@@ -50,8 +42,6 @@ class PromotionDatatable extends BaseDatatable
         return [
             Column::computed('name')->title(__('dashboard.name'))->className('text-center'),
             Column::computed('discount')->title(__('dashboard.discount'))->className('text-center'),
-            Column::computed('start_date')->title(__('dashboard.start_date'))->className('text-center'),
-            Column::computed('end_date')->title(__('dashboard.end_date'))->className('text-center'),
             Column::computed('active')->title(__('dashboard.active'))->className('text-center'),
         ];
     }

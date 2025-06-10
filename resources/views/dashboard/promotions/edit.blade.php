@@ -44,27 +44,6 @@
                                     </label>
                                 </div>
 
-                                <div class="form-group col-4">
-                                    <label class="w-100" for="slogo">{{ __('dashboard.start_date') }}
-                                        <input type="date" class="form-control" name="start_date"
-                                            placeholder="{{ __('dashboard.start_date') }}"
-                                            value="{{ old('start_date', $promotion->start_date->format('Y-m-d')) }}" />
-                                        @error('start_date')
-                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </label>
-                                </div>
-
-                                <div class="form-group col-4">
-                                    <label class="w-100" for="slogo">{{ __('dashboard.end_date') }}
-                                        <input type="date" class="form-control" name="end_date"
-                                            placeholder="{{ __('dashboard.end_date') }}" value="{{ old('end_date', $promotion->end_date->format('Y-m-d')) }}" />
-                                        @error('end_date')
-                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </label>
-                                </div>
-
                                 <div class="form-group col-sm-3">
                                     <label for="status">{{ __('dashboard.status') }}</label>
                                     <select name="is_active" id="status" class="form-control">
