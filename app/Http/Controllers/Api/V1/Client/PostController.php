@@ -315,7 +315,6 @@ class PostController extends Controller
 
 
 
-
 public function addPostIntro(Request $request)
 {
     $request->validate([
@@ -324,16 +323,20 @@ public function addPostIntro(Request $request)
 
     $file = $request->file('file_name');
 
-    $path = Storage::disk('public')->putFile('posts', $file);
-    
-    // إرسال المسار إلى الـ Job
-    UploadIntroVideoJob::dispatch($path, auth('api')->id());
+    $getID3 = new \getID3;
+    $analysis = $getID3->analyze($file->getRealPath());
+
+    // if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
+    //     return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
+    // }
+
+    // Dispatch storing job
+    UploadIntroVideoJob::dispatch($file, auth('api')->user()->id);
 
     return response()->json([
         'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',
     ]);
 }
-
 
 // APP_KEY=base64:ZAikfaJtetQYdDysb5TXAl9qHXPniWMIkvitwDie2Mk=
 
@@ -372,3 +375,30 @@ public function addPostIntro(Request $request)
     return response()->json(['message' => 'Video view recorded successfully'], 200);
   }
 }
+
+
+
+/*
+public function addPostIntro(Request $request)
+{
+    $request->validate([
+        'file_name' => 'required|file|mimes:mp4,avi,mov',
+    ]);
+
+    $file = $request->file('file_name');
+
+    $getID3 = new \getID3;
+    $analysis = $getID3->analyze($file->getRealPath());
+
+    // if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
+    //     return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
+    // }
+
+    // Dispatch storing job
+    UploadIntroVideoJob::dispatch($file, auth('api')->user()->id);
+
+    return response()->json([
+        'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',
+    ]);
+}
+    */

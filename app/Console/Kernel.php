@@ -13,10 +13,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('telescope:prune --hours=48')->daily();
-        $schedule->command('queue:work --daemon --tries=3')
-            ->cron('* * * * *')->withoutOverlapping(5);
-        $schedule->command('queue:restart')->cron('*/5 * * * *');
+        // $schedule->command('telescope:prune --hours=48')->daily();
+        // $schedule->command('queue:work --daemon --tries=3')
+        //     ->cron('* * * * *')->withoutOverlapping(5);
+        // $schedule->command('queue:restart')->cron('*/5 * * * *');
     }
 
     /**
