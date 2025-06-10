@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+use App\Jobs\StoreUploadedFileJob;
 use App\Http\Controllers\Api\V1\Client\{
   AuthCompanyController,
   AuthEmployeeController,
@@ -84,9 +86,28 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
   #test supervisor 
-  Route::get('/test-supervisor', function () {
-    \App\Jobs\TestSupervisorJob::dispatch();
-    return 'تم إرسال الجوب';
+  Route::post('/test-supervisor', function (Request $request) {
+
+    
+    $request->validate([
+        'file' => 'required|file|max:10240', // max 10MB
+    ]);
+
+    $file = $request->file('file');
+    $content = file_get_contents($file->getRealPath());
+    $filename = Str::random(10) . '.' . $file->getClientOriginalExtension();
+
+    // dispatch job to queue
+    StoreUploadedFileJob::dispatch($content, $filename);
+
+    return response()->json([
+        'message' => 'File upload job dispatched!',
+        'filename' => $filename,
+    ]);
+
+
+    // \App\Jobs\TestSupervisorJob::dispatch();
+    // return 'تم إرسال الجوب';
 });
 
   #end test
