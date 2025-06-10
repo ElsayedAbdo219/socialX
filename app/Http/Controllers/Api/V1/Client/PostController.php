@@ -326,12 +326,15 @@ public function addPostIntro(Request $request)
     $getID3 = new \getID3;
     $analysis = $getID3->analyze($file->getRealPath());
 
+
+    // Store the uploaded file temporarily
+    $filePath = $file->store('temp_videos', 'public'); // This will store i
     // if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
     //     return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
     // }
 
     // Dispatch storing job
-    UploadIntroVideoJob::dispatch($file, auth('api')->user()->id);
+    UploadIntroVideoJob::dispatch($filePath, auth('api')->user()->id);
 
     return response()->json([
         'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',

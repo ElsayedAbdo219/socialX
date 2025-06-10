@@ -28,8 +28,8 @@ class UploadIntroVideoJob implements ShouldQueue
     $this->userId = $userId;
   }
 
-  public function handle()
-  {
+public function handle()
+{
     $originalPath = $this->path;
     $userId = $this->userId;
 
@@ -37,6 +37,7 @@ class UploadIntroVideoJob implements ShouldQueue
     $convertedFileName = $fileName . '-converted.mp4';
     $convertedPath = 'posts/' . $convertedFileName;
 
+    // Convert the video (uncomment these when ready)
     // \FFMpeg::fromDisk('public')
     //   ->open($originalPath)
     //   ->export()
@@ -45,21 +46,25 @@ class UploadIntroVideoJob implements ShouldQueue
     //   ->resize(854, 480)
     //   ->save($convertedPath);
 
+    // Delete original if needed
     // Storage::disk('public')->delete($originalPath);
 
+    // Optional: get duration
     // $getID3 = new \getID3;
     // $convertedAnalysis = $getID3->analyze(Storage::disk('public')->path($convertedPath));
     // $duration = $convertedAnalysis['playtime_seconds'] ?? null;
 
+    // Save to DB
     Intro::updateOrCreate(
-      ['company_id' => $userId],
-      ['file_name' => $convertedFileName]
+        ['company_id' => $userId],
+        ['file_name' => $convertedFileName]
     );
 
     $admin = User::first();
     Notification::send($admin, new ClientNotification([
-      'title' => "إضافة فيديو تقديمي جديد",
-      'body' => "تمت إضافة فيديو من شركة " . (User::find($userId)->full_name ?? 'Unknown'),
+        'title' => "إضافة فيديو تقديمي جديد",
+        'body' => "تمت إضافة فيديو من شركة " . (User::find($userId)->full_name ?? 'Unknown'),
     ], ['database', 'firebase']));
-  }
+}
+
 }
