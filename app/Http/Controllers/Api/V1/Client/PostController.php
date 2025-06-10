@@ -315,7 +315,7 @@ class PostController extends Controller
 
 
 
-  public function addPostIntro(Request $request)
+public function addPostIntro(Request $request)
 {
     $request->validate([
         'file_name' => 'required|file|mimes:mp4,avi,mov',
@@ -323,10 +323,48 @@ class PostController extends Controller
 
     $file = $request->file('file_name');
 
-    $path = Storage::disk('public')->putFile('posts', $file);
-    
-    // إرسال المسار إلى الـ Job
-    UploadIntroVideoJob::dispatch($path, auth('api')->id());
+    $getID3 = new \getID3;
+    $analysis = $getID3->analyze($file->getRealPath());
+
+    // if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
+    //     return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
+    // }
+
+    // Dispatch storing job
+    // UploadIntroVideoJob::dispatch($file, auth('api')->user()->id);
+$fileName = pathinfo($file, PATHINFO_FILENAME);
+    $convertedFileName = $fileName . '-converted.mp4';
+    $convertedPath = 'posts/' . $convertedFileName;
+    $userId = auth('api')->id();
+    $originalPath = 'posts/' . $file->getClientOriginalName();
+    Storage::disk('public')->putFileAs('posts', $file, $originalPath);
+    \FFMpeg::fromDisk('public')
+      ->open($originalPath)
+      ->export()
+      ->toDisk('public')
+      ->inFormat(new \FFMpeg\Format\Video\X264('aac', 'libx264'))
+      ->resize(854, 480)
+      ->save($convertedPath);
+
+    Storage::disk('public')->delete($originalPath);
+
+    $getID3 = new \getID3;
+    $convertedAnalysis = $getID3->analyze(Storage::disk('public')->path($convertedPath));
+    $duration = $convertedAnalysis['playtime_seconds'] ?? null;
+
+    Intro::updateOrCreate(
+      ['company_id' => $userId],
+      ['file_name' => $convertedFileName]
+    );
+
+    $admin = User::first();
+    Notification::send($admin, new ClientNotification([
+      'title' => "إضافة فيديو تقديمي جديد",
+      'body' => "تمت إضافة فيديو من شركة " . (User::find($userId)->full_name ?? 'Unknown'),
+    ], ['database', 'firebase']));
+  
+
+
 
     return response()->json([
         'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',
