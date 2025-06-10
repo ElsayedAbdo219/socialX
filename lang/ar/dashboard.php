@@ -287,6 +287,7 @@ return [
     'number_of_advertises' => 'عدد الاعلانات',
     'number_of_companies' => 'عدد الشركات',
     'number_of_employees' => 'عدد الموظفين',
+    'add_users_to_this_promotion' => "اضافة مستخدمين لهذا الخصم"
 
 
 

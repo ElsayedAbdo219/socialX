@@ -312,7 +312,7 @@ return [
     'search_placeholder' => 'Search by name, email, or phone number',
     'number_of_posts' => 'Number of Posts',
     'number_of_advertises' => 'Number of Advertises',
-    
+    'add_users_to_this_promotion' => 'add users to this Promotion'
 ];
 
 ?>

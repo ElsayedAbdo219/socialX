@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Models\Member;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -63,6 +64,31 @@ class PromotionController extends Controller
         $promotion->save();
 
         return redirect()->route($this->route.'.index')->with('success', __('dashboard.promotion_status_updated'));
+    }
+
+
+    public function show(Promotion $promotion)
+    {
+      return view(
+        'dashboard.promotions.show',
+        [
+          'promotion' => $promotion,
+           'users' => Member::all(),
+        ]
+
+        );
+    }
+
+    public function addUser(Request $request)
+    {
+      dd($request);
+        $promotion = Promotion::whereId($request->promotionId);
+        $userIds = $request->input('user_ids', []);
+        dd($userIds);
+        // Attach users to the promotion
+        $promotion->member()->syncWithoutDetaching($userIds);
+
+        return redirect()->route($this->route.'.index')->with('success', __('dashboard.users_added_to_promotion'));
     }
 
 }

@@ -125,6 +125,9 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
     # promotions
      Route::resource('promotions', PromotionController::class);
+     Route::get('admin/promotions/addUser/{id}', [PromotionController::class, 'addUser'])->name('promotions.addUser');
+
+     
 
 
     //  # bitcoin-stock

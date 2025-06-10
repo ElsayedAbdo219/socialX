@@ -45,8 +45,10 @@ public function register(RegisterClientRequest $request){
     $member->tokens()->delete();
     $accessToken = $member->createToken('access-token', ['*'], now()->addMinutes(60))->plainTextToken;
     $refreshToken = $member->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
-    $member->promotion()->attach($freePromotion->id);
-      \DB::commit();
+    // if ($request->user_type === UserTypeEnum::COMPANY) {
+    //     $member->promotion()->attach($freePromotion->id);
+    // }
+    \DB::commit();
    return $this->respondWithSuccess('User Register Successfully', [
         'member' => $member,
         'access_token' => $accessToken,
