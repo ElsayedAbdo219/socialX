@@ -28,38 +28,53 @@ class UploadIntroVideoJob implements ShouldQueue
     $this->userId = $userId;
   }
 
-  public function handle()
-  {
-    $originalPath = $this->path;
+public function handle()
+{
+    $originalPath = Storage::disk('public')->path($this->path);
     $userId = $this->userId;
 
     $fileName = pathinfo($originalPath, PATHINFO_FILENAME);
     $convertedFileName = $fileName . '-converted.mp4';
-    $convertedPath = 'posts/' . $convertedFileName;
+    $convertedPath = Storage::disk('public')->path('posts/' . $convertedFileName);
 
-    \FFMpeg::fromDisk('public')
-      ->open($originalPath)
-      ->export()
-      ->toDisk('public')
-      ->inFormat(new \FFMpeg\Format\Video\X264('aac', 'libx264'))
-      ->resize(854, 480)
-      ->save($convertedPath);
+    // 🔁 استخدم ffmpeg كـ CLI لتقليل الحمل
+    $process = new Process([
+        'ffmpeg',
+        '-i', $originalPath,
+        '-vf', 'scale=854:480',
+        '-c:v', 'libx264',
+        '-c:a', 'aac',
+        '-preset', 'ultrafast',
+        $convertedPath,
+    ]);
 
-    Storage::disk('public')->delete($originalPath);
+    $process->setTimeout(0); // مهم عشان مانقفش بسبب وقت
+    $process->run();
 
+    if (!$process->isSuccessful()) {
+        throw new \Exception("FFMPEG failed: " . $process->getErrorOutput());
+    }
+
+    // حذف الفيديو الأصلي
+    Storage::disk('public')->delete($this->path);
+
+    // قراءة مدة الفيديو
     $getID3 = new \getID3;
-    $convertedAnalysis = $getID3->analyze(Storage::disk('public')->path($convertedPath));
+    $convertedAnalysis = $getID3->analyze($convertedPath);
     $duration = $convertedAnalysis['playtime_seconds'] ?? null;
 
+    // تحديث أو إنشاء intro
     Intro::updateOrCreate(
-      ['company_id' => $userId],
-      ['file_name' => $convertedFileName]
+        ['company_id' => $userId],
+        ['file_name' => $convertedFileName]
     );
 
+    // إشعار الإدمن
     $admin = User::first();
     Notification::send($admin, new ClientNotification([
-      'title' => "إضافة فيديو تقديمي جديد",
-      'body' => "تمت إضافة فيديو من شركة " . (User::find($userId)->full_name ?? 'Unknown'),
+        'title' => "إضافة فيديو تقديمي جديد",
+        'body' => "تمت إضافة فيديو من شركة " . (User::find($userId)->full_name ?? 'Unknown'),
     ], ['database', 'firebase']));
-  }
+}
+
 }
