@@ -323,27 +323,20 @@ public function addPostIntro(Request $request)
 
     $file = $request->file('file_name');
 
-    // احفظ الملف مؤقتاً في storage/app/public/temp
-    $path = $file->store('temp', 'public');
-
-    // تحليل الفيديو قبل الجوب
     $getID3 = new \getID3;
-    $analysis = $getID3->analyze(Storage::disk('public')->path($path));
+    $analysis = $getID3->analyze($file->getRealPath());
 
-    // if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
-    //     // احذف الملف المؤقت
-    //     Storage::disk('public')->delete($path);
-    //     return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
-    // }
+    if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
+        return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
+    }
 
-    // ابعت مسار الملف داخل الجوب
-    UploadIntroVideoJob::dispatch($path, auth('api')->id());
+    // Dispatch storing job
+    UploadIntroVideoJob::dispatch($file, auth('api')->user()->id);
 
     return response()->json([
         'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',
     ]);
 }
-
 
 // APP_KEY=base64:ZAikfaJtetQYdDysb5TXAl9qHXPniWMIkvitwDie2Mk=
 
