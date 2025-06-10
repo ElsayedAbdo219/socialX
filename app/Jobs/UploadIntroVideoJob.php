@@ -20,8 +20,7 @@ class UploadIntroVideoJob implements ShouldQueue
 {
   use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-  protected $path;
-  protected $userId;
+  protected $path, $userId;
 
   public function __construct($path, $userId)
   {
@@ -31,10 +30,36 @@ class UploadIntroVideoJob implements ShouldQueue
 
   public function handle()
   {
-    $path = Storage::disk('public')->putFile('posts', $this->file);
+    $originalPath = $this->path;
+    $userId = $this->userId;
 
-    // Dispatch processing job
-    ProcessIntroVideoJob::dispatch($path, $this->userId);
-  
+    $fileName = pathinfo($originalPath, PATHINFO_FILENAME);
+    $convertedFileName = $fileName . '-converted.mp4';
+    $convertedPath = 'posts/' . $convertedFileName;
+
+    \FFMpeg::fromDisk('public')
+      ->open($originalPath)
+      ->export()
+      ->toDisk('public')
+      ->inFormat(new \FFMpeg\Format\Video\X264('aac', 'libx264'))
+      ->resize(854, 480)
+      ->save($convertedPath);
+
+    Storage::disk('public')->delete($originalPath);
+
+    $getID3 = new \getID3;
+    $convertedAnalysis = $getID3->analyze(Storage::disk('public')->path($convertedPath));
+    $duration = $convertedAnalysis['playtime_seconds'] ?? null;
+
+    Intro::updateOrCreate(
+      ['company_id' => $userId],
+      ['file_name' => $convertedFileName]
+    );
+
+    $admin = User::first();
+    Notification::send($admin, new ClientNotification([
+      'title' => "إضافة فيديو تقديمي جديد",
+      'body' => "تمت إضافة فيديو من شركة " . (User::find($userId)->full_name ?? 'Unknown'),
+    ], ['database', 'firebase']));
   }
 }
