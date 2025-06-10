@@ -81,6 +81,15 @@ Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
 #test yml with github actions once tesTTTTTTTTTTTTTTTTTTTTTTT!!!!!!coop
 Route::middleware('auth:sanctum')->group(function () {
 
+
+
+  #test supervisor 
+  Route::get('/test-supervisor', function () {
+    \App\Jobs\TestSupervisorJob::dispatch();
+    return 'تم إرسال الجوب';
+});
+
+  #end test
 Route::prefix('auth')->group(function () {
   #Auth 
   Route::get('/me', [AuthController::class, 'me']);
