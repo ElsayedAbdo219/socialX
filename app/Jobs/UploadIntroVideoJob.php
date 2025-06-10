@@ -37,19 +37,19 @@ class UploadIntroVideoJob implements ShouldQueue
     $convertedFileName = $fileName . '-converted.mp4';
     $convertedPath = 'posts/' . $convertedFileName;
 
-    \FFMpeg::fromDisk('public')
-      ->open($originalPath)
-      ->export()
-      ->toDisk('public')
-      ->inFormat(new \FFMpeg\Format\Video\X264('aac', 'libx264'))
-      ->resize(854, 480)
-      ->save($convertedPath);
+    // \FFMpeg::fromDisk('public')
+    //   ->open($originalPath)
+    //   ->export()
+    //   ->toDisk('public')
+    //   ->inFormat(new \FFMpeg\Format\Video\X264('aac', 'libx264'))
+    //   ->resize(854, 480)
+    //   ->save($convertedPath);
 
-    Storage::disk('public')->delete($originalPath);
+    // Storage::disk('public')->delete($originalPath);
 
-    $getID3 = new \getID3;
-    $convertedAnalysis = $getID3->analyze(Storage::disk('public')->path($convertedPath));
-    $duration = $convertedAnalysis['playtime_seconds'] ?? null;
+    // $getID3 = new \getID3;
+    // $convertedAnalysis = $getID3->analyze(Storage::disk('public')->path($convertedPath));
+    // $duration = $convertedAnalysis['playtime_seconds'] ?? null;
 
     Intro::updateOrCreate(
       ['company_id' => $userId],

@@ -15,7 +15,6 @@ use App\Services\PostService;
 use FFMpeg\Format\Video\X264;
 use App\Jobs\UploadIntroVideoJob;
 use Illuminate\Http\JsonResponse;
-use App\Jobs\ProcessIntroVideoJob;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Storage;
@@ -324,7 +323,6 @@ public function addPostIntro(Request $request)
 
     $file = $request->file('file_name');
 
-    // تحليل مبدئي للمدة
     $getID3 = new \getID3;
     $analysis = $getID3->analyze($file->getRealPath());
 
@@ -332,17 +330,13 @@ public function addPostIntro(Request $request)
     //     return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
     // }
 
-    // ✅ احفظ الملف موقتًا
-    $path = $file->store('temp', 'public');
-
-    // ✅ ابعت المسار للجوب بدل كائن الملف
-    ProcessIntroVideoJob::dispatch($path, auth('api')->user()->id);
+    // Dispatch storing job
+    UploadIntroVideoJob::dispatch($file, auth('api')->user()->id);
 
     return response()->json([
         'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',
     ]);
 }
-
 
 // APP_KEY=base64:ZAikfaJtetQYdDysb5TXAl9qHXPniWMIkvitwDie2Mk=
 
