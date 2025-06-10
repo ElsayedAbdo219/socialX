@@ -11,13 +11,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\{
     Employee,
     Company,
-    User
+    User,
+    Promotion
 };
+use App\Enum\PromotionTypeEnum;
 class AuthController extends Controller
 {
     public function register(Request $request, $type)
     {
-     
+
         if($type == UserTypeEnum::EMPLOYEE){
            $data= $request->validate([
                 'name' => 'required|string|max:255',
@@ -33,9 +35,10 @@ class AuthController extends Controller
 
             
             $data['password'] = Hash::make($request->password);
-
-            $employee = Employee::create($data);
-           return response()->json(['message' =>'Employee Regiseted Successfully','employee'=>$employee]);
+             
+            $member = Employee::create($data);
+            
+           return response()->json(['message' =>'Employee Regiseted Successfully','employee'=>$member]);
         }
 
         elseif($type == UserTypeEnum::COMPANY){
@@ -53,14 +56,15 @@ class AuthController extends Controller
 
             $data['password'] = Hash::make($request->password);
     
-            $company = Company::create($data);
+            $member = Company::create($data);
+            
+
     
-           return response()->json(['message' =>'Company Regiseted Successfully','company'=>$company]);
+           return response()->json(['message' =>'Company Regiseted Successfully','company'=>$member]);
         }
         else{
             return response()->json(['message' =>'Invalid credentials'], 401);
         }
-      
     }
 
     public function login(Request $request,$type)

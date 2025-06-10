@@ -16,7 +16,7 @@ use App\Http\Requests\Api\Auth\ValidateMobileorEmailRequest;
 use App\Http\Requests\Api\Auth\VerifyOTPRequest;
 use App\Http\Resources\Api\Auth\LoginRequest;
 use App\Models\{
-    Member , OtpAuthenticate };
+    Member , OtpAuthenticate, Promotion };
 use App\Traits\ApiResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -28,25 +28,25 @@ use App\Mail\OtpMail;
 use App\Http\Requests\Api\Auth\UpdatePasswordRequest;
 use App\Http\Requests\Api\Auth\SetPrivateAccountRequest;
 use Illuminate\Support\Facades\Storage;
-
+use App\Enum\PromotionTypeEnum ;
 class AuthController extends Controller
 {
     use ApiResponseTrait;
 
 # Register
 public function register(RegisterClientRequest $request){
+
     $dataValidated = $request->validated();
     $dataValidated['password'] = Hash::make($request->password);
+    $freePromotion = Promotion::where('name', PromotionTypeEnum::FREE)->first();
+    //  return $freePromotion;
+    \DB::beginTransaction();
     $member = Member::create($dataValidated);
-    // حذف جميع التوكنات القديمة لمنع تكرار الجلسات
     $member->tokens()->delete();
-
-    // إنشاء Access Token بصلاحيات كاملة لمدة 60 دقيقة
     $accessToken = $member->createToken('access-token', ['*'], now()->addMinutes(60))->plainTextToken;
-
-    // إنشاء Refresh Token بصلاحيات التحديث لمدة 7 أيام
     $refreshToken = $member->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
-
+    $member->promotion()->attach($freePromotion->id);
+      \DB::commit();
    return $this->respondWithSuccess('User Register Successfully', [
         'member' => $member,
         'access_token' => $accessToken,
@@ -65,13 +65,8 @@ public function login(LoginClientRequest $request)
         return $this->errorUnauthorized('Invalid Credentials');
     }
 
-    // حذف جميع التوكنات القديمة لمنع تكرار الجلسات
     $member->tokens()->delete();
-
-    // إنشاء Access Token بصلاحيات كاملة لمدة 60 دقيقة
     $accessToken = $member->createToken('access-token', ['*'], now()->addMinutes(60))->plainTextToken;
-
-    // إنشاء Refresh Token بصلاحيات التحديث لمدة 7 أيام
     $refreshToken = $member->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
 
     return $this->respondWithSuccess('User Logged In Successfully', [
