@@ -331,40 +331,7 @@ public function addPostIntro(Request $request)
     // }
 
     // Dispatch storing job
-    // UploadIntroVideoJob::dispatch($file, auth('api')->user()->id);
-$fileName = pathinfo($file, PATHINFO_FILENAME);
-    $convertedFileName = $fileName . '-converted.mp4';
-    $convertedPath = 'posts/' . $convertedFileName;
-    $userId = auth('api')->id();
-    $originalPath = 'posts/' . $file->getClientOriginalName();
-    Storage::disk('public')->putFileAs('posts', $file, $originalPath);
-    \FFMpeg::fromDisk('public')
-      ->open($originalPath)
-      ->export()
-      ->toDisk('public')
-      ->inFormat(new \FFMpeg\Format\Video\X264('aac', 'libx264'))
-      ->resize(854, 480)
-      ->save($convertedPath);
-
-    Storage::disk('public')->delete($originalPath);
-
-    $getID3 = new \getID3;
-    $convertedAnalysis = $getID3->analyze(Storage::disk('public')->path($convertedPath));
-    $duration = $convertedAnalysis['playtime_seconds'] ?? null;
-
-    Intro::updateOrCreate(
-      ['company_id' => $userId],
-      ['file_name' => $convertedFileName]
-    );
-
-    $admin = User::first();
-    Notification::send($admin, new ClientNotification([
-      'title' => "إضافة فيديو تقديمي جديد",
-      'body' => "تمت إضافة فيديو من شركة " . (User::find($userId)->full_name ?? 'Unknown'),
-    ], ['database', 'firebase']));
-  
-
-
+    UploadIntroVideoJob::dispatch($file, auth('api')->user()->id);
 
     return response()->json([
         'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',
