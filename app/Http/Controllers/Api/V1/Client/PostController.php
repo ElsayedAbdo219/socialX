@@ -314,6 +314,7 @@ class PostController extends Controller
   }
 
 
+
 public function addPostIntro(Request $request)
 {
     $request->validate([
@@ -321,29 +322,22 @@ public function addPostIntro(Request $request)
     ]);
 
     $file = $request->file('file_name');
-    $extension = strtolower($file->getClientOriginalExtension());
 
-    // if (in_array($extension, ['mp4', 'avi', 'mov'])) {
-    //     $getID3 = new \getID3;
-    //     $analysis = $getID3->analyze($file->getRealPath());
+    $getID3 = new \getID3;
+    $analysis = $getID3->analyze($file->getRealPath());
 
-    //     if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
-    //         return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
-    //     }
+    // if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
+    //     return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
     // }
-      // dd(auth('api')->user()->id);
-    // ✅ حفظ الملف مؤقتًا
-    $path = Storage::disk('public')->putFile('posts', $file);
-    $fileName = pathinfo($path, PATHINFO_FILENAME); // بدون الامتداد
 
-    // ✅ تنفيذ التحويل في الخلفية
-    UploadIntroVideoJob::dispatch($path, auth('api')->user()->id);
+    // Dispatch storing job
+    UploadIntroVideoJob::dispatch($file, auth('api')->user()->id);
 
     return response()->json([
         'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',
-        // 'file_url' => asset('storage/' . $path),
-    ], 200);
+    ]);
 }
+
 
 
 
