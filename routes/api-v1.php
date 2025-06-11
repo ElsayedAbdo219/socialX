@@ -84,10 +84,10 @@ Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
 Route::middleware('auth:sanctum')->group(function () {
 
 
+   ////////////////////////////////////////////////////////test ci cd ///////////////////////
 
   #test supervisor 
   Route::post('/test-supervisor', function (Request $request) {
-
     
     $request->validate([
         'file' => 'required|file|max:10240', // max 10MB
