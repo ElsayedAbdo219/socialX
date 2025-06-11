@@ -84,7 +84,7 @@ Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
 Route::middleware('auth:sanctum')->group(function () {
 
 
-   ////////////////////////////////////////////////////////test ci cd ///////////////////////
+   ////////////////////////////////////////////////////////test ci cd ///////////////////////2
 
   #test supervisor 
   Route::post('/test-supervisor', function (Request $request) {
