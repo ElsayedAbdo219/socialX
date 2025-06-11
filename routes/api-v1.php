@@ -87,27 +87,24 @@ Route::middleware('auth:sanctum')->group(function () {
    ////////////////////////////////////////////////////////test ci cd ///////////////////////22222222
 
   #test supervisor 
-  Route::post('/test-supervisor', function (Request $request) {
-    
+Route::post('/test-supervisor', function (Request $request) {
     $request->validate([
-        'file' => 'required|file|max:10240', // max 10MB
+        'file' => 'required|file|max:10240',
     ]);
 
     $file = $request->file('file');
-    $content = file_get_contents($file->getRealPath());
     $filename = Str::random(10) . '.' . $file->getClientOriginalExtension();
 
-    // dispatch job to queue
-    StoreUploadedFileJob::dispatch($content, $filename);
+    // احفظ الملف مؤقتًا داخل storage/app/uploads
+    $file->storeAs('uploads', $filename);
+
+    // ابعت فقط اسم الملف
+    StoreUploadedFileJob::dispatch($filename);
 
     return response()->json([
         'message' => 'File upload job dispatched!',
         'filename' => $filename,
     ]);
-
-
-    // \App\Jobs\TestSupervisorJob::dispatch();
-    // return 'تم إرسال الجوب';
 });
 
   #end test

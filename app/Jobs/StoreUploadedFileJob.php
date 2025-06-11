@@ -13,24 +13,22 @@ class StoreUploadedFileJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $fileContent;
     public $filename;
 
-    /**
-     * Create a new job instance.
-     */
-    public function __construct($fileContent, $filename)
+    public function __construct($filename)
     {
-        $this->fileContent = $fileContent;
         $this->filename = $filename;
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
-        Storage::disk('local')->put('uploads/' . $this->filename, $this->fileContent);
+        // اقرأ محتوى الملف من disk المحلي (storage/app/uploads)
+        $content = Storage::disk('local')->get('uploads/' . $this->filename);
+
+        // هنا بقى اعمل اللي انت عايزه بالمحتوى
+
+        // كمثال: إعادة حفظه في مكان آخر
+        Storage::disk('local')->put('processed/' . $this->filename, $content);
     }
 }
 
