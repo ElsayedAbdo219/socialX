@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class NewDatatable extends BaseDatatable
 {
-    protected ?string $actionable = 'index|edit';
+    protected ?string $actionable = 'index|edit|delete';
     
     public function query(): Builder
     {

@@ -37,7 +37,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () { 
 
-            Route::middleware(['api','apilocale'])
+            Route::middleware(['api'])
                 ->namespace($this->apiClientNamespace)
                 ->prefix('client-api/v1')
                 ->group(base_path('routes/api-v1.php'));

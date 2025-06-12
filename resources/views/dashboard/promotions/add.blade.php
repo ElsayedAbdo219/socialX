@@ -23,24 +23,71 @@
                             <form class="form form-vertical" method="POST" action="{{ route('admin.promotions.store') }}">
                                 @csrf
                                 <div class="form-group col-4">
-                                    <label class="w-100" for="email">{{ __('dashboard.name') }} - <span
+                                    <label class="w-100" for="email">{{ __('dashboard.promotion_name') }} - <span
                                             class="text-warning">@lang('dashboard.en_lang_only')</span>
-                                        <input name="name" id="nameTextArea" placeholder="{{ __('dashboard.name') }}"
+                                        <input name="name" id="promotion" placeholder="{{ __('dashboard.name') }}"
                                             class="form-control"></input>
                                         @error('name')
                                             <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </label>
                                 </div>
+
+                              <div class="form-group col-sm-3">
+                                    <label for="validity">{{ __('dashboard.validity') }}</label>
+                                    <select name="validity" id="validity" class="form-control validity select2">
+                                      <option value="option_default" class="option_default" selected>@lang('dashboard.choose_the_promotion_validity')</option>
+                                        <option value="period" >@lang('dashboard.with_period')</option>
+                                        <option value="days">@lang('dashboard.with_days_number')</option>
+                                    </select>
+
+                                    @error('validity')
+                                        <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                  <div class="form-group col-4 start_date" style="display: none" id="start_date">
+                                    <label class="w-100" for="start_date">{{ __('dashboard.start_date') }} 
+                                        <input type="date" class="form-control" name="start_date"
+                                            placeholder="{{ __('dashboard.start_date') }}"  />
+                                        @error('start_date')
+                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </label>
+                                </div>
+
+                                <div class="form-group col-4 end_date" style="display: none" id="end_date">
+                                    <label class="w-100" for="end_date">{{ __('dashboard.end_date') }} 
+                                        <input type="date" class="form-control" name="end_date"
+                                            placeholder="{{ __('dashboard.end_date') }}"  />
+                                        @error('end_date')
+                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </label>
+                                </div>
+
+                                <div class="form-group col-4 days_count" style="display: none" id="days_count">
+                                    <label class="w-100" for="days_count">{{ __('dashboard.days_count') }} 
+                                        <input type="number" class="form-control" name="days_count" placeholder="{{ __('dashboard.days_count') }}"  />
+                                        @error('days_count')
+                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </label>
+                                </div>
+
+
                                 <div class="form-group col-4">
                                     <label class="w-100" for="discount">{{ __('dashboard.discount') }} %
                                         <input type="number" class="form-control" name="discount"
-                                            placeholder="{{ __('dashboard.discount') }}" value="{{ old('discount') }}" max="100" />
+                                            placeholder="{{ __('dashboard.discount') }}" value="{{ old('discount') }}" min="0" max="100" />
                                         @error('discount')
                                             <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </label>
                                 </div>
+
+                              
+
 
                                 <div class="form-group col-sm-3">
                                     <label for="status">{{ __('dashboard.status') }}</label>
@@ -75,8 +122,31 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            document.getElementById('nameTextArea').addEventListener('input', function(e) {
+            document.getElementById('promotion').addEventListener('input', function(e) {
                 this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+            });
+            // when reload site page 
+            if (validity === 'period') {
+                    $('#start_date').show();
+                    $('#end_date').show();
+                    $('#days_count').hide();
+                }
+                // when change on value of validity
+            $('#validity').on('change', function() {
+                var validity = $(this).val();
+                if (validity === 'period') {
+                    $('#start_date').show();
+                    $('#end_date').show();
+                    $('#days_count').hide();
+                } else if (validity === 'days') {
+                    $('#start_date').hide();
+                    $('#end_date').hide();
+                    $('#days_count').show();
+                } else {
+                    $('#start_date').hide();
+                    $('#end_date').hide();
+                    $('#days_count').hide();
+                }
             });
         });
     </script>

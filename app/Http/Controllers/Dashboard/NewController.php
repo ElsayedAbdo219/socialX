@@ -53,11 +53,13 @@ class NewController extends Controller
     }
 
 
-    public function delete($News)
+    public function destroy(News $News)
     {
-        News::whereId($News)->delete();
-        return redirect()->route($this->route . '.' . 'index')->with('success', __('dashboard.deleted_news'));
-
+        $News->delete();
+        if (request()->expectsJson()) {
+            return self::apiCode(200)->apiResponse();
+        }
+        return redirect()->route('admin.news.index')->with('success', __('dashboard.item deleted successfully'));
     }
 
 

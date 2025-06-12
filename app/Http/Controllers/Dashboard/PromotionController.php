@@ -31,9 +31,9 @@ class PromotionController extends Controller
     }
     public function store(PromotionRequest $request)
     {
-        // Validate and store the promotion data
         $data = $request->validated();
-        $promotion = Promotion::create($data);
+        unset($data['validity']);
+         Promotion::create($data);
         return redirect()->route($this->route.'.index')->with('success', __('dashboard.promotion_created_successfully'));
     }
     public function edit($id)
@@ -45,6 +45,7 @@ class PromotionController extends Controller
     {
         // Validate and update the promotion data
         $data = $request->validated();
+        unset($data['validity']);
         $promotion = Promotion::findOrFail($id);
         $promotion->update($data);
 

@@ -32,9 +32,12 @@ class PromotionRequest extends FormRequest
         Rule::unique('promotions', 'name')->ignore($this->promotion),
       ],
       'discount' => 'required|numeric|min:0|max:100',
-      // 'start_date' => 'required|date|after_or_equal:today',
-      // 'end_date' => 'required|date|after:start_date',
+      'validity' => 'required|in:period,days',
+      'days_count' => 'required_if:validity,days|nullable|integer|min:1|max:365',
+      'start_date' => 'required_if:validity,period|nullable|date|after_or_equal:today',
+      'end_date' => 'required_if:validity,period|nullable|date|after:start_date',
       'is_active' => 'boolean',
     ];
+    
   }
 }

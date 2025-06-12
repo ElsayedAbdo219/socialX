@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->unsignedInteger('discount')->default(0);
-            $table->date('start_date');
-            $table->date('end_date');
+            // $table->date('start_date');
+            // $table->date('end_date');
             $table->boolean('is_active')->default(false);
             $table->timestamps();
         });

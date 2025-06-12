@@ -312,7 +312,22 @@ return [
     'search_placeholder' => 'Search by name, email, or phone number',
     'number_of_posts' => 'Number of Posts',
     'number_of_advertises' => 'Number of Advertises',
-    'add_users_to_this_promotion' => 'add users to this Promotion'
+    'add_users_to_this_promotion' => 'add users to this Promotion',
+    'promotion_name' => 'Promotion Name',
+    'with_period' => 'With Period',
+    'with_days' => 'With Days',
+    'validity' => 'Validity',
+    'days_count' => 'Days Count',
+    'promotion_users' => 'Promotion Users',
+    'choose_the_promotion_validity' => 'Choose the Promotion Validity',
+    'promotion_validity_period' => 'Promotion Validity Period',
+    'promotion_validity_days' => 'Promotion Validity Days',
+    'promotion_users_list' => 'Promotion Users List',
+    'promotion_users_count' => 'Promotion Users Count',
+    'promotion_users_empty' => 'No users added to this promotion yet',
+    'with_days_number' => 'With DaysNumber'
+
+
 ];
 
 ?>

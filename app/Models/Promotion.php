@@ -13,6 +13,7 @@ class Promotion extends Model
     'discount',
     'start_date',
     'end_date',
+    'days_count',
     'is_active',
   ];
   protected $casts = [
@@ -22,6 +23,7 @@ class Promotion extends Model
   ];
   protected $table = 'promotions';
 
+  
 
   #Relationshpis
   public function member()

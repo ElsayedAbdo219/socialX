@@ -86,7 +86,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
    ////////////////////////////////////////////////////////test ci cd ///////////////////////22222222
 
-  #test supervisor 
+ #test supervisor 
 Route::post('/test-supervisor', function (Request $request) {
     $request->validate([
         'file' => 'required|file|max:10240',

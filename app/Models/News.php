@@ -10,6 +10,12 @@ class News extends Model
     use HasFactory;
     protected $guarded=[];
 
+
+    # Relations
+    public function user()
+    {
+      return $this->belongsTo(Member::class,'user_id');
+    }
        # Scopes
        public function scopeOfContent($query, $value)
        {

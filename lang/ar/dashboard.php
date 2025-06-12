@@ -287,13 +287,18 @@ return [
     'number_of_advertises' => 'عدد الاعلانات',
     'number_of_companies' => 'عدد الشركات',
     'number_of_employees' => 'عدد الموظفين',
-    'add_users_to_this_promotion' => "اضافة مستخدمين لهذا الخصم"
-
-
-
-
-
-
+    'add_users_to_this_promotion' => "اضافة مستخدمين لهذا الخصم",
+    'promotion_name' => 'اسم العرض الترويجي',
+    'validity' => 'صلاحية العرض',
+    'start_date' => 'تاريخ البدء',
+    'end_date' => 'تاريخ الانتهاء',
+    'days_count' => 'عدد الأيام',
+    'discount' => 'الخصم',
+    'with_period' => 'مع فترة',
+    'with_days_number' => 'مع عدد الأيام',
+    'choose_the_promotion_validity' => 'اختر صلاحية العرض الترويجي',
+    'period' => 'فترة',
+    'title' => 'العنوان',
 
 
 

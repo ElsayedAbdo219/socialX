@@ -28,7 +28,7 @@
                             <form class="form form-vertical" method="POST" action="{{route('admin.news.store')}}" >
                                 @csrf
                               <div class="row">
-                                    <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-12">
                                         <label for="name_en">العنوان
                                             <textarea type="text"  class="form-control" name="title" placeholder="العنوان" value="{{ old('title')}}" style="width:400px; height:100px;" ></textarea>
                                             @error('title')
@@ -36,15 +36,17 @@
                                             @enderror
                                         </label> 
                                     </div>
-
-                                    <div class="form-group col-sm-3">
+                              </div>
+                                      <div class="row">
+                                    <div class="form-group col-sm-12">
                                         <label for="name_en">المحتوي
-                                            <textarea type="text"  class="form-control" name="contentNews" placeholder="العنوان" value="{{ old('contentNews')}}" style="width:800px; height:300px;" ></textarea>
+                                            <textarea type="text"  class="form-control" name="contentNews" placeholder="العنوان" value="{{ old('contentNews')}}" style="width:500px; height:150px;" ></textarea>
                                             @error('contentNews')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label> 
                                     </div>
+                                      </div>
 
                                   
                                 </div>
