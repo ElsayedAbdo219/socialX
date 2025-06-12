@@ -15,13 +15,16 @@ class APILocale
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
-    {
-        if (Request()->server('HTTP_ACCEPT_LANGUAGE')) {
-            App::setLocale(Request()->server('HTTP_ACCEPT_LANGUAGE'));
-        } else {
-            App::setLocale(config('app.locale'));
-        }
-        return $next($request);
-    }
+  public function handle(Request $request, Closure $next)
+{
+    // حدد اللغات المدعومة في مشروعك
+    $supportedLocales = ['en', 'ar'];
+
+    // Laravel هتختار أنسب لغة منهم بناءً على Accept-Language
+    $locale = $request->getPreferredLanguage($supportedLocales);
+
+    App::setLocale($locale ?? config('app.locale'));
+
+    return $next($request);
+}
 }
