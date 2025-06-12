@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -16,21 +15,19 @@ class APILocale
    * @param  \Closure  $next
    * @return mixed
    */
-  public function handle($request, Closure $next)
+  public function handle(Request $request, Closure $next)
   {
-    $acceptLanguage = $request->header('Accept-Language');
+    $supportedLocales = ['en', 'ar'];
+    $rawLocale = $request->getPreferredLanguage(['en_EG', 'en', 'ar_EG', 'ar']);
 
-    // Extract the first valid locale (before the comma)
-    $locale = Str::before($acceptLanguage, ',');
+    $map = [
+      'en_EG' => 'en',
+      'ar_EG' => 'ar',
+    ];
 
-    // Optional: fallback if empty or not supported
-    $supportedLocales = ['en', 'ar', 'en_US', 'ar_EG', 'en_GB', 'en_EG'];
-    if (!in_array($locale, $supportedLocales)) {
-      $locale = config('app.locale'); // fallback to default locale
-    }
+    $locale = $map[$rawLocale] ?? $rawLocale ?? config('app.locale');
 
-    app()->setLocale($locale);
-    \Carbon\Carbon::setLocale($locale);
+    App::setLocale($locale);
 
     return $next($request);
   }
