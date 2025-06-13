@@ -132,6 +132,13 @@ class Member extends Authenticatable
     return $this->hasMany(Post::class, 'user_id');
   }
 
+  public function ads()
+  {
+
+    return $this->hasMany(Post::class, 'user_id')->where('status','advertise');
+  }
+
+
 
   public function experience()
   {
