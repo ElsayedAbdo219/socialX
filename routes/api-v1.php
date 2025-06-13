@@ -39,7 +39,8 @@ use App\Http\Controllers\Api\V1\Client\{
   OverViewController,
   ReportController,
   PostReportController,
-  SponserController
+  SponserController,
+  PromotionController
 
                
 
@@ -185,7 +186,7 @@ Route::name('reacts.')->prefix('reacts')->group(function () {
     Route::post('/', [CommentReplyController::class, 'add']); // ADD comment_reply
     Route::post('/update/{ID}', [CommentReplyController::class, 'update']); // update comment
     Route::delete('/{ID}', [CommentReplyController::class, 'delete']); // delete comment_reply
-});
+});   
 
 
 
@@ -367,6 +368,11 @@ Route::name('education.')->prefix('education')->group(function () {
      # overviews
     Route::name('ads.')->prefix('ads')->group(function () {
       Route::get('/me', [PostController::class, 'allAds']);
+      Route::post('/checkData', [PostController::class, 'checkData']);
+      Route::get('/getPromotionResolutions/{promotionName}', [PostController::class, 'getPromotionResolutions']);
+      Route::get('/getprices', [PostController::class, 'getprices']);
+      
+
     });
 
      # analysis
@@ -383,6 +389,12 @@ Route::name('education.')->prefix('education')->group(function () {
     Route::name('sponsers.')->prefix('sponsers')->group(function () {
       Route::get('/', [SponserController::class, 'index']);
     });
+
+     # free promotions
+    Route::name('free-promotions.')->prefix('free-promotions')->group(function () {
+      Route::get('/', [PromotionController::class, 'getFreePromotions']);
+    });
+    
 
 
 

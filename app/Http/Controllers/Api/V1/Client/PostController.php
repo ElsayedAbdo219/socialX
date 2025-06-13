@@ -7,14 +7,18 @@ use App\Models\User;
 use App\Models\Intro;
 use App\Models\Follow;
 use App\Models\Member;
+use App\Models\AdsPrice;
+use App\Models\Promotion;
 use App\Enum\PostTypeEnum;
 use App\Models\SharedPost;
 use App\Enum\AdsStatusEnum;
 use Illuminate\Http\Request;
 use App\Services\PostService;
 use FFMpeg\Format\Video\X264;
+use App\Traits\ApiResponseTrait;
 use App\Jobs\UploadIntroVideoJob;
 use Illuminate\Http\JsonResponse;
+use App\Models\PromotionResolution;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Storage;
@@ -25,6 +29,7 @@ use App\Http\Requests\Api\V1\Client\PostRequest;
 
 class PostController extends Controller
 {
+     use ApiResponseTrait;
 
   protected $postResource = PostResource::class;
   protected $postservice;
@@ -315,30 +320,57 @@ class PostController extends Controller
 
 
 
-public function addPostIntro(Request $request)
-{
+  public function addPostIntro(Request $request)
+  {
     $request->validate([
-        'file_name' => 'required|file|mimes:mp4,avi,mov',
+      'file_name' => 'required|file|mimes:mp4,avi,mov',
     ]);
 
     $file = $request->file('file_name');
 
-    // $getID3 = new \getID3;
-    // $analysis = $getID3->analyze($file->getRealPath());
+    $getID3 = new \getID3;
+    $analysis = $getID3->analyze($file->getRealPath());
 
-    // if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
-    //     return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
-    // }
+    if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
+      return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
+    }
 
-    // Dispatch storing job
-    UploadIntroVideoJob::dispatch($file, auth('api')->user()->id);
+
+    $fileName = pathinfo($file, PATHINFO_FILENAME);
+    $convertedFileName = $fileName . '-converted.mp4';
+    $convertedPath = 'posts/' . $convertedFileName;
+
+    \FFMpeg::fromDisk('public')
+      ->open($file)
+      ->export()
+      ->toDisk('public')
+      ->inFormat(new \FFMpeg\Format\Video\X264('aac', 'libx264'))
+      ->resize(854, 480)
+      ->save($convertedPath);
+
+    Storage::disk('public')->delete($file);
+
+    $getID3 = new \getID3;
+    $convertedAnalysis = $getID3->analyze(Storage::disk('public')->path($convertedPath));
+    $duration = $convertedAnalysis['playtime_seconds'] ?? null;
+
+    Intro::updateOrCreate(
+      ['company_id' => auth('api')->id()],
+      ['file_name' => $convertedFileName]
+    );
+
+    $admin = User::first();
+    Notification::send($admin, new ClientNotification([
+      'title' => "إضافة فيديو تقديمي جديد",
+      'body' => "تمت إضافة فيديو من شركة " . (User::find(auth('api')->id())->full_name ?? 'Unknown'),
+    ], ['database', 'firebase']));
 
     return response()->json([
-        'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',
+      'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',
     ]);
-}
+  }
 
-// APP_KEY=base64:ZAikfaJtetQYdDysb5TXAl9qHXPniWMIkvitwDie2Mk=
+  // APP_KEY=base64:ZAikfaJtetQYdDysb5TXAl9qHXPniWMIkvitwDie2Mk=
 
 
 
@@ -374,31 +406,49 @@ public function addPostIntro(Request $request)
     $post->views()->updateOrCreate(['user_id' => $userId]);
     return response()->json(['message' => 'Video view recorded successfully'], 200);
   }
-}
 
-
-
-/*
-public function addPostIntro(Request $request)
+  # updated
+public function checkData(Request $request) 
 {
     $request->validate([
-        'file_name' => 'required|file|mimes:mp4,avi,mov',
+        'coupon_code' => ['required','string'],
     ]);
 
-    $file = $request->file('file_name');
+    $promotion = Promotion::where('name', $request['coupon_code'])->first();
 
-    $getID3 = new \getID3;
-    $analysis = $getID3->analyze($file->getRealPath());
+    if (!$promotion) {
+        return $this->respondWithError('Invalid Coupon Code.');
+    }
 
-    // if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > 60) {
-    //     return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
-    // }
+    if ($promotion->is_active == 0) {
+        return $this->respondWithError('Coupon Code is not active currently.');
+    }
 
-    // Dispatch storing job
-    UploadIntroVideoJob::dispatch($file, auth('api')->user()->id);
+    if (empty($promotion->days_count) && \Carbon\Carbon::now()->greaterThan($promotion->end_date)) {
+        return $this->respondWithError('You have exceeded the available period!');
+    }
 
+    $thePrice = 500;
+    
     return response()->json([
-        'message' => 'تم رفع الفيديو وسيتم معالجته في الخلفية',
+        'price' => $thePrice,
+        'priceafterDiscount' => $thePrice - ($thePrice * ($promotion->discount / 100)),
     ]);
 }
-    */
+
+  public function getPromotionResolutions($promotionName) {
+    $promotion = Promotion::where('name',$promotionName)->first();
+     return PromotionResolution::where('promotion_id',$promotion->id)->select('id','resolution_number')->first();
+  }
+
+  public function getprices(Request $request) {
+    $paginateSize = $request->query("paginateSize",10);
+     return AdsPrice::paginate($paginateSize);
+  }
+
+
+
+
+
+
+}

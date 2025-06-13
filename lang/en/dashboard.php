@@ -325,7 +325,15 @@ return [
     'promotion_users_list' => 'Promotion Users List',
     'promotion_users_count' => 'Promotion Users Count',
     'promotion_users_empty' => 'No users added to this promotion yet',
-    'with_days_number' => 'With DaysNumber'
+    'with_days_number' => 'With DaysNumber',
+    'adsprice' => 'ads Price',
+    'show_Ads_price' => ' Show Ads Price',
+    'currency' => 'Currency',
+    'updated_AdsPrice' => 'Updated AdsPrice',
+    'ads_price_add' => 'Add Price Add',
+    'resolution_number' => 'Resolution of Ads Of the Promotion'
+
+
 
 
 ];

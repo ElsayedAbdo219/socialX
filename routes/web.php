@@ -20,7 +20,8 @@ use App\Http\Controllers\Dashboard\{
    SkillController,
    CategoryController,
    SponserController,
-   PromotionController
+   PromotionController,
+   AdsPriceController
 };
 /*
 |--------------------------------------------------------------------------
@@ -127,7 +128,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
      Route::resource('promotions', PromotionController::class);
      Route::get('admin/promotions/addUser/{id}', [PromotionController::class, 'addUser'])->name('promotions.addUser');
 
-     
+     # ads price 
+     Route::resource('Ads-price', AdsPriceController::class);
 
 
     //  # bitcoin-stock

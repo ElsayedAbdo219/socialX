@@ -36,6 +36,8 @@ class PromotionRequest extends FormRequest
       'days_count' => 'required_if:validity,days|nullable|integer|min:1|max:365',
       'start_date' => 'required_if:validity,period|nullable|date|after_or_equal:today',
       'end_date' => 'required_if:validity,period|nullable|date|after:start_date',
+      'resolution_number' => 'required|array',
+      'resolution_number.*' => 'required|numeric|in:720,1080,1440,2160',
       'is_active' => 'boolean',
     ];
     

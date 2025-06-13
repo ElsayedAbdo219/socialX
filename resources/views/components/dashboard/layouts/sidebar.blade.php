@@ -92,7 +92,7 @@
                 </ul>
             </li>
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-dollar-sign"></i>
+            <li class=" nav-item"><a href="#"><i class="feather icon-send"></i>
                     <span class="menu-title" data-i18n="Data List">{{ __('dashboard.advertises') }}</span>
                 </a>
                 <ul class="menu-content">
@@ -101,6 +101,21 @@
                         <a href="{{ route('admin.advertises.index') }}">
                             <i class="feather icon-eye"></i>
                             <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_advertises') }}</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class=" nav-item"><a href="#"><i class="feather icon-dollar-sign"></i>
+                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.adsprice') }}</span>
+                </a>
+                <ul class="menu-content">
+
+                    <li class="{{ Route::is('admin.Ads-price.index') ? 'active' : '' }}">
+                        <a href="{{ route('admin.Ads-price.index') }}">
+                            <i class="feather icon-eye"></i>
+                            <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_Ads_price') }}</span>
                         </a>
                     </li>
 

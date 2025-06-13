@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Models\Member;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
+use App\Models\PromotionResolution;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponseDashboard;
 use App\Datatables\PromotionDatatable;
@@ -31,9 +32,16 @@ class PromotionController extends Controller
     }
     public function store(PromotionRequest $request)
     {
+      // dd($request);
         $data = $request->validated();
         unset($data['validity']);
-         Promotion::create($data);
+        \DB::beginTransaction();
+        $promotion = Promotion::create($data);
+        PromotionResolution::create([
+         'promotion_id' => $promotion->id,
+         'resolution_number' => json_encode($data['resolution_number'],true),
+        ]);
+        \DB::commit();
         return redirect()->route($this->route.'.index')->with('success', __('dashboard.promotion_created_successfully'));
     }
     public function edit($id)
@@ -46,9 +54,14 @@ class PromotionController extends Controller
         // Validate and update the promotion data
         $data = $request->validated();
         unset($data['validity']);
+        \DB::beginTransaction();
         $promotion = Promotion::findOrFail($id);
         $promotion->update($data);
-
+        PromotionResolution::create([
+         'promotion_id' => $promotion->id,
+         'resolution_number' => json_encode($data['resolution_number'],true),
+        ]);
+        \DB::commit();
         return redirect()->route($this->route.'.index')->with('success', __('dashboard.promotion_updated_successfully'));
     }
     public function destroy(Promotion $promotion)

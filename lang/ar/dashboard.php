@@ -299,6 +299,16 @@ return [
     'choose_the_promotion_validity' => 'اختر صلاحية العرض الترويجي',
     'period' => 'فترة',
     'title' => 'العنوان',
+    'adsprice' => 'سعر الاعلان',
+    'show_Ads_price' => 'عرض سعر الاعلانات',
+    'currency' => 'العملة',
+    'updated_AdsPrice' => 'تم تحديث سعر الاعلانات',
+    'ads_price_add' => 'اضافة سعر اعلانات',
+    'resolution_number' => 'جودة اعلانات العرض الترويجي',
+
+
+
+
 
 
 

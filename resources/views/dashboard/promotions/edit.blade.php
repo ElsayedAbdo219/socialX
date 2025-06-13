@@ -35,50 +35,6 @@
                                     </label>
                                 </div>
 
-                                <div class="form-group col-sm-3">
-                                    <label for="validity">{{ __('dashboard.validity') }}</label>
-                                    <select name="validity" id="validity" class="form-control validity select2">
-                                        <option value="period" {{ empty($promotion->days_count) ? 'selected' : '' }}>@lang('dashboard.with_period')</option>
-                                        <option value="days" {{ !empty($promotion->days_count) ? 'selected' : '' }}>@lang('dashboard.with_days_number')</option>
-                                    </select>
-                                    @error('validity')
-                                        <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                
-                                <div class="form-group col-4 start_date"  id="start_date">
-                                    <label class="w-100" for="start_date">{{ __('dashboard.start_date') }}
-                                        <input type="date" class="form-control" name="start_date"
-                                        value="{{ $promotion?->start_date?->format('Y-m-d') }}"
-                                            placeholder="{{ __('dashboard.start_date') }}" />
-                                        @error('start_date')
-                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </label>
-                                </div>
-                          
-                                <div class="form-group col-4 end_date"  id="end_date">
-                                    <label class="w-100" for="end_date">{{ __('dashboard.end_date') }}
-                                        <input type="date" class="form-control"  name="end_date"
-                                        value="{{ $promotion?->end_date?->format('Y-m-d') }}"
-                                            placeholder="{{ __('dashboard.end_date') }}" />
-                                        @error('end_date')
-                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </label>
-                                </div>
-                                
-                                <div class="form-group col-4 days_count"  id="days_count">
-                                    <label class="w-100" for="days_count">{{ __('dashboard.days_count') }}
-                                        <input type="number" class="form-control" name="days_count"
-                                        value="{{ $promotion?->days_count }}"
-                                            placeholder="{{ __('dashboard.days_count') }}" />
-                                        @error('days_count')
-                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </label>
-                                </div>
-                                
                                 <div class="form-group col-4">
                                     <label class="w-100" for="discount">{{ __('dashboard.discount') }} %
                                         <input type="number" class="form-control" name="discount"
@@ -89,6 +45,98 @@
                                         @enderror
                                     </label>
                                 </div>
+
+                                <div class="form-group col-sm-3">
+                                    <label for="validity">{{ __('dashboard.validity') }}</label>
+                                    <select name="validity" id="validity" class="form-control validity select2">
+                                        <option value="period" {{ empty($promotion->days_count) ? 'selected' : '' }}>
+                                            @lang('dashboard.with_period')</option>
+                                        <option value="days" {{ !empty($promotion->days_count) ? 'selected' : '' }}>
+                                            @lang('dashboard.with_days_number')</option>
+                                    </select>
+                                    @error('validity')
+                                        <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group col-4 start_date" id="start_date">
+                                    <label class="w-100" for="start_date">{{ __('dashboard.start_date') }}
+                                        <input type="date" class="form-control" name="start_date"
+                                            value="{{ $promotion?->start_date?->format('Y-m-d') }}"
+                                            placeholder="{{ __('dashboard.start_date') }}" />
+                                        @error('start_date')
+                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </label>
+                                </div>
+
+                                <div class="form-group col-4 end_date" id="end_date">
+                                    <label class="w-100" for="end_date">{{ __('dashboard.end_date') }}
+                                        <input type="date" class="form-control" name="end_date"
+                                            value="{{ $promotion?->end_date?->format('Y-m-d') }}"
+                                            placeholder="{{ __('dashboard.end_date') }}" />
+                                        @error('end_date')
+                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </label>
+                                </div>
+
+                                <div class="form-group col-4 days_count" id="days_count">
+                                    <label class="w-100" for="days_count">{{ __('dashboard.days_count') }}
+                                        <input type="number" class="form-control" name="days_count"
+                                            value="{{ $promotion?->days_count }}"
+                                            placeholder="{{ __('dashboard.days_count') }}" />
+                                        @error('days_count')
+                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </label>
+                                </div>
+
+
+                                @php
+                                    $json = $model->resolutions?->resolution_number ?? '[]';
+                                    $resolutions = json_decode($json, true);
+                                    if (!is_array($resolutions)) {
+                                        $resolutions = [];
+                                    }
+                                @endphp
+
+                                <div class="form-group col-4">
+                                    <label class="w-100" for="resolution_number">{{ __('dashboard.resolution_number') }}
+                                        <br>
+
+                                        <label>
+                                            <input type="checkbox" name="resolution_number[]" value="720"
+                                                {{ in_array('720', $resolutions) ? 'checked' : '' }}
+                                                style="border-radius: 50%"> 720p
+                                        </label><br>
+
+                                        <label>
+                                            <input type="checkbox" name="resolution_number[]" value="1080"
+                                                {{ in_array('1080', $resolutions) ? 'checked' : '' }}>
+                                            1080p
+                                        </label><br>
+
+                                        <label>
+                                            <input type="checkbox" name="resolution_number[]" value="1440"
+                                                {{ in_array('1440', $resolutions) ? 'checked' : '' }}>
+                                            1440p
+                                        </label><br>
+
+                                        <label>
+                                            <input type="checkbox" name="resolution_number[]" value="2160"
+                                                {{ in_array('2160', $resolutions) ? 'checked' : '' }}>
+                                            2160p (4K)
+                                        </label><br>
+
+                                        @error('resolution_number')
+                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                        @enderror
+
+                                    </label>
+                                </div>
+
+
 
                                 <div class="form-group col-sm-3">
                                     <label for="status">{{ __('dashboard.status') }}</label>
@@ -121,29 +169,29 @@
     </div>
 @endsection
 @section('script')
-<!-- jquery js -->
+    <!-- jquery js -->
     <script>
         $(document).ready(function() {
             document.getElementById('promotion').addEventListener('input', function(e) {
                 this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
             });
 
-              var validity = $('#validity').val();
-              // console.log(validity);
-              
-                if (validity === 'period') {
-                    $('#start_date').show();
-                    $('#end_date').show();
-                    $('#days_count').hide();
-                } else if (validity === 'days') {
-                    $('#start_date').hide();
-                    $('#end_date').hide();
-                    $('#days_count').show();
-                } else {
-                    $('#start_date').hide();
-                    $('#end_date').hide();
-                    $('#days_count').hide();
-                }
+            var validity = $('#validity').val();
+            // console.log(validity);
+
+            if (validity === 'period') {
+                $('#start_date').show();
+                $('#end_date').show();
+                $('#days_count').hide();
+            } else if (validity === 'days') {
+                $('#start_date').hide();
+                $('#end_date').hide();
+                $('#days_count').show();
+            } else {
+                $('#start_date').hide();
+                $('#end_date').hide();
+                $('#days_count').hide();
+            }
             $('#validity').on('change', function() {
                 var validity = $(this).val();
                 //  alert(validity);
@@ -151,20 +199,20 @@
                     $('#start_date').show();
                     $('#end_date').show();
                     $('#days_count').hide();
-                     $('input[name="days_count"]').val('');
+                    $('input[name="days_count"]').val('');
                 } else if (validity === 'days') {
                     $('#start_date').hide();
                     $('#end_date').hide();
-                     $('input[name="start_date"]').val('');
-                      $('input[name="end_date"]').val('');
+                    $('input[name="start_date"]').val('');
+                    $('input[name="end_date"]').val('');
                     $('#days_count').show();
                 } else {
                     $('#start_date').hide();
                     $('#end_date').hide();
                     $('#days_count').hide();
-                     $('input[name="days_count"]').val('');
-                     $('input[name="start_date"]').val('');
-                     $('input[name="end_date"]').val('');
+                    $('input[name="days_count"]').val('');
+                    $('input[name="start_date"]').val('');
+                    $('input[name="end_date"]').val('');
                 }
             });
         });
