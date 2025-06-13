@@ -378,6 +378,9 @@ Route::name('education.')->prefix('education')->group(function () {
      # analysis
     Route::name('analysis.')->prefix('analysis')->group(function () {
       Route::get('/{CompanyId}', [CompanyController::class, 'getAnalysis']);
+      Route::get('/getViewsOfYear/{CompanyId}', [CompanyController::class, 'getViewsOfYear']);
+      Route::get('/getfollowersOfYear/{CompanyId}', [CompanyController::class, 'getfollowersOfYear']);
+      
     });
 
      # views

@@ -69,8 +69,8 @@ class CompanyController extends Controller
       ->when($month, fn($q) => $q->whereMonth('created_at', $month))
       ->when($year, fn($q) => $q->whereYear('created_at', $year))
       ->count();
-      $coupons = Promotion::pluck('name')->toArray();
-      $total_promotion = $member->posts()->whereIn('coupon_code',$coupons)
+    $coupons = Promotion::pluck('name')->toArray();
+    $total_promotion = $member->posts()->whereIn('coupon_code', $coupons)
       ->when($month, fn($q) => $q->whereMonth('created_at', $month))
       ->when($year, fn($q) => $q->whereYear('created_at', $year))
       ->count();
@@ -82,25 +82,25 @@ class CompanyController extends Controller
 
     # 
     $total_active_advertises = $member->ads()
-    ->whereHas('adsStatus', fn($q) => $q->where('status', 'approved'))
-    ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-    ->when($year, fn($q) => $q->whereYear('created_at', $year))
-    ->count();
+      ->whereHas('adsStatus', fn($q) => $q->where('status', 'approved'))
+      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
+      ->when($year, fn($q) => $q->whereYear('created_at', $year))
+      ->count();
 
     // ->pluck('adsStatus') 
     // ->filter(); 
     $total_pending_advertises = $member->ads()
-    ->whereHas('adsStatus', fn($q) => $q->where('status', 'pending'))
-    ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-    ->when($year, fn($q) => $q->whereYear('created_at', $year))
-    ->count();
+      ->whereHas('adsStatus', fn($q) => $q->where('status', 'pending'))
+      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
+      ->when($year, fn($q) => $q->whereYear('created_at', $year))
+      ->count();
 
     $total_cancelled_advertises = $member->ads()
-    ->whereHas('adsStatus', fn($q) => $q->where('status', 'cancelled'))
-    ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-    ->when($year, fn($q) => $q->whereYear('created_at', $year))
-    ->count();
-  
+      ->whereHas('adsStatus', fn($q) => $q->where('status', 'cancelled'))
+      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
+      ->when($year, fn($q) => $q->whereYear('created_at', $year))
+      ->count();
+
 
 
     return response()->json([
@@ -118,4 +118,60 @@ class CompanyController extends Controller
       'total_cancelled_advertises' => $total_cancelled_advertises,
     ]);
   }
+
+public function getViewsOfYear(Request $request, $companyId)
+{
+    $member = Member::findOrFail($companyId);
+    $year = $request->query('year', date('Y'));
+
+    $posts = $member->posts()
+      ->when($year, fn($q) => $q->whereYear('created_at', $year))
+      ->withCount(['views'])
+      ->get();
+
+    $total_views = $posts->sum('views_count');
+
+    $monthly_views = [];
+
+    foreach (range(1, 12) as $month) {
+        $month_name = strtolower(\Carbon\Carbon::create()->month($month)->format('F'));
+        $monthly_views[$month_name] = $posts
+            ->filter(fn($post) => $post->created_at->month === $month)
+            ->sum('views_count');
+    }
+
+    return response()->json(array_merge([
+        "total_views" => $total_views
+    ], $monthly_views));
+}
+
+
+
+public function getFollowersOfYear(Request $request, $companyId)
+{
+    $member = Member::findOrFail($companyId);
+    $year = $request->query('year', date('Y'));
+
+    // بنجيب كل المتابعين في السنة دي
+    $followers = $member->followed()
+        ->when($year, fn($q) => $q->whereYear('created_at', $year))
+        ->get();
+    // return $followers;
+    $total_followers = $followers->count();
+
+    $monthly_followers = [];
+
+    foreach (range(1, 12) as $month) {
+        $month_name = strtolower(\Carbon\Carbon::create()->month($month)->format('F'));
+        $monthly_followers[$month_name] = $followers
+            ->filter(fn($follower) => $follower->created_at->month === $month)
+            ->count();
+    }
+
+    return response()->json(array_merge([
+        "total_followers" => $total_followers
+    ], $monthly_followers));
+}
+
+
 }
