@@ -433,6 +433,7 @@ public function checkData(Request $request)
     return response()->json([
         'price' => $thePrice,
         'priceafterDiscount' => $thePrice - ($thePrice * ($promotion->discount / 100)),
+        'percentage' => (int)$promotion->discount."%" ,
     ]);
 }
 

@@ -165,7 +165,7 @@ public function getFollowersOfYear(Request $request, $companyId)
         $month_name = strtolower(\Carbon\Carbon::create()->month($month)->format('F'));
         $monthly_followers[$month_name] = $followers
             ->filter(fn($follower) => $follower->created_at->month === $month)
-            ->count();
+        $monthly_followers[$month_name] = $followers->filter(fn($follower) => $follower->created_at->month === $month)->count();
     }
 
     return response()->json(array_merge([

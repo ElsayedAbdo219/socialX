@@ -61,8 +61,8 @@ use App\Http\Controllers\Api\V1\Client\{
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-#Auth updated dddddddddnnnniihuhhhholdd
+#test ci cd#
+#Auth updated 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forget-Password', [AuthController::class, 'forgetPassword']);
