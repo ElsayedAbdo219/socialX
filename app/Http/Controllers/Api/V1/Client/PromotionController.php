@@ -11,7 +11,7 @@ class PromotionController extends Controller
     public function getFreePromotions(Request $request)
     {
       $paginateSize = $request->query('paginateSize', 10);
-      return Promotion::with('resolutions')->paginate($paginateSize);
+      return Promotion::with('resolutions')->orderByDesc('id')->paginate($paginateSize);
     }
     
 }

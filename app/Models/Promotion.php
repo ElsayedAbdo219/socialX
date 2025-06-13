@@ -24,8 +24,16 @@ class Promotion extends Model
     'days_count' => 'int',
   ];
   protected $table = 'promotions';
-  protected $appends = ['left_days'];
+  protected $appends = ['left_days','free_six_months'];
   // protected $with = ['resolutions'];
+  public function getFreeSixMonthsAttribute()
+  {
+    if($this->name == 'free')
+      return true;
+      return false; 
+  }
+
+
 
   public function getCreatedAtAttribute($value)
   {
@@ -60,7 +68,7 @@ public function getLeftDaysAttribute()
         return 0;
     }
 
-    $post = $user->posts->where('coupon_code', $this->name)->first();
+    $post = $user?->posts?->where('coupon_code', $this->name)->first() ;
     if ($post) {
         if ($this->days_count) {
             $usedAt = \Carbon\Carbon::parse($post->created_at);
