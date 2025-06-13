@@ -32,7 +32,7 @@ public function getLeftDaysAttribute()
     $usedCouponCodes = $user?->posts?->pluck('coupon_code')->toArray() ?? []; // الكوبونات اللي استخدمها المستخدم
     $leftDays = 0;
 
-    foreach ($this?->where('discount', 100)->get() ?? [] as $promotion) {
+    foreach ($this?->get() ?? [] as $promotion) {
         // لو المستخدم ما استخدمش الكوبون
         if (!in_array($promotion->name, $usedCouponCodes)) {
             if (!empty($promotion->days_count)) {
