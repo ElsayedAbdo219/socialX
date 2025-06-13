@@ -62,7 +62,7 @@
                                 <div class="form-group col-4 start_date" id="start_date">
                                     <label class="w-100" for="start_date">{{ __('dashboard.start_date') }}
                                         <input type="date" class="form-control" name="start_date"
-                                            value="{{ $promotion?->start_date?->format('Y-m-d') }}"
+                                            value="{{ $promotion?->start_date }}"
                                             placeholder="{{ __('dashboard.start_date') }}" />
                                         @error('start_date')
                                             <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
@@ -73,7 +73,7 @@
                                 <div class="form-group col-4 end_date" id="end_date">
                                     <label class="w-100" for="end_date">{{ __('dashboard.end_date') }}
                                         <input type="date" class="form-control" name="end_date"
-                                            value="{{ $promotion?->end_date?->format('Y-m-d') }}"
+                                            value="{{ $promotion?->end_date}}"
                                             placeholder="{{ __('dashboard.end_date') }}" />
                                         @error('end_date')
                                             <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
