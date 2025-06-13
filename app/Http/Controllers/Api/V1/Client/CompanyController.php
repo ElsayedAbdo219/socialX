@@ -80,20 +80,28 @@ class CompanyController extends Controller
       ->when($year, fn($q) => $q->whereYear('created_at', $year))
       ->count();
 
-    $advertises_status = $member->ads()->with('adsStatus')
-      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-      ->when($year, fn($q) => $q->whereYear('created_at', $year))
-      ->get();
-
-
     # 
-    //     $advertises_status = $member->ads()
-    // ->with('adsStatus') // load العلاقة
-    // ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-    // ->when($year, fn($q) => $q->whereYear('created_at', $year))
-    // ->get()
-    // ->pluck('adsStatus') // نجيب فقط adsStatus
-    // ->filter(); // لو في إعلانات مفيهاش status، نشيلها
+    $total_active_advertises = $member->ads()
+    ->whereHas('adsStatus', fn($q) => $q->where('status', 'approved'))
+    ->when($month, fn($q) => $q->whereMonth('created_at', $month))
+    ->when($year, fn($q) => $q->whereYear('created_at', $year))
+    ->count();
+
+    // ->pluck('adsStatus') 
+    // ->filter(); 
+    $total_pending_advertises = $member->ads()
+    ->whereHas('adsStatus', fn($q) => $q->where('status', 'pending'))
+    ->when($month, fn($q) => $q->whereMonth('created_at', $month))
+    ->when($year, fn($q) => $q->whereYear('created_at', $year))
+    ->count();
+
+    $total_cancelled_advertises = $member->ads()
+    ->whereHas('adsStatus', fn($q) => $q->where('status', 'cancelled'))
+    ->when($month, fn($q) => $q->whereMonth('created_at', $month))
+    ->when($year, fn($q) => $q->whereYear('created_at', $year))
+    ->count();
+  
+
 
     return response()->json([
       'total_views' => $total_views,
@@ -105,7 +113,9 @@ class CompanyController extends Controller
       'total_following' => $total_following,
       'total_promotion' => $total_promotion,
       'total_advertise' => $Total_advertise,
-      'advertises_status' => $advertises_status,
+      'total_active_advertises' => $total_active_advertises,
+      'total_pending_advertises' => $total_pending_advertises,
+      'total_cancelled_advertises' => $total_cancelled_advertises,
     ]);
   }
 }
