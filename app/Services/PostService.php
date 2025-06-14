@@ -23,17 +23,18 @@ class PostService
     $dataValidatedChecked['user_id']  = auth('api')->user()->id;
     unset($dataValidatedChecked['type']);
     unset($dataValidatedChecked['coupon_code']);
-    if (!empty($dataValidatedChecked['file_name'])) {
-      // حفظ الملف
-      $path = Storage::disk('public')->put('posts', $dataValidatedChecked['file_name']);
-      $dataValidatedChecked['file_name'] = basename($path);
-    }
+    // if (!empty($dataValidatedChecked['file_name'])) {
+    //   // حفظ الملف
+    //   // $path = Storage::disk('public')->put('posts', $dataValidatedChecked['file_name']);
+    //   // $dataValidatedChecked['file_name'] = basename($path);
+    // }
     \DB::beginTransaction();
-    if(isset($dataValidatedChecked['coupon_code']) && !empty($dataValidatedChecked['coupon_code'])) {
-      $dataValidatedChecked['price'] = $dataValidatedChecked['price'] * ($dataValidatedChecked['coupon_code'] / 100);
-    }
-
+    # when complete price details overview
+    // if(isset($dataValidatedChecked['coupon_code']) && !empty($dataValidatedChecked['coupon_code'])) {
+    //   $dataValidatedChecked['price'] = $dataValidatedChecked['price'] * ($dataValidatedChecked['coupon_code'] / 100);
+    // }
     $post = Post::create($dataValidatedChecked);
+
     $post->adsStatus()->create([
       'status' => AdsStatusEnum::PENDING
     ]);
@@ -137,4 +138,60 @@ class PostService
     \DB::commit();
     return response()->json(['message' => 'تم تحديث المنشور بنجاح'], 200);
   }
+
+
+
+
+
+
+
+  public function uploadChunk(Request $request)
+    {
+        $fileName = $request->input('file_name');
+        $chunkNumber = $request->input('chunk_number');
+
+        $chunk = $request->file('chunk');
+        $chunkPath = storage_path("app/chunks/{$fileName}");
+
+        if (!file_exists($chunkPath)) {
+            mkdir($chunkPath, 0777, true);
+        }
+
+        $chunk->move($chunkPath, $chunkNumber);
+
+        return response()->json(['message' => 'تم رفع الملف بنجاح!']);
+    }
+
+    public function mergeChunks(Request $request)
+    {
+        $fileName = $request->input('file_name');
+        $chunkPath = storage_path("app/chunks/{$fileName}");
+        $finalPath = storage_path("app/videos/{$fileName}");
+
+        if (!file_exists($chunkPath)) {
+            return response()->json(['error' => 'Chunks not found'], 404);
+        }
+
+        $chunks = collect(scandir($chunkPath))
+            ->filter(fn($name) => is_numeric($name))
+            ->sortBy(fn($name) => (int) $name);
+
+        $finalFile = fopen($finalPath, 'ab');
+
+        foreach ($chunks as $chunk) {
+            $chunkContent = file_get_contents($chunkPath . '/' . $chunk);
+            fwrite($finalFile, $chunkContent);
+            unlink($chunkPath . '/' . $chunk);
+        }
+
+        fclose($finalFile);
+        rmdir($chunkPath);
+
+        return response()->json(['message' => 'File merged']);
+    }
+
+
+
+
+
 }

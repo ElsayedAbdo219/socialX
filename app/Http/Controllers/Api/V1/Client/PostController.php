@@ -10,11 +10,13 @@ use App\Models\Member;
 use App\Models\AdsPrice;
 use App\Models\Promotion;
 use App\Enum\PostTypeEnum;
+use App\Jobs\UploadAdsJob;
 use App\Models\SharedPost;
 use App\Enum\AdsStatusEnum;
 use Illuminate\Http\Request;
 use App\Services\PostService;
 use FFMpeg\Format\Video\X264;
+use App\Jobs\MergeChunkAdsJob;
 use App\Traits\ApiResponseTrait;
 use App\Jobs\UploadIntroVideoJob;
 use Illuminate\Http\JsonResponse;
@@ -26,6 +28,8 @@ use App\Notifications\ClientNotification;
 use Illuminate\Support\Facades\Notification;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 use App\Http\Requests\Api\V1\Client\PostRequest;
+use App\Http\Requests\Api\V1\Client\mergeChunkAdsRequest;
+use App\Http\Requests\Api\V1\Client\uploadChunkAdsRequest;
 
 class PostController extends Controller
 {
@@ -39,6 +43,47 @@ class PostController extends Controller
   {
     $this->postservice = $postservice;
   }
+
+  # upload chunck 
+public function uploadChunk(uploadChunkAdsRequest $request)
+{
+    $request->validated();
+
+    $fileName = $request->input('file_name');
+    $chunkNumber = $request->input('chunk_number');
+    $chunk = $request->file('chunk');
+
+    $tempPath = $chunk->storeAs("temp/chunks/{$fileName}", $chunkNumber);
+
+    UploadAdsJob::dispatch(storage_path("app/{$tempPath}"), $fileName, $chunkNumber);
+
+    return response()->json(['message' => 'Chunk uploaded']);
+}
+
+
+public function mergeChunks(Request $request)
+{
+    $request->validate([
+        'file_name' => ['required', 'string']
+    ]);
+
+    $fileName = basename($request->input('file_name'));
+    $chunkPath = storage_path("app/chunks/{$fileName}");
+    $finalPath = storage_path("app/public/posts/{$fileName}");
+
+    if (!file_exists($chunkPath)) {
+        return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
+    }
+
+    MergeChunkAdsJob::dispatch($chunkPath, $finalPath);
+
+    return response()->json(['message' => 'تم الدمج بنجاح', 'file_path' => "storage/posts/{$fileName}"]);
+}
+
+
+
+
+  
   // Call to undefined method Illuminate\\Database\\Eloquent\\Builder::makeHidden()
   public function all(Request $request): mixed
   {
@@ -371,11 +416,6 @@ class PostController extends Controller
   }
 
   // APP_KEY=base64:ZAikfaJtetQYdDysb5TXAl9qHXPniWMIkvitwDie2Mk=
-
-
-
-
-
   public function getPostIntro($id)
   {
     return  Intro::where('id', $id)

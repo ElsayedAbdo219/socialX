@@ -31,7 +31,7 @@ class PostRequest extends FormRequest
         return [
             'type' => ['required', 'in:'.$types],
             'content' => ['nullable', 'string'],
-            'file_name' => ['nullable', 'mimes:jpeg,png,jpg,mp4,avi,mov'],
+            'file_name' => ['nullable', 'string'],
             'period' => [Rule::requiredIf($isVideo), 'string'],
             'resolution' => [Rule::requiredIf($isVideo), 'numeric', 'in:720,1080,1440,2160'],
             'start_time' => [Rule::requiredIf($isVideo), 'date_format:H:i'],
@@ -39,6 +39,8 @@ class PostRequest extends FormRequest
             'start_date' => [Rule::requiredIf($isVideo), 'date'],
             'end_date' => [Rule::requiredIf($isVideo), 'date'],
             'coupon_code' => ['nullable', 'string'],
+            // 'chunk_number' => ['nullable', 'numeric'],
+            
         ];
     }
     

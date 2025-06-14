@@ -134,6 +134,11 @@ Route::name('posts.')->prefix('posts')->group(function () {
     Route::post('/addPostIntro', [PostController::class, 'addPostIntro']); // addPostIntro
     Route::get('/getPostIntro/{id}', [PostController::class, 'getPostIntro']); // addPostIntro
     Route::delete('/deletePostIntro/{id}', [PostController::class, 'deletePostIntro']); // addPostIntro
+    #chunking routes#
+    Route::post('/uploadChunk', [PostController::class, 'uploadChunk']); // uploadChunk
+    Route::post('mergeChunks', [PostController::class, 'mergeChunks']); // mergeChunks
+
+    
     
 });
 
