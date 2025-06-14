@@ -5,12 +5,13 @@ namespace App\Services;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Member;
+use App\Enum\PostTypeEnum;
+use App\Enum\AdsStatusEnum;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\ClientNotification;
-use App\Enum\PostTypeEnum;
-use Illuminate\Http\JsonResponse;
 
 class PostService
 {
@@ -32,7 +33,10 @@ class PostService
       $dataValidatedChecked['price'] = $dataValidatedChecked['price'] * ($dataValidatedChecked['coupon_code'] / 100);
     }
 
-    Post::create($dataValidatedChecked);
+    $post = Post::create($dataValidatedChecked);
+    $post->adsStatus()->create([
+      'status' => AdsStatusEnum::PENDING
+    ]);
     # sending a notification to the user #  
     $notifabels = User::first();
     $notificationData = [
