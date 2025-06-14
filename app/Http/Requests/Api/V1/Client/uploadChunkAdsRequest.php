@@ -21,7 +21,7 @@ class uploadChunkAdsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'chunk' => ['required', 'file', 'mimes:mp4,mov', 'max:50000'], // حوالي 50MB للجزء الواحد
+            'chunk' => ['required', 'file', 'max:50000'], // حوالي 50MB للجزء الواحد
             'file_name' => ['required','string'],
             'chunk_number' => ['required','numeric'],
         ];

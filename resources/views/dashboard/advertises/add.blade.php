@@ -9,8 +9,8 @@
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
             <x-dashboard.layouts.breadcrumb now=" اضافة اعلان جديدة">
-                <li class="breadcrumb-item"><a href="{{route('admin.advertises.index')}}">
-                      قائمة الاعلانات
+                <li class="breadcrumb-item"><a href="{{ route('admin.advertises.index') }}">
+                        قائمة الاعلانات
                     </a></li>
             </x-dashboard.layouts.breadcrumb>
             <div class="col-12 mt-3">
@@ -20,24 +20,35 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
-                            <form class="form form-vertical" method="POST" action="{{route('admin.advertises.store')}}" enctype="multipart/form-data">
+                            <form class="form form-vertical" method="POST" action="{{ route('admin.advertises.store') }}"
+                                enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
-
+                                    <div class="form-group col-4" id="choose_file_type">
+                                        <label class="w-100" for="choose_file_type">{{ __('dashboard.choose_file_type') }}
+                                            <select name="choose_file_type" id="choose_file_type">
+                                              <option value="choose">@lang('dashboard.choose_file_type')</option>
+                                              <option value="video">@lang('dashboard.video')</option>
+                                              <option value="image">@lang('dashboard.image')</option>
+                                            </select>
+                                        </label>
+                                    </div>
                                     <div class="form-group col-4" id="video" style="display: none">
                                         <label class="w-100" for="logo">{{ __('dashboard.video') }}
-                                            <input type="file" class="form-control" name="file_name" placeholder="الملف المرفوع" value="{{ old('file_name')}}" />
+                                            <input type="file" class="form-control" name="file_name"
+                                                placeholder="الملف المرفوع" value="{{ old('file_name') }}" />
                                             @error('file_name')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                                <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </label>
                                     </div>
 
-                                    <div class="form-group col-4" id="video" style="display: none">
+                                    <div class="form-group col-4" id="image" style="display: none">
                                         <label class="w-100" for="logo">{{ __('dashboard.image') }}
-                                            <input type="file"  class="form-control" name="image" placeholder="الصورة" value="{{ old('image')}}" />
+                                            <input type="file" class="form-control" name="image" placeholder="الصورة"
+                                                value="{{ old('image') }}" />
                                             @error('image')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                                <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </label>
                                     </div>
@@ -45,7 +56,7 @@
                                     <div class="form-group col-sm-3">
                                         <label for="name_en">{{ __('dashboard.company') }}</label>
                                         <select class="form-control" name="user_id" id="user_id">
-                                            
+
                                             @foreach ($companies as $company)
                                                 <option value="{{ $company->id }}">{{ $company->full_name }}</option>
                                             @endforeach
@@ -56,36 +67,41 @@
                                     </div>
 
 
-                                      <div class="form-group col-4">
-                                        <label class="w-100" for="email">{{__('dashboard.content')}}
-                                            <textarea name="content" id="contentTextArea" cols="30" placeholder="{{__('dashboard.content')}}" class="form-control" rows="10" class="d-none"></textarea>
+                                    <div class="form-group col-4">
+                                        <label class="w-100" for="email">{{ __('dashboard.content') }}
+                                            <textarea name="content" id="contentTextArea" cols="30" placeholder="{{ __('dashboard.content') }}"
+                                                class="form-control" rows="10" class="d-none"></textarea>
                                             @error('content')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                                <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </label>
                                     </div>
 
                                     <div class="form-group col-4">
-                                        <label class="w-100" for="period">{{__('dashboard.period')}} (دقيقة)
-                                            <input type="number"  class="form-control" name="period" placeholder="{{__('dashboard.period')}}" value="{{old('period')}}" />
+                                        <label class="w-100" for="period">{{ __('dashboard.period') }} (دقيقة)
+                                            <input type="number" class="form-control" name="period"
+                                                placeholder="{{ __('dashboard.period') }}" value="{{ old('period') }}" />
                                             @error('period')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                                <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </label>
                                     </div>
 
-                                      <div class="form-group col-4">
+                                    <div class="form-group col-4">
                                         <label class="w-100" for="slogo">{{ __('dashboard.is_published') }}(بالايام)
-                                            <input type="number"  class="form-control" name="is_published" placeholder="{{ __('dashboard.is_published') }}" value="{{old('is_published')}}" />
+                                            <input type="number" class="form-control" name="is_published"
+                                                placeholder="{{ __('dashboard.is_published') }}"
+                                                value="{{ old('is_published') }}" />
                                             @error('is_published')
-                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                                <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </label>
                                     </div>
-                                 
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary mr-1 mb-1">{{__('dashboard.add')}}</button>
-                                </div>
+
+                                    <div class="col-12">
+                                        <button type="submit"
+                                            class="btn btn-primary mr-1 mb-1">{{ __('dashboard.add') }}</button>
+                                    </div>
                             </form>
                         </div>
                     </div>
@@ -93,10 +109,25 @@
             </div>
         </div>
     </div>
-
 @endsection
 @section('script')
     <script>
 
+      $(document).ready(function () {
+      alert('hello user');
+       $('#choose_file_type').change(function(){
+        var choose_file_type = $('#choose_file_type').val();
+          if (choose_file_type === 'video') {
+                $('#image').hide();
+                $('#video').show();
+            } else if (choose_file_type === 'image') {
+                $('#image').show();
+                $('#video').hide();
+            } else {
+                $('#video').hide();
+                $('#image').hide();
+            }
+       })
+       });
     </script>
 @endsection
