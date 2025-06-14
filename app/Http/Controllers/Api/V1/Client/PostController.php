@@ -85,73 +85,97 @@ public function mergeChunks(Request $request)
 
   
   // Call to undefined method Illuminate\\Database\\Eloquent\\Builder::makeHidden()
-  public function all(Request $request): mixed
-  {
+public function all(Request $request): mixed
+{
     $Paginate_Size = $request->query('paginateSize') ?? 10;
+
+    // جلب البوستات الأصلية
     $posts = Post::where('status', PostTypeEnum::NORMAL)
-      ->orWhere(function ($query) {
-        $query->where('status', PostTypeEnum::ADVERTISE)
-          ->whereHas('adsStatus', function ($q) {
-            $q->where('status', AdsStatusEnum::APPROVED);
-          });
-      });
+        ->orWhere(function ($query) {
+            $query->where('status', PostTypeEnum::ADVERTISE)
+                ->whereHas('adsStatus', function ($q) {
+                    $q->where('status', AdsStatusEnum::APPROVED);
+                });
+        });
+
     $ownPosts = $posts->with($this->Relations)
-      ->orderByDesc('id')
-      //   ->where('is_Active', 1)
-      ->get()
-      ->map(function ($post) {
-        if ($post->status === PostTypeEnum::NORMAL) {
-          $post->makeHidden([
-            'resolution',
-            'start_time',
-            'end_time',
-            'start_date',
-            'end_date',
-            'period',
-            'adsStatus',
-            'views'
-          ]);
-        } elseif ($post->status === PostTypeEnum::ADVERTISE) {
-          $post->views_count = $post->views()->count();
-          $post->makeHidden([
-            'views'
-          ]);
-        }
-        $post->type = 'original';
-        $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
-        $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
-        $post->reacts = $post->reacts->map(function ($react) {
-          $react->user->is_following = Follow::where('followed_id', $react->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
-        });
-        $post->comments = $post->comments->map(function ($comment) {
-          $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
-          $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())?->first() ?? null;
-          $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
-            $react->user->is_following =  Follow::where('followed_id', $react?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
-          });
-        });
-        return $post;
-      });
-    //   return $ownPosts;
+        ->orderByDesc('id')
+        ->get()
+        ->map(function ($post) {
+            if ($post->status === PostTypeEnum::NORMAL) {
+                $post->makeHidden([
+                    'resolution', 'start_time', 'end_time',
+                    'start_date', 'end_date', 'period',
+                    'adsStatus', 'views'
+                ]);
+            } elseif ($post->status === PostTypeEnum::ADVERTISE) {
+                $post->views_count = $post->views()->count();
+                $post->makeHidden(['views']);
+            }
 
-    // البوستات المشتركة (بنستخدم post()->with()->first())
-    $sharedPosts = SharedPost::with('userShared')->get()->map(function ($sharedPost) {
-      $shared = $sharedPost->post()->with($this->Relations)->first();
-      if ($shared) {
-        $shared->type = 'shared';
-        $shared->sharedPerson = $sharedPost->userShared;
-        return $shared;
-      }
-    })->filter();
+            $post->type = 'original';
 
-    // دمج الكولكشنز
+            $post->user->is_following = Follow::where('followed_id', $post->user->id)
+                ->where('follower_id', auth('api')->id())
+                ->exists();
+
+            $post->my_react = $post->reacts()->where('user_id', auth('api')->id())->first() ?? null;
+
+            $post->reacts = $post->reacts->map(function ($react) {
+                $react->user->is_following = Follow::where('followed_id', $react->user_id)
+                    ->where('follower_id', auth('api')->id())
+                    ->exists();
+                return $react;
+            });
+
+            $post->comments = $post->comments->map(function ($comment) {
+                $comment->user->is_following = Follow::where('followed_id', $comment->user_id)
+                    ->where('follower_id', auth('api')->id())
+                    ->exists();
+
+                $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())->first() ?? null;
+
+                $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
+                    $react->user->is_following = Follow::where('followed_id', $react->user_id)
+                        ->where('follower_id', auth('api')->id())
+                        ->exists();
+                    return $react;
+                });
+
+                return $comment;
+            });
+
+            return $post;
+        });
+
+    // البوستات المشتركة
+    $sharedPosts = SharedPost::with('userShared')
+        ->get()
+        ->map(function ($sharedPost) {
+            $shared = $sharedPost->post()->with($this->Relations)->first();
+            if ($shared) {
+                $shared->type = 'shared';
+                $shared->sharedPerson = $sharedPost->userShared;
+                return $shared;
+            }
+            return null;
+        })
+        ->filter()
+        ->reject(function ($shared) use ($ownPosts) {
+            // إزالة البوستات المشتركة اللي موجودة بالفعل في البوستات الأصلية
+            return $ownPosts->contains('id', $shared->id);
+        });
+
+    // دمج البوستات وتصفية التكرار
     $allPosts = collect([$ownPosts, $sharedPosts])
-      ->collapse()
-      ->sortByDesc('created_at')
-      ->values();
+        ->collapse()
+        ->sortByDesc('created_at')
+        ->unique('id') // منع التكرار بناء على id
+        ->values();
 
     return $allPosts->customPaginate($Paginate_Size);
-  }
+}
+
 
 
   public function allAds(Request $request): mixed
