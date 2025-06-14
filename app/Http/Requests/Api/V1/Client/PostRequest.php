@@ -32,6 +32,7 @@ class PostRequest extends FormRequest
             'type' => ['required', 'in:'.$types],
             'content' => ['nullable', 'string'],
             'file_name' => ['nullable', 'string'],
+            'image'  => ['nullable', 'image','mimes:jpg,jpeg,png,wepb'],
             'period' => [Rule::requiredIf($isVideo), 'string'],
             'resolution' => [Rule::requiredIf($isVideo), 'numeric', 'in:720,1080,1440,2160'],
             'start_time' => [Rule::requiredIf($isVideo), 'date_format:H:i'],

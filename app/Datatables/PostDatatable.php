@@ -40,7 +40,10 @@ class PostDatatable extends BaseDatatable
                 $image = asset($model->file_name);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
-
+            'image' => function ($model) {
+                $image = asset($model->image);
+                return view('components.datatable.includes.columns.image', compact('image'));
+            },
             'period' => function ($model) {
                 $title = $model?->period ;
                 return view('components.datatable.includes.columns.title', compact('title'));
@@ -72,6 +75,7 @@ class PostDatatable extends BaseDatatable
             Column::computed('status')->title(__('dashboard.status'))->className('text-center'),
             Column::computed('content')->title(__('dashboard.content'))->className('text-center'),
             Column::computed('file_name')->title(__('dashboard.file_name'))->className('text-center'),
+            Column::computed('image')->title(__('dashboard.image'))->className('text-center'),
             Column::computed('period')->title(__('dashboard.period'))->className('text-center'),
             Column::computed('is_published')->title(__('dashboard.is_published'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),

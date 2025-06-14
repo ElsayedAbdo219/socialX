@@ -23,11 +23,6 @@ class PostService
     $dataValidatedChecked['user_id']  = auth('api')->user()->id;
     unset($dataValidatedChecked['type']);
     unset($dataValidatedChecked['coupon_code']);
-    // if (!empty($dataValidatedChecked['file_name'])) {
-    //   // حفظ الملف
-    //   // $path = Storage::disk('public')->put('posts', $dataValidatedChecked['file_name']);
-    //   // $dataValidatedChecked['file_name'] = basename($path);
-    // }
     \DB::beginTransaction();
     # when complete price details overview
     // if(isset($dataValidatedChecked['coupon_code']) && !empty($dataValidatedChecked['coupon_code'])) {
@@ -120,10 +115,10 @@ class PostService
     $Post = Post::find($Post_Id);
     \DB::beginTransaction();
     $Post->update($dataValidatedChecked);
-    if ($request->hasFile('file_name')) {
-      $fileName = basename(Storage::disk('public')->put('posts', file_get_contents($dataValidatedChecked['file_name'])));
-      $Post->update(['file_name' => $fileName]);
-    }
+    // if ($request->hasFile('file_name')) {
+    //   $fileName = basename(Storage::disk('public')->put('posts', file_get_contents($dataValidatedChecked['file_name'])));
+    //   $Post->update(['file_name' => $fileName]);
+    // }
     # # # sending a notification to the user # # #  
     $notifiable = User::first();
     $notificationData = [
