@@ -331,7 +331,24 @@ return [
     'currency' => 'Currency',
     'updated_AdsPrice' => 'Updated AdsPrice',
     'ads_price_add' => 'Add Price Add',
-    'resolution_number' => 'Resolution of Ads Of the Promotion'
+    'resolution_number' => 'Resolution of Ads Of the Promotion',
+    'video' => 'Video'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

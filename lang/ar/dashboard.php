@@ -305,6 +305,7 @@ return [
     'updated_AdsPrice' => 'تم تحديث سعر الاعلانات',
     'ads_price_add' => 'اضافة سعر اعلانات',
     'resolution_number' => 'جودة اعلانات العرض الترويجي',
+    'video' => 'الفيديو'
 
 
 

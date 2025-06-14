@@ -23,10 +23,20 @@
                             <form class="form form-vertical" method="POST" action="{{route('admin.advertises.store')}}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
-                                    <div class="form-group col-4">
-                                        <label class="w-100" for="logo">الملف
-                                            <input type="file" min='0' class="form-control" name="file_name" placeholder="الملف المرفوع" value="{{ old('file_name')}}" />
+
+                                    <div class="form-group col-4" id="video" style="display: none">
+                                        <label class="w-100" for="logo">{{ __('dashboard.video') }}
+                                            <input type="file" class="form-control" name="file_name" placeholder="الملف المرفوع" value="{{ old('file_name')}}" />
                                             @error('file_name')
+                                            <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
+                                            @enderror
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group col-4" id="video" style="display: none">
+                                        <label class="w-100" for="logo">{{ __('dashboard.image') }}
+                                            <input type="file"  class="form-control" name="image" placeholder="الصورة" value="{{ old('image')}}" />
+                                            @error('image')
                                             <span style="font-size: 12px;" class="text-danger">{{$message}}</span>
                                             @enderror
                                         </label>

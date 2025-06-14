@@ -56,7 +56,7 @@ public function uploadChunk(uploadChunkAdsRequest $request)
     $tempPath = $chunk->storeAs("temp/chunks/{$fileName}", $chunkNumber);
 
     UploadAdsJob::dispatch(storage_path("app/{$tempPath}"), $fileName, $chunkNumber);
-
+      // return $tempPath;
     return response()->json(['message' => 'Chunk uploaded']);
 }
 
@@ -68,7 +68,7 @@ public function mergeChunks(Request $request)
     ]);
 
     $fileName = basename($request->input('file_name'));
-    $chunkPath = storage_path("app/chunks/{$fileName}");
+    $chunkPath = storage_path("app/temp/chunks/{$fileName}");
     $finalPath = storage_path("app/public/posts/{$fileName}");
 
     if (!file_exists($chunkPath)) {
