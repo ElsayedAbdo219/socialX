@@ -77,6 +77,7 @@
                                     </label>
                                 </div>
 
+                                <div id="output"></div>
 
                                 <div class="form-group col-4">
                                     <label class="w-100" for="discount">{{ __('dashboard.discount') }} %
@@ -90,10 +91,14 @@
                                 </div>
 
                                 <div class="form-group col-4">
-                                    <label class="w-100" for="resolution_number">{{ __('dashboard.resolution_number') }} <br>
-                                        <label><input type="checkbox" name="resolution_number[]" value="720" style="border-radius: 50%"> 720p</label><br>
-                                        <label><input type="checkbox" name="resolution_number[]" value="1080"> 1080p</label><br>
-                                        <label><input type="checkbox" name="resolution_number[]" value="1440"> 1440p</label><br>
+                                    <label class="w-100" for="resolution_number">{{ __('dashboard.resolution_number') }}
+                                        <br>
+                                        <label><input type="checkbox" name="resolution_number[]" value="720"
+                                                style="border-radius: 50%"> 720p</label><br>
+                                        <label><input type="checkbox" name="resolution_number[]" value="1080">
+                                            1080p</label><br>
+                                        <label><input type="checkbox" name="resolution_number[]" value="1440">
+                                            1440p</label><br>
                                         <label><input type="checkbox" name="resolution_number[]" value="2160"> 2160p
                                             (4K)</label><br>
                                         @error('resolution_number')
@@ -157,5 +162,27 @@
                 $('#days_count').hide();
             }
         });
+
+const input = document.querySelector('#days_count input');
+const output = document.getElementById('output');
+
+input.addEventListener('input', function () {
+    const days = parseInt(this.value);
+
+    if (isNaN(days)) {
+        output.textContent = '';
+        return;
+    }
+
+    const months = Math.floor(days / 30);
+    const remainingDays = days % 30;
+
+    const text =
+        `${months > 0 ? `${months} شهر` : ''}${months > 0 && remainingDays > 0 ? ' و ' : ''}${remainingDays > 0 ? `${remainingDays} يوم` : ''}`;
+    output.textContent = text || '0 يوم';
+});
+
+
+
     </script>
 @endsection

@@ -77,8 +77,7 @@ Route::get('/', function () {
 //     $cleanName = preg_replace('/_\d+$/', '', $fileName);
 //     // dd($cleanName);
 //     $chunkPath = storage_path("app/temp/chunks/{$fileName}");
-//     $finalPath = storage_path("app/public/posts/{$cleanName}");
-
+//     $finalPath = storage_path("app/public/posts/{$fileName}");
 //     //  dd($chunkPath, $finalPath);
 
 //     if (!file_exists($chunkPath)) {
