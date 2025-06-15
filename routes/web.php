@@ -77,7 +77,8 @@ Route::post('/merge', function (Request $request) {
     $cleanName = preg_replace('/_\d+$/', '', $fileName);
     // dd($cleanName);
     $chunkPath = storage_path("app/temp/chunks/{$fileName}");
-    $finalPath = storage_path("app/public/posts/{$fileName}");
+    $finalPath = storage_path("app/public/posts/{$cleanName}");
+
     //  dd($chunkPath, $finalPath);
 
     if (!file_exists($chunkPath)) {

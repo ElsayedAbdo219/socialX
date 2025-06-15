@@ -54,7 +54,7 @@ public function handle(): void
     // 👇 هنا بننضف الاسم
     $cleanName = preg_replace('/_\d+$/', '', basename($this->finalPath)); // remove _timestamp
     $finalPublicPath = storage_path("app/public/posts/{$cleanName}");
-    //  \Log::info($finalPublicPath);
+     \Log::info('the final path is '.$finalPublicPath);
     // تأكد من وجود مجلد الوجهة
     if (!\File::exists(dirname($finalPublicPath))) {
         \File::makeDirectory(dirname($finalPublicPath), 0755, true);
