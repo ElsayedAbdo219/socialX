@@ -19,7 +19,7 @@ class UploadAdsJob implements ShouldQueue
     public function __construct($tempChunkPath, $fileName, $chunkNumber)
     {
         $this->tempChunkPath = $tempChunkPath;
-        $this->chunkPath = storage_path("app/chunks/{$fileName}");
+        $this->chunkPath = storage_path("app/temp/chunks/{$fileName}");
         $this->chunkNumber = $chunkNumber;
     }
 
