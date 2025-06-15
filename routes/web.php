@@ -46,53 +46,53 @@ Route::get('/', function () {
 
 
 #test large files 
-Route::get('/uploadVid', function () {
-  return view('chunkVideo');
-});
+// Route::get('/uploadVid', function () {
+//   return view('chunkVideo');
+// });
 
 
 # upload chunck 
-Route::post('/chunk', function (uploadChunkAdsRequest $request) {
-  $request->validated();
+// Route::post('/chunk', function (uploadChunkAdsRequest $request) {
+//   $request->validated();
 
-  $fileName = $request->input('file_name');
-  $chunkNumber = $request->input('chunk_number');
-  $chunk = $request->file('chunk');
-  // dd($chunk);
-  $tempPath = $chunk->storeAs("temp/chunks/{$fileName}", $chunkNumber);
-  // dd($tempPath);
+//   $fileName = $request->input('file_name');
+//   $chunkNumber = $request->input('chunk_number');
+//   $chunk = $request->file('chunk');
+//   // dd($chunk);
+//   $tempPath = $chunk->storeAs("temp/chunks/{$fileName}", $chunkNumber);
+//   // dd($tempPath);
 
-  UploadAdsJob::dispatch(storage_path("app/{$tempPath}"), $fileName, $chunkNumber);
-  // return $tempPath;
-  return response()->json(['message' => 'Chunk uploaded']);
-});
-
-
-Route::post('/merge', function (Request $request) {
-    $request->validate([
-        'file_name' => ['required', 'string']
-    ]);
-
-    $fileName = basename($request->input('file_name'));
-    $cleanName = preg_replace('/_\d+$/', '', $fileName);
-    // dd($cleanName);
-    $chunkPath = storage_path("app/temp/chunks/{$fileName}");
-    $finalPath = storage_path("app/public/posts/{$cleanName}");
-
-    //  dd($chunkPath, $finalPath);
-
-    if (!file_exists($chunkPath)) {
-        return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
-    }
-    MergeChunkAdsJob::dispatch($chunkPath, $finalPath);
+//   UploadAdsJob::dispatch(storage_path("app/{$tempPath}"), $fileName, $chunkNumber);
+//   // return $tempPath;
+//   return response()->json(['message' => 'Chunk uploaded']);
+// });
 
 
-    // dd($cleanName);
-    return response()->json([
-        'message' => 'جاري الدمج',
-        'file_path' => "storage/posts/{$cleanName}"
-    ]);
-});
+// Route::post('/merge', function (Request $request) {
+//     $request->validate([
+//         'file_name' => ['required', 'string']
+//     ]);
+
+//     $fileName = basename($request->input('file_name'));
+//     $cleanName = preg_replace('/_\d+$/', '', $fileName);
+//     // dd($cleanName);
+//     $chunkPath = storage_path("app/temp/chunks/{$fileName}");
+//     $finalPath = storage_path("app/public/posts/{$cleanName}");
+
+//     //  dd($chunkPath, $finalPath);
+
+//     if (!file_exists($chunkPath)) {
+//         return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
+//     }
+//     MergeChunkAdsJob::dispatch($chunkPath, $finalPath);
+
+
+//     // dd($cleanName);
+//     return response()->json([
+//         'message' => 'جاري الدمج',
+//         'file_path' => "storage/posts/{$cleanName}"
+//     ]);
+// });
 
 
 

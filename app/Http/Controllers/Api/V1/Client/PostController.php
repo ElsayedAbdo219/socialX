@@ -47,17 +47,18 @@ class PostController extends Controller
   # upload chunck 
 public function uploadChunk(uploadChunkAdsRequest $request)
 {
-    $request->validated();
+  $request->validated();
 
-    $fileName = $request->input('file_name');
-    $chunkNumber = $request->input('chunk_number');
-    $chunk = $request->file('chunk');
+  $fileName = $request->input('file_name');
+  $chunkNumber = $request->input('chunk_number');
+  $chunk = $request->file('chunk');
+  // dd($chunk);
+  $tempPath = $chunk->storeAs("temp/chunks/{$fileName}", $chunkNumber);
+  // dd($tempPath);
 
-    $tempPath = $chunk->storeAs("temp/chunks/{$fileName}", $chunkNumber);
-
-    UploadAdsJob::dispatch(storage_path("app/{$tempPath}"), $fileName, $chunkNumber);
-      // return $tempPath;
-    return response()->json(['message' => 'Chunk uploaded']);
+  UploadAdsJob::dispatch(storage_path("app/{$tempPath}"), $fileName, $chunkNumber);
+  // return $tempPath;
+  return response()->json(['message' => 'Chunk uploaded']);
 }
 
 
@@ -68,16 +69,24 @@ public function mergeChunks(Request $request)
     ]);
 
     $fileName = basename($request->input('file_name'));
+    $cleanName = preg_replace('/_\d+$/', '', $fileName);
+    // dd($cleanName);
     $chunkPath = storage_path("app/temp/chunks/{$fileName}");
-    $finalPath = storage_path("app/public/posts/{$fileName}");
+    $finalPath = storage_path("app/public/posts/{$cleanName}");
+
+    //  dd($chunkPath, $finalPath);
 
     if (!file_exists($chunkPath)) {
         return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
     }
-
     MergeChunkAdsJob::dispatch($chunkPath, $finalPath);
 
-    return response()->json(['message' => 'تم الدمج بنجاح', 'file_path' => "storage/posts/{$fileName}"]);
+
+    // dd($cleanName);
+    return response()->json([
+        'message' => 'جاري الدمج',
+        'file_path' => "storage/posts/{$cleanName}"
+    ]);
 }
 
 
