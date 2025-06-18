@@ -304,11 +304,11 @@ Route::name('education.')->prefix('education')->group(function () {
           Route::post('no/{id}', [NewsController::class, 'no']);
         });
 
-
      # Notifications
      Route::get('showNotifications', [NotificationController::class, 'showNotifications']);
      Route::get('getMemberData/{Member}', [EmployeeController::class, 'getMemberData']);
      Route::get('getJobs/{MEMBER}', [CompanyController::class, 'getJobs']);
+
   # calender
   Route::name('calender.')->prefix('calender')->group(function () {
     Route::post('add', [CalenderController::class, 'add']);
@@ -324,9 +324,7 @@ Route::name('education.')->prefix('education')->group(function () {
     });
 
     # contact-us
-   
       Route::post('contact-us', [ComplainController::class, 'send']);
-
      # suggestions
     Route::name('suggestions.')->prefix('suggestions')->group(function () {
       Route::post('add', [SuggestionController::class, 'send']);

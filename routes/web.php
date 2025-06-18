@@ -180,6 +180,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::resource('skills', SkillController::class);
     # sponsers
     Route::resource('sponsers', SponserController::class);
+      Route::post('/sponsers/update-order', [SponserController::class, 'updateOrder'])->name('admin.sponsers.updateOrder');
 
     # promotions
     Route::resource('promotions', PromotionController::class);

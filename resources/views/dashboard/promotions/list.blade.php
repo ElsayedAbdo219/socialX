@@ -20,6 +20,7 @@
                     </x-dashboard.layouts.breadcrumb>
                     <!-- Column selectors with Export Options and print table -->
                     <section id="column-selectors">
+                      
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
@@ -52,7 +53,10 @@
 <!-- END: Content-->
 @section('script')
     @stack('datatableScripts')
-    <script>
-    </script>
+
+
+
+</script>
+
 
 @endsection

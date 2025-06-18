@@ -24,7 +24,7 @@
 <script src="{{asset('dashboardAssets/app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js')}}"></script>
 <script src="{{asset('dashboardAssets/app-assets/vendors/js/extensions/swiper.min.js')}}"></script>
 <!-- END: Page Vendor JS-->
-
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <!-- BEGIN: Theme JS-->
 <script src="{{asset('dashboardAssets/app-assets/js/core/app-menu.js')}}"></script>
 <script src="{{asset('dashboardAssets/app-assets/js/core/app.js')}}"></script>

@@ -15,6 +15,7 @@ class Sponser extends Model
         'price',
         'status', // pending, approved, rejected
         'payment_status', // unpaid, paid
+        'order'
     ];
     protected $casts = [
         'days_number' => 'integer',

@@ -99,7 +99,7 @@ $('#juice').LineProgressbar({
       });
 
       
-       project ta ses kora den ajka
+      //  project ta ses kora den ajka
 
 
 })(jQuery);

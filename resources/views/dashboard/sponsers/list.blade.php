@@ -1,6 +1,12 @@
 @extends('components.dashboard.layouts.master')
 @section('styles')
     @stack('datatableStyles')
+    <style>
+    #base-table tbody tr {
+        cursor: move;
+    }
+</style>
+
 @endsection
 @section('title')
     {{__('dashboard.sponsers')}}
@@ -48,11 +54,50 @@
             </div>
         </div>
     </div>
+    {{-- @dd('test debuging'); --}}
 @endsection
 <!-- END: Content-->
 @section('script')
     @stack('datatableScripts')
-    <script>
-    </script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+<script>
+$(document).ready(function () {
+  enableRowSorting();
+});
+
+function enableRowSorting() {
+    $('#base-table tbody').sortable({
+        handle: 'td', // علشان تقدر تسحب من أي عمود
+        update: function (event, ui) {
+            let order = [];
+
+            $('#base-table tbody tr').each(function (index) {
+                const id = $(this).attr('id')?.replace('row-', '');
+                if (id) {
+                    order.push({ id: id, position: index + 1 });
+                }
+            });
+
+            $.ajax({
+                url: '/admin/sponsers/update-order', 
+                method: 'POST',
+                data: {
+                    order: order,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (res) {
+                    console.log('تم الحفظ بنجاح');
+                },
+                error: function (err) {
+                    alert('حصل خطأ أثناء الحفظ');
+                }
+            });
+        }
+    });
+}
+
+
+</script>
 
 @endsection

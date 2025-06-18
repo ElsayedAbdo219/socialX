@@ -114,4 +114,14 @@ class PromotionController extends Controller
 
     return redirect()->route($this->route . '.index')->with('success', __('dashboard.users_added_to_promotion'));
   }
+
+
+
+
+
+
+
+
+
+
 }

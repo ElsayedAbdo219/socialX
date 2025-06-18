@@ -23,12 +23,12 @@ class SponserDatatable extends BaseDatatable
     {
         return [
             'user_id' => function ($model) {
-                $title = $model?->user->full_name ?? '';
+                $title = $model?->company->full_name ?? '';
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
             'image' => function ($model) {
-                $image = asset('storage/sponsers/'.$model->image);
+                $image = asset($model->image);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
 
@@ -68,10 +68,6 @@ class SponserDatatable extends BaseDatatable
             Column::computed('price')->title(__('dashboard.price'))->className('text-center'),
             Column::computed('status')->title(__('dashboard.status'))->className('text-center'),
             Column::computed('payment_status')->title(__('dashboard.payment_status'))->className('text-center'),
-            // Column::computed('action', 'Actions')
-            //     ->exportable(false)
-            //     ->printable(false)
-            //     ->addClass('text-center'),
 
         ];
     }

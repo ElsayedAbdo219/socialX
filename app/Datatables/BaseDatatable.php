@@ -19,25 +19,32 @@ abstract class BaseDatatable extends DataTable
 
     protected ?int $defaultOrder = 0;
 
-    public function dataTable($query)
-    {
-        app()->setLocale(data_get(auth(activeGuard())->user(), 'info.language_code', 'ar'));
+  public function dataTable($query)
+{
+    app()->setLocale(data_get(auth(activeGuard())->user(), 'info.language_code', 'ar'));
 
-        $datatable = datatables()->eloquent($query)->addIndexColumn();
-        $customColumns = collect($this->prepareCustomColumns());
+    $datatable = datatables()->eloquent($query)->addIndexColumn();
+    $customColumns = collect($this->prepareCustomColumns());
 
-        $customColumns->each(fn(\Closure $i, $key) => $datatable->addColumn($key, $i));
+    $customColumns->each(fn(\Closure $i, $key) => $datatable->addColumn($key, $i));
 
-        collect($this->getFilters())
-            ->each(fn(\Closure $i, $key) => $datatable->filterColumn($key, $i));
+    collect($this->getFilters())
+        ->each(fn(\Closure $i, $key) => $datatable->filterColumn($key, $i));
 
-        collect($this->getOrders())
-            ->each(fn(\Closure $i, $key) => $datatable->orderColumn($key, $i));
+    collect($this->getOrders())
+        ->each(fn(\Closure $i, $key) => $datatable->orderColumn($key, $i));
 
-        collect($this->getCustomFilters())
-            ->each(fn (\Closure $query) => $datatable->filter($query));
-        return $datatable->rawColumns($customColumns->keys()->all());
-    }
+    collect($this->getCustomFilters())
+        ->each(fn (\Closure $query) => $datatable->filter($query));
+
+    // ✅ أضف هذا السطر لتفعيل id لكل صف
+    return $datatable
+        ->setRowId(function ($model) {
+            return 'row-' . $model->id;
+        })
+        ->rawColumns($customColumns->keys()->all());
+}
+
     protected function getCustomFilters(): array
     {
         return [];
