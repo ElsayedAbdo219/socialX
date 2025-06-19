@@ -13,25 +13,14 @@ class NotificationController extends Controller
 
     public function showNotifications(Request $request)
     {
-        // Get the pagination size from the request, default to 20
         $paginateSize = $request->query('paginateSize', 20);
-        
-        // Get the authenticated user
         $user = auth('api')->user();
         
-        // Ensure the user is authenticated
         if (!$user) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        
-        // Get notifications for the authenticated user
         return  Notification::where('notifiable_id', $user->id)->latest('created_at')->paginate($paginateSize);
-        
-        // Transform the notifications using a resource collection
-        // return NotificationResource::collection($notifications);
     }
-  
-
 
     public function markAsRead(Request $request, $id)
     {
@@ -40,7 +29,6 @@ class NotificationController extends Controller
         if (!$user) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        // Find the notification by ID and mark it as read
         $notification = Notification::where('notifiable_id', $user->id)->findOrFail($id);
         $notification->markAsRead();
         

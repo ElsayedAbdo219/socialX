@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use App\Jobs\StoreUploadedFileJob;
 use App\Http\Controllers\Api\V1\Client\{
-  AuthCompanyController,
-  AuthEmployeeController,
+    // 
+  MemberController,  
   PostController,
   ExperienceController,
   EducationController,
@@ -25,7 +25,7 @@ use App\Http\Controllers\Api\V1\Client\{
   NewsController,
   DislikeController,
   CalenderController,
-  FirebaseController,
+  // FirebaseController,
   AuthController,
   SuggestionController,
   ComplainController,
@@ -412,9 +412,8 @@ Route::name('education.')->prefix('education')->group(function () {
       Route::get('/no/{id}', [PollNewsController::class, 'no']);
     });
     
+    // get search data 
+    Route::get('headerSearch', [MemberController::class, 'search']); 
 
 
-
-
-
-}); 
+});

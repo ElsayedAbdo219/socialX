@@ -1,153 +1,198 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1\Client;
+
+use App\Models\Post;
+use App\Models\Follow;
 use App\Models\Member;
+use App\Enum\PostTypeEnum;
 use App\Enum\UserTypeEnum;
+use App\Models\SharedPost;
+use App\Enum\AdsStatusEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 
 class MemberController extends Controller
 {
+  private $Relations = ['user', 'views', 'comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
 
-    
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email|exists:members,email',
-            'password' => 'required',
-        ]);
+  public function search(Request $request)
+  {
+    $paginateSize = $request->query('paginateSize') ?? 10;
 
-        $member = Member::whereEmail($request->email)->first();
-      //  return [$member->password , $request->password];
+    $posts = $this->searchPosts($request)->map(function ($item) {
+      $item->group_type = 'posts';
+      return $item;
+    });
 
-        if (!$member ) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided email does not exist.'],
-            ]);
+    $employees = $this->searchEmployees($request)->map(function ($item) {
+      $item->group_type = 'employees';
+      return $item;
+    });
+
+    $companies = $this->searchCompanies($request)->map(function ($item) {
+      $item->group_type = 'companies';
+      return $item;
+    });
+
+    $merged = collect()
+      ->merge($posts)
+      ->merge($employees)
+      ->merge($companies)
+      ->sortByDesc('created_at')
+      ->values();
+
+    $paginated = $merged->customPaginate($paginateSize);
+
+    $grouped = collect($paginated->items())->groupBy('group_type');
+
+    // تأكد إن كل group موجود حتى لو فاضي
+    $grouped = [
+      'posts' =>  $merged->where('group_type', 'posts')->values(),
+      'employees' => $merged->where('group_type', 'employees')->values(),
+      'companies' => $merged->where('group_type', 'companies')->values(),
+    ];
+
+
+    // رجع البيانات مع pagination
+    $paginatedArray = $paginated->toArray();
+    $paginatedArray['data'] = $grouped;
+
+    return response()->json($paginatedArray);
+  }
+
+
+public function searchPosts(Request $request)
+{
+    $baseQuery = Post::where(function ($query) {
+        $query->where('status', PostTypeEnum::NORMAL)
+            ->orWhere(function ($q) {
+                $q->where('status', PostTypeEnum::ADVERTISE)
+                    ->whereHas('adsStatus', function ($q2) {
+                        $q2->where('status', AdsStatusEnum::APPROVED);
+                    });
+            });
+    });
+
+    // حاول تطبق الفلتر الأول
+    $search = $request->query('search');
+    $filteredQuery = clone $baseQuery;
+
+    if ($search) {
+        $filteredQuery->where('content', 'like', '%' . $search . '%');
+    }
+
+    $posts = $filteredQuery->with($this->Relations)->get();
+
+    // لو مفيش نتيجة للبحث، رجع كل البوستات بدون فلترة
+    if ($search && $posts->isEmpty()) {
+        $posts = $baseQuery->with($this->Relations)->get();
+    }
+
+    $ownPosts = $posts->map(function ($post) {
+        if ($post->status === PostTypeEnum::NORMAL) {
+            $post->makeHidden(['resolution', 'start_time', 'end_time', 'start_date', 'end_date', 'period', 'adsStatus', 'views']);
+        } elseif ($post->status === PostTypeEnum::ADVERTISE) {
+            $post->views_count = $post->views()->count();
+            $post->makeHidden(['views']);
         }
-        
-        if ($request->password !=  $member->password){
-            throw ValidationException::withMessages([
-                'password' => ['The provided password is incorrect.'],
-            ]);
-           }
 
-        $token = $member->createToken('api_token')->plainTextToken;
+        $post->type = 'original';
+        $post->user->is_following = Follow::where('followed_id', $post?->user->id)
+            ->where('follower_id', auth('api')->id())
+            ?->exists() ?? false;
 
-        return response()->json(['token' => $token , 'member'=>$member]);
+        $post->my_react = $post->reacts()->where('user_id', auth('api')->id())->first();
 
-    }
+        $post->reacts = $post->reacts->map(function ($react) {
+            $react->user->is_following = Follow::where('followed_id', $react->user_id)
+                ->where('follower_id', auth('api')->id())
+                ?->exists() ?? false;
+        });
 
+        $post->comments = $post->comments->map(function ($comment) {
+            $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)
+                ->where('follower_id', auth('api')->id())
+                ?->exists() ?? false;
 
-    public function logout()
-    {
-        
-        $user = auth("api")->user()->logout();  
+            $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())->first();
 
-        $user->tokens()->where('name', 'auth_token')->delete();
-    
-        return response()->json(['message' => 'Logged out successfully']);
-    }
+            $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
+                $react->user->is_following = Follow::where('followed_id', $react?->user_id)
+                    ->where('follower_id', auth('api')->id())
+                    ?->exists() ?? false;
+            });
+        });
 
-    public function update(Request $request,$id)
-    {
-       
-           $data= $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:members',
-                'password' => 'required',
-                'personal_photo' => 'string|image,mimes:jpeg,png,jpg',
-                'personal_info' => 'string',
-                'website' => 'string|url',
-                'experience' => 'string',
-                'coverletter' => 'image,mimes:jpeg,png,jpg',
-            ]);
-    
-            $member = Member::findOrFail($id);
-    
-            $member->update($data);
-    
-            return response()->json(['message' =>'member Updated Successfully','member'=>$member]);
-      
-    }
+        return $post;
+    });
 
-
-
-    public function forgetPassword(Request $request)
-    {
-       
-           $data= $request->validate([
-                'email' => 'required|string|email|exists:employees,email',
-            ]);
-    
-            $employee = Employee::where('email',$data['email'])->first();
-
-            if(!$employee){
-                return ('الحساب غير مسجل , حاول ادخال بريد اخر');
+    // Shared posts
+    $sharedPosts = SharedPost::with('userShared')
+        ->when($search, function ($query) use ($search) {
+            $query->whereHas('post', function ($q) use ($search) {
+                $q->where('content', 'like', '%' . $search . '%');
+            });
+        })
+        ->get()
+        ->map(function ($sharedPost) {
+            $shared = $sharedPost->post()->with($this->Relations)->first();
+            if ($shared) {
+                $shared->type = 'shared';
+                $shared->sharedPerson = $sharedPost->userShared;
+                return $shared;
             }
+        })
+        ->filter();
 
-            $token = Str::random(40);
-            $url='/'.'employees/reset-password/'.$token;
-            
-            $title="تغيير كلمة المرور ";    
-    
-            Notification::send(new ResetPasswordNotification,$url,$title);    
+    return collect([$ownPosts, $sharedPosts])->collapse()
+        ->sortByDesc('created_at')
+        ->unique('id')
+        ->values();
+}
 
-            PasswordReset::updateOrCreate(
-                ['email'=>$data['email']]
-                ,
-                [
-                    'email'=>$data['email'],
-                    'token'=>$token,
-                    'created_at'=>Carbon::now()->format('Y-m-d H-i-s'),
-                ]
-                );
-            return response()->json(['message' =>'Email Sended Successfully','employee'=>$employee]);
-      
+
+  public function searchEmployees(Request $request)
+  {
+    $search = $request->query('search');
+
+    $query = Member::where('type', UserTypeEnum::EMPLOYEE)
+      ->with(['followersTotal', 'followedTotal', 'userCover', 'Intros', 'skills', 'employeeOverview']);
+
+    if ($search) {
+      $cloned = clone $query;
+
+      $matched = $cloned->where(function ($q) use ($search) {
+        $q->where('first_name', 'like', '%' . $search . '%')
+          ->orWhere('last_name', 'like', '%' . $search . '%');
+      })->get();
+
+      if ($matched->isNotEmpty()) {
+        return $matched;
+      }
     }
 
+    return $query->get();
+  }
 
-    public function resetPassword($token)
-    {
-    
-            $passwordResetData = PasswordReset::where('token',$token)->first();
 
-            if(!$token){
-                return ('الحساب غير مسجل , حاول ادخال بريد اخر');
-            }
 
-             $Employee = Employee::where('email',$passwordResetData->email)->first();
-             return view('changePassword',with(
-                [
-                
-                'person'=>$Employee,
-             ]
-            )
-             );
-      
+  public function searchCompanies(Request $request)
+  {
+    $search = $request->query('search');
+
+    $baseQuery = Member::where('type', UserTypeEnum::COMPANY)
+      ->with(['followersTotal', 'followedTotal', 'userCover', 'Intros', 'skills', 'employeeOverview']);
+
+    if ($search) {
+      $filtered = (clone $baseQuery)->where('full_name', 'like', '%' . $search . '%')->get();
+
+      if ($filtered->isNotEmpty()) {
+        return $filtered;
+      }
     }
 
-
-     public function ChangePassword(Request $request)
-    {
-             $data=$request->validate([
-                'password'=>'required|string',
-             ]);
-             
-            $Employee = Employee::where('id',$request->id)->first();
-            $Employee->update($data);
-            
-            return response()->json(['message' =>'Employee Updated Successfully','Employee'=>$Employee]);
-      
-    }
-    
-
-    public function deleteMyAccount(){
-        Employee::whereId(auth()->user()->id)->destroy();
-        return response()->json(['message' =>'Employee Deleted Successfully']);
-
-     }
-
-
+    return $baseQuery->get();
+  }
 }

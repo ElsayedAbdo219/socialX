@@ -33,7 +33,7 @@ use App\Http\Requests\Api\V1\Client\uploadChunkAdsRequest;
 
 class PostController extends Controller
 {
-     use ApiResponseTrait;
+  use ApiResponseTrait;
 
   protected $postResource = PostResource::class;
   protected $postservice;
@@ -45,27 +45,27 @@ class PostController extends Controller
   }
 
   # upload chunck 
-public function uploadChunk(uploadChunkAdsRequest $request)
-{
-  $request->validated();
+  public function uploadChunk(uploadChunkAdsRequest $request)
+  {
+    $request->validated();
 
-  $fileName = $request->input('file_name');
-  $chunkNumber = $request->input('chunk_number');
-  $chunk = $request->file('chunk');
-  // dd($chunk);
-  $tempPath = $chunk->storeAs("temp/chunks/{$fileName}", $chunkNumber);
-  // dd($tempPath);
+    $fileName = $request->input('file_name');
+    $chunkNumber = $request->input('chunk_number');
+    $chunk = $request->file('chunk');
+    // dd($chunk);
+    $tempPath = $chunk->storeAs("temp/chunks/{$fileName}", $chunkNumber);
+    // dd($tempPath);
 
-  UploadAdsJob::dispatch(storage_path("app/{$tempPath}"), $fileName, $chunkNumber);
-  // return $tempPath;
-  return response()->json(['message' => 'Chunk uploaded']);
-}
+    UploadAdsJob::dispatch(storage_path("app/{$tempPath}"), $fileName, $chunkNumber);
+    // return $tempPath;
+    return response()->json(['message' => 'Chunk uploaded']);
+  }
 
 
-public function mergeChunks(Request $request)
-{
+  public function mergeChunks(Request $request)
+  {
     $request->validate([
-        'file_name' => ['required', 'string']
+      'file_name' => ['required', 'string']
     ]);
 
     $fileName = basename($request->input('file_name'));
@@ -77,33 +77,36 @@ public function mergeChunks(Request $request)
     //  dd($chunkPath, $finalPath);
 
     if (!file_exists($chunkPath)) {
-        return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
+      return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
     }
     MergeChunkAdsJob::dispatch($chunkPath, $finalPath);
 
 
     // dd($cleanName);
     return response()->json([
-        'message' => 'جاري الدمج',
-        'file_path' => "storage/posts/{$cleanName}"
+      'message' => 'جاري الدمج',
+      'file_path' => "storage/posts/{$cleanName}"
     ]);
-}
+  }
 
 
 
 
-  
+
   // Call to undefined method Illuminate\\Database\\Eloquent\\Builder::makeHidden()
   public function all(Request $request): mixed
   {
     $Paginate_Size = $request->query('paginateSize') ?? 10;
-    $posts = Post::where('status', PostTypeEnum::NORMAL)
-      ->orWhere(function ($query) {
-        $query->where('status', PostTypeEnum::ADVERTISE)
-          ->whereHas('adsStatus', function ($q) {
-            $q->where('status', AdsStatusEnum::APPROVED);
-          });
-      });
+    $posts = Post::where(function ($query) {
+      $query->where('status', PostTypeEnum::NORMAL)
+        ->orWhere(function ($q) {
+          $q->where('status', PostTypeEnum::ADVERTISE)
+            ->whereHas('adsStatus', function ($q2) {
+              $q2->where('status', AdsStatusEnum::APPROVED);
+            });
+        });
+    });
+
     $ownPosts = $posts->with($this->Relations)
       ->orderByDesc('id')
       //   ->where('is_Active', 1)
@@ -157,7 +160,7 @@ public function mergeChunks(Request $request)
     $allPosts = collect([$ownPosts, $sharedPosts])
       ->collapse()
       ->sortByDesc('created_at')
-       ->unique('id')
+      ->unique('id')
       ->values();
 
     return $allPosts->customPaginate($Paginate_Size);
@@ -243,13 +246,17 @@ public function mergeChunks(Request $request)
   {
     $Paginate_Size = $request->query('paginateSize') ?? 10;
     $User = Member::find($User_Id);
-    $posts = $User->posts()->where('status', PostTypeEnum::NORMAL)
-      ->orWhere(function ($query) use ($User_Id) {
-        $query->where('status', PostTypeEnum::ADVERTISE)->where('user_id', $User_Id)
-          ->whereHas('adsStatus', function ($q) {
-            $q->where('status', AdsStatusEnum::APPROVED);
+
+    $posts = $User->posts()->where(function ($query) {
+    $query->where('status', PostTypeEnum::NORMAL)
+          ->orWhere(function ($q) {
+              $q->where('status', PostTypeEnum::ADVERTISE)
+                ->whereHas('adsStatus', function ($q2) {
+                    $q2->where('status', AdsStatusEnum::APPROVED);
+                });
           });
-      });
+});
+
     $ownPosts = $posts->with($this->Relations)
       //   ->where('is_Active', 1)
       ->get()
@@ -458,48 +465,44 @@ public function mergeChunks(Request $request)
   }
 
   # updated
-public function checkData(Request $request) 
-{
+  public function checkData(Request $request)
+  {
     $request->validate([
-        'coupon_code' => ['required','string'],
+      'coupon_code' => ['required', 'string'],
     ]);
 
     $promotion = Promotion::where('name', $request['coupon_code'])->first();
 
     if (!$promotion) {
-        return $this->respondWithError('Invalid Coupon Code.');
+      return $this->respondWithError('Invalid Coupon Code.');
     }
 
     if ($promotion->is_active == 0) {
-        return $this->respondWithError('Coupon Code is not active currently.');
+      return $this->respondWithError('Coupon Code is not active currently.');
     }
 
     if (empty($promotion->days_count) && \Carbon\Carbon::now()->greaterThan($promotion->end_date)) {
-        return $this->respondWithError('You have exceeded the available period!');
+      return $this->respondWithError('You have exceeded the available period!');
     }
 
     $thePrice = 500;
-    
+
     return response()->json([
-        'price' => $thePrice,
-        'priceafterDiscount' => $thePrice - ($thePrice * ($promotion->discount / 100)),
-        'percentage' => (int)$promotion->discount."%" ,
+      'price' => $thePrice,
+      'priceafterDiscount' => $thePrice - ($thePrice * ($promotion->discount / 100)),
+      'percentage' => (int)$promotion->discount . "%",
     ]);
-}
-
-  public function getPromotionResolutions($promotionName) {
-    $promotion = Promotion::where('name',$promotionName)->first();
-     return PromotionResolution::where('promotion_id',$promotion->id)->select('id','resolution_number')->first();
   }
 
-  public function getprices(Request $request) {
-    $paginateSize = $request->query("paginateSize",10);
-     return AdsPrice::paginate($paginateSize);
+  public function getPromotionResolutions($promotionName)
+  {
+    $promotion = Promotion::where('name', $promotionName)->first();
+    return PromotionResolution::where('promotion_id', $promotion->id)->select('id', 'resolution_number')->first();
   }
 
-
-
-
-
-
+  public function getprices(Request $request)
+  {
+    $paginateSize = $request->query("paginateSize", 10);
+    return AdsPrice::paginate($paginateSize);
+  }
 }
