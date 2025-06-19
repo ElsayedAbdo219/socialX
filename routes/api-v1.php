@@ -40,7 +40,8 @@ use App\Http\Controllers\Api\V1\Client\{
   ReportController,
   PostReportController,
   SponserController,
-  PromotionController
+  PromotionController,
+  PollNewsController
 
                
 
@@ -88,25 +89,25 @@ Route::middleware('auth:sanctum')->group(function () {
    ////////////////////////////////////////////////////////test ci cd ///////////////////////22222222
 
  #test supervisor 
-Route::post('/test-supervisor', function (Request $request) {
-    $request->validate([
-        'file' => 'required|file|max:10240',
-    ]);
+// Route::post('/test-supervisor', function (Request $request) {
+//     $request->validate([
+//         'file' => 'required|file|max:10240',
+//     ]);
 
-    $file = $request->file('file');
-    $filename = Str::random(10) . '.' . $file->getClientOriginalExtension();
+//     $file = $request->file('file');
+//     $filename = Str::random(10) . '.' . $file->getClientOriginalExtension();
 
-    // احفظ الملف مؤقتًا داخل storage/app/uploads
-    $file->storeAs('uploads', $filename);
+//     // احفظ الملف مؤقتًا داخل storage/app/uploads
+//     $file->storeAs('uploads', $filename);
 
-    // ابعت فقط اسم الملف
-    StoreUploadedFileJob::dispatch($filename);
+//     // ابعت فقط اسم الملف
+//     StoreUploadedFileJob::dispatch($filename);
 
-    return response()->json([
-        'message' => 'File upload job dispatched!',
-        'filename' => $filename,
-    ]);
-});
+//     return response()->json([
+//         'message' => 'File upload job dispatched!',
+//         'filename' => $filename,
+//     ]);
+// });
 
   #end test
 Route::prefix('auth')->group(function () {
@@ -399,6 +400,12 @@ Route::name('education.')->prefix('education')->group(function () {
      # free promotions
     Route::name('free-promotions.')->prefix('free-promotions')->group(function () {
       Route::get('/', [PromotionController::class, 'getFreePromotions']);
+    });
+
+     # poll news
+    Route::name('poll-news.')->prefix('poll-news')->group(function () {
+      Route::get('yes/{id}', [PollNewsController::class, 'yes']);
+      Route::get('no/{id}', [PollNewsController::class, 'no']);
     });
     
 

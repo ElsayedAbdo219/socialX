@@ -12,10 +12,6 @@ class News extends Model
 
 
     # Relations
-    public function user()
-    {
-      return $this->belongsTo(Member::class,'user_id');
-    }
        # Scopes
        public function scopeOfContent($query, $value)
        {

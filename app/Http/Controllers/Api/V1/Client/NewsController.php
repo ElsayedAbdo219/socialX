@@ -11,7 +11,7 @@ class NewsController extends Controller
   public function index(Request $request)
   {
     $paginateSize = $request->query('paginateSize', 10);
-    return response()->json(News::with('user')->orderBy('id', 'desc')->paginate($paginateSize));
+    return response()->json(News::orderBy('id', 'desc')->paginate($paginateSize));
   }
   public function yes($id)
   {
