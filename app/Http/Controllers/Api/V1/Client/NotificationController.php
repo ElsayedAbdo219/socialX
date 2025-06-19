@@ -25,12 +25,27 @@ class NotificationController extends Controller
         }
         
         // Get notifications for the authenticated user
-        $notifications = Notification::where('notifiable_id', $user->id)->latest('created_at')->paginate($paginateSize);
+        return  Notification::where('notifiable_id', $user->id)->latest('created_at')->paginate($paginateSize);
         
         // Transform the notifications using a resource collection
-        return NotificationResource::collection($notifications);
+        // return NotificationResource::collection($notifications);
     }
   
+
+
+    public function markAsRead(Request $request, $id)
+    {
+        $user = auth('api')->user();
+        
+        if (!$user) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        // Find the notification by ID and mark it as read
+        $notification = Notification::where('notifiable_id', $user->id)->findOrFail($id);
+        $notification->markAsRead();
+        
+        return response()->json(['message' => 'تم تحديث الإشعار بنجاح'], 200);
+    }
 
 
 }
