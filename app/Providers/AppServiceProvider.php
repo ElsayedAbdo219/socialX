@@ -79,6 +79,7 @@ class AppServiceProvider extends ServiceProvider
             'pageName' => $pageName,
         ]
     );
+    
 });
 
     }

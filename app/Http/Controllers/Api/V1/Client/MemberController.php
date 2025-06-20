@@ -31,69 +31,68 @@ public function search(Request $request)
     } elseif ($type === 'companies') {
         $companiesLimit = $paginateSize;
     } else {
-        // لو مش محدد نوع، وزّعها بنسبة: 60% بوستات، والباقي يتوزع بالتساوي
         $postsLimit = (int) ceil($paginateSize * 0.6);
         $remaining = $paginateSize - $postsLimit;
         $employeesLimit = (int) floor($remaining / 2);
         $companiesLimit = $remaining - $employeesLimit;
     }
 
-    // جلب البيانات
+    // جلب البيانات الأصلية
     $allPosts = $this->searchPosts($request);
     $allEmployees = $this->searchEmployees($request);
     $allCompanies = $this->searchCompanies($request);
 
-    $posts = $allPosts->take($postsLimit)->map(function ($item) {
+    // قص الجزء المطلوب حسب الحد
+    $posts = $postsLimit > 0 ? $allPosts->take($postsLimit)->map(function ($item) {
         $item->group_type = 'posts';
         return $item;
-    });
+    }) : collect();
 
-    $employees = $allEmployees->take($employeesLimit)->map(function ($item) {
+    $employees = $employeesLimit > 0 ? $allEmployees->take($employeesLimit)->map(function ($item) {
         $item->group_type = 'employees';
         return $item;
-    });
+    }) : collect();
 
-    $companies = $allCompanies->take($companiesLimit)->map(function ($item) {
+    $companies = $companiesLimit > 0 ? $allCompanies->take($companiesLimit)->map(function ($item) {
         $item->group_type = 'companies';
         return $item;
-    });
+    }) : collect();
 
-    // تعويض النقص
-    $totalFetched = $posts->count() + $employees->count() + $companies->count();
-    $missing = $paginateSize - $totalFetched;
+    // تعويض النقص لو النوع مش متحدد
+    if (!$type) {
+        $totalFetched = $posts->count() + $employees->count() + $companies->count();
+        $missing = $paginateSize - $totalFetched;
 
-    if ($missing > 0) {
-        // نحاول نكمل أولًا من posts
-        if ($posts->count() < $allPosts->count()) {
-            $extra = $allPosts->slice($posts->count(), $missing)->map(function ($item) {
-                $item->group_type = 'posts';
-                return $item;
-            });
-            $posts = $posts->merge($extra);
-            $missing -= $extra->count();
-        }
+        if ($missing > 0) {
+            if ($posts->count() < $allPosts->count()) {
+                $extra = $allPosts->slice($posts->count(), $missing)->map(function ($item) {
+                    $item->group_type = 'posts';
+                    return $item;
+                });
+                $posts = $posts->merge($extra);
+                $missing -= $extra->count();
+            }
 
-        // ثم من employees
-        if ($missing > 0 && $employees->count() < $allEmployees->count()) {
-            $extra = $allEmployees->slice($employees->count(), $missing)->map(function ($item) {
-                $item->group_type = 'employees';
-                return $item;
-            });
-            $employees = $employees->merge($extra);
-            $missing -= $extra->count();
-        }
+            if ($missing > 0 && $employees->count() < $allEmployees->count()) {
+                $extra = $allEmployees->slice($employees->count(), $missing)->map(function ($item) {
+                    $item->group_type = 'employees';
+                    return $item;
+                });
+                $employees = $employees->merge($extra);
+                $missing -= $extra->count();
+            }
 
-        // ثم من companies
-        if ($missing > 0 && $companies->count() < $allCompanies->count()) {
-            $extra = $allCompanies->slice($companies->count(), $missing)->map(function ($item) {
-                $item->group_type = 'companies';
-                return $item;
-            });
-            $companies = $companies->merge($extra);
+            if ($missing > 0 && $companies->count() < $allCompanies->count()) {
+                $extra = $allCompanies->slice($companies->count(), $missing)->map(function ($item) {
+                    $item->group_type = 'companies';
+                    return $item;
+                });
+                $companies = $companies->merge($extra);
+            }
         }
     }
 
-    // دمج البيانات
+    // الدمج والترتيب
     $merged = collect()
         ->merge($posts)
         ->merge($employees)
@@ -101,17 +100,25 @@ public function search(Request $request)
         ->sortByDesc('created_at')
         ->values();
 
-    // Paginate يدوي
-    $paginated = $merged->customPaginate($paginateSize);
+    // احتساب العدد الإجمالي
+    $total = match ($type) {
+        'posts' => $allPosts->count(),
+        'employees' => $allEmployees->count(),
+        'companies' => $allCompanies->count(),
+        default => $allPosts->count() + $allEmployees->count() + $allCompanies->count(),
+    };
 
-    // Grouped output
+    // تنفيذ الباجينيت الصحيح
+    $paginated = $merged->customPaginate($paginateSize, $total);
+
+    // تحديد المجموعات حسب النوع
     $grouped = [
-        'posts' => $posts->values(),
-        'employees' => $employees->values(),
-        'companies' => $companies->values(),
+        'posts' => $type && $type !== 'posts' ? collect() : $posts->values(),
+        'employees' => $type && $type !== 'employees' ? collect() : $employees->values(),
+        'companies' => $type && $type !== 'companies' ? collect() : $companies->values(),
     ];
 
-    // تحضير النتيجة النهائية
+    // إرجاع البيانات مع تفاصيل الباجينيت
     $paginatedArray = $paginated->toArray();
     $paginatedArray['data'] = $grouped;
 
@@ -122,16 +129,18 @@ public function search(Request $request)
 
 
 
-public function searchPosts(Request $request)
-{
+
+
+  public function searchPosts(Request $request)
+  {
     $baseQuery = Post::where(function ($query) {
-        $query->where('status', PostTypeEnum::NORMAL)
-            ->orWhere(function ($q) {
-                $q->where('status', PostTypeEnum::ADVERTISE)
-                    ->whereHas('adsStatus', function ($q2) {
-                        $q2->where('status', AdsStatusEnum::APPROVED);
-                    });
+      $query->where('status', PostTypeEnum::NORMAL)
+        ->orWhere(function ($q) {
+          $q->where('status', PostTypeEnum::ADVERTISE)
+            ->whereHas('adsStatus', function ($q2) {
+              $q2->where('status', AdsStatusEnum::APPROVED);
             });
+        });
     });
 
     // حاول تطبق الفلتر الأول
@@ -139,77 +148,77 @@ public function searchPosts(Request $request)
     $filteredQuery = clone $baseQuery;
 
     if ($search) {
-        $filteredQuery->where('content', 'like', '%' . $search . '%');
+      $filteredQuery->where('content', 'like', '%' . $search . '%');
     }
 
     $posts = $filteredQuery->with($this->Relations)->get();
 
     // لو مفيش نتيجة للبحث، رجع كل البوستات بدون فلترة
     if ($search && $posts->isEmpty()) {
-        $posts = $baseQuery->with($this->Relations)->get();
+      $posts = $baseQuery->with($this->Relations)->get();
     }
 
     $ownPosts = $posts->map(function ($post) {
-        if ($post->status === PostTypeEnum::NORMAL) {
-            $post->makeHidden(['resolution', 'start_time', 'end_time', 'start_date', 'end_date', 'period', 'adsStatus', 'views']);
-        } elseif ($post->status === PostTypeEnum::ADVERTISE) {
-            $post->views_count = $post->views()->count();
-            $post->makeHidden(['views']);
-        }
+      if ($post->status === PostTypeEnum::NORMAL) {
+        $post->makeHidden(['resolution', 'start_time', 'end_time', 'start_date', 'end_date', 'period', 'adsStatus', 'views']);
+      } elseif ($post->status === PostTypeEnum::ADVERTISE) {
+        $post->views_count = $post->views()->count();
+        $post->makeHidden(['views']);
+      }
 
-        $post->type = 'original';
-        $post->user->is_following = Follow::where('followed_id', $post?->user->id)
+      $post->type = 'original';
+      $post->user->is_following = Follow::where('followed_id', $post?->user->id)
+        ->where('follower_id', auth('api')->id())
+        ?->exists() ?? false;
+
+      $post->my_react = $post->reacts()->where('user_id', auth('api')->id())->first();
+
+      $post->reacts = $post->reacts->map(function ($react) {
+        $react->user->is_following = Follow::where('followed_id', $react->user_id)
+          ->where('follower_id', auth('api')->id())
+          ?->exists() ?? false;
+      });
+
+      $post->comments = $post->comments->map(function ($comment) {
+        $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)
+          ->where('follower_id', auth('api')->id())
+          ?->exists() ?? false;
+
+        $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())->first();
+
+        $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
+          $react->user->is_following = Follow::where('followed_id', $react?->user_id)
             ->where('follower_id', auth('api')->id())
             ?->exists() ?? false;
-
-        $post->my_react = $post->reacts()->where('user_id', auth('api')->id())->first();
-
-        $post->reacts = $post->reacts->map(function ($react) {
-            $react->user->is_following = Follow::where('followed_id', $react->user_id)
-                ->where('follower_id', auth('api')->id())
-                ?->exists() ?? false;
         });
+      });
 
-        $post->comments = $post->comments->map(function ($comment) {
-            $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)
-                ->where('follower_id', auth('api')->id())
-                ?->exists() ?? false;
-
-            $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())->first();
-
-            $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
-                $react->user->is_following = Follow::where('followed_id', $react?->user_id)
-                    ->where('follower_id', auth('api')->id())
-                    ?->exists() ?? false;
-            });
-        });
-
-        return $post;
+      return $post;
     });
 
     // Shared posts
     $sharedPosts = SharedPost::with('userShared')
-        ->when($search, function ($query) use ($search) {
-            $query->whereHas('post', function ($q) use ($search) {
-                $q->where('content', 'like', '%' . $search . '%');
-            });
-        })
-        ->get()
-        ->map(function ($sharedPost) {
-            $shared = $sharedPost->post()->with($this->Relations)->first();
-            if ($shared) {
-                $shared->type = 'shared';
-                $shared->sharedPerson = $sharedPost->userShared;
-                return $shared;
-            }
-        })
-        ->filter();
+      ->when($search, function ($query) use ($search) {
+        $query->whereHas('post', function ($q) use ($search) {
+          $q->where('content', 'like', '%' . $search . '%');
+        });
+      })
+      ->get()
+      ->map(function ($sharedPost) {
+        $shared = $sharedPost->post()->with($this->Relations)->first();
+        if ($shared) {
+          $shared->type = 'shared';
+          $shared->sharedPerson = $sharedPost->userShared;
+          return $shared;
+        }
+      })
+      ->filter();
 
     return collect([$ownPosts, $sharedPosts])->collapse()
-        ->sortByDesc('created_at')
-        ->unique('id')
-        ->values();
-}
+      ->sortByDesc('created_at')
+      ->unique('id')
+      ->values();
+  }
 
 
   public function searchEmployees(Request $request)
@@ -254,5 +263,4 @@ public function searchPosts(Request $request)
 
     return $baseQuery->get();
   }
-
 }
