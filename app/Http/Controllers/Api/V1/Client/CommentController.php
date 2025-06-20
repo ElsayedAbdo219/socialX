@@ -48,14 +48,14 @@ public function add(CommentRequest $request)
     $requestDataValidated['user_id'] = auth('api')->id();
     $Comment = Comment::find($Comment_Id);
     \DB::beginTransaction();
-    $Comment->update($requestDataValidated);
+    $Comment?->update($requestDataValidated);
     # sending a notification to the user
     $postId = $Comment->post_id;
     $post = Post::where('id', $postId)->first();
     $notifabels = Member::where('id', $post->user_id)->first();
     $notificationData = [
-      'title' => " تعليق جديد علي منشور ",
-      'body' =>  "  تم التعليق علي منشورك من " . (
+      'title' => " تحديث تعليق جديد علي منشور ",
+      'body' =>  "  تم تحديث تعليق علي منشورك من " . (
             auth('api')->user()->full_name
             ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
         ),

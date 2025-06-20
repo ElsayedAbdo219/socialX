@@ -10,11 +10,12 @@ use App\Notifications\ClientNotification;
 use App\Models\Member;
 class SharedPostController extends Controller {
   
-  public function add(SharedPostRequest $request) : JsonResponse
+  public function add(SharedPostRequest $request) 
   {
     $requestDataValidated = $request->validated();
     $Post = Post::where('id',$requestDataValidated['post_id'])->first();
     abort_if(auth('api')->id() == $Post->user_id , 'غير مسموح بمشاركة منشورك');
+
     \DB::beginTransaction();
     $requestDataValidated['user_id'] = auth('api')->id();
     SharedPost::create($requestDataValidated);
@@ -37,7 +38,7 @@ class SharedPostController extends Controller {
     return response()->json(['message' => 'تم مشاركة المنشور بنجاح' ],200);
   }
 
-   public function update(Request $request,$sharedPost_Id) : JsonResponse
+   public function update(Request $request,$sharedPost_Id) 
    {
     $sharedPost = SharedPost::find($sharedPost_Id);
     \DB::beginTransaction();
