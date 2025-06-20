@@ -18,35 +18,82 @@ class MemberController extends Controller
 
 public function search(Request $request)
 {
-    $paginateSize = $request->query('paginateSize') ?? 10;
-    $type = $request->query('type'); 
-    
-    $posts = collect();
-    $employees = collect();
-    $companies = collect();
+    $paginateSize = (int) ($request->query('paginateSize') ?? 10);
+    $type = $request->query('type');
 
-    if (!$type || $type === 'posts') {
-        $posts = $this->searchPosts($request)->map(function ($item) {
-            $item->group_type = 'posts';
-            return $item;
-        });
+    // توزيع الأعداد حسب النوع
+    $postsLimit = $employeesLimit = $companiesLimit = 0;
+
+    if ($type === 'posts') {
+        $postsLimit = $paginateSize;
+    } elseif ($type === 'employees') {
+        $employeesLimit = $paginateSize;
+    } elseif ($type === 'companies') {
+        $companiesLimit = $paginateSize;
+    } else {
+        // لو مش محدد نوع، وزّعها بنسبة: 60% بوستات، والباقي يتوزع بالتساوي
+        $postsLimit = (int) ceil($paginateSize * 0.6);
+        $remaining = $paginateSize - $postsLimit;
+        $employeesLimit = (int) floor($remaining / 2);
+        $companiesLimit = $remaining - $employeesLimit;
     }
 
-    if (!$type || $type === 'employees') {
-        $employees = $this->searchEmployees($request)->map(function ($item) {
-            $item->group_type = 'employees';
-            return $item;
-        });
+    // جلب البيانات
+    $allPosts = $this->searchPosts($request);
+    $allEmployees = $this->searchEmployees($request);
+    $allCompanies = $this->searchCompanies($request);
+
+    $posts = $allPosts->take($postsLimit)->map(function ($item) {
+        $item->group_type = 'posts';
+        return $item;
+    });
+
+    $employees = $allEmployees->take($employeesLimit)->map(function ($item) {
+        $item->group_type = 'employees';
+        return $item;
+    });
+
+    $companies = $allCompanies->take($companiesLimit)->map(function ($item) {
+        $item->group_type = 'companies';
+        return $item;
+    });
+
+    // تعويض النقص
+    $totalFetched = $posts->count() + $employees->count() + $companies->count();
+    $missing = $paginateSize - $totalFetched;
+
+    if ($missing > 0) {
+        // نحاول نكمل أولًا من posts
+        if ($posts->count() < $allPosts->count()) {
+            $extra = $allPosts->slice($posts->count(), $missing)->map(function ($item) {
+                $item->group_type = 'posts';
+                return $item;
+            });
+            $posts = $posts->merge($extra);
+            $missing -= $extra->count();
+        }
+
+        // ثم من employees
+        if ($missing > 0 && $employees->count() < $allEmployees->count()) {
+            $extra = $allEmployees->slice($employees->count(), $missing)->map(function ($item) {
+                $item->group_type = 'employees';
+                return $item;
+            });
+            $employees = $employees->merge($extra);
+            $missing -= $extra->count();
+        }
+
+        // ثم من companies
+        if ($missing > 0 && $companies->count() < $allCompanies->count()) {
+            $extra = $allCompanies->slice($companies->count(), $missing)->map(function ($item) {
+                $item->group_type = 'companies';
+                return $item;
+            });
+            $companies = $companies->merge($extra);
+        }
     }
 
-    if (!$type || $type === 'companies') {
-        $companies = $this->searchCompanies($request)->map(function ($item) {
-            $item->group_type = 'companies';
-            return $item;
-        });
-    }
-
-    // دمج النتيجة النهائية
+    // دمج البيانات
     $merged = collect()
         ->merge($posts)
         ->merge($employees)
@@ -54,22 +101,24 @@ public function search(Request $request)
         ->sortByDesc('created_at')
         ->values();
 
-    // Paginate
+    // Paginate يدوي
     $paginated = $merged->customPaginate($paginateSize);
 
-    // Group by type (تجميع حسب النوع وإرجاع الفاضيين لو مش موجودين)
+    // Grouped output
     $grouped = [
-        'posts' => $merged->where('group_type', 'posts')->values(),
-        'employees' => $merged->where('group_type', 'employees')->values(),
-        'companies' => $merged->where('group_type', 'companies')->values(),
+        'posts' => $posts->values(),
+        'employees' => $employees->values(),
+        'companies' => $companies->values(),
     ];
 
-    // ربط الـ pagination بالـ grouped
+    // تحضير النتيجة النهائية
     $paginatedArray = $paginated->toArray();
     $paginatedArray['data'] = $grouped;
 
     return response()->json($paginatedArray);
 }
+
+
 
 
 
