@@ -334,7 +334,13 @@ return [
     'resolution_number' => 'Resolution of Ads Of the Promotion',
     'video' => 'Video',
     'choose_file_type' => 'Choose File Type',
-    
+    'is_poll' => 'Is Poll?',
+    'poll' => 'Poll',
+    'polls' => 'Polls',
+    'polls_list' => 'Polls List',
+    'add_poll' => 'Add Poll',
+    'yes' => 'Yes',
+    'no' => 'No',
 
 
 

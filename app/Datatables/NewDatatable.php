@@ -31,6 +31,10 @@ class NewDatatable extends BaseDatatable
                 $title = $model?->contentNews;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
+              'is_poll' => function ($model) {
+                $title = $model?->is_poll == 1 ? __('dashboard.yes') : __('dashboard.no');
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
             'created_at' => function ($model) {
                 $title = $model?->created_at;
                 return view('components.datatable.includes.columns.title', compact('title'));
@@ -42,8 +46,9 @@ class NewDatatable extends BaseDatatable
     protected function getColumns(): array
     {
         return [
-            Column::computed('title')->title('العنوان')->className('text-center'),
+            Column::computed('title')->title(__('dashboard.title'))->className('text-center'),
             Column::computed('contentNews')->title(__('dashboard.contentNews'))->className('text-center'),
+            Column::computed('is_poll')->title(__('dashboard.is_poll'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 
         ];

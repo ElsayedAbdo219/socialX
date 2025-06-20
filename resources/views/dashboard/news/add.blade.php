@@ -48,6 +48,19 @@
                                     </div>
                                       </div>
 
+
+                                      <div class="form-group col-4">
+                                    <label class="w-100" for="is_poll">{{ __('dashboard.is_poll') }}
+                                        <br>
+                                        <label><input type="checkbox" name="is_poll" value="1">
+                                                                                        @lang('dashboard.yes')</label><br>
+                                        <label><input type="checkbox" name="is_poll" value="0"> @lang('dashboard.no') </label><br>
+                                        @error('is_poll')
+                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </label>
+                                </div>
+
                                   
                                 </div>
                                 <div class="col-12">

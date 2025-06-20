@@ -9,7 +9,9 @@ class News extends Model
 {
     use HasFactory;
     protected $guarded=[];
-
+    protected $casts = [
+        'is_poll' => 'boolean',
+    ];
 
     # Relations
        # Scopes
