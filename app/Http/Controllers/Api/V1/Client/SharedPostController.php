@@ -14,7 +14,7 @@ class SharedPostController extends Controller {
   {
     $requestDataValidated = $request->validated();
     $Post = Post::where('id',$requestDataValidated['post_id'])->first();
-    abort_if(auth('api')->id() == $Post->user_id , 'غير مسموح بمشاركة منشورك');
+    abort_if(auth('api')->id() == $Post->user_id, 403, 'غير مسموح بمشاركة منشورك');
 
     \DB::beginTransaction();
     $requestDataValidated['user_id'] = auth('api')->id();
