@@ -13,31 +13,34 @@ use App\Http\Requests\Api\V1\Client\CommentRequest;
 class CommentController extends Controller
 {
 
-  public function add(CommentRequest $request)
-  {
+public function add(CommentRequest $request)
+{
     $requestDataValidated = $request->validated();
     \DB::beginTransaction();
     $requestDataValidated['user_id'] = auth('api')->id();
     Comment::create($requestDataValidated);
-    # sending a notification to the user
     $postId = $request->post_id;
     $post = Post::where('id', $postId)->first();
     $notifabels = Member::where('id', $post->user_id)->first();
-    $notificationData = [
-      'title' => " تعليق جديد علي منشور ",
-      'body' => "تم التعليق علي منشورك من " . (
-        auth('api')->user()->full_name
-        ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
-      ),
 
+    $notificationData = [
+        'title' => "تعليق جديد علي منشور",
+        'body' => "تم التعليق علي منشورك من " . (
+            auth('api')->user()->full_name
+            ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
+        ),
     ];
-    \Illuminate\Support\Facades\Notification::send(
-      $notifabels,
-      new ClientNotification($notificationData, ['database', 'firebase'])
+          // dd($notificationData, 'ClientNotification');
+    $status = \Illuminate\Support\Facades\Notification::send(
+        $notifabels,
+        new ClientNotification($notificationData, ['database', 'firebase'])
     );
+    // dd($status, 'ClientNotification');
+
     \DB::commit();
-    return response()->json(['message' => 'تم النعليق علي المنشور بنجاح'], 200);
-  }
+    return response()->json(['message' => 'تم التعليق علي المنشور بنجاح'], 200);
+}
+
 
   public function update(CommentRequest $request, $Comment_Id): JsonResponse
   {
@@ -52,7 +55,10 @@ class CommentController extends Controller
     $notifabels = Member::where('id', $post->user_id)->first();
     $notificationData = [
       'title' => " تعليق جديد علي منشور ",
-      'body' =>  "  تم التعليق علي منشورك من " . auth("api")->user()->full_name,
+      'body' =>  "  تم التعليق علي منشورك من " . (
+            auth('api')->user()->full_name
+            ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
+        ),
     ];
     \Illuminate\Support\Facades\Notification::send(
       $notifabels,

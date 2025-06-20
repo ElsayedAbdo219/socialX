@@ -24,7 +24,10 @@ class SharedPostController extends Controller {
     $notifabels = Member::where('id',$post->user_id)->first();
     $notificationData = [
       'title' => " مشاركة منشور جديد ",
-      'body' =>  "  تم مشاركة منشورك من " . auth("api")->user()->full_name,
+      'body' =>  "  تم مشاركة منشورك من " . (
+            auth('api')->user()->full_name
+            ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
+        ),
     ];
     \Illuminate\Support\Facades\Notification::send(
       $notifabels,
@@ -45,7 +48,10 @@ class SharedPostController extends Controller {
     $notifabels = Member::where('id',$post->user_id)->first();
     $notificationData = [
       'title' => " مشاركة منشور جديد ",
-      'body' =>  "  تم مشاركة منشورك من " . auth("api")->user()->full_name,
+      'body' =>  "  تم مشاركة منشورك من " . (
+            auth('api')->user()->full_name
+            ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
+        ),
     ];
     \Illuminate\Support\Facades\Notification::send(
       $notifabels,

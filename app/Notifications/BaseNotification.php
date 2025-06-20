@@ -13,91 +13,102 @@ use Illuminate\Notifications\Notification;
 
 class BaseNotification extends Notification implements ShouldQueue
 {
-    use Queueable;
+  use Queueable;
 
-    protected $notificationData;
+  protected $notificationData;
 
-    protected $notificationVia = ['mail', 'sms', 'firebase', 'pusher', 'database'];
+  protected $notificationVia = ['mail', 'sms', 'firebase', 'pusher', 'database'];
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct($notificationData)
-    {
-        $this->notificationData = $notificationData;
+  /**
+   * Create a new notification instance.
+   */
+  public function __construct($notificationData)
+  {
+    // dd($notificationData , 'BaseNotification');
+    $this->notificationData = $notificationData;
+  }
+
+  /**
+   * Get the notification's delivery channels.
+   *
+   * @return array<int, string>
+   */
+  public function via($notifiable)
+  {
+    if (in_array('firebase', $this->notificationVia)) {
+      $via[] = FcmChannel::class;
+    }
+    if (in_array('mail', $this->notificationVia)) {
+      $via[] = 'mail';
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
-    public function via($notifiable)
-    {
-        if (in_array('firebase', $this->notificationVia)) {
-            $via[] = FcmChannel::class;
-        }
-        if (in_array('mail', $this->notificationVia)) {
-            $via[] = 'mail';
-        }
+    if (in_array('database', $this->notificationVia)) {
+      $via[] = 'database';
+    }
+    return $via ?? [];
+  }
 
-        if (in_array('database', $this->notificationVia)) {
-            $via[] = 'database';
-        }
-        return $via ?? [];
+
+  /**
+   * Get the mail representation of the notification.
+   */
+  public function toMail(object $notifiable): MailMessage
+  {
+    $rawTitle = $this->notificationData['title'] ?? '';
+    $rawBody = $this->notificationData['body'] ?? '';
+
+    $decodedTitle = json_decode($rawTitle, true);
+    $title = is_array($decodedTitle)
+      ? ($decodedTitle[app()->getLocale()] ?? __('messages.responses.notification'))
+      : $rawTitle;
+
+    $decodedBody = json_decode($rawBody, true);
+    $body = is_array($decodedBody)
+      ? ($decodedBody['data'] ?? [])
+      : [$rawBody];
+    //  dd($title, $body);
+    return (new MailMessage())
+      ->subject($title)
+      ->markdown('emails.general', compact('title', 'body'));
+  }
+
+
+
+  /**
+   * Get the array representation of the notification.
+   *
+   * @return array<string, mixed>
+   */
+  public function toArray(object $notifiable): array
+  {
+    if (in_array('sms', $this->notificationVia)) {
+      $this->sendToSms($notifiable);
     }
 
-
-    /**
-     * Get the mail representation of the notification.
-     */
-    public function toMail(object $notifiable): MailMessage
-    {
-        $title = json_decode(data_get($this->notificationData, 'title'), true)[app()->getLocale()] ?? __('messages.responses.notification');
-        $body = json_decode(data_get($this->notificationData, 'body'), true)['data'] ?? [];
-        $body = is_array($body) ? $body : [$body];
-
-        return (new MailMessage())
-            ->subject($title)
-            ->markdown(
-                'emails.general',
-                compact('title', 'body')
-            );
+    if (in_array('pusher', $this->notificationVia)) {
+      $this->sendToPusher($notifiable);
     }
 
+    return [
+      'title' => $this->notificationData['title'] ?? '',
+      'body' => $this->notificationData['body'] ?? '',
+      'anotherData' => is_array($this->notificationData['body'])
+        ? ($this->notificationData['body']['anotherData'] ?? '')
+        : '',
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(object $notifiable): array
-    {
-        if (in_array('sms', $this->notificationVia)) {
-            $this->sendToSms($notifiable);
-        }
-
-        if (in_array('pusher', $this->notificationVia)) {
-            $this->sendToPusher($notifiable);
-        }
-
-        return [
-            'title' => $this->notificationData['title'] ?? '',
-            'body' => $this->notificationData['body'] ?? '',
-            'anotherData' => $this->notificationData['body']['anotherData'] ?? '',
-        ];
-    }
+    ];
+  }
 
 
-    public function sendToSms(object $notifiable)
-    {
-        # Note $notificationData must contain body
-        sendSMS($this->notificationData['body'], $notifiable->mobile);
-    }
+  public function sendToSms(object $notifiable)
+  {
+    # Note $notificationData must contain body
+    sendSMS($this->notificationData['body'], $notifiable->mobile);
+  }
 
-    public function sendToPusher(object $notifiable)
-    {
-        # Note $notificationData must contain title , body and topic attributes
-        event(new NotificationEvent($this->notificationData));
-    }
+  public function sendToPusher(object $notifiable)
+  {
+    # Note $notificationData must contain title , body and topic attributes
+    event(new NotificationEvent($this->notificationData));
+  }
 }

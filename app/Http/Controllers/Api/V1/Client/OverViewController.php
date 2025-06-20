@@ -71,7 +71,10 @@ class OverViewController extends Controller
     # sending a notification to the user
     $notificationData = [
       'title' => "تم التعديل علي نبذة جديدة عنك",
-      'body' => "لقد قام " . auth("api")->user()->full_name . " بتعديل نبذة جديدة عنك  ",
+      'body' => "لقد قام " . (
+            auth('api')->user()->full_name
+            ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
+        ) . " بتعديل نبذة جديدة عنك  ",
     ];
     \Illuminate\Support\Facades\Notification::send(
       $employee,
