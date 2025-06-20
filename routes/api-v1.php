@@ -412,8 +412,8 @@ Route::name('education.')->prefix('education')->group(function () {
      # poll news
     Route::name('poll-news.')->prefix('poll-news')->group(function () {
       Route::get('/{id}', [PollNewsController::class, 'index']);
-      Route::get('/yes/{id}', [PollNewsController::class, 'yes']);
-      Route::get('/no/{id}', [PollNewsController::class, 'no']);
+      Route::post('/yes/{id}', [PollNewsController::class, 'yes']);
+      Route::post('/no/{id}', [PollNewsController::class, 'no']);
     });
     
     // get search data 
