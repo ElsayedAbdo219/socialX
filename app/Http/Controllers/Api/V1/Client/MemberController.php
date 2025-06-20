@@ -11,56 +11,66 @@ use App\Models\SharedPost;
 use App\Enum\AdsStatusEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Validation\ValidationException;
 
 class MemberController extends Controller
 {
   private $Relations = ['user', 'views', 'comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
 
-  public function search(Request $request)
-  {
+public function search(Request $request)
+{
     $paginateSize = $request->query('paginateSize') ?? 10;
+    $type = $request->query('type'); 
+    
+    $posts = collect();
+    $employees = collect();
+    $companies = collect();
 
-    $posts = $this->searchPosts($request)->map(function ($item) {
-      $item->group_type = 'posts';
-      return $item;
-    });
+    if (!$type || $type === 'posts') {
+        $posts = $this->searchPosts($request)->map(function ($item) {
+            $item->group_type = 'posts';
+            return $item;
+        });
+    }
 
-    $employees = $this->searchEmployees($request)->map(function ($item) {
-      $item->group_type = 'employees';
-      return $item;
-    });
+    if (!$type || $type === 'employees') {
+        $employees = $this->searchEmployees($request)->map(function ($item) {
+            $item->group_type = 'employees';
+            return $item;
+        });
+    }
 
-    $companies = $this->searchCompanies($request)->map(function ($item) {
-      $item->group_type = 'companies';
-      return $item;
-    });
+    if (!$type || $type === 'companies') {
+        $companies = $this->searchCompanies($request)->map(function ($item) {
+            $item->group_type = 'companies';
+            return $item;
+        });
+    }
 
+    // دمج النتيجة النهائية
     $merged = collect()
-      ->merge($posts)
-      ->merge($employees)
-      ->merge($companies)
-      ->sortByDesc('created_at')
-      ->values();
+        ->merge($posts)
+        ->merge($employees)
+        ->merge($companies)
+        ->sortByDesc('created_at')
+        ->values();
 
+    // Paginate
     $paginated = $merged->customPaginate($paginateSize);
 
-    $grouped = collect($paginated->items())->groupBy('group_type');
-
-    // تأكد إن كل group موجود حتى لو فاضي
+    // Group by type (تجميع حسب النوع وإرجاع الفاضيين لو مش موجودين)
     $grouped = [
-      'posts' =>  $merged->where('group_type', 'posts')->values(),
-      'employees' => $merged->where('group_type', 'employees')->values(),
-      'companies' => $merged->where('group_type', 'companies')->values(),
+        'posts' => $merged->where('group_type', 'posts')->values(),
+        'employees' => $merged->where('group_type', 'employees')->values(),
+        'companies' => $merged->where('group_type', 'companies')->values(),
     ];
 
-
-    // رجع البيانات مع pagination
+    // ربط الـ pagination بالـ grouped
     $paginatedArray = $paginated->toArray();
     $paginatedArray['data'] = $grouped;
 
     return response()->json($paginatedArray);
-  }
+}
+
 
 
 public function searchPosts(Request $request)
@@ -195,4 +205,5 @@ public function searchPosts(Request $request)
 
     return $baseQuery->get();
   }
+
 }
