@@ -94,7 +94,6 @@ class Member extends Authenticatable
 
   public function rateEmployee()
   {
-
     return $this->hasMany(RateEmployee::class, 'employee_id');
   }
 

@@ -9,10 +9,23 @@ class Job extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'member_id',
+        'job_name',
+        'employee_type',
+        'job_period',
+        'overview',
+        'job_category',
+        'job_description',
+        'work_level',
+        'salary',
+        'salary_period',
+        'experience',
+        'location',
+        'is_active'
+    ];
 
     protected $table = "jobs_applies";
-
 
     protected $casts = [
 
@@ -20,7 +33,6 @@ class Job extends Model
         'job_description' => 'array',
 
     ];
-
     // Job_Description
 
     # Getters
@@ -33,9 +45,6 @@ class Job extends Model
         return json_decode($value, true);
     }
 
-
-
-
     # relationships
 
     public function member()
@@ -43,22 +52,10 @@ class Job extends Model
         return $this->belongsTo(Member::class, 'member_id');
     }
 
-
-
     public function jobAppliers()
     {
         return $this->hasMany(UserApplyJob::class, 'jobs_applies_id');
     }
-
-
-    public function jobApplierMember()
-    {
-        return $this->belongsTo(UserApplyJob::class, 'employee_id');
-    }
-
-
-
-
     # SCOPES
 
     public function scopeOfName($query,$value){
@@ -68,6 +65,14 @@ class Job extends Model
             $query->where('full_name','like',"%$value%");
 
         });
+    }
+
+    public function scopeOfStatus($query, $value)
+    {
+        if ($value == null) {
+            return $query;
+        }
+        return $query->where('is_Active', $value);
     }
 
 }
