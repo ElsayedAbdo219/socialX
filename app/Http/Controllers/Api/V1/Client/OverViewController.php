@@ -75,6 +75,7 @@ class OverViewController extends Controller
             auth('api')->user()->full_name
             ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
         ) . " بتعديل نبذة جديدة عنك  ",
+      'id' => $overview->id,
     ];
     \Illuminate\Support\Facades\Notification::send(
       $employee,

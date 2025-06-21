@@ -29,6 +29,7 @@ public function add(CommentRequest $request)
             auth('api')->user()->full_name
             ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
         ),
+        'id' => $request->post_id,
     ];
           // dd($notificationData, 'ClientNotification');
     $status = \Illuminate\Support\Facades\Notification::send(

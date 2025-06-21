@@ -34,6 +34,7 @@ class ReactController extends Controller
             auth('api')->user()->full_name
             ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
         ),
+      'id' => $request->post_id,
     ];
     \Illuminate\Support\Facades\Notification::send(
       $notifabels,

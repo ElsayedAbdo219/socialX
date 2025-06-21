@@ -49,6 +49,7 @@ class ExperienceController extends Controller
         $notificationData = [
             'title' => " اضافة تعليق عن موظف ",
             'body' => "قام " . auth('api')->user()?->first_name.' '.auth('api')->user()?->last_name . " باضافتكم كشركة عمل بها!",
+            'id' => $experience->id,
 
         ];
 
