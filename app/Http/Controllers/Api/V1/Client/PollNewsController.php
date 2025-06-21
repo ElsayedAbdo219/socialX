@@ -26,7 +26,7 @@ class PollNewsController extends Controller
   }
   public function yes($id)
   {
-    $PollNews = PollNews::where('news_id',$id)?->first();
+    $PollNews = PollNews::where('news_id',$id)->where('user_id',auth('api')->id())?->first();
     if (!$PollNews) {
       $PollNews = new PollNews();
       $PollNews->news_id = $id;
@@ -40,7 +40,7 @@ class PollNewsController extends Controller
 
   public function no($id)
   {
-    $PollNews = PollNews::where('news_id',$id)?->first();
+    $PollNews = PollNews::where('news_id',$id)->where('user_id',auth('api')->id())?->first();
     if (!$PollNews) {
       $PollNews = new PollNews();
       $PollNews->news_id = $id;
