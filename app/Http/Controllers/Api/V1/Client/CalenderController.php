@@ -25,7 +25,7 @@ class CalenderController extends Controller
     public function show()
     {
 
-      return  Calender::with('member')->OfUser(auth('api')->user()->id)->paginate(10) ;
+      return  Calender::with('member')->OfUser(auth('api')->user()->id)->get() ;
         
 
     }
