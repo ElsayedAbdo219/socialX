@@ -15,6 +15,11 @@ class PollNews extends Model
         'no'
     ];
     protected $table = 'poll_news';
+    protected $casts = [
+        'yes' => 'boolean',
+        'no' => 'boolean',
+    ];
+    protected $with = ['user'];
     public function news()
     {
         return $this->belongsTo(News::class);
