@@ -86,7 +86,7 @@ class BaseNotification extends Notification implements ShouldQueue
    */
   public function toArray(object $notifiable): array
   {
-      // dd($this->notificationData , 'BaseNotification');
+      dd($this->notificationData , 'BaseNotification');
 
     if (in_array('sms', $this->notificationVia)) {
       $this->sendToSms($notifiable);
