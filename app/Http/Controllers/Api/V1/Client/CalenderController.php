@@ -22,10 +22,13 @@ class CalenderController extends Controller
 
     }
 
-    public function show()
+    public function show(Request $request)
     {
-
+       
       return  Calender::with('member')->OfUser(auth('api')->user()->id)
+      ->when($request->query('search'), function ($query) use ($request) {
+            $query->where('task', 'like', '%' . $request->search . '%');
+        })
       ->orderByDesc('updated_at')->orderByDesc('created_at')->get() ;
         
 
