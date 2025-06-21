@@ -34,6 +34,15 @@ class NotificationController extends Controller
         
         return response()->json(['message' => 'تم تحديث الإشعار بنجاح'], 200);
     }
+    public function countNotifications()
+    {
+      return 
+      [
+        'all-Notifications' => Notification::where('notifiable_id', auth('api')->id())->count(),
+        'unread-Notifications' => Notification::where('notifiable_id', auth('api')->id())->where('read_at', null)->count(),
+        'read-Notifications' => Notification::where('notifiable_id', auth('api')->id())->whereNotNull('read_at')->count(),
+      ];
+    }
 
 
 }

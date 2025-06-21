@@ -312,6 +312,7 @@ Route::name('education.')->prefix('education')->group(function () {
      # Notifications
      Route::get('showNotifications', [NotificationController::class, 'showNotifications']);
      Route::get('markAsRead/{id}', [NotificationController::class, 'markAsRead']);
+     Route::get('countNotifications', [NotificationController::class, 'countNotifications']);
 
 
      Route::get('getMemberData/{Member}', [EmployeeController::class, 'getMemberData']);
