@@ -14,6 +14,10 @@ class News extends Model
     ];
 
     # Relations
+    public function poll()
+    {
+        return $this->hasOne(PollNews::class);
+    }
        # Scopes
        public function scopeOfContent($query, $value)
        {
