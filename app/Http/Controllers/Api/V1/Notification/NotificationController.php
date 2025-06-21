@@ -73,7 +73,7 @@ class NotificationController extends Controller
                     'data' => $request->body,
                     'anotherData' => [
                         'type' => 'send_notification',
-                        'id' => null,
+                        'id' => $request->body['id'] ?? null,
                         'notify_type' => 'admin',
                     ]
                 ]

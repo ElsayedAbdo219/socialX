@@ -33,8 +33,11 @@ class BaseNotification extends Notification implements ShouldQueue
    *
    * @return array<int, string>
    */
+  
+
   public function via($notifiable)
   {
+    // dd($this->notificationData, 'BaseNotification');
     if (in_array('firebase', $this->notificationVia)) {
       $via[] = FcmChannel::class;
     }
@@ -54,6 +57,8 @@ class BaseNotification extends Notification implements ShouldQueue
    */
   public function toMail(object $notifiable): MailMessage
   {
+      // dd($this->notificationData , 'BaseNotification');
+
     $rawTitle = $this->notificationData['title'] ?? '';
     $rawBody = $this->notificationData['body'] ?? '';
 
@@ -81,6 +86,8 @@ class BaseNotification extends Notification implements ShouldQueue
    */
   public function toArray(object $notifiable): array
   {
+      // dd($this->notificationData , 'BaseNotification');
+
     if (in_array('sms', $this->notificationVia)) {
       $this->sendToSms($notifiable);
     }
@@ -88,11 +95,11 @@ class BaseNotification extends Notification implements ShouldQueue
     if (in_array('pusher', $this->notificationVia)) {
       $this->sendToPusher($notifiable);
     }
-
+    // dd($this->notificationData , 'BaseNotification');
     return [
       'title' => $this->notificationData['title'] ?? '',
       'body' => $this->notificationData['body'] ?? '',
-      // 'id' => $this->notificationData['id'] ?? '',
+      'id' => $this->notificationData['id'] ?? '',
       'anotherData' => $this->notificationData['id'] ?? '',
 
     ];

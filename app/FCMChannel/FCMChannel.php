@@ -10,11 +10,13 @@ class FCMChannel
     public function send($notifiable, Notification $notification)
     {
         $notificationData = $notification->toArray($notifiable);
+        dd($notificationData, 'FCMChannel');
         (new SendFCM())
             ->sendNotification(
                 title: $notificationData['title'],
                 body: $notificationData['body'],
-                anotherData: $notificationData['anotherData'],
+                // id: $notificationData['id'],
+                anotherData: $notificationData['id'],
                 notifiable: $notifiable
             );
     }

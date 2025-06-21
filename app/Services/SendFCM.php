@@ -71,6 +71,7 @@ class SendFCM
         $payload = [
             'title' => $title ?? '',
             'body' => $body ?? '',
+            'anotherData' => $anotherData ?? [],
             'created_at' => (string)Carbon::now(),
         ];
 

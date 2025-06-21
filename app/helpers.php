@@ -455,6 +455,7 @@ if (!function_exists('prepareNotification')) {
         return [
             'title' => json_encode(['en' => __($title, $replace, 'en'), 'ar' => __($title, $replace, 'ar')]),
             'body' => json_encode($body ?? $title),
+            
         ];
     }
 }
