@@ -99,7 +99,7 @@ class BaseNotification extends Notification implements ShouldQueue
     return [
       'title' => $this->notificationData['title'] ?? '',
       'body' => $this->notificationData['body'] ?? '',
-      'id_link' => $this->notificationData['id'] ?? '',
+      'id_link' => $this->notificationData['id_link'] ?? '',
       'type' => $this->notificationData['type'] ?? '',
       'anotherData' => ' ',
 
