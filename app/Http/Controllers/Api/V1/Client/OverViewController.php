@@ -26,12 +26,14 @@ class OverViewController extends Controller
     }
     $data['company_id'] = auth('api')->id();
     \DB::beginTransaction();
-    OverView::create($data);
+    $overview = OverView::create($data);
 
     # sending a notification to the user
     $notificationData = [
       'title' => "تم اضافة نبذة جديدة عنك",
       'body' => "لقد قام " . auth("api")->user()->full_name . " باضافة نبذة جديدة عنك  ",
+       'type' => 'overview',
+        'id_link' => $overview->id, 
     ];
     \Illuminate\Support\Facades\Notification::send(
       $employee,
@@ -75,7 +77,8 @@ class OverViewController extends Controller
             auth('api')->user()->full_name
             ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
         ) . " بتعديل نبذة جديدة عنك  ",
-      'id' => $overview->id,
+         'type' => 'overview',
+        'id_link' => $id, 
     ];
     \Illuminate\Support\Facades\Notification::send(
       $employee,

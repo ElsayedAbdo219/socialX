@@ -29,7 +29,8 @@ class SharedPostController extends Controller {
             auth('api')->user()->full_name
             ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
         ),
-      'id' => $request->post_id,
+         'type' => 'shared_post',
+        'id_link' => $request->post_id,   
     ];
     \Illuminate\Support\Facades\Notification::send(
       $notifabels,
@@ -54,6 +55,8 @@ class SharedPostController extends Controller {
             auth('api')->user()->full_name
             ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
         ),
+         'type' => 'shared_post',
+        'id_link' => $request->post_id, 
     ];
     \Illuminate\Support\Facades\Notification::send(
       $notifabels,
