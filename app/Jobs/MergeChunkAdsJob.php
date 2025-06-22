@@ -25,14 +25,14 @@ class MergeChunkAdsJob implements ShouldQueue
 
 public function handle(): void
 {
-    \Log::info("🔁 Starting merge for: {$this->chunkPath}-{$this->finalPath}" );
+    \Log::info("Starting merge for: {$this->chunkPath}-{$this->finalPath}" );
 
     $chunks = collect(scandir($this->chunkPath))
         ->filter(fn($name) => is_numeric($name))
         ->sortBy(fn($name) => (int) $name);
 
     if ($chunks->isEmpty()) {
-        \Log::error("🚫 No chunks found in: {$this->chunkPath}");
+        \Log::error("No chunks found in: {$this->chunkPath}");
         return;
     }
 

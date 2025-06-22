@@ -12,6 +12,7 @@ class SponserController extends Controller
       $paginateSize = $request->query('paginateSize', 10);
        return Sponser::select('id','image','user_id')
             ->with('company')
+            ->orderBy('order', 'asc')
             ->paginate($paginateSize);
         // return SponserResource::collection(Sponser::select('id','image','user_id')->with('user')->paginate($paginateSize));
     }
