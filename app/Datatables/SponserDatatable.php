@@ -14,7 +14,7 @@ class SponserDatatable extends BaseDatatable
     
     public function query(): Builder
     {
-        return Sponser::query()->when(request('search')['value'],function ($q){
+        return Sponser::query()->orderBy('order', 'asc')->when(request('search')['value'],function ($q){
             $q->ofName(request('search')['value']);
         })->latest();
     }
