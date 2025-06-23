@@ -341,6 +341,10 @@ return [
     'add_poll' => 'Add Poll',
     'yes' => 'Yes',
     'no' => 'No',
+    'No_Logo' => 'No Logo',
+    'No_Cover_Letter' => 'No Cover Letter',
+    'No_Image' => 'No Image', 
+    
 
 
 

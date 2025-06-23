@@ -313,6 +313,12 @@ return [
     'yes' => 'نعم',
     'no' => 'لا',
     'polling_question' => 'سؤال الاستطلاع',
+    'No_Logo' => 'لا يوجد ',
+    'No_Cover_Letter' => 'لا يوجد  ',
+    'No_Image' => 'لا يوجد ',
+    'No_Video' => 'لا يوجد ',
+    'No_Ads_Price' => 'لا يوجد  ',
+    'No_Ads_Price' => 'لا يوجد  ',
 
 
 

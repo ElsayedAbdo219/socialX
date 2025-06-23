@@ -30,12 +30,23 @@ class CompanyDataTable extends BaseDatatable
             },
 
             'logo' => function ($model) {
+                if (is_null($model->logo)) {
+                    return __('<span class="text-danger">'.__("dashboard.No_Logo").'</span>');
+                } else {
+                    $image = asset($model->logo);
+                }
                 $image = asset($model->logo);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
 
 
             'coverletter' => function ($model) {
+            
+                if (is_null($model->coverletter)) {
+                    return __('<span class="text-danger">'.__("dashboard.No_Cover_Letter").'</span>');
+                } else {
+                    $image = asset($model->coverletter);
+                }
                 $image = asset($model->coverletter);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
