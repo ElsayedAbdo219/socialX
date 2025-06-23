@@ -105,40 +105,40 @@ class JobController extends Controller
   {
     $paginateSize = $request->query('paginateSize', 10);
     $jobs = Job::OfStatus(1)
-      ->when($request->employee_type, function ($query, $value) {
+      ->when($request->query("employee_type"), function ($query, $value) {
         return $query->where('employee_type', 'like', "%$value%");
       })
-      ->when($request->job_category, function ($query, $value) {
+      ->when($request->query("job_category"), function ($query, $value) {
         return $query->where('job_category', 'like', "%$value%");
       })
-      ->when($request->job_name, function ($query, $value) {
+      ->when($request->query("job_name"), function ($query, $value) {
         return $query->where('job_name', 'like', "%$value%");
       })
-      ->when($request->work_level, function ($query, $value) {
+      ->when($request->query("work_level"), function ($query, $value) {
         return $query->where('work_level', 'like', "%$value%");
       })
-      ->when($request->salary, function ($query, $value) {
+      ->when($request->query("salary"), function ($query, $value) {
         return $query->where('salary', '>=', (float) $value);
       })
-      ->when($request->salary_period, function ($query, $value) {
+      ->when($request->query("salary_period"), function ($query, $value) {
         return $query->where('salary_period', 'like', "%$value%");
       })
-      ->when($request->experience, function ($query, $value) {
+      ->when($request->query("experience"), function ($query, $value) {
         return $query->where('experience', 'like', "%$value%");
       })
-      ->when($request->job_period, function ($query, $value) {
+      ->when($request->query("job_period"), function ($query, $value) {
         return $query->where('job_period', 'like', "%$value%");
       })
-      ->when($request->location, function ($query, $value) {
+      ->when($request->query("location"), function ($query, $value) {
         return $query->where('location', 'like', "%$value%");
       })
-      ->when($request->overview, function ($query, $value) {
+      ->when($request->query("overview"), function ($query, $value) {
         return $query->where('overview', 'like', "%$value%");
       })
-      ->when($request->job_description, function ($query, $value) {
+      ->when($request->query("job_description"), function ($query, $value) {
         return $query->whereJsonContains('job_description', $value);
       })
-      ->when($request->created_at, function ($query, $value) {
+      ->when($request->query("created_at"), function ($query, $value) {
         return $query->whereDate('created_at', $value);
       })
 
