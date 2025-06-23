@@ -149,7 +149,7 @@ public function resendOtp(Request $request){
     ]);
      // إرسال OTP عبر البريد الإلكتروني
     // Mail::to($dataRequest['email'])->send(new OtpMail($otpRecord['otp']));
-      return $this->respondWithSuccess('The Otp Resend Successfully , is '.$otpRecord['otp']);
+      return $this->respondWithSuccess('The Otp Resend Successfully');
 }
 
 
@@ -173,7 +173,7 @@ public function forgetPassword(Request $request)
 
     // إرسال OTP عبر البريد الإلكتروني
     // Mail::to($dataRequest['email'])->send(new OtpMail($otp));
-    return $this->respondWithSuccess(' OTP has been sent  is '.$otp);
+    return $this->respondWithSuccess(' OTP has been sent successfully');
 }
 
 
