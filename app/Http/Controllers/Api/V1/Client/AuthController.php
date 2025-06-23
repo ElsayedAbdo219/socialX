@@ -48,6 +48,14 @@ public function register(RegisterClientRequest $request){
     // if ($request->user_type === UserTypeEnum::COMPANY) {
     //     $member->promotion()->attach($freePromotion->id);
     // }
+    $otp = mt_rand(100000, 999999);
+// return mt_rand(100000, 999999);
+    OtpAuthenticate::create([
+        'email'       => $dataValidated['email'],
+        'otp'         => $otp,
+        'expiryDate'  => now()->addMinutes(12),
+    ]);
+    Mail::to($member->email)->send(new OtpMail($otp));
     \DB::commit();
    return $this->respondWithSuccess('User Register Successfully', [
         'member' => $member,
