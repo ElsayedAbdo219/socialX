@@ -43,11 +43,13 @@ class AuthController extends Controller
     $jobs = Job::whereDate('created_at', Carbon::today())->count();
     $all_jobs = Job::count();
     $jobs_appliers = UserApplyJob::count();
-
-    $Advertises = Post::where('status', 'advertise')
+    $allPosts = Post::where('status', '!=', 'advertise')->count();
+    $dailyAdvertises = Post::where('status', 'advertise')
       ->whereDate('created_at', Carbon::today())
       ->count();
-
+      $Advertises = Post::where('status', 'advertise')
+      ->count();
+  // return [$Advertises ,$allPosts ];
     // start chat js script
     // $chart = new SampleChart;
     // $chart->labels(['One', 'Two', 'Three', 'Four']);
@@ -74,15 +76,15 @@ class AuthController extends Controller
       ->options([]);
 
     $chartPosts = app()->chartjs
-      ->name('pieChartPPosts')
+      ->name('pieChartPosts')
       ->type('pie')
       ->size(['width' => 400, 'height' => 200])
       ->labels([__('dashboard.number_of_posts'), __('dashboard.number_of_advertises')])
       ->datasets([
         [
-          'backgroundColor' => ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2'],
-          'hoverBackgroundColor' => ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2'],
-          'data' => [Post::count(), $Advertises]
+          'backgroundColor' => ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2'], // 4 ألوان
+        'hoverBackgroundColor' => ['#4E79A7', '#F28E2B', '#E15759', '#76B7B2'],
+        'data' => [$allPosts, $Advertises] 
         ]
 
       ])
@@ -105,7 +107,7 @@ class AuthController extends Controller
         'all_jobs' => $all_jobs,
         'chart' => $chart,
         'chartPosts' => $chartPosts,
-        //'data' => $data ,
+        'dailyAdvertises' => $dailyAdvertises,
       ]
     );
   }

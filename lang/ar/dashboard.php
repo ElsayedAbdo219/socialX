@@ -319,6 +319,7 @@ return [
     'No_Video' => 'لا يوجد ',
     'No_Ads_Price' => 'لا يوجد  ',
     'No_Ads_Price' => 'لا يوجد  ',
+    'No_Personal_Photo' => 'لا يوجد  ',
 
 
 

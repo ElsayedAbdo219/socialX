@@ -206,7 +206,7 @@
                                             <img src="{{ asset('assets/images/details-icon-2.png') }}" alt="images" />
                                         </div>
                                         <div class="details">
-                                            <h5 style="text-align: center">{{ $Advertises }}</h5>
+                                            <h5 style="text-align: center">{{ $dailyAdvertises }}</h5>
                                             <span style="text-align: center">{{ __('dashboard.number_of_advertises_this_day') }}</span>
                                         </div>
                                     </div>

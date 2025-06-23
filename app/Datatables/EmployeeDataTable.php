@@ -26,18 +26,23 @@ class EmployeeDataTable extends BaseDatatable
     {
         return [
             'name' => function ($model) {
-                $title = $model?->full_name;
+                $title = $model?->first_name . ' ' . $model?->last_name ;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
             'personal_photo' => function ($model) {
                 // return $model->personal_photo ;
+                if (is_null($model->personal_photo)) {
+                    return __('<span class="text-danger">'.__("dashboard.No_Personal_Photo").'</span>');
+                }
                 $image = asset($model->personal_photo);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
 
-
             'coverletter' => function ($model) {
+                if (is_null($model->coverletter)) {
+                    return __('<span class="text-danger">'.__("dashboard.No_Cover_Letter").'</span>');
+                }
                 $image = asset($model->coverletter);
                 return view('components.datatable.includes.columns.image', compact('image'));
             },
