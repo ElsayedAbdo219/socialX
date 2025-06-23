@@ -29,6 +29,7 @@ use App\Http\Requests\Api\Auth\UpdatePasswordRequest;
 use App\Http\Requests\Api\Auth\SetPrivateAccountRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Enum\PromotionTypeEnum ;
+
 class AuthController extends Controller
 {
     use ApiResponseTrait;
