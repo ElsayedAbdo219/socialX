@@ -24,7 +24,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
-use App\Mail\OtpMail;
+use App\Mail\OTPMail;
 use App\Http\Requests\Api\Auth\UpdatePasswordRequest;
 use App\Http\Requests\Api\Auth\SetPrivateAccountRequest;
 use Illuminate\Support\Facades\Storage;
@@ -51,12 +51,12 @@ public function register(RegisterClientRequest $request){
     // }
     $otp = mt_rand(100000, 999999);
 // return mt_rand(100000, 999999);
-    OtpAuthenticate::create([
-        'email'       => $dataValidated['email'],
-        'otp'         => $otp,
-        'expiryDate'  => now()->addMinutes(12),
-    ]);
-    Mail::to($member->email)->send(new OtpMail($otp));
+    // OtpAuthenticate::create([
+    //     'email'       => $dataValidated['email'],
+    //     'otp'         => $otp,
+    //     'expiryDate'  => now()->addMinutes(12),
+    // ]);
+    // Mail::to($member->email)->send(new OTPMail($otp));
     \DB::commit();
    return $this->respondWithSuccess('User Register Successfully', [
         'member' => $member,
