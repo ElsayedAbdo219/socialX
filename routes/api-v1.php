@@ -272,15 +272,16 @@ Route::name('education.')->prefix('education')->group(function () {
 
        # jobs
        Route::name('jobs.')->prefix('jobs')->group(function () {
+        Route::get('/getAllJobs/forfilteration', [JobController::class, 'getAllJobs']);
+        Route::get('/getTopRated/employees', [JobController::class, 'getTopRated']);
+        Route::get('/getMyJobs/company', [JobController::class, 'getMyJobs']);
         Route::post('/', [JobController::class, 'add']);
         Route::put('/{job}', [JobController::class, 'update']);
         Route::delete('/{job}', [JobController::class, 'delete']);
         Route::get('/{job}', [JobController::class, 'get']);
-        Route::get('/getMyJobs/company', [JobController::class, 'getMyJobs']);
         Route::get('/Company/{companyId}', [JobController::class, 'getCompanyJobs']);
         Route::get('/setCompleted/{job}', [JobController::class, 'setCompletedJob']);
-        Route::post('/getAllJobs', [JobController::class, 'getAllJobs']);
-        Route::get('/getTopRated/employees', [JobController::class, 'getTopRated']);
+      
       });
 
       # user apply jobs
