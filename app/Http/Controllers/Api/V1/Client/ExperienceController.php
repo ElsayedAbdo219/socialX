@@ -24,7 +24,7 @@ class ExperienceController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'employment_type' => 'required|string|max:255',
-            'company_id' => 'required|integer|exists:members,id,type,' . UserTypeEnum::COMPANY,
+            'company_id' => 'nullable|integer|exists:members,id,type,' . UserTypeEnum::COMPANY,
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'location_type' => 'required|string|max:255',
@@ -43,22 +43,21 @@ class ExperienceController extends Controller
         
 
         $experience = Experience::create($data);
-
-         # sending a notification to the user   
+         # sending a notification to the user  
+        if(filled($data['company_id'])) {
         $notifabels = Member::find($data['company_id']);
         $notificationData = [
             'title' => " اضافة تعليق عن موظف ",
             'body' => "قام " . auth('api')->user()?->first_name.' '.auth('api')->user()?->last_name . " باضافتكم كشركة عمل بها!",
             'type' => 'experience',
              'id_link' => $experience->id, 
-             
-
         ];
 
         \Illuminate\Support\Facades\Notification::send(
             $notifabels,
             new ClientNotification($notificationData, ['database', 'firebase'])
         );
+      }
 
         return response()->json([
             'message' => 'تم إضافة الخبرة بنجاح',
@@ -96,7 +95,7 @@ class ExperienceController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'employment_type' => 'required|string|max:255',
-            'company_id' => 'required|integer|exists:members,id,type,' . UserTypeEnum::COMPANY,
+            'company_id' => 'nullable|integer|exists:members,id,type,' . UserTypeEnum::COMPANY,
              'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'location_type' => 'required|string|max:255',
@@ -116,6 +115,7 @@ class ExperienceController extends Controller
         
         $experience->update($data);
         # sending a notification to the user   
+        if(filled($data['company_id'])) {
         $notifabels = Member::find($data['company_id']);
         $notificationData = [
             'title' => " اضافة تعليق عن موظف ",
@@ -128,6 +128,7 @@ class ExperienceController extends Controller
             $notifabels,
             new ClientNotification($notificationData, ['database', 'firebase'])
         );
+      }
 
         return response()->json([
             'message' => 'تم تحديث تفاصيل الخبرة بنجاح',
