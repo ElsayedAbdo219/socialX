@@ -9,7 +9,7 @@ use Yajra\DataTables\Html\Column;
 
 class ComplainDatatable extends BaseDatatable
 {
-    protected ?string $actionable = 'edit';
+    protected ?string $actionable = 'edit|delete';
 
     public function query(): Builder
     {
@@ -39,11 +39,11 @@ class ComplainDatatable extends BaseDatatable
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
             'name' => function ($model) {
-                $title = $model->user?->name ?? '--';
+                $title = $model->user?->full_name ?? $model->user?->first_name.' '.$model->user?->last_name ?? '--';
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
             'phone' => function ($model) {
-                $title = $model->user?->mobile ?? '--';
+                $title = $model->user?->phone ?? '--';
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
         ];

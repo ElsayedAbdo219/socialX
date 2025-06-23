@@ -64,4 +64,13 @@ class ComplainController extends Controller
         
         return redirect()->route('admin.complain.index')->with('success',__('dashboard.item updated successfully'));
     }
+
+    public function destroy(Complain $complain)
+    {
+        $complain->delete();
+        if (request()->expectsJson()) {
+            return self::apiCode(200)->apiResponse();
+        }
+        return redirect()->route('admin.complain.index')->with('success', __('dashboard.item deleted successfully'));
+    }
 }

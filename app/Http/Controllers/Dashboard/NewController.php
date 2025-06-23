@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Dashboard;
 use App\Models\News;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Datatables\NewDatatable;
+use App\Http\Controllers\Controller;
+use App\Traits\ApiResponseDashboard;
 
 class NewController extends Controller
 {
+  use ApiResponseDashboard;
     protected string $datatable = NewDatatable::class;
     protected string $route = 'admin.news';
     protected string $viewPath = 'dashboard.news.list';
