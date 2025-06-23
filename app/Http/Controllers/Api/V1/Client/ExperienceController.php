@@ -44,7 +44,7 @@ class ExperienceController extends Controller
 
         $experience = Experience::create($data);
          # sending a notification to the user  
-        if(filled($data['company_id'])) {
+        if(!empty($data['company_id'])) {
         $notifabels = Member::find($data['company_id']);
         $notificationData = [
             'title' => " اضافة تعليق عن موظف ",
@@ -115,7 +115,7 @@ class ExperienceController extends Controller
         
         $experience->update($data);
         # sending a notification to the user   
-        if(filled($data['company_id'])) {
+        if(!empty($data['company_id'])) {
         $notifabels = Member::find($data['company_id']);
         $notificationData = [
             'title' => " اضافة تعليق عن موظف ",
