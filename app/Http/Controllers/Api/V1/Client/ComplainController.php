@@ -21,7 +21,8 @@ class ComplainController extends Controller
     $notifabel = User::whereType('admin')->first();
     
     $notificationData = [
-      'title' => __('dashboard.complain_send_from') . ' '. $complain?->user?->name,
+      'title' => __('dashboard.complain_send_from') . ' '. 
+      ($complain?->user?->full_name ?? $complain?->user?->first_name." ".$complain?->user?->last_name ?? 'Client'),
       'body' => $complain->message,
     ];
    // return $notificationData;
