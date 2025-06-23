@@ -67,6 +67,7 @@ class ComplainController extends Controller
 
     public function destroy(Complain $complain)
     {
+      \Log::info($complain);
         $complain->delete();
         if (request()->expectsJson()) {
             return self::apiCode(200)->apiResponse();

@@ -25,22 +25,22 @@
                                 @csrf
                                 @method('PATCH')
                                 <div class="row">
-                                    <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-12">
                                         <label for="title">{{ __('dashboard.title') }}
                                             <input type="text" class="form-control" name="title"
                                                 placeholder="{{ __('dashboard.title') }}"
-                                                value="{{ $News->title ?? old('title') }}" />
+                                                value="{{ $News->title ?? old('title') }}" style="width:400px; height:100px;"/>
                                             @error('title')
                                                 <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </label>
                                     </div>
 
-                                    <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-12">
                                         <label for="contentNews">{{ __('dashboard.contentNews') }}
                                             <input type="text" class="form-control" name="contentNews"
                                                 placeholder="{{ __('dashboard.contentNews') }}"
-                                                value="{{ $News->contentNews ?? old('contentNews') }}" />
+                                                value="{{ $News->contentNews ?? old('contentNews') }}" style="width:500px; height:150px;" />
                                             @error('contentNews')
                                                 <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                             @enderror
