@@ -33,9 +33,9 @@ class PostService
     if (!empty($dataValidatedChecked['image'])) {
       $dataValidatedChecked['image'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['image']));
     }
-     if (!empty($dataValidatedChecked['file_name'])) {
+     if (!empty($dataValidatedChecked->file('file_name'))) {
       $getID3 = new \getID3;
-      $analysis = $getID3->analyze($dataValidatedChecked['file_name']->getRealPath());
+      $analysis = $getID3->analyze($dataValidatedChecked->file('file_name')->getRealPath());
 
     if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > $promotion?->seconds) {
       return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion?->seconds . ' ثانية'], 422);
