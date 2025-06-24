@@ -72,6 +72,8 @@ class AdvertiseController extends Controller
         $notificationData = [
             'title' => " اضافة اعلان جديدة ",
             'body' => "تم اضافة اعلان لك من ثقه ",
+            'type' => 'advertise',
+            'id_link' => $post->id, 
         ];
 
         \Illuminate\Support\Facades\Notification::send(
@@ -119,6 +121,8 @@ class AdvertiseController extends Controller
                 $notificationData = [
                     'title' => "تفعيل اعلان جديدة",
                     'body' => "تم تفعيل اعلان لك من ثقه",
+                    'type' => 'advertise',
+                    'id_link' => $Advertise->id,
                 ];
 
                 \Illuminate\Support\Facades\Notification::send(
@@ -133,6 +137,8 @@ class AdvertiseController extends Controller
                 $notificationData = [
                     'title' => "رفض اعلان",
                     'body' => "تم رفض اعلان لك من ثقه",
+                    'type' => 'advertise',
+                    'id_link' => $Advertise->id,
                 ];
 
                 \Illuminate\Support\Facades\Notification::send(

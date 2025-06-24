@@ -74,6 +74,8 @@ class PostController extends Controller
                 $notificationData = [
                     'title' => "تفعيل اعلان جديدة",
                     'body' => "تم تفعيل اعلان لك من ثقه",
+                    'type' => 'advertise',
+                    'id_link' => $post->id,
                 ];
     
                 \Illuminate\Support\Facades\Notification::send(
