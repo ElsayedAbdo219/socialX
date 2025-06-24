@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class JobDatatable extends BaseDatatable
 {
-    protected ?string $actionable = 'index|edit|delete';
+    protected ?string $actionable = 'index|delete';
     
     public function query(): Builder
     {

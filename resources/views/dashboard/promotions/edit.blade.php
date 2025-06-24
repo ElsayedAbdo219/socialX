@@ -91,16 +91,17 @@
                                         @enderror
                                     </label>
                                 </div>
-
+{{-- @dd($promotion->resolutions) --}}
 
                                 @php
-                                    $json = $model->resolutions?->resolution_number ?? '[]';
-                                    $resolutions = json_decode($json, true);
+                                 
+                                    $array = $promotion->resolutions?->resolution_number ?? '[]';
+                                    $resolutions = $array;
                                     if (!is_array($resolutions)) {
                                         $resolutions = [];
                                     }
                                 @endphp
-
+                                  {{-- @dd($resolutions) --}}
                                 <div class="form-group col-4">
                                     <label class="w-100" for="resolution_number">{{ __('dashboard.resolution_number') }}
                                         <br>

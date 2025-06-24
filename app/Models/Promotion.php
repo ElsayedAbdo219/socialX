@@ -129,9 +129,9 @@ public function getLeftDaysAttribute()
   {
     return $query->where('end_date', '<', now());
   }
-  public function scopeDiscounted($query)
+  public function scopeofDiscount($query,$value)
   {
-    return $query->where('discount', '>', 0);
+    return $query->where('discount', '=', $value);
   }
   public function scopeofName($query, $searchTerm)
   {

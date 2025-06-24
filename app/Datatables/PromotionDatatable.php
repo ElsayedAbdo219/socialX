@@ -15,7 +15,12 @@ class PromotionDatatable extends BaseDatatable
   public function query(): Builder
   {
     return Promotion::query()->when(request('search')['value'], function ($q) {
-      $q->ofName(request('search')['value']);
+      if(is_numeric(request('search')['value'])){
+      \Log::info('search value is numeric: ' . request('search')['value']);
+        $q->ofDiscount(request('search')['value']);
+      } else {
+        $q->ofName(request('search')['value']);
+      }
     })->latest();
   }
 
