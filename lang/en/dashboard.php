@@ -346,6 +346,10 @@ return [
     'No_Image' => 'No Image', 
     'seconds' => 'Seconds',
     'promotion_validity' => 'Promotion Validity',
+    'time' => 'Time',
+    'promotion_resolutions' => 'Promotion Resolutions',
+    'promotion_resolutions_list' => 'Promotion Resolutions List',
+    'add_promotion_resolution' => 'Add Promotion Resolution',
 
 
 

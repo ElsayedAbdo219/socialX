@@ -322,6 +322,7 @@ return [
     'No_Personal_Photo' => 'لا يوجد  ',
     'seconds' => 'الثواني',
     'seconds_placeholder' => 'ادخل عدد الثواني',
+    'time' => 'الوقت',
 
 
 
