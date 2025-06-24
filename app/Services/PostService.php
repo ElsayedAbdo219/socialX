@@ -33,16 +33,19 @@ class PostService
     if (!empty($dataValidatedChecked['image'])) {
       $dataValidatedChecked['image'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['image']));
     }
-     if (!empty($dataValidatedChecked->file('file_name'))) {
+    if ($dataValidatedChecked->hasFile('file_name')) {
       $getID3 = new \getID3;
-      $analysis = $getID3->analyze($dataValidatedChecked->file('file_name')->getRealPath());
+      $file = $dataValidatedChecked->file('file_name');
+      $analysis = $getID3->analyze($file->getRealPath());
 
-    if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > $promotion?->seconds) {
-      return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion?->seconds . ' ثانية'], 422);
+      if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > $promotion?->seconds) {
+        return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion?->seconds . ' ثانية'], 422);
+      }
+
+      $path = $file->store('posts', 'public');
+      $dataValidatedChecked['file_name'] = basename($path);
     }
-      $dataValidatedChecked['file_name'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['file_name']));
-  
-  }
+
 
     $post = Post::create($dataValidatedChecked);
 
@@ -102,18 +105,21 @@ class PostService
     if (!empty($dataValidatedChecked['image'])) {
       $dataValidatedChecked['image'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['image']));
     }
-    if (!empty($dataValidatedChecked['file_name'])) {
+    if ($dataValidatedChecked->hasFile('file_name')) {
       $getID3 = new \getID3;
-      $analysis = $getID3->analyze($dataValidatedChecked['file_name']->getRealPath());
+      $file = $dataValidatedChecked->file('file_name');
+      $analysis = $getID3->analyze($file->getRealPath());
 
       if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > $promotion?->seconds) {
         return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion?->seconds . ' ثانية'], 422);
       }
-      $dataValidatedChecked['file_name'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['file_name']));
+
+      $path = $file->store('posts', 'public');
+      $dataValidatedChecked['file_name'] = basename($path);
     }
     $Post = Post::find($Post_Id);
     \DB::beginTransaction();
-      if(isset($dataValidatedChecked['coupon_code']) && !empty($dataValidatedChecked['coupon_code'])) {
+    if (isset($dataValidatedChecked['coupon_code']) && !empty($dataValidatedChecked['coupon_code'])) {
       $dataValidatedChecked['price'] = $dataValidatedChecked['price'] * ($dataValidatedChecked['coupon_code'] / 100);
     }
     $Post->update($dataValidatedChecked);
@@ -159,9 +165,4 @@ class PostService
     \DB::commit();
     return response()->json(['message' => 'تم تحديث المنشور بنجاح'], 200);
   }
-
-
-
-
-
 }
