@@ -23,6 +23,14 @@ class Skill extends Model
       return $query->where('name','LIKE','%'.$value.'%');
     }
 
+    public function scopeOfCategory($query,$value)
+    {
+      return $query->whereHas('category',function($query) use ($value)
+      {
+        $query->where('name','LIKE','%'.$value.'%');
+      });
+    }
+
 
     ///2024_05_27_093323_create_skills_table   
 

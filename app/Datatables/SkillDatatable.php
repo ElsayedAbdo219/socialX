@@ -16,7 +16,10 @@ class SkillDatatable extends BaseDatatable
     public function query(): Builder
     {
         return Skill::query()->when(request('search')['value'],function ($q){
-            $q->OfName(request('search')['value']);
+            $q->OfName(request('search')['value'])
+              ->orWhereHas('category', function ($query) {
+                  $query->ofName(request('search')['value']);
+              });
         })->latest();
     }
 
