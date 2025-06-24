@@ -50,7 +50,7 @@ class ExperienceController extends Controller
             'title' => " اضافة تعليق عن موظف ",
             'body' => "قام " . auth('api')->user()?->first_name.' '.auth('api')->user()?->last_name . " باضافتكم كشركة عمل بها!",
             'type' => 'experience',
-             'id_link' => $experience->id, 
+            'id_link' => $experience?->employee_id, 
         ];
 
         \Illuminate\Support\Facades\Notification::send(
@@ -121,7 +121,7 @@ class ExperienceController extends Controller
             'title' => " اضافة تعليق عن موظف ",
             'body' => "قام " . auth('api')->user()?->first_name.' '.auth('api')->user()?->last_name . " باضافتكم كشركة عمل بها!",
              'type' => 'experience',
-             'id_link' => $experience->id,     
+             'id_link' => $experience?->employee_id,     
         ];
 
         \Illuminate\Support\Facades\Notification::send(
