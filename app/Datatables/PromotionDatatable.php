@@ -60,10 +60,15 @@ class PromotionDatatable extends BaseDatatable
         $title = implode(',', $resolutionsValues);
         return view('components.datatable.includes.columns.title', compact('title'));
       },
+      'seconds' => function ($model) {
+        $title = gmdate('H:i:s', $model?->seconds ?? 0);
+        return view('components.datatable.includes.columns.title', compact('title'));
+      },
       'active' => function ($model) {
         $active = $model?->is_active;
         return view('components.datatable.includes.columns.active', compact('active'));
       },
+
     ];
   }
 
@@ -77,6 +82,7 @@ class PromotionDatatable extends BaseDatatable
       Column::computed('end_date')->title(__('dashboard.end_date'))->className('text-center'),
       Column::computed('days_count')->title(__('dashboard.days_count'))->className('text-center'),
       Column::computed('resolution_number')->title(__('dashboard.resolution_number'))->className('text-center'),
+      Column::computed('seconds')->title(__('dashboard.seconds'))->className('text-center'),
       Column::computed('active')->title(__('dashboard.active'))->className('text-center'),
     ];
   }

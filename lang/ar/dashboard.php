@@ -320,6 +320,8 @@ return [
     'No_Ads_Price' => 'لا يوجد  ',
     'No_Ads_Price' => 'لا يوجد  ',
     'No_Personal_Photo' => 'لا يوجد  ',
+    'seconds' => 'الثواني',
+    'seconds_placeholder' => 'ادخل عدد الثواني',
 
 
 

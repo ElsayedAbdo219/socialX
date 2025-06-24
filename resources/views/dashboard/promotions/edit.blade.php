@@ -73,7 +73,7 @@
                                 <div class="form-group col-4 end_date" id="end_date">
                                     <label class="w-100" for="end_date">{{ __('dashboard.end_date') }}
                                         <input type="date" class="form-control" name="end_date"
-                                            value="{{ $promotion?->end_date}}"
+                                            value="{{ $promotion?->end_date }}"
                                             placeholder="{{ __('dashboard.end_date') }}" />
                                         @error('end_date')
                                             <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
@@ -89,19 +89,20 @@
                                         @error('days_count')
                                             <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                         @enderror
+                                        <span id="output" style="font-size: 15px"></span>
                                     </label>
                                 </div>
-{{-- @dd($promotion->resolutions) --}}
+                                {{-- @dd($promotion->resolutions) --}}
 
                                 @php
-                                 
+
                                     $array = $promotion->resolutions?->resolution_number ?? '[]';
                                     $resolutions = $array;
                                     if (!is_array($resolutions)) {
                                         $resolutions = [];
                                     }
                                 @endphp
-                                  {{-- @dd($resolutions) --}}
+                                {{-- @dd($resolutions) --}}
                                 <div class="form-group col-4">
                                     <label class="w-100" for="resolution_number">{{ __('dashboard.resolution_number') }}
                                         <br>
@@ -133,6 +134,19 @@
                                         @error('resolution_number')
                                             <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                         @enderror
+
+                                    </label>
+                                </div>
+
+                                <div class="form-group col-4">
+                                    <label class="w-100" for="seconds">{{ __('dashboard.seconds') }}
+                                        <input type="number" id="seconds" class="form-control" name="seconds"
+                                            placeholder="{{ __('dashboard.seconds') }}"
+                                            value="{{ old('seconds', $promotion->seconds) }}" min="0" />
+                                        @error('seconds')
+                                            <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                        <span id="seconds_for_minute" style="font-size: 15px"> </span>
 
                                     </label>
                                 </div>
@@ -216,6 +230,46 @@
                     $('input[name="end_date"]').val('');
                 }
             });
+        });
+
+
+        const daysInput = document.querySelector('#days_count input');
+        const output = document.getElementById('output');
+
+        daysInput.addEventListener('input', function() {
+            const days = parseInt(this.value);
+
+            if (isNaN(days)) {
+                output.textContent = '';
+                return;
+            }
+
+            const months = Math.floor(days / 30);
+            const remainingDays = days % 30;
+
+            const text =
+                `${months > 0 ? `${months} شهر` : ''}${months > 0 && remainingDays > 0 ? ' و ' : ''}${remainingDays > 0 ? `${remainingDays} يوم` : ''}`;
+            output.textContent = text || '0 يوم';
+        });
+
+        // الثواني → دقائق + ثواني
+        const seconds = document.querySelector('#seconds');
+        const convertedVal = document.getElementById('seconds_for_minute');
+
+        seconds.addEventListener('input', function() {
+            const secondsValue = parseInt(this.value);
+
+            if (isNaN(secondsValue)) {
+                convertedVal.textContent = '';
+                return;
+            }
+
+            const minutes = Math.floor(secondsValue / 60);
+            const remainingSeconds = secondsValue % 60;
+
+            const text =
+                `${minutes > 0 ? `${minutes} دقيقة` : ''}${minutes > 0 && remainingSeconds > 0 ? ' و ' : ''}${remainingSeconds > 0 ? `${remainingSeconds} ثانية` : ''}`;
+            convertedVal.textContent = text || '0 ثانية';
         });
     </script>
 @endsection

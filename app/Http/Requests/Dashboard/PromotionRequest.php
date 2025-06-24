@@ -39,6 +39,7 @@ class PromotionRequest extends FormRequest
       'resolution_number' => 'required|array',
       'resolution_number.*' => 'required|numeric|in:720,1080,1440,2160',
       'is_active' => 'boolean',
+      'seconds' => 'required|integer|min:0', 
     ];
     
   }

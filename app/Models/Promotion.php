@@ -16,12 +16,14 @@ class Promotion extends Model
     'end_date',
     'days_count',
     'is_active',
+    'seconds', 
   ];
   protected $casts = [
     'start_date' => 'date',
     'end_date' => 'date',
     'is_active' => 'boolean',
     'days_count' => 'int',
+    'seconds' => 'int',
   ];
   protected $table = 'promotions';
   protected $appends = ['left_days','free_six_months'];

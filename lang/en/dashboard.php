@@ -344,7 +344,8 @@ return [
     'No_Logo' => 'No Logo',
     'No_Cover_Letter' => 'No Cover Letter',
     'No_Image' => 'No Image', 
-    
+    'seconds' => 'Seconds',
+    'promotion_validity' => 'Promotion Validity',
 
 
 
