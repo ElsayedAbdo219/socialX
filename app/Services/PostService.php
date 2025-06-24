@@ -22,7 +22,7 @@ class PostService
     $dataValidatedChecked = $request->validated();
     $dataValidatedChecked['status']  = PostTypeEnum::ADVERTISE;
     $dataValidatedChecked['user_id']  = auth('api')->user()->id;
-    $promotion = Promotion::whereName($dataValidatedChecked['promotion_name'])->first();
+    $promotion = Promotion::whereName($dataValidatedChecked['coupon_code'])->first();
     unset($dataValidatedChecked['type']);
     unset($dataValidatedChecked['coupon_code']);
     \DB::beginTransaction();
@@ -96,7 +96,7 @@ class PostService
     $dataValidatedChecked = $request->validated();
     $dataValidatedChecked['status']  = PostTypeEnum::ADVERTISE;
     $dataValidatedChecked['user_id']  = auth('api')->user()->id;
-    $promotion = Promotion::whereName($dataValidatedChecked['promotion_name'])->first();
+    $promotion = Promotion::whereName($dataValidatedChecked['coupon_code'])->first();
     unset($dataValidatedChecked['type']);
     unset($dataValidatedChecked['coupon_code']);
     if (!empty($dataValidatedChecked['image'])) {
