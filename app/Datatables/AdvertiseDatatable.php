@@ -31,6 +31,9 @@ class AdvertiseDatatable extends BaseDatatable
         return view('components.datatable.includes.columns.title', compact('title'));
       },
       'file_name' => function ($model) {
+        if(!isset($model->file_name) || empty($model->file_name)) {
+          return '';
+        }
         $video = isset($model->file_name) ?  asset($model->file_name) : '';
         $extension = pathinfo($model->file_name, PATHINFO_EXTENSION);
         $mimeTypes = [
@@ -45,6 +48,9 @@ class AdvertiseDatatable extends BaseDatatable
         return view('components.datatable.includes.columns.video', compact('video','type'));
       },
       'image' => function ($model) {
+        if(!isset($model->image) || empty($model->image)) {
+          return '';
+        }
         $image = isset($model->image) ?  asset($model->image) : '';
         return view('components.datatable.includes.columns.image', compact('image'));
       },
