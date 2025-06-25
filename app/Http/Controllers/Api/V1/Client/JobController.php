@@ -80,7 +80,7 @@ class JobController extends Controller
   {
     $paginateSize = $request->query('paginateSize', 10);
     $member = Member::where('id', $member)->first();
-    return $member?->jobs()->paginate($paginateSize);
+    return $member?->jobs()->OfStatus(1)->paginate($paginateSize);
   }
 
   public function setCompletedJob(Job $job)
@@ -152,7 +152,7 @@ class JobController extends Controller
     $user = auth('api')->user();
     if ($user->type == UserTypeEnum::COMPANY) {
       $member = Member::where('id', $user->id)->first();
-      return $member?->jobs()->OfStatus(1)->paginate($paginateSize);
+      return $member?->jobs()->paginate($paginateSize);
     }
     return response()->json(['message' => 'لا يوجد وظائف خاصة بك'], 404);
   }
