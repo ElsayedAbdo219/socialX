@@ -83,9 +83,9 @@ Route::post('/merge', function (Request $request) {
     if (!file_exists($chunkPath)) {
         return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
     }
-
+      
     MergeChunkAdsJob::dispatch($chunkPath, $finalPath);
-
+    
     return response()->json([
         'message' => 'جاري الدمج',
         'file_path' => "storage/posts/{$fileName}"

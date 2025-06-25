@@ -46,8 +46,8 @@
     <div id="status">🕒 بانتظار اختيار الملف...</div>
 
     <script>
-        const uploadEndpoint = "http://socialx.test/chunk";
-        const mergeEndpoint = "http://socialx.test/merge";
+        const uploadEndpoint = "https://back.anceega.com/chunk";
+        const mergeEndpoint = "https://back.anceega.com/merge";
         const chunkSize = 1 * 1024 * 1024; // 1MB
 
         async function startUpload() {
@@ -112,7 +112,7 @@
                 const result = await res.json();
                 if (res.ok) {
                     status.innerHTML =
-                        `🎉 تم الدمج بنجاح! <br><a href="http://socialx.test/${result.file_path}" target="_blank">🎬 عرض الفيديو</a>`;
+                        `🎉 تم الدمج بنجاح! <br><a href="https://back.anceega.com/${result.file_path}" target="_blank">🎬 عرض الفيديو</a>`;
                 } else {
                     status.innerText = `❌ فشل الدمج: ${result.error || "حدث خطأ"}`;
                 }
