@@ -194,6 +194,8 @@ class JobController extends Controller
   {
     return [
        'companies' => Member::where('type', UserTypeEnum::COMPANY)->count(),
+       'employees' => Member::where('type', UserTypeEnum::EMPLOYEE)->count(),
+       'users' => User::count(),
        'jobs' => Job::OfStatus(1)->count(),
        'allEvents' => Calender::count(),
        'unCompletedEvents' => Calender::where('member_id', auth('api')->id())->where('status', '!=', 'completed')->count(),
