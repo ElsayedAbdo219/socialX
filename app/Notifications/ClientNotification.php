@@ -8,7 +8,6 @@ class ClientNotification extends BaseNotification
     {
         $this->notificationVia = $notificationVia;
         parent::__construct($notificationData);
-          // dd($notificationData);
 
     }
 }

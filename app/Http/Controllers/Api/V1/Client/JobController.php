@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Client;
 use App\Models\Job;
 use App\Models\User;
 use App\Models\Member;
+use App\Models\Calender;
 use App\Enum\UserTypeEnum;
 use App\Models\RateEmployee;
 use Illuminate\Http\Request;
@@ -188,5 +189,15 @@ class JobController extends Controller
       })
       ->sortDesc()
       ->customPaginate($paginateSize);
+  }
+  public function getSomeData()
+  {
+    return [
+       'companies' => Member::where('type', UserTypeEnum::COMPANY)->count(),
+       'jobs' => Job::OfStatus(1)->count(),
+       'allEvents' => Calender::count(),
+       'unCompletedEvents' => Calender::where('status', '!=', 'completed')->count(),
+       'completedEvents' => Calender::where('status', 'completed')->count(),
+    ];
   }
 }

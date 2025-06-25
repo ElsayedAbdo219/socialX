@@ -25,46 +25,49 @@ class MergeChunkAdsJob implements ShouldQueue
 
 public function handle(): void
 {
-    \Log::info("Starting merge for: {$this->chunkPath}-{$this->finalPath}" );
+    \Log::info("🚀 بدء الدمج: {$this->chunkPath}");
 
-    $chunks = collect(scandir($this->chunkPath))
-        ->filter(fn($name) => is_numeric($name))
-        ->sortBy(fn($name) => (int) $name);
+    $files = collect(scandir($this->chunkPath))
+        ->filter(fn($name) => is_numeric($name) && is_file("{$this->chunkPath}/{$name}"))
+        ->sortBy(fn($name) => (int) $name)
+        ->values();
 
-    if ($chunks->isEmpty()) {
-        \Log::error("No chunks found in: {$this->chunkPath}");
+    if ($files->isEmpty()) {
+        \Log::error("❌ لا يوجد أي أجزاء في: {$this->chunkPath}");
         return;
     }
 
-    // temporary merged file
     $tempFinalPath = storage_path('app/temp/merged_' . basename($this->finalPath));
     $finalFile = fopen($tempFinalPath, 'ab');
 
-    foreach ($chunks as $chunk) {
-        $chunkFullPath = "{$this->chunkPath}/{$chunk}";
-        if (!file_exists($chunkFullPath)) continue;
+    foreach ($files as $file) {
+        $fullPath = "{$this->chunkPath}/{$file}";
 
-        fwrite($finalFile, file_get_contents($chunkFullPath));
-        unlink($chunkFullPath);
+        $data = file_get_contents($fullPath);
+        if ($data === false) {
+            \Log::error("❌ فشل قراءة: {$fullPath}");
+            continue;
+        }
+
+        fwrite($finalFile, $data);
+        unlink($fullPath);
+
+        \Log::info("📦 تم دمج: {$file}");
     }
 
     fclose($finalFile);
-    rmdir($this->chunkPath);
 
-    // 👇 هنا بننضف الاسم
-    $cleanName = preg_replace('/_\d+$/', '', basename($this->finalPath)); // remove _timestamp
-    $finalPublicPath = storage_path("app/public/posts/{$cleanName}");
-     \Log::info('the final path is '.$finalPublicPath);
-    // تأكد من وجود مجلد الوجهة
-    if (!\File::exists(dirname($finalPublicPath))) {
-        \File::makeDirectory(dirname($finalPublicPath), 0755, true);
+    @rmdir($this->chunkPath);
+
+    if (!\File::exists(dirname($this->finalPath))) {
+        \File::makeDirectory(dirname($this->finalPath), 0755, true);
     }
 
-    // نقل الملف النهائي بعد الدمج
-    \File::move($tempFinalPath, $finalPublicPath);
+    \File::move($tempFinalPath, $this->finalPath);
 
-    \Log::info("✅ Merge completed: {$finalPublicPath}");
+    \Log::info("✅ تم الدمج النهائي في: {$this->finalPath}");
 }
 
 
 }
+

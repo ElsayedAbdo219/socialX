@@ -53,20 +53,22 @@ Route::get('/uploadVid', function () {
 
 # upload chunck 
 Route::post('/chunk', function (uploadChunkAdsRequest $request) {
-  $request->validated();
+    $request->validated();
 
-  $fileName = $request->input('file_name');
-  $chunkNumber = $request->input('chunk_number');
-  $chunk = $request->file('chunk');
-  // dd($chunk);
-  $tempPath = $chunk->storeAs("temp/chunks/{$fileName}", $chunkNumber);
-  // dd($tempPath);
+    $fileName = $request->input('file_name');
+    $chunkNumber = $request->input('chunk_number');
+    $chunk = $request->file('chunk'); 
+    if (!$chunk) {
+        return response()->json(['error' => 'لم يتم رفع الملف chunk'], 400);
+    }
 
-  UploadAdsJob::dispatch(storage_path("app/{$tempPath}"), $fileName, $chunkNumber);
-  // return $tempPath;
-  return response()->json(['message' => 'Chunk uploaded']);
+    // تخزين chunk مؤقتًا
+    $tempPath = $chunk->storeAs("temp/chunks/{$fileName}", $chunkNumber);
+
+    UploadAdsJob::dispatch(storage_path("app/{$tempPath}"), $fileName, $chunkNumber);
+
+    return response()->json(['message' => 'Chunk uploaded']);
 });
-
 
 Route::post('/merge', function (Request $request) {
     $request->validate([
@@ -74,22 +76,19 @@ Route::post('/merge', function (Request $request) {
     ]);
 
     $fileName = basename($request->input('file_name'));
-    $cleanName = preg_replace('/_\d+$/', '', $fileName);
-    // dd($cleanName);
     $chunkPath = storage_path("app/temp/chunks/{$fileName}");
+    // dd($chunkPath);
     $finalPath = storage_path("app/public/posts/{$fileName}");
-    //  dd($chunkPath, $finalPath);
 
     if (!file_exists($chunkPath)) {
         return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
     }
+
     MergeChunkAdsJob::dispatch($chunkPath, $finalPath);
 
-
-    // dd($cleanName);
     return response()->json([
         'message' => 'جاري الدمج',
-        'file_path' => "storage/posts/{$cleanName}"
+        'file_path' => "storage/posts/{$fileName}"
     ]);
 });
 

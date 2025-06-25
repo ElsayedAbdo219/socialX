@@ -281,7 +281,7 @@ Route::name('education.')->prefix('education')->group(function () {
         Route::get('/{job}', [JobController::class, 'get']);
         Route::get('/Company/{companyId}', [JobController::class, 'getCompanyJobs']);
         Route::post('/setCompleted/{job}', [JobController::class, 'setCompletedJob']);
-      
+        Route::get('/count/getSomeData', [JobController::class, 'getSomeData']);
       });
 
       # user apply jobs
