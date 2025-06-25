@@ -80,7 +80,7 @@ class JobController extends Controller
   {
     $paginateSize = $request->query('paginateSize', 10);
     $member = Member::where('id', $member)->first();
-    return $member?->jobs()->OfStatus(1)->paginate($paginateSize);
+    return $member?->jobs()->paginate($paginateSize);
   }
 
   public function setCompletedJob(Job $job)
