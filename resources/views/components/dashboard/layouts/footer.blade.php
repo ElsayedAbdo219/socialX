@@ -119,6 +119,7 @@
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 
 <script>
+  
   /*   $(document).ready(function () {
     $('#languageSwitcher').on('change', function (event) {
         event.preventDefault();
@@ -148,6 +149,7 @@
 });
  */
 
+ 
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -179,6 +181,12 @@
         })
     }
 
+     $(document).on('click', '[data-toggle="dropdown"]', function (e) {
+      e.preventDefault();
+      alert('Dropdown clicked!');
+      $(this).dropdown('toggle');
+    });
+
     document.getElementById('notifications-icon').addEventListener('click', function() {
        
         // AJAX call to mark notifications as read
@@ -191,6 +199,8 @@
     });
     });
 
+
+    
 
       //البيع جملة
     function toggleInputPayment() {

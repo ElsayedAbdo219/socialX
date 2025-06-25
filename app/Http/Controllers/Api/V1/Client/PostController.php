@@ -65,27 +65,24 @@ class PostController extends Controller
   public function mergeChunks(Request $request)
   {
     $request->validate([
-      'file_name' => ['required', 'string']
+        'file_name' => ['required', 'string']
     ]);
 
     $fileName = basename($request->input('file_name'));
     $cleanName = preg_replace('/_\d+$/', '', $fileName);
-    // dd($cleanName);
     $chunkPath = storage_path("app/temp/chunks/{$fileName}");
+    // dd($cleanName, $chunkPath);
     $finalPath = storage_path("app/public/posts/{$cleanName}");
-
-    //  dd($chunkPath, $finalPath);
-
+    // dd($finalPath , $request->input('file_name'));
     if (!file_exists($chunkPath)) {
-      return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
+        return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
     }
+      
     MergeChunkAdsJob::dispatch($chunkPath, $finalPath);
-
-
-    // dd($cleanName);
+    
     return response()->json([
-      'message' => 'جاري الدمج',
-      'file_path' => "storage/posts/{$cleanName}"
+        'message' => 'جاري الدمج',
+        'file_path' => "storage/posts/{$cleanName}"
     ]);
   }
 

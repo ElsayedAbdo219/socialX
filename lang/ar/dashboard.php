@@ -323,6 +323,7 @@ return [
     'seconds' => 'الثواني',
     'seconds_placeholder' => 'ادخل عدد الثواني',
     'time' => 'الوقت',
+    'welcome_to' => 'مرحبا بك',
 
 
 

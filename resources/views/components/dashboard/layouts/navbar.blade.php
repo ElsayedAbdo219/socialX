@@ -9,14 +9,19 @@
                     <ul class="nav navbar-nav bookmark-icons">
                         <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i class="ficon feather icon-maximize"></i></a></li>
                     </ul>
-                    {{-- <input type="text" placeholder="{{__('dashboard.Search')}}" class="search.." style="border-radius: 10px; align: center; border: 1px solid #ccc; width: 300px;height: 60px;"  id="search-input" /> --}}
-                </div>
+                    {{-- <input type="text" placeholder="{{__('dashboard.Search')}}" class="search.." style="border-radius: 10px; align: center; border: 1px solid #ccc; width: 300px;height: 40px;margin: 0 90px;"  id="search-input" /> --}}
+                     <span style="font-size: 20px; margin: 0 90px;">
+                      @lang('dashboard.welcome_to') 👋</span>
+                      {{-- <div class="icon"></div> --}}
+                      <span style="font-size: 20px; font-weight: bold; color: #0073FF;">Admin</span>
+                      
+                  </div>
                 <form action="{{ route('admin.setLanguage') }}" method="POST">
                     @csrf
-                    <div class="language-dropdown">
-                        <select class="form-select" name="lang" id="languageSwitcher" onchange="this.form.submit()"  style="width: 150px; height: 38px; border-radius: 10px; border: 1px solid #ccc;">
-                            <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>🇬🇧 English</option>
-                            <option value="ar" {{ app()->getLocale() == 'ar' ? 'selected' : '' }}>🇸🇦 العربية</option>
+                    <div class="language-dropdown"> 
+                        <select class="form-select" name="lang" id="languageSwitcher" onchange="this.form.submit()"  style="width: 150px; height: 38px; border-radius: 10px; padding: 0 10px; border: 1px solid #ccc;">
+                            <option value="en" style="text-align:center ;font-size:15px" {{ app()->getLocale() == 'en' ? 'selected' : '' }} >🇬🇧 English</option>
+                            <option value="ar" style="text-align:center ;font-size:15px" {{ app()->getLocale() == 'ar' ? 'selected' : '' }}>🇸🇦 العربية</option>
                         </select>
                     </div>
                 </form>
@@ -24,17 +29,17 @@
                 <ul class="nav navbar-nav float-right">
 
                     @if(auth()->user())
-                        <li class="dropdown dropdown-notification nav-item" id="notifications-icon"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span class="badge badge-pill badge-primary badge-up">{{auth()->user()->unreadNotifications()->count()}}</span></a>
-                            <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
-                                <li class="dropdown-menu-header">
+                        <li class="dropdown dropdown-notification nav-item" id="notifications-icon" ><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span class="badge badge-pill badge-primary badge-up">{{auth()->user()->unreadNotifications()->count()}}</span></a>
+                            <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right" >
+                                <li class="dropdown-menu-header" >
                                     <div class="dropdown-header m-0 p-2">
                                         <h3 class="white">{{auth()->user()->unreadNotifications()->count()}} {{__('dashboard.New')}}</h3><span class="notification-title">{{__('dashboard.App Notifications')}}</span>
                                     </div>
                                 </li>
-                                <li class="scrollable-container media-list">
+                                <li class="media-list" style="max-height: 300px; overflow-y: auto;">
                                     @foreach(auth()->user()->notifications as $notification)
                                         <a class="d-flex justify-content-between" href="javascript:void(0)">
-                                            <div class="media d-flex align-items-start">
+                                            <div class="media d-flex align-items-start" >
                                                 <div class="media-left"><i class="feather icon-download-cloud font-medium-5 success"></i></div>
                                                 <div class="media-body">
                                                     <h6 class="success media-heading red darken-1">{{$notification?->data['title']}}</h6><small class="notification-text text-bold-700">{{$notification?->data['body']}}</small>

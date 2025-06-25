@@ -350,6 +350,7 @@ return [
     'promotion_resolutions' => 'Promotion Resolutions',
     'promotion_resolutions_list' => 'Promotion Resolutions List',
     'add_promotion_resolution' => 'Add Promotion Resolution',
+    'welcome_to' => 'Welcome to'
 
 
 
