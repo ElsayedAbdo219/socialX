@@ -280,7 +280,7 @@ Route::name('education.')->prefix('education')->group(function () {
         Route::delete('/{job}', [JobController::class, 'delete']);
         Route::get('/{job}', [JobController::class, 'get']);
         Route::get('/Company/{companyId}', [JobController::class, 'getCompanyJobs']);
-        Route::get('/setCompleted/{job}', [JobController::class, 'setCompletedJob']);
+        Route::post('/setCompleted/{job}', [JobController::class, 'setCompletedJob']);
       
       });
 
