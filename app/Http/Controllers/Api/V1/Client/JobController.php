@@ -140,6 +140,11 @@ class JobController extends Controller
         return $query->whereJsonContains('job_description', $value);
       })
       ->when($request->query("created_at"), function ($query, $value) {
+        if($value == 'asc') {
+          return $query->orderBy('created_at', 'asc');
+        } elseif($value == 'desc') {
+          return $query->orderBy('created_at', 'desc');
+        }
         return $query->whereDate('created_at', $value);
       })
 
