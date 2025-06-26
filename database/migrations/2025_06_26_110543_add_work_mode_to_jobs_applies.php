@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('jobs_applies', function (Blueprint $table) {
-            $table->enum('work_mode', ['remote', 'on_site', 'hybrid'])->default('remote')->after('status');
+            $table->enum('work_mode', ['remote', 'on_site', 'hybrid'])->default('remote')->after('location');
         });
     }
 
