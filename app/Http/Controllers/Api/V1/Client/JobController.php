@@ -109,6 +109,9 @@ class JobController extends Controller
       ->when($request->query("employee_type"), function ($query, $value) {
         return $query->where('employee_type', 'like', "%$value%");
       })
+      ->when($request->query("work_mode"), function ($query, $value) {
+        return $query->where('work_mode', 'like', "%$value%");
+      })
       ->when($request->query("job_category"), function ($query, $value) {
         return $query->where('job_category', 'like', "%$value%");
       })

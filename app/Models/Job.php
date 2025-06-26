@@ -22,7 +22,8 @@ class Job extends Model
         'salary_period',
         'experience',
         'location',
-        'is_active'
+        'is_active',
+        'work_mode',
     ];
 
     protected $table = "jobs_applies";

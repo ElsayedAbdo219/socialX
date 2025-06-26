@@ -37,6 +37,10 @@ class JobDatatable extends BaseDatatable
                 $title = $model?->employee_type;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
+            'work_mode' => function ($model) {
+                $title = $model?->work_mode;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
 
             'job_period' => function ($model) {
                 $title = $model?->job_period;
@@ -104,6 +108,7 @@ class JobDatatable extends BaseDatatable
              Column::computed('member')->title(__('dashboard.company'))->className('text-center'),
             Column::computed('job_name')->title(__('dashboard.job_name'))->className('text-center'),
             Column::computed('employee_type')->title(__('dashboard.employee_type'))->className('text-center'),
+            Column::computed('work_mode')->title(__('dashboard.work_mode'))->className('text-center'),
             Column::computed('job_period')->title(__('dashboard.job_period'))->className('text-center'),
             Column::computed('overview')->title(__('dashboard.overview'))->className('text-center'),
             Column::computed('job_category')->title(__('dashboard.job_category'))->className('text-center'),

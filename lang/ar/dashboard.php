@@ -324,7 +324,7 @@ return [
     'seconds_placeholder' => 'ادخل عدد الثواني',
     'time' => 'الوقت',
     'welcome_to' => 'مرحبا بك',
-
+     'work_mode' => 'وضع العمل',
 
 
 

@@ -34,6 +34,7 @@ class JobRequest extends FormRequest
             'salary_period' => 'required|string|max:255',
             'experience' => 'required|string|max:255',
             'location' => 'required|string',
+            'work_mode' => 'required|in:remote,on_site,hybrid', // New field for work mode
         ];
     }
 }
