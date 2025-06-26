@@ -154,253 +154,158 @@
                      --}}
 
 
-              <div class="main-content d-flex justify-content-center align-items-center min-vh-100">
-
-                     <div class="dashboard-content" style="width: 1000px;">
-                        <div class="container-fluid" >
-                       <div class="row align-items-center">
-                                <div class="col-lg-12 " >
-                                    <div class="page-title" >
-                                        <div class="title">
-                                            <h3> {{ __('dashboard.dashboard') }}</h3>
-                                            <p> {{ __('dashboard.welcome_to_dashboard') }} {{ Auth::user()->name }}</p>
-                                        </div>
+                <div class="main-content d-flex justify-content-center align-items-center min-vh-100 dashboard-wrapper">
+                    <div class="dashboard-content container-fluid px-4">
+                        <div class="row align-items-start">
+                            <div class="col-lg-12">
+                                <div class="page-title">
+                                    <div class="title" style="text-align: left; direction: ltr;">
+                                        <h3>{{ __('dashboard.dashboard') }}</h3>
+                                        <p>{{ __('dashboard.welcome_to_dashboard') }} {{ Auth::user()->name }}</p>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6">
-                                    <div class="single-details" style="width: 100%;">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/images/details-icon-1.png') }}" alt="images" />
+                            </div>
+
+
+
+                            {{-- كروت الأرقام --}}
+                            @php
+                                $cards = [
+                                    [
+                                        'value' => $jobs,
+                                        'text' => __('dashboard.number_of_jobs_this_Day'),
+                                        'img' => 'details-icon-1.png',
+                                    ],
+                                    [
+                                        'value' => $companies,
+                                        'text' => __('dashboard.number_of_companies'),
+                                        'img' => 'details-icon-4.png',
+                                    ],
+                                    [
+                                        'value' => $employees,
+                                        'text' => __('dashboard.number_of_employees'),
+                                        'img' => 'menu-img-5.png',
+                                    ],
+                                    [
+                                        'value' => $dailyAdvertises,
+                                        'text' => __('dashboard.number_of_advertises_this_day'),
+                                        'img' => 'details-icon-2.png',
+                                    ],
+                                ];
+                            @endphp
+                            @foreach ($cards as $card)
+                                <div class="col-lg-3 col-md-6 mb-1">
+                                    <div class="single-details text-center">
+                                        <div class="icon mb-2">
+                                            <img src="{{ asset('assets/images/' . $card['img']) }}" alt="icon">
                                         </div>
-                                        <div class="details">
-                                            <h5 style="text-align: center">{{ $jobs }}</h5>
-                                            <span style="text-align: center">{{ __('dashboard.number_of_jobs_this_Day') }}</span>
-                                        </div>
+                                        <h5>{{ $card['value'] }}</h5>
+                                        <span>{{ $card['text'] }}</span>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6">
-                                    <div class="single-details">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/images/details-icon-4.png') }}" alt="images" />
+                            @endforeach
+
+                            {{-- الشارتات --}}
+                            <div class="col-lg-6 mb-1">
+                                <div class="revenu-chart">
+                                    <div class="revenu-title d-flex justify-content-between">
+                                        <h3>{{ __('dashboard.jobs') }}</h3>
+                                    </div>
+                                    <div class="revenu-heading d-flex justify-content-between">
+                                        <div>
+                                            <h5>{{ __('dashboard.all') }}</h5>
+                                            <span>{{ $all_jobs }}</span>
                                         </div>
-                                        <div class="details">
-                                            <h5 style="text-align: center">{{ $companies }}</h5>
-                                            <span style="text-align: center">{{ __('dashboard.number_of_companies') }}</span>
+                                        <span>#</span>
+                                    </div>
+                                    {!! $chart->render() !!}
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 mb-1">
+                                <div class="revenu-chart">
+                                    <div class="revenu-title d-flex justify-content-between">
+                                        <h3>{{ __('dashboard.posts') }}</h3>
+                                    </div>
+                                    <div class="revenu-heading d-flex justify-content-between">
+                                        <div>
+                                            <h5>{{ __('dashboard.all') }}</h5>
+                                            <span>{{ $Advertises }}</span>
+                                        </div>
+                                        <span>#</span>
+                                    </div>
+                                    {!! $chartPosts->render() !!}
+                                </div>
+                            </div>
+
+                            {{-- تفاصيل الشركات --}}
+                            <div class="col-lg-6 mb-4">
+                                <div class="order-summery">
+                                    <div class="summery-heading d-flex justify-content-between">
+                                        <h5>{{ __('dashboard.details_of_companies') }}</h5>
+                                        <span>#</span>
+                                    </div>
+                                    <div class="summerys d-flex justify-content-between">
+                                        <div class="single-summery">
+                                            <h4>{{ $disactiveCompanies }}</h4>
+                                            <p>{{ __('dashboard.disactives') }}</p>
+                                        </div>
+                                        <div class="single-summery">
+                                            <h4>{{ $activeCompanies }}</h4>
+                                            <p>{{ __('dashboard.actives') }}</p>
+                                        </div>
+                                        <div class="single-summery">
+                                            <h4>{{ $companies }}</h4>
+                                            <p>{{ __('dashboard.total') }}</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6">
-                                    <div class="single-details">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/images/menu-img-5.png') }}" alt="images" />
-                                        </div>
-                                        <div class="details">
-                                            <h5 style="text-align: center">{{ $employees }}</h5>
-                                            <span style="text-align: center">{{ __('dashboard.number_of_employees') }}</span>
-                                        </div>
+                                    <div class="new-order d-flex justify-content-between align-items-center">
+                                        <p>{{ __('dashboard.active_request') }}</p>
+                                        <span class="number">{{ $disactiveCompanies }}</span>
+                                        <a href="{{ route('admin.companies.index') }}" class="view-btn">
+                                            {{ __('dashboard.view_all') }} <i class="fas fa-long-arrow-alt-right"></i>
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6">
-                                    <div class="single-details">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/images/details-icon-2.png') }}" alt="images" />
+                            </div>
+
+                            {{-- تفاصيل الموظفين --}}
+                            <div class="col-lg-6 mb-4">
+                                <div class="order-summery">
+                                    <div class="summery-heading d-flex justify-content-between">
+                                        <h5>{{ __('dashboard.details_of_employees') }}</h5>
+                                        <span>#</span>
+                                    </div>
+                                    <div class="summerys d-flex justify-content-between">
+                                        <div class="single-summery">
+                                            <h4>{{ $disactiveEmployees }}</h4>
+                                            <p>{{ __('dashboard.disactives') }}</p>
                                         </div>
-                                        <div class="details">
-                                            <h5 style="text-align: center">{{ $dailyAdvertises }}</h5>
-                                            <span style="text-align: center">{{ __('dashboard.number_of_advertises_this_day') }}</span>
+                                        <div class="single-summery">
+                                            <h4>{{ $activeEmployees }}</h4>
+                                            <p>{{ __('dashboard.actives') }}</p>
+                                        </div>
+                                        <div class="single-summery">
+                                            <h4>{{ $employees }}</h4>
+                                            <p>{{ __('dashboard.total') }}</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="revenu-chart">
-                                        <div class="revenu-title">
-                                            <div class="title">
-                                                <h3>{{ __('dashboard.jobs') }}</h3>
-                                            </div>
-                                            <div class="page-title-sorts">
-                                                {{-- <a href="#" class="sort-two">
-                                        <span>شهريا</span>
-                                        <i class="fas fa-sort-down"></i>
-                                    </a> --}}
-                                            </div>
-                                        </div>
-                                        <div class="revenu-heading">
-                                            <div class="title">
-                                                <h5>{{ __('dashboard.all') }}</h5>
-                                                <span>{{ $all_jobs }}</span>
-                                            </div>
-                                            <div class="summery-menu">
-                                                {{-- <button class="active">يوميا</button>
-                                    <button>اسبوعيا</button>
-                                    <button>شهريا</button> --}}
-                                                <span>#</span>
-                                            </div>
-                                        </div>
-
-                                        {{--    <canvas id="barChart" width="400" height="200"></canvas> --}}
-
-                                        {!! $chart->render() !!}
-
-                                    
-
-
+                                    <div class="new-order d-flex justify-content-between align-items-center">
+                                        <p>{{ __('dashboard.active_request') }}</p>
+                                        <span class="number">{{ $disactiveEmployees }}</span>
+                                        <a href="{{ route('admin.employees.index') }}" class="view-btn">
+                                            {{ __('dashboard.view_all') }} <i class="fas fa-long-arrow-alt-right"></i>
+                                        </a>
                                     </div>
-
                                 </div>
-
-
-                                  <div class="col-lg-6">
-                                    <div class="revenu-chart">
-                                        <div class="revenu-title">
-                                            <div class="title">
-                                                <h3>{{ __('dashboard.posts') }}</h3>
-                                            </div>
-                                            <div class="page-title-sorts">
-                                                {{-- <a href="#" class="sort-two">
-                                        <span>شهريا</span>
-                                        <i class="fas fa-sort-down"></i>
-                                    </a> --}}
-                                            </div>
-                                        </div>
-                                        <div class="revenu-heading">
-                                            <div class="title">
-                                                <h5>{{ __('dashboard.all') }}</h5>
-                                                <span>{{ $Advertises }}</span>
-                                            </div>
-                                            <div class="summery-menu">
-                                                {{-- <button class="active">يوميا</button>
-                                    <button>اسبوعيا</button>
-                                    <button>شهريا</button> --}}
-                                                <span>#</span>
-                                            </div>
-                                        </div>
-
-                                        {{--    <canvas id="barChart" width="400" height="200"></canvas> --}}
-
-                                      {!! $chartPosts->render() !!}
-
-                                    
-
-
-                                    </div>
-
-                                </div>
-
-
-                                <div class="col-lg-6">
-                                    <div class="order-summery">
-                                        <div class="summery-heading">
-                                            <div class="title">
-                                                <h5>{{ __('dashboard.details_of_companies') }}</h5>
-                                            </div>
-                                            <div class="summery-menu">
-                                                {{-- <button class="active">يوميا</button>
-                                    <button>اسبوعيا</button>
-                                    <button>شهريا</button> --}}
-                                                <span>#</span>
-                                            </div>
-                                        </div>
-                                        <div class="summerys">
-                                            <div class="single-summery">
-                                                <h4>{{ $disactiveCompanies }}</h4>
-                                                <p>{{ __('dashboard.disactives') }}</p>
-                                            </div>
-                                            <div class="single-summery">
-                                                <h4>{{ $activeCompanies }}</h4>
-                                                <p>{{ __('dashboard.actives') }}</p>
-                                            </div>
-                                            <div class="single-summery">
-                                                <h4>{{ $companies }}</h4>
-                                                <p>{{ __('dashboard.total') }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="new-order">
-                                            <p>{{ __('dashboard.active_request') }}</p>
-
-                                            <div class="number">
-                                                <span>{{ $disactiveCompanies }}</span>
-                                            </div>
-                                            <div class="view-btn">
-                                                <a href="{{ route('admin.companies.index') }}">
-                                                    {{ __('dashboard.view_all') }} <i
-                                                        class="fas fa-long-arrow-alt-right"></i></a>
-                                            </div>
-                                        </div>
-
-
-
-                                    </div>
-
-                                </div>
-
-
-                                <div class="col-lg-6">
-                                    <div class="order-summery">
-                                        <div class="summery-heading">
-                                            <div class="title">
-                                                <h5>{{ __('dashboard.details_of_employees') }}</h5>
-                                            </div>
-                                            <div class="summery-menu">
-                                                {{-- <button class="active">يوميا</button>
-                                    <button>اسبوعيا</button>
-                                    <button>شهريا</button> --}}
-                                                <span>#</span>
-                                            </div>
-                                        </div>
-                                        <div class="summerys">
-                                            <div class="single-summery">
-                                                <h4>{{ $disactiveEmployees }}</h4>
-                                                <p>{{ __('dashboard.disactives') }}</p>
-                                            </div>
-                                            <div class="single-summery">
-                                                <h4>{{ $activeEmployees }}</h4>
-                                                <p>{{ __('dashboard.actives') }}</p>
-                                            </div>
-                                            <div class="single-summery">
-                                                <h4>{{ $employees }}</h4>
-                                                <p>{{ __('dashboard.total') }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="new-order">
-                                            <p>{{ __('dashboard.active_request') }}</p>
-                                            <div class="number">
-                                                <span>{{ $disactiveEmployees }}</span>
-                                            </div>
-                                            <div class="view-btn">
-                                                <a href="{{ route('admin.employees.index') }}">
-                                                    {{ __('dashboard.view_all') }} <i
-                                                        class="fas fa-long-arrow-alt-right"></i></a>
-                                            </div>
-                                        </div>
-
-
-
-                                    </div>
-
-                                </div>
-
-
-
-
-
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- main-content end -->
 
-
-
-
-
-
-
-
-
+                </section>
             </div>
-            </section>
         </div>
-    </div>
     </div>
 
 
