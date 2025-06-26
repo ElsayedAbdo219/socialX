@@ -25,6 +25,7 @@ class Job extends Model
         'is_active',
         'work_mode',
     ];
+    protected $with = ['member'];
 
     protected $table = "jobs_applies";
 
