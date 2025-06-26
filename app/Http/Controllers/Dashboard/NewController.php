@@ -57,10 +57,10 @@ class NewController extends Controller
     {
         $data = $request->validate(
           [
-            'title' => 'required|string',
+            'title' => 'nullable|string',
             'title_en' => 'nullable|string',
             'contentNews_en' => 'nullable|string',
-            'contentNews' => 'required|string',
+            'contentNews' => 'nullable|string',
             'is_poll' => 'nullable|boolean'
           ]
         );
