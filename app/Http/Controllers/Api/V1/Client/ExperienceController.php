@@ -24,7 +24,8 @@ class ExperienceController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'employment_type' => 'required|string|max:255',
-            'company_id' => 'nullable|integer|exists:members,id,type,' . UserTypeEnum::COMPANY,
+            'company_id' => 'required_if:custom_company_name,null|nullable|integer|exists:members,id,type,' . UserTypeEnum::COMPANY,
+            'custom_company_name' => 'required_if:company_id,null|string|max:255',
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'location_type' => 'required|string|max:255',
@@ -95,7 +96,8 @@ class ExperienceController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'employment_type' => 'required|string|max:255',
-            'company_id' => 'nullable|integer|exists:members,id,type,' . UserTypeEnum::COMPANY,
+            'company_id' => 'required_if:custom_company_name,null|nullable|integer|exists:members,id,type,' . UserTypeEnum::COMPANY,
+            'custom_company_name' => 'required_if:company_id,null|string|max:255',
              'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'location_type' => 'required|string|max:255',
