@@ -107,19 +107,19 @@ class JobController extends Controller
     $paginateSize = $request->query('paginateSize', 10);
     $jobs = Job::OfStatus(1)
       ->when($request->query("employee_type"), function ($query, $value) {
-        return $query->where('employee_type', 'like', "%$value%");
+        return $query->whereIn('employee_type', (array) $value);
       })
       ->when($request->query("work_mode"), function ($query, $value) {
-        return $query->where('work_mode', 'like', "%$value%");
+        return $query->whereIn('work_mode', (array) $value);
       })
       ->when($request->query("job_category"), function ($query, $value) {
-        return $query->where('job_category', 'like', "%$value%");
+        return $query->whereIn('job_category', (array) $value);
       })
       ->when($request->query("job_name"), function ($query, $value) {
         return $query->where('job_name', 'like', "%$value%");
       })
       ->when($request->query("work_level"), function ($query, $value) {
-        return $query->where('work_level', 'like', "%$value%");
+        return $query->whereIn('work_level', (array) $value);
       })
       ->when($request->query("salary"), function ($query, $value) {
         return $query->where('salary', '>=', (float) $value);
@@ -128,7 +128,7 @@ class JobController extends Controller
         return $query->where('salary_period', 'like', "%$value%");
       })
       ->when($request->query("experience"), function ($query, $value) {
-        return $query->where('experience', 'like', "%$value%");
+        return $query->whereIn('experience', (array) $value);
       })
       ->when($request->query("job_period"), function ($query, $value) {
         return $query->where('job_period', 'like', "%$value%");
@@ -143,9 +143,9 @@ class JobController extends Controller
         return $query->whereJsonContains('job_description', $value);
       })
       ->when($request->query("created_at"), function ($query, $value) {
-        if($value == 'asc') {
+        if ($value == 'asc') {
           return $query->orderBy('created_at', 'asc');
-        } elseif($value == 'desc') {
+        } elseif ($value == 'desc') {
           return $query->orderBy('created_at', 'desc');
         }
         return $query->whereDate('created_at', $value);
@@ -182,11 +182,10 @@ class JobController extends Controller
   {
     $paginateSize = $request->query('paginateSize', 10);
     // return  RateEmployee::with('employee')->get();
-    return RateEmployee::when($request->query("location"),function($query,$value){
-       return $query->whereHas('employee.experience', function ($q) use ($value) {
-          $q->where('city', 'like', "%$value%")->orWhere('country', 'like', "%$value%");
+    return RateEmployee::when($request->query("location"), function ($query, $value) {
+      return $query->whereHas('employee.experience', function ($q) use ($value) {
+        $q->where('city', 'like', "%$value%")->orWhere('country', 'like', "%$value%");
       });
-
     })->get()
       ->groupBy('employee_id')
       ->map(function ($rates) {
@@ -201,13 +200,13 @@ class JobController extends Controller
   public function getSomeData()
   {
     return [
-       'companies' => Member::where('type', UserTypeEnum::COMPANY)->count(),
-       'employees' => Member::where('type', UserTypeEnum::EMPLOYEE)->count(),
-       'users' => Member::count(),
-       'jobs' => Job::OfStatus(1)->count(),
-       'allEvents' => Calender::where('member_id', auth('api')->id())->count(),
-       'unCompletedEvents' => Calender::where('member_id', auth('api')->id())->where('status', '!=', 'completed')->count(),
-       'completedEvents' => Calender::where('member_id', auth('api')->id())->where('status', 'completed')->count(),
+      'companies' => Member::where('type', UserTypeEnum::COMPANY)->count(),
+      'employees' => Member::where('type', UserTypeEnum::EMPLOYEE)->count(),
+      'users' => Member::count(),
+      'jobs' => Job::OfStatus(1)->count(),
+      'allEvents' => Calender::where('member_id', auth('api')->id())->count(),
+      'unCompletedEvents' => Calender::where('member_id', auth('api')->id())->where('status', '!=', 'completed')->count(),
+      'completedEvents' => Calender::where('member_id', auth('api')->id())->where('status', 'completed')->count(),
     ];
   }
 }
