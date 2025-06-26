@@ -17,7 +17,7 @@ use App\Notifications\ClientNotification;
 class PostService
 {
   # Advertise Post ##############
-  public function addPostAdertise($request): JsonResponse
+  public function addPostAdertise($request)
   {
     $dataValidatedChecked = $request->validated();
     $dataValidatedChecked['status']  = PostTypeEnum::ADVERTISE;
@@ -26,6 +26,7 @@ class PostService
     unset($dataValidatedChecked['type']);
     unset($dataValidatedChecked['coupon_code']);
     \DB::beginTransaction();
+
     # when complete price details overview
     // if(isset($dataValidatedChecked['coupon_code']) && !empty($dataValidatedChecked['coupon_code'])) {
     //   $dataValidatedChecked['price'] = $dataValidatedChecked['price'] * ($dataValidatedChecked['coupon_code'] / 100);
@@ -33,21 +34,28 @@ class PostService
     if (!empty($dataValidatedChecked['image'])) {
       $dataValidatedChecked['image'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['image']));
     }
-  if ($request->hasFile('file_name')) {
-    $getID3 = new \getID3;
-    $file = $request->file('file_name');
-    $analysis = $getID3->analyze($file->getRealPath());
+    if (!empty($dataValidatedChecked['file_name'])) {
+    $filePath = 'posts/' . $dataValidatedChecked['file_name'];
+    $fullPath = Storage::disk('public')->path($filePath); // مسار فعلي على السيرفر
 
-    if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > $promotion?->seconds) {
-        return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion?->seconds . ' ثانية'], 422);
+    if (file_exists($fullPath)) {
+        $getID3 = new \getID3;
+        $analysis = $getID3->analyze($fullPath);
+          // dd($analysis);
+        if (isset($analysis['playtime_seconds']) && $promotion && $analysis['playtime_seconds'] > $promotion->seconds) {
+            return response()->json([
+                'message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion->seconds . ' ثانية'
+            ], 422);
+        }
+    } else {
+        return response()->json([
+            'message' => 'الملف غير موجود'
+        ], 404);
     }
-
-    $path = $file->store('posts', 'public');
-    $dataValidatedChecked['file_name'] = basename($path);
 }
 
 
-
+  $dataValidatedChecked['file_name'] = basename($fullPath);
     $post = Post::create($dataValidatedChecked);
 
     $post->adsStatus()->create([
@@ -106,17 +114,24 @@ class PostService
     if (!empty($dataValidatedChecked['image'])) {
       $dataValidatedChecked['image'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['image']));
     }
-    if ($request->hasFile('file_name')) {
-    $getID3 = new \getID3;
-    $file = $request->file('file_name');
-    $analysis = $getID3->analyze($file->getRealPath());
+  if (!empty($dataValidatedChecked['file_name'])) {
+    $filePath = 'posts/' . $dataValidatedChecked['file_name'];
+    $fullPath = Storage::disk('public')->path($filePath); // مسار فعلي على السيرفر
 
-    if (isset($analysis['playtime_seconds']) && $analysis['playtime_seconds'] > $promotion?->seconds) {
-        return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion?->seconds . ' ثانية'], 422);
+    if (file_exists($fullPath)) {
+        $getID3 = new \getID3;
+        $analysis = $getID3->analyze($fullPath);
+          // dd($analysis);
+        if (isset($analysis['playtime_seconds']) && $promotion && $analysis['playtime_seconds'] > $promotion->seconds) {
+            return response()->json([
+                'message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion->seconds . ' ثانية'
+            ], 422);
+        }
+    } else {
+        return response()->json([
+            'message' => 'الملف غير موجود'
+        ], 404);
     }
-
-    $path = $file->store('posts', 'public');
-    $dataValidatedChecked['file_name'] = basename($path);
 }
 
     $Post = Post::find($Post_Id);
