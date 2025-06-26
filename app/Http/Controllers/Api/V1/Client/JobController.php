@@ -107,19 +107,23 @@ class JobController extends Controller
     $paginateSize = $request->query('paginateSize', 10);
     $jobs = Job::OfStatus(1)
       ->when($request->query("employee_type"), function ($query, $value) {
-        return $query->whereIn('employee_type', (array) $value);
+        $value = is_array($value) ? $value : explode(',', $value);
+        return $query->whereIn('employee_type',  $value);
       })
       ->when($request->query("work_mode"), function ($query, $value) {
-        return $query->whereIn('work_mode', (array) $value);
+        $value = is_array($value) ? $value : explode(',', $value);
+        return $query->whereIn('work_mode',  $value);
       })
       ->when($request->query("job_category"), function ($query, $value) {
-        return $query->whereIn('job_category', (array) $value);
+        $value = is_array($value) ? $value : explode(',', $value);
+        return $query->whereIn('job_category',  $value);
       })
       ->when($request->query("job_name"), function ($query, $value) {
         return $query->where('job_name', 'like', "%$value%");
       })
       ->when($request->query("work_level"), function ($query, $value) {
-        return $query->whereIn('work_level', (array) $value);
+        $value = is_array($value) ? $value : explode(',', $value);
+        return $query->whereIn('work_level',  $value);
       })
       ->when($request->query("salary"), function ($query, $value) {
         return $query->where('salary', '>=', (float) $value);
@@ -128,7 +132,8 @@ class JobController extends Controller
         return $query->where('salary_period', 'like', "%$value%");
       })
       ->when($request->query("experience"), function ($query, $value) {
-        return $query->whereIn('experience', (array) $value);
+        $value = is_array($value) ? $value : explode(',', $value);
+        return $query->whereIn('experience',  $value);
       })
       ->when($request->query("job_period"), function ($query, $value) {
         return $query->where('job_period', 'like', "%$value%");
