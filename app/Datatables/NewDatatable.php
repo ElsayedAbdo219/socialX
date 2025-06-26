@@ -27,8 +27,16 @@ class NewDatatable extends BaseDatatable
                 $title = $model?->title;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
+            'title_en' => function ($model) {
+                $title = $model?->title_en ?? '';
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
             'contentNews' => function ($model) {
                 $title = $model?->contentNews;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+            'contentNews_en' => function ($model) {
+                $title = $model?->contentNews_en ?? '';
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
               'is_poll' => function ($model) {
@@ -46,8 +54,10 @@ class NewDatatable extends BaseDatatable
     protected function getColumns(): array
     {
         return [
-            Column::computed('title')->title(__('dashboard.title'))->className('text-center'),
-            Column::computed('contentNews')->title(__('dashboard.contentNews'))->className('text-center'),
+            Column::computed('title')->title(__('dashboard.title_ar'))->className('text-center'),
+            Column::computed('title_en')->title(__('dashboard.title_en'))->className('text-center'),
+            Column::computed('contentNews')->title(__('dashboard.contentNews_ar'))->className('text-center'),
+            Column::computed('contentNews_en')->title(__('dashboard.contentNews_en'))->className('text-center'),
             Column::computed('is_poll')->title(__('dashboard.is_poll'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 

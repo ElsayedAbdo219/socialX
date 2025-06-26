@@ -22,7 +22,10 @@ class News extends Model
        public function scopeOfContent($query, $value)
        {
            if (empty($value)) return $query;
-           return $query->where('contentNews', 'like', "%{$value}%");
+           return $query->where('contentNews', 'like', "%{$value}%")
+           ->orWhere('title', 'like', "%{$value}%")
+           ->orWhere('contentNews_en', 'like', "%{$value}%")
+           ->orWhere('title_en', 'like', "%{$value}%");
 
        }
 }

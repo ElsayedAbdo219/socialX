@@ -352,6 +352,10 @@ return [
     'add_promotion_resolution' => 'Add Promotion Resolution',
     'welcome_to' => 'Welcome to',
     'work_mode' => 'Work Mode',
+    'title_ar' => 'Title (in Arabic)',
+    'contentNews_ar' => 'Content News (in Arabic)',
+    'title_en' => 'Title (in English)',
+    'contentNews_en' => 'Content News (in English)',
 
 
 

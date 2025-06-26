@@ -29,7 +29,15 @@ class NewController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate(['title' => 'required|string', 'contentNews' => 'required|string' , 'is_poll' => 'nullable|boolean']);
+        $data = $request->validate(
+          [
+            'title' => 'required|string',
+            'title_en' => 'nullable|string',
+            'contentNews_en' => 'nullable|string',
+            'contentNews' => 'required|string',
+            'is_poll' => 'nullable|boolean'
+          ]
+        );
         News::create($data);
         return redirect()->route($this->route . '.' . 'index')->with('success', __('dashboard.created_news'));
     }
@@ -47,7 +55,15 @@ class NewController extends Controller
 
     public function update(Request $request, $News)
     {
-        $data = $request->validate(['title' => 'required|string', 'contentNews' => 'required|string', 'is_poll' => 'nullable|boolean']);
+        $data = $request->validate(
+          [
+            'title' => 'required|string',
+            'title_en' => 'nullable|string',
+            'contentNews_en' => 'nullable|string',
+            'contentNews' => 'required|string',
+            'is_poll' => 'nullable|boolean'
+          ]
+        );
         $News = News::findOrfail($News);
         $News->update($data);
         return redirect()->route($this->route . '.' . 'index')->with('success', __('dashboard.updated_news'));
