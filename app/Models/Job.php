@@ -35,7 +35,7 @@ class Job extends Model
         'job_description' => 'array',
 
     ];
-    protected $appends = ['total_job_appliers'];
+    protected $appends = ['total_job_appliers', 'is_apply_job'];
     // Job_Description
 
     # Getters
@@ -43,6 +43,10 @@ class Job extends Model
     public function getTotalJobAppliersAttribute()
     {
         return $this->jobAppliers()->count();
+    }
+    public function IsApplyJob()
+    {
+        return $this->jobAppliers()->where('employee_id', auth('api')->id())->exists() ? true : false;
     }
 
     public function getJobDescriptionAttribute($value)
