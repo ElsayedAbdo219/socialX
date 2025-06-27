@@ -104,7 +104,7 @@ class JobController extends Controller
       $notifabels,
       new ClientNotification($notificationData, ['database', 'firebase'])
     );
-    return response()->json(['message' => 'تم اكمال الوظيفة بنجاح']);
+    return response()->json(['message' => 'تم التعديل علي حالة الوظيفة بنجاح']);
   }
 
 

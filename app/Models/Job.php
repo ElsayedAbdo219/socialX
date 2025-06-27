@@ -22,7 +22,7 @@ class Job extends Model
         'salary_period',
         'experience',
         'location',
-        'is_active',
+        'is_Active',
         'work_mode',
     ];
     protected $with = ['member'];
@@ -31,7 +31,7 @@ class Job extends Model
 
     protected $casts = [
 
-        'is_active' => 'boolean',
+        'is_Active' => 'boolean',
         'job_description' => 'array',
 
     ];
