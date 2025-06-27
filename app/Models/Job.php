@@ -35,9 +35,15 @@ class Job extends Model
         'job_description' => 'array',
 
     ];
+    protected $appends = ['total_job_appliers'];
     // Job_Description
 
     # Getters
+
+    public function getTotalJobAppliersAttribute()
+    {
+        return $this->jobAppliers()->count();
+    }
 
     public function getJobDescriptionAttribute($value)
     {
@@ -75,6 +81,11 @@ class Job extends Model
             return $query;
         }
         return $query->where('is_Active', $value);
+    } 
+
+    public function scopeOfAuth($query)
+    {
+      return $query->where('member_id', auth('api')->id());
     }
 
 }

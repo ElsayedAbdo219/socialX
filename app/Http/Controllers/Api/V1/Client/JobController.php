@@ -214,4 +214,14 @@ class JobController extends Controller
       'completedEvents' => Calender::where('member_id', auth('api')->id())->where('status', 'completed')->count(),
     ];
   }
+
+  public function getSomeDataJobs()
+  {
+    return [
+      'allJobs' => Job::OfAuth()->count(),
+      'allAppliedJobs' => Job::OfAuth()->withCount('jobAppliers')->get()->sum('job_appliers_count'),
+      'openedJobs' => Job::OfAuth()->OfStatus(1)->count(),
+      'closedJobs' => Job::OfAuth()->OfStatus(0)->count(),
+    ];
+  }
 }
