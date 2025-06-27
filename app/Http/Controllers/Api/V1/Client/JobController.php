@@ -84,9 +84,15 @@ class JobController extends Controller
     return $member?->jobs()->OfStatus(1)->paginate($paginateSize);
   }
 
-  public function setCompletedJob(Job $job)
+  public function setStatus(Request $request, Job $job)
   {
-    $job->update(['is_active' => 0]);
+    if ($request->input('status') == 'completed') {
+      $job->update(['is_active' => 0]);
+    }elseif ($request->input('status') == 'opened') {
+      $job->update(['is_active' => 1]);
+    } else {
+      return response()->json(['message' => 'status not found'], 404);
+    }
     # sending a notification to the user
     $notifabels = User::first();
     $notificationData = [
