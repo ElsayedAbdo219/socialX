@@ -29,7 +29,7 @@ class UserApplyJobController extends Controller
     $job = Job::findOrFail($idJob);
     $members = Member::whereHas('UserApplyJob', function ($q) use ($idJob) {
       $q->where('jobs_applies_id', $idJob);
-    })->paginate($paginateSize);
+    })->orderBy('created_at', 'desc')->paginate($paginateSize);
 
     return response()->json($members);
   }
