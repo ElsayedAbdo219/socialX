@@ -10,7 +10,12 @@ class UserApplyJob extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $appends = ['total_job_appliers'];
 
+     public function getTotalJobAppliersAttribute()
+     {
+         return $this->job()->jobAppliers()->count();
+     }
 
 
     public function job()
