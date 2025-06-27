@@ -87,9 +87,9 @@ class JobController extends Controller
   public function setStatus(Request $request, Job $job)
   {
     if ($request->input('status') == 'completed') {
-      $job->update(['is_active' => 0]);
+      $job->update(['is_Active' => 0]);
     }elseif ($request->input('status') == 'opened') {
-      $job->update(['is_active' => 1]);
+      $job->update(['is_Active' => 1]);
     } else {
       return response()->json(['message' => 'status not found'], 404);
     }
