@@ -221,7 +221,7 @@ class JobController extends Controller
       'allJobs' => Job::OfAuth()->count(),
       'allAppliedJobs' => Job::OfAuth()->withCount('jobAppliers')->get()->sum('job_appliers_count'),
       'openedJobs' => Job::OfAuth()->OfStatus(1)->count(),
-      'closedJobs' => Job::OfAuth()->OfStatus(0)->count(),
+      'closedJobs' => Job::OfAuth()->where('is_Active', 0)->count(),
     ];
   }
 }
