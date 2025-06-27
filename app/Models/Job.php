@@ -44,11 +44,11 @@ class Job extends Model
     {
         return $this->jobAppliers()->count();
     }
-    public function IsApplyJob()
+    public function getIsApplyJobAttribute()
     {
         return $this->jobAppliers()->where('employee_id', auth('api')->id())->exists() ? true : false;
     }
-
+    
     public function getJobDescriptionAttribute($value)
     {
         if ($value == null) {
