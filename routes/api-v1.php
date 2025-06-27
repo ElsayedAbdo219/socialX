@@ -132,12 +132,12 @@ Route::name('posts.')->prefix('posts')->group(function () {
     Route::get('/user/me', [PostController::class, 'getMyPosts']); // my posts 
     Route::get('/shares/{ID}', [PostController::class, 'showSharesOfPost']); // shares for  post 
     Route::get('/user/{UserID}', [PostController::class, 'get']); // get user posts
-    Route::post('/addPostIntro', [PostController::class, 'addPostIntro']); // addPostIntro
+    Route::post('/addPostIntro', [PostController::class, 'addPostIntro'])->middleware('is_employee'); // addPostIntro
     Route::get('/getPostIntro/{id}', [PostController::class, 'getPostIntro']); // addPostIntro
-    Route::delete('/deletePostIntro/{id}', [PostController::class, 'deletePostIntro']); // addPostIntro
+    Route::delete('/deletePostIntro/{id}', [PostController::class, 'deletePostIntro'])->middleware('is_employee'); // addPostIntro
     #chunking routes#
-    Route::post('/uploadChunk', [PostController::class, 'uploadChunk']); // uploadChunk
-    Route::post('mergeChunks', [PostController::class, 'mergeChunks']); // mergeChunks
+    Route::post('/uploadChunk', [PostController::class, 'uploadChunk'])->middleware('is_company'); // uploadChunk
+    Route::post('mergeChunks', [PostController::class, 'mergeChunks'])->middleware('is_company'); // mergeChunks
 
     
     
@@ -200,10 +200,10 @@ Route::name('reacts.')->prefix('reacts')->group(function () {
 Route::name('experience.')->prefix('experience')->group(function () {
     #updated
     Route::get('/', [ExperienceController::class, 'all']); // only employee_id eqaul auth userID
-    Route::post('/', [ExperienceController::class, 'add']); // ADD experience
+    Route::post('/', [ExperienceController::class, 'add'])->middleware('is_employee'); // ADD experience
     Route::get('/{ID}', [ExperienceController::class, 'show']); // SHOW experience
-    Route::patch('/{ID}', [ExperienceController::class, 'update']); // update experience
-    Route::delete('/{ID}', [ExperienceController::class, 'delete']); // delete experience
+    Route::patch('/{ID}', [ExperienceController::class, 'update'])->middleware('is_employee'); // update experience
+    Route::delete('/{ID}', [ExperienceController::class, 'delete'])->middleware('is_employee'); // delete experience
     Route::get('/user/{UserID}', [ExperienceController::class, 'get']); // get user experience
     Route::get('/citiesWorked/{USERID}', [ExperienceController::class, 'getCitiesWorked']); // getCitiesWorked
     
@@ -217,10 +217,10 @@ Route::name('experience.')->prefix('experience')->group(function () {
 Route::name('education.')->prefix('education')->group(function () {
     #updated
     Route::get('/', [EducationController::class, 'all']); // only employee_id eqaul auth userID
-    Route::post('/', [EducationController::class, 'add']); // ADD education
+    Route::post('/', [EducationController::class, 'add'])->middleware('is_employee'); // ADD education
     Route::get('/{ID}', [EducationController::class, 'show']); // SHOW education
-    Route::patch('/{ID}', [EducationController::class, 'update']); // update education
-    Route::delete('/{ID}', [EducationController::class, 'delete']); // delete education
+    Route::patch('/{ID}', [EducationController::class, 'update'])->middleware('is_employee'); // update education
+    Route::delete('/{ID}', [EducationController::class, 'delete'])->middleware('is_employee'); // delete education
     Route::get('/user/{UserID}', [EducationController::class, 'get']); // get user education
 });
 
@@ -274,20 +274,20 @@ Route::name('education.')->prefix('education')->group(function () {
        Route::name('jobs.')->prefix('jobs')->group(function () {
         Route::get('/getAllJobs/forfilteration', [JobController::class, 'getAllJobs']);
         Route::get('/getTopRated/employees', [JobController::class, 'getTopRated']);
-        Route::get('/getMyJobs/company', [JobController::class, 'getMyJobs']);
-        Route::post('/', [JobController::class, 'add']);
-        Route::put('/{job}', [JobController::class, 'update']);
-        Route::delete('/{job}', [JobController::class, 'delete']);
+        Route::get('/getMyJobs/company', [JobController::class, 'getMyJobs'])->middleware('is_company'); // get my jobs
+        Route::post('/', [JobController::class, 'add'])->middleware('is_company'); // add job
+        Route::put('/{job}', [JobController::class, 'update'])->middleware('is_company'); // update job
+        Route::delete('/{job}', [JobController::class, 'delete'])->middleware('is_company'); // delete job
         Route::get('/{job}', [JobController::class, 'get']);
         Route::get('/Company/{companyId}', [JobController::class, 'getCompanyJobs']);
-        Route::post('/setStatus/{job}', [JobController::class, 'setStatus']);
+        Route::post('/setStatus/{job}', [JobController::class, 'setStatus'])->middleware('is_company'); // set status job
         Route::get('/count/getSomeData', [JobController::class, 'getSomeData']);
         Route::get('/company/getSomeDataJobs', [JobController::class, 'getSomeDataJobs']);
       });
 
       # user apply jobs
       Route::name('apply_jobs.')->prefix('apply_jobs')->group(function () {
-        Route::post('/', [UserApplyJobController::class, 'add']);
+        Route::post('/', [UserApplyJobController::class, 'add'])->middleware('is_employee'); // apply job
         Route::get('getDetailsOfAppliers/{JOB}', [UserApplyJobController::class, 'getDetailsOfAppliers']);
 
       });
