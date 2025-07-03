@@ -25,7 +25,7 @@ class MergeChunkAdsJob implements ShouldQueue
 
 public function handle(): void
 {
-    \Log::info("🚀 بدء الدمج: {$this->chunkPath}");
+    \Log::info(" بدء الدمج: {$this->chunkPath}");
 
     $files = collect(scandir($this->chunkPath))
         ->filter(fn($name) => is_numeric($name) && is_file("{$this->chunkPath}/{$name}"))
@@ -33,7 +33,7 @@ public function handle(): void
         ->values();
 
     if ($files->isEmpty()) {
-        \Log::error("❌ لا يوجد أي أجزاء في: {$this->chunkPath}");
+        \Log::error(" لا يوجد أي أجزاء في: {$this->chunkPath}");
         return;
     }
 
@@ -45,14 +45,14 @@ public function handle(): void
 
         $data = file_get_contents($fullPath);
         if ($data === false) {
-            \Log::error("❌ فشل قراءة: {$fullPath}");
+            \Log::error("فشل قراءة: {$fullPath}");
             continue;
         }
 
         fwrite($finalFile, $data);
         unlink($fullPath);
 
-        \Log::info("📦 تم دمج: {$file}");
+        \Log::info(" تم دمج: {$file}");
     }
 
     fclose($finalFile);

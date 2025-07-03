@@ -168,9 +168,14 @@ class PostController extends Controller
   {
 
     $Paginate_Size = $request->query('paginateSize') ?? 10;
-    $ownPosts = Post::with($this->Relations)
+    $ads = Post::with($this->Relations)
       //   ->where('is_Active', 1)
       ->where('status', PostTypeEnum::ADVERTISE)
+      ->when($request->query('status'),function($q1) use ($request){
+        $q1->whereHas('adsStatus',function($q2) use ($request){
+          $q2->where('status' , $request->query('status') );
+        });
+      })
       ->get()
       ->map(function ($post) {
         $post->views_count = $post->views()->count();
@@ -192,7 +197,7 @@ class PostController extends Controller
         });
         return $post;
       });
-    //   return $ownPosts;
+      // dd($ads);
 
     // البوستات المشتركة (بنستخدم post()->with()->first())
     $sharedPosts = SharedPost::with('userShared')->get()->map(function ($sharedPost) {
@@ -205,7 +210,7 @@ class PostController extends Controller
     })->filter();
 
     // دمج الكولكشنز
-    $allPosts = collect([$ownPosts, $sharedPosts])
+    $allPosts = collect([$ads, $sharedPosts])
       ->collapse()
       ->sortByDesc('created_at')
       ->values();
