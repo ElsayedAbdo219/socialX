@@ -61,18 +61,18 @@ class EmployeeDataTable extends BaseDatatable
         $url = $model?->website;
         return view('components.datatable.includes.columns.link', compact('url'));
       },
-      'verfication_account' => function ($model) {
-        $selected = $model->verfication_account;
-        return view('components.datatable.includes.columns.radio-button', [
-          'name' => 'verfication_account_' . $model->id,
-          'options' => [
-            1 => __('dashboard.yes'),
-            0 =>  __('dashboard.no')
-          ],
-          'selected' => $selected,
-          'userId' => $model->id
-        ]);
-      },
+      // 'verfication_account' => function ($model) {
+      //   $selected = $model->verfication_account;
+      //   return view('components.datatable.includes.columns.radio-button', [
+      //     'name' => 'verfication_account_' . $model->id,
+      //     'options' => [
+      //       1 => __('dashboard.yes'),
+      //       0 =>  __('dashboard.no')
+      //     ],
+      //     'selected' => $selected,
+      //     'userId' => $model->id
+      //   ]);
+      // },
       'is_Active' => function ($model) {
         $active = $model?->is_Active;
         return view('components.datatable.includes.columns.active', compact('active'));
@@ -98,7 +98,7 @@ class EmployeeDataTable extends BaseDatatable
       Column::computed('email')->title(__('dashboard.email'))->className('text-center'),
       Column::computed('address')->title(__('dashboard.address'))->className('text-center'),
       Column::computed('website')->title(__('dashboard.website'))->className('text-center'),
-      Column::computed('verfication_account')->title(__('dashboard.verfication_account'))->className('text-center'),
+      // Column::computed('verfication_account')->title(__('dashboard.verfication_account'))->className('text-center'),
       Column::computed('is_Active')->title(__('dashboard.status'))->className('text-center'),
       Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 
