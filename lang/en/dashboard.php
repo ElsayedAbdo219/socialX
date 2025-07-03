@@ -356,7 +356,7 @@ return [
     'contentNews_ar' => 'Content News (in Arabic)',
     'title_en' => 'Title (in English)',
     'contentNews_en' => 'Content News (in English)',
-
+    'verfication_account' => 'Verfication Account ?',
 
 
 

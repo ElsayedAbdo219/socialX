@@ -21,7 +21,8 @@ class Member extends Authenticatable
   protected $guarded = [];
   protected $hidden = ['email_verified_at', 'password', 'remember_token', 'logo', 'avatar', 'personal_info', 'personal_photo', 'coverletter'];
   protected $casts = [
-    'is_Active' => 'boolean'
+    'is_Active' => 'boolean',
+    'verfication_account' => 'boolean'
   ];
   protected $appends = ['avatar_path'];
 

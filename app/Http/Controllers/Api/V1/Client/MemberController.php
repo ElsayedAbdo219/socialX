@@ -125,12 +125,6 @@ public function search(Request $request)
     return response()->json($paginatedArray);
 }
 
-
-
-
-
-
-
   public function searchPosts(Request $request)
   {
     $baseQuery = Post::where(function ($query) {
@@ -263,4 +257,7 @@ public function search(Request $request)
 
     return $baseQuery->get();
   }
+
+
+  
 }

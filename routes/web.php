@@ -21,7 +21,8 @@ use App\Http\Controllers\Dashboard\{
   CategoryController,
   SponserController,
   PromotionController,
-  AdsPriceController
+  AdsPriceController,
+  MemberController
 };
 use App\Jobs\MergeChunkAdsJob;
 use App\Jobs\UploadAdsJob;
@@ -188,7 +189,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
     # ads price 
     Route::resource('Ads-price', AdsPriceController::class);
 
-
+// change verification status for users
+    Route::post('change-verification-status', [MemberController::class, 'changeVerificationStatus']); 
     //  # bitcoin-stock
     //  Route::get('bitcoin-stock', function(){
     //   return view('bitcoin');
