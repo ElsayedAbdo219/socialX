@@ -65,7 +65,7 @@ class PostController extends Controller
   public function mergeChunks(Request $request)
   {
     $request->validate([
-        'file_name' => ['required', 'string']
+      'file_name' => ['required', 'string']
     ]);
 
     $fileName = basename($request->input('file_name'));
@@ -75,14 +75,14 @@ class PostController extends Controller
     $finalPath = storage_path("app/public/posts/{$cleanName}");
     // dd($finalPath , $request->input('file_name'));
     if (!file_exists($chunkPath)) {
-        return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
+      return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
     }
-      
+
     MergeChunkAdsJob::dispatch($chunkPath, $finalPath);
-    
+
     return response()->json([
-        'message' => 'جاري الدمج',
-        'file_path' => "storage/posts/{$cleanName}"
+      'message' => 'جاري الدمج',
+      'file_path' => "storage/posts/{$cleanName}"
     ]);
   }
 
@@ -171,9 +171,9 @@ class PostController extends Controller
     $ads = Post::with($this->Relations)
       //   ->where('is_Active', 1)
       ->where('status', PostTypeEnum::ADVERTISE)
-      ->when($request->query('status'),function($q1) use ($request){
-        $q1->whereHas('adsStatus',function($q2) use ($request){
-          $q2->where('status' , $request->query('status') );
+      ->when($status = $request->query('status'), function ($q1) use ($status) {
+        $q1->whereHas('adsStatus', function ($q2) use ($status) {
+          $q2->where('status', $status);
         });
       })
       ->get()
@@ -197,7 +197,7 @@ class PostController extends Controller
         });
         return $post;
       });
-      // dd($ads);
+    // dd($ads);
 
     // البوستات المشتركة (بنستخدم post()->with()->first())
     $sharedPosts = SharedPost::with('userShared')->get()->map(function ($sharedPost) {
@@ -250,14 +250,14 @@ class PostController extends Controller
     $User = Member::find($User_Id);
 
     $posts = $User->posts()->where(function ($query) {
-    $query->where('status', PostTypeEnum::NORMAL)
-          ->orWhere(function ($q) {
-              $q->where('status', PostTypeEnum::ADVERTISE)
-                ->whereHas('adsStatus', function ($q2) {
-                    $q2->where('status', AdsStatusEnum::APPROVED);
-                });
-          });
-});
+      $query->where('status', PostTypeEnum::NORMAL)
+        ->orWhere(function ($q) {
+          $q->where('status', PostTypeEnum::ADVERTISE)
+            ->whereHas('adsStatus', function ($q2) {
+              $q2->where('status', AdsStatusEnum::APPROVED);
+            });
+        });
+    });
 
     $ownPosts = $posts->with($this->Relations)
       //   ->where('is_Active', 1)
