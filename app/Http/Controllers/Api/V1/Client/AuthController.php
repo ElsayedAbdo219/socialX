@@ -29,6 +29,8 @@ use App\Http\Requests\Api\Auth\UpdatePasswordRequest;
 use App\Http\Requests\Api\Auth\SetPrivateAccountRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Enum\PromotionTypeEnum ;
+use App\Enum\PostTypeEnum;
+use App\Enum\AdsStatusEnum;
 
 class AuthController extends Controller
 {
@@ -212,10 +214,17 @@ public function me()
         $endYear = $exp->end_date_year ?? \Carbon\Carbon::now()->year;
         $totalExpYears += $endYear - $startYear;
     }
+    $totalPosts = auth('api')->user()->posts()->where('status', PostTypeEnum::NORMAL)
+      ->orWhere(function ($query) {
+        $query->where('status', PostTypeEnum::ADVERTISE)->where('user_id', auth('api')->id())
+          ->whereHas('adsStatus', function ($q) {
+            $q->where('status', AdsStatusEnum::APPROVED);
+          });
+      })->count();
     return 
     [
         'user' => $user->type === UserTypeEnum::COMPANY ? $user->load(['Intros','followersTotal','userCover','followedTotal','overview']) : $user->load(['followersTotal','followedTotal','userCover','Intros','skills','employeeOverview']) , 
-        'totalPosts' => $user->posts()->count(), 
+        'totalPosts' => $totalPosts, 
         'currentCompany' =>   $user->type === UserTypeEnum::EMPLOYEE ?  $user->experience()->latest()->with('company')->first() : 'emp!', 
         'expYearsNumbers' =>   $user->type === UserTypeEnum::EMPLOYEE ? $totalExpYears : 'emp!', 
     ];
