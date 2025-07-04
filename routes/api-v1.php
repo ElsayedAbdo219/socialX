@@ -381,7 +381,8 @@ Route::name('education.')->prefix('education')->group(function () {
 
      # overviews
     Route::name('ads.')->prefix('ads')->group(function () {
-      Route::get('/me', [PostController::class, 'allAds']);
+      Route::get('/all', [PostController::class, 'allAds']);
+      Route::get('/me', [PostController::class, 'myAds']);
       Route::post('/checkData', [PostController::class, 'checkData']);
       Route::get('/getPromotionResolutions/{promotionName}', [PostController::class, 'getPromotionResolutions']);
       Route::get('/getprices', [PostController::class, 'getprices']);
