@@ -44,12 +44,7 @@ class CompanyController extends Controller
   public function getAnalysis(Request $request, $companyId)
   {
     $member = Member::findOrFail($companyId);
-    $month = $request->query('month', date('m'));
-    $year = $request->query('year', date('Y'));
-
     $posts = $member->posts()
-      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-      ->when($year, fn($q) => $q->whereYear('created_at', $year))
       ->withCount(['reacts', 'comments', 'shares', 'views'])
       ->get();
 
@@ -61,44 +56,30 @@ class CompanyController extends Controller
 
     // المتابعين
     $total_followers = $member->follower()
-      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-      ->when($year, fn($q) => $q->whereYear('created_at', $year))
       ->count();
 
     $total_following = $member->followed()
-      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-      ->when($year, fn($q) => $q->whereYear('created_at', $year))
       ->count();
     $coupons = Promotion::pluck('name')->toArray();
     $total_promotion = $member->posts()->whereIn('coupon_code', $coupons)
-      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-      ->when($year, fn($q) => $q->whereYear('created_at', $year))
       ->count();
 
     $Total_advertise = $member->ads()->with('adsStatus')
-      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-      ->when($year, fn($q) => $q->whereYear('created_at', $year))
       ->count();
 
     # 
     $total_active_advertises = $member->ads()
       ->whereHas('adsStatus', fn($q) => $q->where('status', 'approved'))
-      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-      ->when($year, fn($q) => $q->whereYear('created_at', $year))
       ->count();
 
     // ->pluck('adsStatus') 
     // ->filter(); 
     $total_pending_advertises = $member->ads()
       ->whereHas('adsStatus', fn($q) => $q->where('status', 'pending'))
-      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-      ->when($year, fn($q) => $q->whereYear('created_at', $year))
       ->count();
 
     $total_cancelled_advertises = $member->ads()
       ->whereHas('adsStatus', fn($q) => $q->where('status', 'cancelled'))
-      ->when($month, fn($q) => $q->whereMonth('created_at', $month))
-      ->when($year, fn($q) => $q->whereYear('created_at', $year))
       ->count();
 
 
