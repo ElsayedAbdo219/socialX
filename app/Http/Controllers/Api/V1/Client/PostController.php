@@ -252,20 +252,9 @@ class PostController extends Controller
         });
         return $post;
       });
-    // dd($ads);
-
-    // البوستات المشتركة (بنستخدم post()->with()->first())
-    $sharedPosts = SharedPost::with('userShared')->get()->map(function ($sharedPost) {
-      $shared = $sharedPost->post()->with($this->Relations)->first();
-      if ($shared) {
-        $shared->type = 'shared';
-        $shared->sharedPerson = $sharedPost->userShared;
-        return $shared;
-      }
-    })->filter();
 
     // دمج الكولكشنز
-    $allPosts = collect([$ads, $sharedPosts])
+    $allPosts = collect([$ads])
       ->collapse()
       ->sortByDesc('created_at')
       ->values();
