@@ -31,6 +31,7 @@ class PostService
     // if(isset($dataValidatedChecked['coupon_code']) && !empty($dataValidatedChecked['coupon_code'])) {
     //   $dataValidatedChecked['price'] = $dataValidatedChecked['price'] * ($dataValidatedChecked['coupon_code'] / 100);
     // }
+    $fullPath = '';
     if (!empty($dataValidatedChecked['image'])) {
       $dataValidatedChecked['image'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['image']));
     }
@@ -111,6 +112,7 @@ class PostService
     $promotion = Promotion::whereName($dataValidatedChecked['coupon_code'])->first();
     unset($dataValidatedChecked['type']);
     unset($dataValidatedChecked['coupon_code']);
+    $fullPath = '';
     if (!empty($dataValidatedChecked['image'])) {
       $dataValidatedChecked['image'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['image']));
     }
