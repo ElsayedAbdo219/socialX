@@ -9,13 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::table('promotions', function (Blueprint $table) {
+  public function up(): void
+{
+    Schema::table('promotions', function (Blueprint $table) {
+        if (Schema::hasColumn('promotions', 'start_date')) {
             $table->dropColumn('start_date');
+        }
+
+        if (Schema::hasColumn('promotions', 'end_date')) {
             $table->dropColumn('end_date');
-        });
-    }
+        }
+    });
+}
+
 
     /**
      * Reverse the migrations.
