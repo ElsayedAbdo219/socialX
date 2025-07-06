@@ -31,7 +31,7 @@ class PostService
     // if(isset($dataValidatedChecked['coupon_code']) && !empty($dataValidatedChecked['coupon_code'])) {
     //   $dataValidatedChecked['price'] = $dataValidatedChecked['price'] * ($dataValidatedChecked['coupon_code'] / 100);
     // }
-    $fullPath = '';
+    
     if (!empty($dataValidatedChecked['image'])) {
       $dataValidatedChecked['image'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['image']));
     }
@@ -48,6 +48,8 @@ class PostService
                 'message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion->seconds . ' ثانية'
             ], 422);
         }
+        $dataValidatedChecked['file_name'] = basename($fullPath);
+
     } else {
         return response()->json([
             'message' => 'الملف غير موجود'
@@ -56,7 +58,7 @@ class PostService
 }
 
 
-  $dataValidatedChecked['file_name'] = basename($fullPath);
+  
     $post = Post::create($dataValidatedChecked);
 
     $post->adsStatus()->create([
@@ -129,6 +131,7 @@ class PostService
                 'message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion->seconds . ' ثانية'
             ], 422);
         }
+        $dataValidatedChecked['file_name'] = basename($fullPath);
     } else {
         return response()->json([
             'message' => 'الملف غير موجود'
