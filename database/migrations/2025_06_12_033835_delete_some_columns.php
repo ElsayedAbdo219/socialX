@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-      #test yaml 4
+      #test yaml 5
         Schema::table('news', function (Blueprint $table) {
             $table->dropColumn('yes');
             $table->dropColumn('no');
