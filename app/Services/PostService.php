@@ -103,9 +103,6 @@ class PostService
     \DB::commit();
     return response()->json(['message' => 'تم الاضافة بنجاح'], 200);
   }
-
-
-
   ### Advertise Post ##############
   public function updatePostAdertise($request, $Post_Id): JsonResponse
   {
