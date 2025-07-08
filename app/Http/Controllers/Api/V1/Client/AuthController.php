@@ -52,13 +52,12 @@ public function register(RegisterClientRequest $request){
     //     $member->promotion()->attach($freePromotion->id);
     // }
     $otp = mt_rand(100000, 999999);
-// return mt_rand(100000, 999999);
-    // OtpAuthenticate::create([
-    //     'email'       => $dataValidated['email'],
-    //     'otp'         => $otp,
-    //     'expiryDate'  => now()->addMinutes(12),
-    // ]);
-    // Mail::to($member->email)->send(new OTPMail($otp));
+    OtpAuthenticate::create([
+        'email'       => $dataValidated['email'],
+        'otp'         => $otp,
+        'expiryDate'  => now()->addMinutes(12),
+    ]);
+    Mail::to($member->email)->send(new OTPMail($otp));
     \DB::commit();
    return $this->respondWithSuccess('User Register Successfully', [
         'member' => $member,
@@ -159,7 +158,7 @@ public function resendOtp(Request $request){
         'expiryDate' => now()->addMinutes(12),
     ]);
      // إرسال OTP عبر البريد الإلكتروني
-    // Mail::to($dataRequest['email'])->send(new OtpMail($otpRecord['otp']));
+    Mail::to($dataRequest['email'])->send(new OtpMail($otpRecord['otp']));
       return $this->respondWithSuccess('The Otp Resend Successfully');
 }
 
@@ -183,7 +182,7 @@ public function forgetPassword(Request $request)
     ]);
 
     // إرسال OTP عبر البريد الإلكتروني
-    // Mail::to($dataRequest['email'])->send(new OtpMail($otp));
+    Mail::to($dataRequest['email'])->send(new OtpMail($otp));
     return $this->respondWithSuccess(' OTP has been sent successfully');
 }
 
