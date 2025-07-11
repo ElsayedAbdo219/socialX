@@ -27,7 +27,7 @@ class AddSponserPostRequest extends FormRequest
 
         return [
             'user_id' => 'required|exists:members,id',
-            'image' => 'required|image|mimes:png,jpg,jpeg', 
+            'image' => 'required|image|mimes:png,jpg,jpeg,webp', 
             'days_number' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
             'status' => 'required|in:'.$statusTypes,
