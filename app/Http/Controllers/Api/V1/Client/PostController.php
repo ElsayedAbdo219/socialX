@@ -446,7 +446,6 @@ class PostController extends Controller
       return response()->json(['message' => 'مدة الفيديو يجب أن لا تتجاوز 60 ثانية'], 422);
     }
 
-
     $fileName = pathinfo($file, PATHINFO_FILENAME);
     $convertedFileName = $fileName . '-converted.mp4';
     $convertedPath = 'posts/' . $convertedFileName;
