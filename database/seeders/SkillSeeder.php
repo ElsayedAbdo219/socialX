@@ -21,7 +21,8 @@ class SkillSeeder extends Seeder
       collect($data)->chunk(500)->each(function ($chunk) {
         foreach ($chunk as $skill) {
           Skill::create([
-            'name' => $skill
+            'name' => $skill,
+            'category_id' => 2
           ]);
         }
       });
