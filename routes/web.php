@@ -29,7 +29,7 @@ use App\Jobs\UploadAdsJob;
 // use App\Http\Requests\Api\V1\Client\mergeChunkAdsRequest;
 use App\Http\Requests\Api\V1\Client\uploadChunkAdsRequest;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\File;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,8 +42,13 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-  return view('welcome');
+  // return view('welcome');
+
+    
 });
+
+
+
 
 
 #test large files 
