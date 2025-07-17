@@ -55,7 +55,7 @@ public function register(RegisterClientRequest $request){
     OtpAuthenticate::create([
         'email'       => $dataValidated['email'],
         'otp'         => $otp,
-        'expiryDate'  => now()->addMinutes(12),
+        'expiryDate'  => now()->addMinutes(15),
     ]);
     // Mail::to($member->email)->send(new OTPMail($otp));
     \DB::commit();
