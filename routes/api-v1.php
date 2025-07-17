@@ -80,7 +80,7 @@ Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
     Route::get('contact-us', [StaticPagesController::class, 'contactUs']);
     Route::post('contact-us', [StaticPagesController::class, 'contactUsSubmit']);
 
-  });
+  })->middleware('verifiedApi');
 // 
 #test yml with github actions once tesTTTTTTTTTTTTTTTTTTTTTTT!!!!!!coop
 Route::middleware(['auth:sanctum','verifiedApi'])->group(function () {

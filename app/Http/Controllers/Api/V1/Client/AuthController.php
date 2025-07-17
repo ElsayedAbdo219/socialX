@@ -16,7 +16,10 @@ use App\Http\Requests\Api\Auth\ValidateMobileorEmailRequest;
 use App\Http\Requests\Api\Auth\VerifyOTPRequest;
 use App\Http\Resources\Api\Auth\LoginRequest;
 use App\Models\{
-    Member , OtpAuthenticate, Promotion };
+  Member,
+  OtpAuthenticate,
+  Promotion
+};
 use App\Traits\ApiResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -28,16 +31,17 @@ use App\Mail\OTPMail;
 use App\Http\Requests\Api\Auth\UpdatePasswordRequest;
 use App\Http\Requests\Api\Auth\SetPrivateAccountRequest;
 use Illuminate\Support\Facades\Storage;
-use App\Enum\PromotionTypeEnum ;
+use App\Enum\PromotionTypeEnum;
 use App\Enum\PostTypeEnum;
 use App\Enum\AdsStatusEnum;
 
 class AuthController extends Controller
 {
-    use ApiResponseTrait;
+  use ApiResponseTrait;
 
-# Register
-public function register(RegisterClientRequest $request){
+  # Register
+  public function register(RegisterClientRequest $request)
+  {
 
     $dataValidated = $request->validated();
     $dataValidated['password'] = Hash::make($request->password);
@@ -45,36 +49,27 @@ public function register(RegisterClientRequest $request){
     //  return $freePromotion;
     \DB::beginTransaction();
     $member = Member::create($dataValidated);
-    $member->tokens()->delete();
-    $accessToken = $member->createToken('access-token', ['*'], now()->addMinutes(60))->plainTextToken;
-    $refreshToken = $member->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
-    // if ($request->user_type === UserTypeEnum::COMPANY) {
-    //     $member->promotion()->attach($freePromotion->id);
-    // }
     $otp = mt_rand(100000, 999999);
     OtpAuthenticate::create([
-        'email'       => $dataValidated['email'],
-        'otp'         => $otp,
-        'expiryDate'  => now()->addMinutes(15),
+      'email'       => $dataValidated['email'],
+      'otp'         => $otp,
+      'expiryDate'  => now()->addMinutes(15),
     ]);
-    // Mail::to($member->email)->send(new OTPMail($otp));
+    Mail::to($member->email)->send(new OTPMail($otp));
     \DB::commit();
-   return $this->respondWithSuccess('User Register Successfully', [
-        'member' => $member,
-        'access_token' => $accessToken,
-        'refresh_token' => $refreshToken,
-        'token_type' => 'Bearer',
-        'expires_in' => 60 * 60 // 1 ساعة
-    ]);
-    }
+    return $this->respondWithSuccess('User Register Successfully', [
+      'member' => $member,
 
-public function login(LoginClientRequest $request)
-{
+    ]);
+  }
+
+  public function login(LoginClientRequest $request)
+  {
     $loginMemberData = $request->validated();
     $member = Member::where('email', $loginMemberData['email'])->first();
 
     if (!$member || !Hash::check($loginMemberData['password'], $member->password)) {
-        return $this->errorUnauthorized('Invalid Credentials');
+      return $this->errorUnauthorized('Invalid Credentials');
     }
 
     $member->tokens()->delete();
@@ -82,118 +77,127 @@ public function login(LoginClientRequest $request)
     $refreshToken = $member->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
 
     return $this->respondWithSuccess('User Logged In Successfully', [
-        'member' => $member,
-        'access_token' => $accessToken,
-        'refresh_token' => $refreshToken,
-        'token_type' => 'Bearer',
-        'expires_in' => 60 * 60 // 1 ساعة
+      'member' => $member,
+      'access_token' => $accessToken,
+      'refresh_token' => $refreshToken,
+      'token_type' => 'Bearer',
+      'expires_in' => 60 * 60 // 1 ساعة
     ]);
-}
+  }
 
 
-#Refresh Token 
+  #Refresh Token 
 
-    public function refreshToken(Request $request)
-    {
-        $user = auth()->user();
+  public function refreshToken(Request $request)
+  {
+    $user = auth()->user();
 
-        // التحقق من أن التوكن المستخدم هو "Refresh Token"
-        if (!$request->user()->currentAccessToken()->can('refresh')) {
-            return response()->json(['message' => 'Invalid refresh token'], 403);
-        }
-
-        // حذف التوكنات القديمة
-        $user->tokens()->delete();
-
-        // إصدار Access Token جديد
-        $newAccessToken = $user->createToken('access-token', ['*'], now()->addMinutes(60))->plainTextToken;
-
-        // إصدار Refresh Token جديد
-        $newRefreshToken = $user->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
-
-        return response()->json([
-            'access_token' => $newAccessToken,
-            'refresh_token' => $newRefreshToken,
-            'token_type' => 'Bearer',
-            'expires_in' => 60 * 60,
-        ]);
+    // التحقق من أن التوكن المستخدم هو "Refresh Token"
+    if (!$request->user()->currentAccessToken()->can('refresh')) {
+      return response()->json(['message' => 'Invalid refresh token'], 403);
     }
 
-# Verification
-public function verifyOtp(Request $request){
+    // حذف التوكنات القديمة
+    $user->tokens()->delete();
+
+    // إصدار Access Token جديد
+    $newAccessToken = $user->createToken('access-token', ['*'], now()->addMinutes(60))->plainTextToken;
+
+    // إصدار Refresh Token جديد
+    $newRefreshToken = $user->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
+
+    return response()->json([
+      'access_token' => $newAccessToken,
+      'refresh_token' => $newRefreshToken,
+      'token_type' => 'Bearer',
+      'expires_in' => 60 * 60,
+    ]);
+  }
+
+  # Verification
+  public function verifyOtp(Request $request)
+  {
     $dataRequest = $request->validate([
-        'email' => 'required|email:filter|exists:members,email',
-        'otp' => 'required|digits:6'
+      'email' => 'required|email:filter|exists:members,email',
+      'otp' => 'required|digits:6'
     ]);
 
     $otpRecord = OtpAuthenticate::where('email', $dataRequest['email'])->latest()->first();
-    
+
     if (!$otpRecord) {
-        return $this->errorUnauthorized('No OTP found.');
+      return $this->errorUnauthorized('No OTP found.');
     }
 
     if (now()->greaterThan($otpRecord->expiryDate)) {
-        return $this->errorUnauthorized('The OTP has expired.');
+      return $this->errorUnauthorized('The OTP has expired.');
     }
 
     if ($dataRequest['otp'] != $otpRecord->otp) {
-        return $this->errorUnauthorized('Invalid OTP.');
+      return $this->errorUnauthorized('Invalid OTP.');
     }
-
     $member = Member::where('email', $otpRecord->email)->first();
     $member->email_verified_at = now();
     $member->save();
     $otpRecord->delete();
-    $token = $member->createToken('sanctumToken')->plainTextToken;
-    return $this->respondWithSuccess('User verified successfully.' ,['token'=>$token]);
-}
+    $member->tokens()->delete();
+    $accessToken = $member->createToken('access-token', ['*'], now()->addMinutes(60))->plainTextToken;
+    $refreshToken = $member->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
 
-
-# Resend Otp
-public function resendOtp(Request $request){
-    $dataRequest = $request->validate(['email'=>'required','exists:members,email']);
-    $otpRecord = OtpAuthenticate::create([
-        'email' => $dataRequest['email'],
-        'otp' => mt_rand(100000, 999999),
-        'expiryDate' => now()->addMinutes(12),
+    return $this->respondWithSuccess('User verified successfully.', [
+      'access_token' => $accessToken,
+      'refresh_token' => $refreshToken,
+      'token_type' => 'Bearer',
+      'expires_in' => 60 * 60
     ]);
-     // إرسال OTP عبر البريد الإلكتروني
+  }
+
+
+  # Resend Otp
+  public function resendOtp(Request $request)
+  {
+    $dataRequest = $request->validate(['email' => 'required', 'exists:members,email']);
+    $otpRecord = OtpAuthenticate::create([
+      'email' => $dataRequest['email'],
+      'otp' => mt_rand(100000, 999999),
+      'expiryDate' => now()->addMinutes(12),
+    ]);
+    // إرسال OTP عبر البريد الإلكتروني
     // Mail::to($dataRequest['email'])->send(new OtpMail($otpRecord['otp']));
-      return $this->respondWithSuccess('The Otp Resend Successfully');
-}
+    return $this->respondWithSuccess('The Otp Resend Successfully');
+  }
 
 
-    # Forget Password
-public function forgetPassword(Request $request)
-{
-   
+  # Forget Password
+  public function forgetPassword(Request $request)
+  {
+
     $dataRequest = $request->validate([
-        'email' => 'required|email:filter|exists:members,email'
+      'email' => 'required|email:filter|exists:members,email'
     ]);
     // حذف أي رموز OTP قديمة لنفس البريد الإلكتروني
     OtpAuthenticate::where('email', $dataRequest['email'])->delete();
 
     $otp = mt_rand(100000, 999999);
-// return mt_rand(100000, 999999);
+    // return mt_rand(100000, 999999);
     OtpAuthenticate::create([
-        'email'       => $dataRequest['email'],
-        'otp'         => $otp,
-        'expiryDate'  => now()->addMinutes(12),
+      'email'       => $dataRequest['email'],
+      'otp'         => $otp,
+      'expiryDate'  => now()->addMinutes(12),
     ]);
 
     // إرسال OTP عبر البريد الإلكتروني
     // Mail::to($dataRequest['email'])->send(new OtpMail($otp));
     return $this->respondWithSuccess(' OTP has been sent successfully');
-}
+  }
 
 
 
-# Reset Password
-public function resetPassword(Request $request)
-{
+  # Reset Password
+  public function resetPassword(Request $request)
+  {
     // return OtpAuthenticate::get();
     $dataRequest = $request->validate([
-        'password' => 'required|string|min:8|confirmed'
+      'password' => 'required|string|min:8|confirmed'
     ]);
     $Member = $request->user();
     $Member->password = Hash::make($dataRequest['password']);
@@ -201,17 +205,17 @@ public function resetPassword(Request $request)
     OtpAuthenticate::where('email', $Member->email)->delete();
     $Member->tokens()->delete();
     return $this->respondWithSuccess('Password Has Changed Successfully');
-}
+  }
 
-public function me()
-{
+  public function me()
+  {
     $user = auth('api')->user();
     $exps = $user->experience;
     $totalExpYears = 0;
-    foreach($exps as $exp){
-        $startYear = $exp->start_date_year;
-        $endYear = $exp->end_date_year ?? \Carbon\Carbon::now()->year;
-        $totalExpYears += $endYear - $startYear;
+    foreach ($exps as $exp) {
+      $startYear = $exp->start_date_year;
+      $endYear = $exp->end_date_year ?? \Carbon\Carbon::now()->year;
+      $totalExpYears += $endYear - $startYear;
     }
     $totalPosts = auth('api')->user()->posts()->where('status', PostTypeEnum::NORMAL)
       ->orWhere(function ($query) {
@@ -220,57 +224,51 @@ public function me()
             $q->where('status', AdsStatusEnum::APPROVED);
           });
       })->count();
-    return 
-    [
-        'user' => $user->type === UserTypeEnum::COMPANY ? $user->load(['Intros','followersTotal','userCover','followedTotal','overview']) : $user->load(['followersTotal','followedTotal','userCover','Intros','skills','employeeOverview']) , 
-        'totalPosts' => $totalPosts, 
-        'currentCompany' =>   $user->type === UserTypeEnum::EMPLOYEE ?  $user->experience()->latest()->with('company')->first() : 'emp!', 
-        'expYearsNumbers' =>   $user->type === UserTypeEnum::EMPLOYEE ? $totalExpYears : 'emp!', 
-    ];
-}
+    return
+      [
+        'user' => $user->type === UserTypeEnum::COMPANY ? $user->load(['Intros', 'followersTotal', 'userCover', 'followedTotal', 'overview']) : $user->load(['followersTotal', 'followedTotal', 'userCover', 'Intros', 'skills', 'employeeOverview']),
+        'totalPosts' => $totalPosts,
+        'currentCompany' =>   $user->type === UserTypeEnum::EMPLOYEE ?  $user->experience()->latest()->with('company')->first() : 'emp!',
+        'expYearsNumbers' =>   $user->type === UserTypeEnum::EMPLOYEE ? $totalExpYears : 'emp!',
+      ];
+  }
 
 
 
-public function updatePassword(UpdatePasswordRequest $request,$User_Id)
-{
+  public function updatePassword(UpdatePasswordRequest $request, $User_Id)
+  {
     $requestPasswordValidated = $request->validated();
     $User = Member::find($User_Id);
-    if( $User instanceof Member)
-    {
-       $User->update(['password' => Hash::make($requestPasswordValidated['password'])]);
-       return $this->respondWithSuccess('Password Updated Successfully');
-
+    if ($User instanceof Member) {
+      $User->update(['password' => Hash::make($requestPasswordValidated['password'])]);
+      return $this->respondWithSuccess('Password Updated Successfully');
     }
     throw new \Exception('User Not Found Currently!');
-
-}
-
+  }
 
 
-public function setPrivateAccount(SetPrivateAccountRequest $request,$User_Id)
-{
+
+  public function setPrivateAccount(SetPrivateAccountRequest $request, $User_Id)
+  {
     $PrivateAccountValidated = $request->validated();
     $User = Member::find($User_Id);
-    if( $User instanceof Member)
-    {
-        $User->update(['private_account' => $PrivateAccountValidated['private_account']]);
-       return $this->respondWithSuccess('Account Status Updated Successfully');
-
+    if ($User instanceof Member) {
+      $User->update(['private_account' => $PrivateAccountValidated['private_account']]);
+      return $this->respondWithSuccess('Account Status Updated Successfully');
     }
     throw new \Exception('User Not Found Currently!');
-
-}
-public function addAvatar(Request $request)
-{
+  }
+  public function addAvatar(Request $request)
+  {
     $request->validate([
-        'avatar' => ['required', 'mimes:png,jpg,jpeg', 'image'],
+      'avatar' => ['required', 'mimes:png,jpg,jpeg', 'image'],
     ]);
 
     $user = auth('api')->user();
 
     // حذف الصورة القديمة
     if (!empty($user->avatar)) {
-        Storage::disk('public')->delete('avatars/' . $user->avatar);
+      Storage::disk('public')->delete('avatars/' . $user->avatar);
     }
 
     // رفع الصورة الجديدة
@@ -279,60 +277,58 @@ public function addAvatar(Request $request)
     // تحديث بيانات العضو
     $member = Member::find($user->id);
     if ($member) {
-        $member->update([
-            'avatar' => $avatarName,
-        ]);
+      $member->update([
+        'avatar' => $avatarName,
+      ]);
     }
 
     return $this->respondWithSuccess('Avatar Updated Successfully');
-}
+  }
 
 
 
-public function  update(Request $request , $User_Id )
-{
-       
+  public function  update(Request $request, $User_Id)
+  {
+
     $request->validate(
-        [
-             'current_location' => ['nullable' ,'string' , 'max:255' ],
-             'country' =>  ['nullable' ,'string' , 'max:255' ],
-             'phone' =>  ['nullable' ,'numeric'  ],
-             'birth_date' =>  ['nullable' ,'date' , 'max:255' ],
-             'first_name' =>  ['nullable' ,'string' , 'max:255' ],
-             'last_name' =>  ['nullable' ,'string' , 'max:255' ],
-             'website' =>  ['nullable' ,'url'  ],
-             'full_name' =>  ['nullable' ,'string' , 'max:255' ],
-             'email' =>  ['nullable' , 'unique:members,email,'.$User_Id ,'email' ],
-             'private_account' => ['required', 'in:0,1','max:1'],
-             'bio' => ['nullable' ,'string'],
-             'job' => ['nullable' ,'string' , 'max:255'],
-             'field' => ['nullable' ,'string' , 'max:255'],
-             'employees_number' => ['nullable' ,'string' , 'max:255'],
-        ]
-        );
-     
-        $member = Member::find($User_Id);
-        $member->update(
-            [
-                'current_location' => $request['current_location'],
-                'country' => $request['country'] ,
-                'phone' => $request['phone'] ,
-                'birth_date' =>$request['birth_date'],
-                'first_name' => $request['first_name'],
-                'last_name' =>$request['last_name'],
-                'website' =>$request['website'],
-                'full_name' =>$request['full_name'],
-                'email' =>$request['email'],
-                'private_account' =>$request['private_account'],
-                'bio' =>$request['bio'],
-                'job' =>$request['job'],
-                'field' =>$request['field'],
-                'employees_number' =>$request['employees_number'],
-            ]
-            );
+      [
+        'current_location' => ['nullable', 'string', 'max:255'],
+        'country' =>  ['nullable', 'string', 'max:255'],
+        'phone' =>  ['nullable', 'numeric'],
+        'birth_date' =>  ['nullable', 'date', 'max:255'],
+        'first_name' =>  ['nullable', 'string', 'max:255'],
+        'last_name' =>  ['nullable', 'string', 'max:255'],
+        'website' =>  ['nullable', 'url'],
+        'full_name' =>  ['nullable', 'string', 'max:255'],
+        'email' =>  ['nullable', 'unique:members,email,' . $User_Id, 'email'],
+        'private_account' => ['required', 'in:0,1', 'max:1'],
+        'bio' => ['nullable', 'string'],
+        'job' => ['nullable', 'string', 'max:255'],
+        'field' => ['nullable', 'string', 'max:255'],
+        'employees_number' => ['nullable', 'string', 'max:255'],
+      ]
+    );
 
-            return $this->respondWithSuccess('Data Info UPdated Successfully');
-}
+    $member = Member::find($User_Id);
+    $member->update(
+      [
+        'current_location' => $request['current_location'],
+        'country' => $request['country'],
+        'phone' => $request['phone'],
+        'birth_date' => $request['birth_date'],
+        'first_name' => $request['first_name'],
+        'last_name' => $request['last_name'],
+        'website' => $request['website'],
+        'full_name' => $request['full_name'],
+        'email' => $request['email'],
+        'private_account' => $request['private_account'],
+        'bio' => $request['bio'],
+        'job' => $request['job'],
+        'field' => $request['field'],
+        'employees_number' => $request['employees_number'],
+      ]
+    );
 
-
+    return $this->respondWithSuccess('Data Info UPdated Successfully');
+  }
 }
