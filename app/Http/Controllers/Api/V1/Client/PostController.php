@@ -86,10 +86,6 @@ class PostController extends Controller
     ]);
   }
 
-
-
-
-
   // Call to undefined method Illuminate\\Database\\Eloquent\\Builder::makeHidden()
   public function all(Request $request): mixed
   {
@@ -148,6 +144,7 @@ class PostController extends Controller
       $shared = $sharedPost->post()->with($this->Relations)->first();
       if ($shared) {
         $shared->type = 'shared';
+        $shared->comment = $sharedPost->comment;
         $shared->sharedPerson = $sharedPost->userShared;
         return $shared;
       }
@@ -219,7 +216,7 @@ class PostController extends Controller
   }
 
 
-    public function myAds(Request $request): mixed
+  public function myAds(Request $request): mixed
   {
 
     $Paginate_Size = $request->query('paginateSize') ?? 10;
@@ -347,6 +344,7 @@ class PostController extends Controller
       $shared = $sharedPost->post()->with($this->Relations)->first();
       if ($shared) {
         $shared->type = 'shared';
+        $shared->comment = $sharedPost->comment;
         $shared->sharedPerson = $sharedPost->userShared;
         return $shared;
       }
@@ -379,8 +377,8 @@ class PostController extends Controller
       });
 
 
-  
-      $ownPosts = $posts->with($this->Relations)
+
+    $ownPosts = $posts->with($this->Relations)
       ->orderByDesc('id')
       ->get()
       ->map(function ($post) {
@@ -417,8 +415,28 @@ class PostController extends Controller
         return $post;
       });
 
+    // البوستات المشتركة (بنستخدم post()->with()->first())
+    $sharedPosts = SharedPost::where('user_id', auth()->user()?->id)->with('userShared')->get()->map(function ($sharedPost) {
+      $shared = $sharedPost->post()->with($this->Relations)->first();
+      if ($shared) {
+        $shared->type = 'shared';
+        $shared->comment = $sharedPost->comment;
+        $shared->sharedPerson = $sharedPost->userShared;
+        return $shared;
+      }
+    })->filter();
+
+    // دمج الكولكشنز
+    $allPosts = collect([$ownPosts, $sharedPosts])
+      ->collapse()
+      ->sortByDesc('created_at')
+      ->unique('id')
+      ->values();
+
+
+
     $Paginate_Size = $request->query('paginateSize') ?? 10;
-    return $ownPosts->customPaginate($Paginate_Size);
+    return $allPosts->customPaginate($Paginate_Size);
   }
 
 
