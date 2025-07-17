@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'is_company' => \App\Http\Middleware\MustISCompanyMiddleware::class,
         'is_employee' => \App\Http\Middleware\MustISEmployeeMiddleware::class,
+        'verifiedApi' => \App\Http\Middleware\VerifiedUserApiMiddleware::class,
 
         'apikey' => \App\Http\Middleware\APIKey::class,
         'apilocale' => \App\Http\Middleware\APILocale::class,
