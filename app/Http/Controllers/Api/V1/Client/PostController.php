@@ -123,7 +123,7 @@ class PostController extends Controller
           ]);
         }
         $post->type = 'original';
-        $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+        // $post->user->is_following = Follow::where('followed_id', $post?->user->id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
         $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
         $post->reacts = $post->reacts->map(function ($react) {
           $react->user->is_following = Follow::where('followed_id', $react->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
@@ -154,7 +154,7 @@ class PostController extends Controller
     $allPosts = collect([$ownPosts, $sharedPosts])
       ->collapse()
       ->sortByDesc('created_at')
-      ->unique('id')
+      // ->unique('id')
       ->values();
 
     return $allPosts->customPaginate($Paginate_Size);
