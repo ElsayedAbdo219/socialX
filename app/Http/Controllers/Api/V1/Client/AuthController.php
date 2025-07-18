@@ -58,7 +58,7 @@ class AuthController extends Controller
     Mail::to($member->email)->send(new OTPMail($otp));
     \DB::commit();
     return $this->respondWithSuccess('User Register Successfully', [
-      'otp' => $otp ,
+      'otp' => $otp,
       'member' => $member,
 
     ]);
@@ -140,6 +140,37 @@ class AuthController extends Controller
     $member->email_verified_at = now();
     $member->save();
     $otpRecord->delete();
+
+    return $this->respondWithSuccess('User verified successfully!');
+  }
+
+  // verifyAccount
+
+  # Verification
+  public function verifyAccount(Request $request)
+  {
+    $dataRequest = $request->validate([
+      'email' => 'required|email:filter|exists:members,email',
+      'otp' => 'required|digits:6'
+    ]);
+
+    $otpRecord = OtpAuthenticate::where('email', $dataRequest['email'])->latest()->first();
+
+    if (!$otpRecord) {
+      return $this->errorUnauthorized('No OTP found.');
+    }
+
+    if (now()->greaterThan($otpRecord->expiryDate)) {
+      return $this->errorUnauthorized('The OTP has expired.');
+    }
+
+    if ($dataRequest['otp'] != $otpRecord->otp) {
+      return $this->errorUnauthorized('Invalid OTP.');
+    }
+    $member = Member::where('email', $otpRecord->email)->first();
+    $member->email_verified_at = now();
+    $member->save();
+    $otpRecord->delete();
     $member->tokens()->delete();
     $accessToken = $member->createToken('access-token', ['*'], now()->addMinutes(60))->plainTextToken;
     $refreshToken = $member->createToken('refresh-token', ['refresh'], now()->addDays(7))->plainTextToken;
@@ -164,7 +195,7 @@ class AuthController extends Controller
     ]);
     // إرسال OTP عبر البريد الإلكتروني
     // Mail::to($dataRequest['email'])->send(new OtpMail($otpRecord['otp']));
-    return $this->respondWithSuccess('The Otp Resend Successfully' , ['otp' => $otpRecord['otp'] ]);
+    return $this->respondWithSuccess('The Otp Resend Successfully', ['otp' => $otpRecord['otp']]);
   }
 
 
@@ -188,7 +219,7 @@ class AuthController extends Controller
 
     // إرسال OTP عبر البريد الإلكتروني
     // Mail::to($dataRequest['email'])->send(new OtpMail($otp));
-    return $this->respondWithSuccess(' OTP has been sent successfully',['otp' => $otp]);
+    return $this->respondWithSuccess(' OTP has been sent successfully', ['otp' => $otp]);
   }
 
 

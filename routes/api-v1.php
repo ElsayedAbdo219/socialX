@@ -67,6 +67,7 @@ use App\Http\Controllers\Api\V1\Client\{
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forget-Password', [AuthController::class, 'forgetPassword']);
+Route::post('/verify-account', [AuthController::class, 'verifyAccount']);
 Route::post('/verify-Otp', [AuthController::class, 'verifyotp']);
 Route::post('/resendOtp', [AuthController::class, 'resendOtp']);
   # Static Pages
