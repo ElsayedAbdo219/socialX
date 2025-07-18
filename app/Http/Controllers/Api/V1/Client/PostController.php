@@ -37,7 +37,7 @@ class PostController extends Controller
 
   protected $postResource = PostResource::class;
   protected $postservice;
-  private $Relations = ['user', 'views', 'comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
+  private $Relations = ['user', 'views', 'comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user','shares'];
 
   public function __construct(PostService $postservice)
   {
@@ -201,6 +201,7 @@ class PostController extends Controller
       $shared = $sharedPost->post()->with($this->Relations)->first();
       if ($shared) {
         $shared->type = 'shared';
+        $shared->comment = $sharedPost->comment;
         $shared->sharedPerson = $sharedPost->userShared;
         return $shared;
       }
@@ -272,9 +273,23 @@ class PostController extends Controller
     }
   }
 
-  public function show($Post_Id): mixed
+  public function show($Post_Id)
   {
-    return Post::whereId($Post_Id)->with($this->Relations)->first();
+    $post = Post::whereId($Post_Id)->with($this->Relations)->first();
+    $postShares = $post?->shares()->get() ;
+      if ($postShares->count() > 0 ) {
+       $postShares->map(function($postShared) use ($post){
+        $post->type = 'shared';
+        $post->comment = $postShared->comment;
+        $post->sharedPerson = $postShared->userShared;
+       });
+      }
+      else
+      {
+         $post->type = 'original';
+      }
+      return $post;
+
   }
 
   public function update(PostRequest $request, $Post_Id)
