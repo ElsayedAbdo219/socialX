@@ -274,7 +274,7 @@ class PostController extends Controller
 
   public function show($Post_Id): mixed
   {
-    return Post::whereId($Post_Id)->first();
+    return Post::whereId($Post_Id)->with($this->Relations)->first();
   }
 
   public function update(PostRequest $request, $Post_Id)
