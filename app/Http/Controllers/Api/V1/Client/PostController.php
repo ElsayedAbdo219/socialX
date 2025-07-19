@@ -151,6 +151,7 @@ class PostController extends Controller
         if ($shared) {
           $sharedClone = clone $shared;
           $sharedClone->type = 'shared';
+          $sharedClone->my_react = $sharedClone->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
           $sharedClone->unique_id = 'shared_' . $shared->id . '_by_' . $sharedPost->user_id . '_order_' . $sharedPostId;
           $sharedClone->comment = $sharedPost->comment;
           $sharedClone->sharedPerson = $sharedPost->userShared;
@@ -290,11 +291,15 @@ class PostController extends Controller
     if ($postShares->count() > 0) {
       $postShares->map(function ($postShared) use ($post) {
         $post->type = 'shared';
+        $post->unique_id = 'shared_' . $post->id . '_by_' . $postShared->user_id . '_order_' . $postShared->id;
+        $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
         $post->comment = $postShared->comment;
         $post->sharedPerson = $postShared->userShared;
       });
     } else {
       $post->type = 'original';
+      $post->unique_id = 'original_' . $post->id;
+      $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
     }
     return $post;
   }
@@ -374,6 +379,7 @@ class PostController extends Controller
         if ($shared) {
           $sharedClone = clone $shared;
           $sharedClone->type = 'shared';
+          $sharedClone->my_react = $sharedClone->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
           $sharedClone->unique_id = 'shared_' . $shared->id . '_by_' . $sharedPost->user_id . '_order_' . $sharedPostId;
           $sharedClone->comment = $sharedPost->comment;
           $sharedClone->sharedPerson = $sharedPost->userShared;
@@ -462,6 +468,7 @@ class PostController extends Controller
         if ($shared) {
           $sharedClone = clone $shared;
           $sharedClone->type = 'shared';
+          $sharedClone->my_react = $sharedClone->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
           $sharedClone->unique_id = 'shared_' . $shared->id . '_by_' . $sharedPost->user_id . '_order_' . $sharedPostId;
           $sharedClone->comment = $sharedPost->comment;
           $sharedClone->sharedPerson = $sharedPost->userShared;
