@@ -284,19 +284,33 @@ class PostController extends Controller
     }
   }
 
-  public function show($Post_Id)
+  public function show($Post_Unique_Id)
   {
-    $post = Post::whereId($Post_Id)->with($this->Relations)->first();
-    $postShares = $post?->shares()->get();
-    if ($postShares->count() > 0) {
-      $postShares->map(function ($postShared) use ($post) {
+    // shared_22_by_4_order_3
+    $type = explode('_', $Post_Unique_Id)[0] ?? null;
+    $Post_Id = str_replace(['original_', 'shared_'], '', $Post_Unique_Id);
+    $Post_Id = explode('_', $Post_Id)[0]; 
+    $order = explode('_', $Post_Unique_Id)[5] ?? null;
+    $userBy = explode('_', $Post_Unique_Id)[3] ?? null;
+    // dd($type ,$Post_Id , $order,$userBy);
+    
+    // $postShares = $post?->shares()->get();
+
+    if ($type === 'shared') {
+      $post = Post::whereId($Post_Id)->whereHas("shares", function ($q) use ($order) {
+          $q->where('id', $order);
+      })
+      ->with($this->Relations)->first();
+      //  dd($post->count());
         $post->type = 'shared';
-        $post->unique_id = 'shared_' . $post->id . '_by_' . $postShared->user_id . '_order_' . $postShared->id;
+        $post->unique_id = 'shared_' . $post->id . '_by_' . $post->user_id . '_order_' . $order;
         $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
-        $post->comment = $postShared->comment;
-        $post->sharedPerson = $postShared->userShared;
-      });
+        $post->comments = $post->comments;
+        $post->sharedPerson = $post->shares->map(function ($share) {
+          return $share->userShared;
+        })->first();
     } else {
+      $post = Post::whereId($Post_Id)->with($this->Relations)->first();
       $post->type = 'original';
       $post->unique_id = 'original_' . $post->id;
       $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
