@@ -152,6 +152,16 @@ class PostController extends Controller
           $sharedClone = clone $shared;
           $sharedClone->type = 'shared';
           $sharedClone->my_react = $sharedClone->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
+          $sharedClone->reacts = $sharedClone->reacts->map(function ($react) {
+          $react->user->is_following = Follow::where('followed_id', $react->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+        });
+          $sharedClone->comments = $sharedClone->comments->map(function ($comment) {
+            $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+            $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())?->first() ?? null;
+            $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
+              $react->user->is_following =  Follow::where('followed_id', $react?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+            });
+          });
           $sharedClone->unique_id = 'shared_' . $shared->id . '_by_' . $sharedPost->user_id . '_order_' . $sharedPostId;
           $sharedClone->comment = $sharedPost->comment;
           $sharedClone->sharedPerson = $sharedPost->userShared;
@@ -289,26 +299,35 @@ class PostController extends Controller
     // shared_22_by_4_order_3
     $type = explode('_', $Post_Unique_Id)[0] ?? null;
     $Post_Id = str_replace(['original_', 'shared_'], '', $Post_Unique_Id);
-    $Post_Id = explode('_', $Post_Id)[0]; 
+    $Post_Id = explode('_', $Post_Id)[0];
     $order = explode('_', $Post_Unique_Id)[5] ?? null;
     $userBy = explode('_', $Post_Unique_Id)[3] ?? null;
     // dd($type ,$Post_Id , $order,$userBy);
-    
+
     // $postShares = $post?->shares()->get();
 
     if ($type === 'shared') {
       $post = Post::whereId($Post_Id)->whereHas("shares", function ($q) use ($order) {
-          $q->where('id', $order);
+        $q->where('id', $order);
       })
-      ->with($this->Relations)->first();
+        ->with($this->Relations)->first();
       //  dd($post->count());
-        $post->type = 'shared';
-        $post->unique_id = 'shared_' . $post->id . '_by_' . $post->user_id . '_order_' . $order;
-        $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
-        $post->comments = $post->comments;
-        $post->sharedPerson = $post->shares->map(function ($share) {
-          return $share->userShared;
-        })->first();
+      $post->type = 'shared';
+      $post->unique_id = 'shared_' . $post->id . '_by_' . $post->user_id . '_order_' . $order;
+      $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
+      $post->reacts = $post->reacts->map(function ($react) {
+          $react->user->is_following = Follow::where('followed_id', $react->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+        });
+          $post->comments = $post->comments->map(function ($comment) {
+            $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+            $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())?->first() ?? null;
+            $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
+              $react->user->is_following =  Follow::where('followed_id', $react?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+            });
+          });
+      $post->sharedPerson = $post->shares->map(function ($share) {
+        return $share->userShared;
+      })->first();
     } else {
       $post = Post::whereId($Post_Id)->with($this->Relations)->first();
       $post->type = 'original';
@@ -394,6 +413,16 @@ class PostController extends Controller
           $sharedClone = clone $shared;
           $sharedClone->type = 'shared';
           $sharedClone->my_react = $sharedClone->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
+          $sharedClone->reacts = $sharedClone->reacts->map(function ($react) {
+          $react->user->is_following = Follow::where('followed_id', $react->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+        });
+        $sharedClone->comments = $sharedClone->comments->map(function ($comment) {
+          $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+          $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())?->first() ?? null;
+          $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
+            $react->user->is_following =  Follow::where('followed_id', $react?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+          });
+        });
           $sharedClone->unique_id = 'shared_' . $shared->id . '_by_' . $sharedPost->user_id . '_order_' . $sharedPostId;
           $sharedClone->comment = $sharedPost->comment;
           $sharedClone->sharedPerson = $sharedPost->userShared;
@@ -419,7 +448,7 @@ class PostController extends Controller
 
   public function getMyPosts(Request $request)
   {
-  $Paginate_Size = $request->query('paginateSize') ?? 10;
+    $Paginate_Size = $request->query('paginateSize') ?? 10;
 
     // البوستات الأصلية
     $ownPosts = auth('api')->user()->posts()->with($this->Relations)
@@ -472,7 +501,7 @@ class PostController extends Controller
       });
 
     // كل الشيرد بوستات
-    $sharedPosts = SharedPost::where('user_id',auth('api')->id())->with(['post' => function ($q) {
+    $sharedPosts = SharedPost::where('user_id', auth('api')->id())->with(['post' => function ($q) {
       $q->with($this->Relations);
     }, 'userShared'])->get()
       ->map(function ($sharedPost) {
