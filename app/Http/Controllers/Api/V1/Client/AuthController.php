@@ -58,7 +58,7 @@ class AuthController extends Controller
     Mail::to($member->email)->send(new OTPMail($otp));
     \DB::commit();
     return $this->respondWithSuccess('User Register Successfully', [
-      'otp' => $otp,
+      // 'otp' => $otp,
       'member' => $member,
 
     ]);
@@ -194,8 +194,8 @@ class AuthController extends Controller
       'expiryDate' => now()->addMinutes(12),
     ]);
     // إرسال OTP عبر البريد الإلكتروني
-    // Mail::to($dataRequest['email'])->send(new OtpMail($otpRecord['otp']));
-    return $this->respondWithSuccess('The Otp Resend Successfully', ['otp' => $otpRecord['otp']]);
+    Mail::to($dataRequest['email'])->send(new OtpMail($otpRecord['otp']));
+    return $this->respondWithSuccess('The Otp Resend Successfully');
   }
 
 
@@ -218,8 +218,8 @@ class AuthController extends Controller
     ]);
 
     // إرسال OTP عبر البريد الإلكتروني
-    // Mail::to($dataRequest['email'])->send(new OtpMail($otp));
-    return $this->respondWithSuccess(' OTP has been sent successfully', ['otp' => $otp]);
+    Mail::to($dataRequest['email'])->send(new OtpMail($otp));
+    return $this->respondWithSuccess(' OTP has been sent successfully');
   }
 
 
