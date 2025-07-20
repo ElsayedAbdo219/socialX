@@ -24,6 +24,7 @@ class ReactController extends Controller
     }
     \DB::beginTransaction();
     React::create($requestDataValidated);
+    if(auth('api')->id() != Post::where('id', $requestDataValidated['post_id'])->first()->user_id) {
     # sending a notification to the user
     $postId = $request->post_id;
     $post = Post::where('id', $postId)->first();
@@ -41,6 +42,7 @@ class ReactController extends Controller
       $notifabels,
       new ClientNotification($notificationData, ['database', 'firebase'])
     );
+    }
     \DB::commit();
     return response()->json(['message' => 'تم اضافة تفاعلك علي المنشور بنجاح'], 200);
   }
