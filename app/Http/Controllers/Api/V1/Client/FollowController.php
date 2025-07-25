@@ -38,26 +38,58 @@ class FollowController extends Controller
     public function getFollowersMe(Request $request)
     {
         $paginateSize = $request->query('paginateSize', 10);
-        return Follow::where('followed_id',auth('api')->id())->with('userfollower')->paginate($paginateSize);
+        $search = $request->query('search', '');
+        return Follow::where('followed_id',auth('api')->id())
+        ->when($search, function ($query) use ($search) {
+            return $query->whereHas('userfollower', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+            });
+        })
+        ->with('userfollower')->paginate($paginateSize);
     }
 
     public function getFollowingMe(Request $request)
     {
         $paginateSize = $request->query('paginateSize', 10);
-        return Follow::where('follower_id',auth('api')->id())->with('userfollowed')->paginate($paginateSize);
+        $search = $request->query('search', '');
+        return Follow::where('follower_id',auth('api')->id())
+        ->when($search, function ($query) use ($search) {
+            return $query->whereHas('userfollowed', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+            });
+        })
+        ->with('userfollowed')->paginate($paginateSize);
     }
 
     public function getFollowersUser($member, Request $request)
     {
         $paginateSize = $request->query('paginateSize', 10);
-        return Follow::where('followed_id',$member)->with('userfollower')->paginate($paginateSize);
+        $search = $request->query('search', '');
+        return Follow::where('followed_id',$member)
+        ->when($search, function ($query) use ($search) {
+            return $query->whereHas('userfollower', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+            });
+        })
+        ->with('userfollower')->paginate($paginateSize);
     }
 
-
+    
     public function getFollowingUser($member, Request $request)
     {
         $paginateSize = $request->query('paginateSize', 10);
-        return Follow::where('follower_id',$member)->with('userfollowed')->paginate($paginateSize);
+        $search = $request->query('search', '');
+        return Follow::where('follower_id',$member)
+        ->when($search, function ($query) use ($search) {
+            return $query->whereHas('userfollowed', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+            });
+        })
+        ->with('userfollowed')->paginate($paginateSize);
     }
 
 
