@@ -21,7 +21,7 @@ class Follow extends Model
     }
     return self::query()
       ->where('follower_id', $authUser->id)
-      ->where('followed_id', $this->follower_id)
+      ->where('followed_id', $this->followed_id)
       ->exists();
   }
 
