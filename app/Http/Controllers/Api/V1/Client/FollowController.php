@@ -42,7 +42,9 @@ class FollowController extends Controller
         return Follow::where('followed_id',auth('api')->id())
         ->when($search, function ($query) use ($search) {
             return $query->whereHas('userfollower', function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
+                $q->where('full_name', 'like', "%{$search}%")
+                ->orWhere('first_name', 'like', "%{$search}%")
+                ->orWhere('last_name', 'like', "%{$search}%")
                 ->orWhere('email', 'like', "%{$search}%");
             });
         })
@@ -56,7 +58,9 @@ class FollowController extends Controller
         return Follow::where('follower_id',auth('api')->id())
         ->when($search, function ($query) use ($search) {
             return $query->whereHas('userfollowed', function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
+                $q->where('full_name', 'like', "%{$search}%")
+                ->orWhere('first_name', 'like', "%{$search}%")
+                ->orWhere('last_name', 'like', "%{$search}%")
                 ->orWhere('email', 'like', "%{$search}%");
             });
         })
@@ -70,7 +74,9 @@ class FollowController extends Controller
         return Follow::where('followed_id',$member)
         ->when($search, function ($query) use ($search) {
             return $query->whereHas('userfollower', function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
+                $q->where('full_name', 'like', "%{$search}%")
+                ->orWhere('first_name', 'like', "%{$search}%")
+                ->orWhere('last_name', 'like', "%{$search}%")
                 ->orWhere('email', 'like', "%{$search}%");
             });
         })
@@ -85,7 +91,9 @@ class FollowController extends Controller
         return Follow::where('follower_id',$member)
         ->when($search, function ($query) use ($search) {
             return $query->whereHas('userfollowed', function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
+                $q->where('full_name', 'like', "%{$search}%")
+                ->orWhere('first_name', 'like', "%{$search}%")
+                ->orWhere('last_name', 'like', "%{$search}%")
                 ->orWhere('email', 'like', "%{$search}%");
             });
         })
