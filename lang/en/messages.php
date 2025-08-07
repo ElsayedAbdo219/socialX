@@ -300,9 +300,9 @@ return [
   'otp_code' => 'OTP Code',
   'otp_message' => 'This is your One-Time Password (OTP) code: [OTP Code]',
   'hi' => 'Hi',
-  'otp_message_ar' => 'هذا هو رمز التحقق لمرة واحدة (OTP) الخاص بك: [رمز OTP]',
-  'Your One-Time Password(OTP) is:' => 'رمز التحقق لمرة واحدة (OTP) الخاص بك هو: ',
-  'Your One-Time Password(OTP) is:' => 'رمز التحقق لمرة واحدة (OTP) الخاص بك هو: ',
+  'otp_message_ar' => 'Otp Message Arabic',
+  'Your One-Time Password(OTP) is:' => 'Your One-Time Password(OTP) is:',
+  'otp_message_en' => 'Otp Message English',
   'thanks_for_you' => 'Thank you',
   'An-theqa' => 'anceega',
 
