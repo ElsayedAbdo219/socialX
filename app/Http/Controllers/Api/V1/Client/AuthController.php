@@ -55,7 +55,8 @@ class AuthController extends Controller
       'otp'         => $otp,
       'expiryDate'  => now()->addMinutes(15),
     ]);
-    Mail::to($member->email)->send(new OTPMail($otp));
+    $recipientName = $member->type == UserTypeEnum::COMPANY ? $member->full_name :$member->first_name . ' ' . $member->last_name;
+    Mail::to($member->email)->send(new OTPMail($otp , $recipientName));
     \DB::commit();
     return $this->respondWithSuccess('User Register Successfully', [
       // 'otp' => $otp,
@@ -191,10 +192,12 @@ class AuthController extends Controller
     $otpRecord = OtpAuthenticate::create([
       'email' => $dataRequest['email'],
       'otp' => mt_rand(100000, 999999),
-      'expiryDate' => now()->addMinutes(12),
+      'expiryDate' => now()->addMinutes(15),
     ]);
+    $member = Member::where('email', $dataRequest['email'])->first();
+    $recipientName = $member->type == UserTypeEnum::COMPANY ? $member->full_name :$member->first_name . ' ' . $member->last_name;
     // إرسال OTP عبر البريد الإلكتروني
-    Mail::to($dataRequest['email'])->send(new OtpMail($otpRecord['otp']));
+    Mail::to($dataRequest['email'])->send(new OtpMail($otpRecord['otp'],$recipientName));
     return $this->respondWithSuccess('The Otp Resend Successfully');
   }
 
@@ -214,11 +217,13 @@ class AuthController extends Controller
     OtpAuthenticate::create([
       'email'       => $dataRequest['email'],
       'otp'         => $otp,
-      'expiryDate'  => now()->addMinutes(12),
+      'expiryDate'  => now()->addMinutes(15),
     ]);
+    $member = Member::where('email', $dataRequest['email'])->first();
+    $recipientName = $member->type == UserTypeEnum::COMPANY ? $member->full_name :$member->first_name . ' ' . $member->last_name;
 
     // إرسال OTP عبر البريد الإلكتروني
-    Mail::to($dataRequest['email'])->send(new OtpMail($otp));
+    Mail::to($dataRequest['email'])->send(new OtpMail($otp, $recipientName));
     return $this->respondWithSuccess(' OTP has been sent successfully');
   }
 

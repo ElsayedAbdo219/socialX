@@ -14,9 +14,11 @@ class OTPMail extends Mailable
     use Queueable, SerializesModels;
 
     protected $otpCode;
-    public function __construct($otpCode)
+    protected $recipientName;
+    public function __construct($otpCode, $recipientName)
     {
         $this->otpCode = $otpCode;
+        $this->recipientName = $recipientName;
     }
 
 
@@ -53,6 +55,7 @@ class OTPMail extends Mailable
         return $this->markdown('emails.otp')
             ->with([
                 'otp' => $this->otpCode,
+                'recipientName' => $this->recipientName,
             ]);
     }
 }
