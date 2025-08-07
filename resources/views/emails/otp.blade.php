@@ -1,14 +1,14 @@
 <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
   <div style="margin:50px auto;width:70%;padding:20px 0">
-    <div style="border-bottom:1px solid #eee">
+<div style="border-bottom:1px solid #eee; text-align: center;">
     <a href="https://www.anceega.com" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">
-    @if(app()->getLocale() == 'ar')
-        <img src="{{ asset('storage/mails/ar_theqa.png') }}" alt="An-theqa Logo" style="width: 150px; height: auto; align-items: center; vertical-align: middle;">
-    @else
-        <img src="{{ asset('storage/mails/en_theqa.png') }}" alt="An-theqa Logo" style="width: 150px; height: auto; align-items: center; vertical-align: middle;">
-    @endif
-</a>
-    </div> 
+        @if(app()->getLocale() == 'ar')
+            <img src="{{ asset('storage/mails/ar_theqa.png') }}" alt="An-theqa Logo" style="width: 150px; height: auto;">
+        @else
+            <img src="{{ asset('storage/mails/en_theqa.png') }}" alt="An-theqa Logo" style="width: 150px; height: auto;">
+        @endif
+    </a>
+</div>
     <p style="font-size:1.1em">@lang('messages.hi'),{{ $recipientName }}</p>
     {{-- <p>@lang('otp_message',[],'ar')</p> --}}
     <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
