@@ -3,9 +3,9 @@
     <div style="border-bottom:1px solid #eee">
     <a href="https://www.anceega.com" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">
     @if(app()->getLocale() == 'ar')
-        <img src="{{ asset('storage/mails/ar_theqa.svg') }}" alt="An-theqa Logo" style="width: 150px; height: auto; vertical-align: middle;">
+        <img src="{{ secure_asset('storage/mails/ar_theqa.png') }}" alt="An-theqa Logo" style="width: 150px; height: auto; vertical-align: middle;">
     @else
-        <img src="{{ asset('storage/mails/en_theqa.svg') }}" alt="An-theqa Logo" style="width: 150px; height: auto; vertical-align: middle;">
+        <img src="{{ secure_asset('storage/mails/en_theqa.png') }}" alt="An-theqa Logo" style="width: 150px; height: auto; vertical-align: middle;">
     @endif
 </a>
     </div> 
