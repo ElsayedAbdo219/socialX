@@ -12,7 +12,9 @@
     <p style="font-size:1.1em">@lang('messages.hi'),{{ $recipientName }}</p>
     {{-- <p>@lang('otp_message',[],'ar')</p> --}}
     <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
-      @lang('messages.Your One-Time Password(OTP) is:') {{$otp}}</h2>
+      @lang('messages.Your One-Time Password(OTP) is:')</h2>
+        <h3 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
+          {{$otp}}</h3>
     <p style="font-size:0.9em;"> @lang('messages.This code is valid for') 15 @lang('messages.minutes and can be used to complete the verification process. Please do not share this code with anyone. If you did not request this code, please disregard this message or contact our support team immediately.') </p>
     <p style="font-size:0.9em;"> @lang('messages.thanks_for_you')</p>
     <p style="font-size:0.9em;">@lang('messages.An-theqa')</p>
