@@ -3,16 +3,16 @@
     <div style="border-bottom:1px solid #eee">
     <a href="https://www.anceega.com" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">
     @if(app()->getLocale() == 'ar')
-        <img src="{{ asset('storage/mails/ar_theqa.png') }}" alt="An-theqa Logo" style="width: 150px; height: auto; vertical-align: middle;">
+        <img src="{{ asset('storage/mails/ar_theqa.png') }}" alt="An-theqa Logo" style="width: 150px; height: auto; align-items: center; vertical-align: middle;">
     @else
-        <img src="{{ asset('storage/mails/en_theqa.png') }}" alt="An-theqa Logo" style="width: 150px; height: auto; vertical-align: middle;">
+        <img src="{{ asset('storage/mails/en_theqa.png') }}" alt="An-theqa Logo" style="width: 150px; height: auto; align-items: center; vertical-align: middle;">
     @endif
 </a>
     </div> 
     <p style="font-size:1.1em">@lang('messages.hi'),{{ $recipientName }}</p>
     {{-- <p>@lang('otp_message',[],'ar')</p> --}}
     <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
-      @lang('messages.Your One-Time Password(OTP) is:')</h2>
+      @lang('messages.Your One-Time Password(OTP) is:')</h2><br>
         <h3 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
           {{$otp}}</h3>
     <p style="font-size:0.9em;"> @lang('messages.This code is valid for') 15 @lang('messages.minutes and can be used to complete the verification process. Please do not share this code with anyone. If you did not request this code, please disregard this message or contact our support team immediately.') </p>
