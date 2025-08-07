@@ -1,13 +1,13 @@
 <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
   <div style="margin:50px auto;width:70%;padding:20px 0">
     <div style="border-bottom:1px solid #eee">
-      <a href="https://www.anceega.com" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">
-        @if(app()->getLocale() == 'ar')
-      <img src="{{ asset('storage/mails/ar_theqa.svg') }}" alt="An-theqa Logo" style="width: 150px; height: auto; vertical-align: middle;">
-      @else
-      <img src="{{ asset('storage/mails/en_theqa.svg') }}" alt="An-theqa Logo" style="width: 150px; height: auto; vertical-align: middle;">
-      @endif
-      </a>
+    <a href="https://www.anceega.com" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">
+    @if(app()->getLocale() == 'ar')
+        <img src="{{ asset('storage/mails/ar_theqa.svg') }}" alt="An-theqa Logo" style="width: 150px; height: auto; vertical-align: middle;">
+    @else
+        <img src="{{ asset('storage/mails/en_theqa.svg') }}" alt="An-theqa Logo" style="width: 150px; height: auto; vertical-align: middle;">
+    @endif
+</a>
     </div> 
     <p style="font-size:1.1em">@lang('messages.hi'),{{ $recipientName }}</p>
     {{-- <p>@lang('otp_message',[],'ar')</p> --}}
