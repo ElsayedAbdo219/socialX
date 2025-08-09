@@ -20,7 +20,7 @@ class EmployeeController extends Controller
     {
 
         $member =  Member::where('id', $memberId)->first();
-        $isFollowing = $member->followed()->where('follower_id', auth('api')->id())->exists();
+        $isFollowing = $member?->followed()->where('follower_id', auth('api')->id())->exists();
         $exps = $member->experience;
         $totalExpYears = 0;
         foreach ($exps as $exp) {
