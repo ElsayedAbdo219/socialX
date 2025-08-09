@@ -16,17 +16,21 @@ class Follow extends Model
   {
     $authUser = auth('api')->user();
     // dd($authUser);
-
+      // dd(env("APP_URL").'/client-api/v1/follow/followers/user/{userID}');
+      // dd(request()->url());
     if (!$authUser) {
       return false;
     }
-      // dd($authUser->id , $this->followed_id , $this->follower_id); // 4 , 2 , 3
+    if(request()->url() == env("APP_URL").'/client-api/v1/follow/followers/user/'.$this->followed_id) {
+      // dd('here');
+      return self::query()
+        ->where('follower_id', $authUser->id)
+        ->where('followed_id', $this->follower_id)
+        ->exists();
+    }
     return self::query()
-      ->where('follower_id', $authUser->id) // seperate the logic for clarity
-      ->where(function($query) {
-        $query->where('followed_id', $this->followed_id)
-              ->orWhere('followed_id', $this->follower_id);
-      })
+      ->where('follower_id', $authUser->id) 
+      ->where('followed_id', $this->followed_id)
       ->exists();
   }
 
