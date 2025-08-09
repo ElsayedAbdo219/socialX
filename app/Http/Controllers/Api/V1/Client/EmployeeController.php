@@ -30,10 +30,10 @@ class EmployeeController extends Controller
         }
         return
             [
-                'user' => $member->type === UserTypeEnum::COMPANY ? $member?->load(['Intros', 'followersTotal', 'userCover', 'followedTotal', 'overview']) : $member?->load(['followersTotal', 'followedTotal', 'userCover', 'Intros', 'skills', 'employeeOverview']),
+                'user' => $member?->type === UserTypeEnum::COMPANY ? $member?->load(['Intros', 'followersTotal', 'userCover', 'followedTotal', 'overview']) : $member?->load(['followersTotal', 'followedTotal', 'userCover', 'Intros', 'skills', 'employeeOverview']),
                 'totalPosts' => $member?->posts()->count(),
-                'currentCompany' =>   $member->type === UserTypeEnum::EMPLOYEE ?  $member?->experience()->latest()->with('company')->first() : 'emp!',
-                'expYearsNumbers' =>   $member->type === UserTypeEnum::EMPLOYEE ? $totalExpYears : 'emp!',
+                'currentCompany' =>   $member?->type === UserTypeEnum::EMPLOYEE ?  $member?->experience()->latest()->with('company')->first() : 'emp!',
+                'expYearsNumbers' =>   $member?->type === UserTypeEnum::EMPLOYEE ? $totalExpYears : 'emp!',
                 'is_following' => $isFollowing ? true : false
             ];
     }
