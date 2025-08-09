@@ -74,9 +74,9 @@ class PostController extends Controller
     // dd($cleanName, $chunkPath);
     $finalPath = storage_path("app/public/posts/{$cleanName}");
     // dd($finalPath , $request->input('file_name'));
-    if (!file_exists($chunkPath)) {
-      return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
-    }
+    // if (!file_exists($chunkPath)) {
+    //   return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
+    // }
 
     MergeChunkAdsJob::dispatch($chunkPath, $finalPath);
 
