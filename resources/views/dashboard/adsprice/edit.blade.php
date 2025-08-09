@@ -54,6 +54,41 @@
 
 
                                     </div>
+                                    <div class="form-group col-sm-3">
+                                        <label for="type">{{ __('dashboard.type') }}
+                                            <select name="type" class="form-control" id="type">
+                                                <option value="video" {{ $AdsPrice->type == 'video' ? 'selected' : '' }}>
+                                                    {{ __('dashboard.video') }}</option>
+                                                <option value="image" {{ $AdsPrice->type == 'image' ? 'selected' : '' }}>
+                                                    {{ __('dashboard.image') }}</option>
+                                            </select>
+                                            @error('type')
+                                                <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <label for="resolution">{{ __('dashboard.resolution') }}
+                                            <select name="resolution" id="resolution" class="form-control">
+                                                <option value="">اختر الدقة</option>
+                                                <option value="720" {{ $AdsPrice->resolution == '720' ? 'selected' : '' }}>
+                                                    720p</option>
+                                                <option value="1080" {{ $AdsPrice->resolution == '1080' ? 'selected' : '' }}>
+                                                    1080p</option>
+                                                <option value="1440" {{ $AdsPrice->resolution == '1440' ? 'selected' : '' }}>
+                                                    1440p</option>
+                                                <option value="2160" {{ $AdsPrice->resolution == '2160' ? 'selected' : '' }}>
+                                                    2160p</option>
+                                            @error('resolution')
+                                                <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
                                     <div class="col-12">
                                         <button type="submit" class="btn btn-primary mr-1 mb-1"
                                             class="edit">{{ __('dashboard.edit') }}</button>

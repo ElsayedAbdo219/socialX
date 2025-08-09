@@ -12,6 +12,8 @@ class AdsPrice extends Model
     [
       'price', // second price 
       'currency',
+      'resolution',
+      'type', // video or image
     ];
 
 }

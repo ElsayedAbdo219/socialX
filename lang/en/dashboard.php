@@ -357,6 +357,16 @@ return [
     'title_en' => 'Title (in English)',
     'contentNews_en' => 'Content News (in English)',
     'verfication_account' => 'Verfication Account ?',
+    'resolution' => 'Resolution',
+    'ads_price' => 'Ads Price',
+    'ads_price_list' => 'Ads Price List',
+    'ads_price_add' => 'Add Ads Price',
+    'ads_price_edit' => 'Edit Ads Price',
+    'type' => 'Type',
+    'video' => 'Video',
+    'image' => 'Image',
+    'ads_price_created_successfully' => 'Ads Price created successfully',
+    'ads_price_updated_successfully' => 'Ads Price updated successfully',
 
 
 

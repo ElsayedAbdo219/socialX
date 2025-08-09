@@ -330,7 +330,18 @@ return [
   'title_en' => 'العنوان  - باللغة الإنجليزية',
   'contentNews_en' => 'المحتوي  - باللغة الإنجليزية',
   'verfication_account' => 'هل الحساب موثق ؟' ,
-  
+  'resolution' => 'الدقة',
+  'type' => 'النوع',
+  'video' => 'فيديو',
+  'image' => 'صورة',
+  'ads_price' => 'سعر الاعلان',
+  'ads_price_add' => 'اضافة سعر اعلان',
+  'ads_price_edit' => 'تعديل سعر اعلان',
+  'ads_price_list' => 'قائمة اسعار الاعلانات',
+  'ads_price_created_successfully' => 'تم انشاء سعر الاعلان بنجاح',
+  'ads_price_updated_successfully' => 'تم تحديث سعر الاعلان بنجاح',
+  'image_price_already_exists' => 'سعر الاعلان للصورة موجود بالفعل بنفس العملة',
+  'video_price_already_exists' => 'سعر الاعلان للفيديو موجود بالفعل بنفس العملة وبنفس الدقة',
 
 
 

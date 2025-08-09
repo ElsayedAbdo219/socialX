@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResponseDashboard;
 use App\Datatables\AdsPriceDatatable;
+use App\Http\Requests\Dashboard\AdsPriceRequest;
 
 class AdsPriceController extends Controller
 {
@@ -27,15 +28,32 @@ class AdsPriceController extends Controller
     return view('dashboard.adsprice.add');
   }
 
-  public function store(Request $request)
+  public function store(AdsPriceRequest $request)
   {
-    $data = $request->validate(['price' => 'required|string|max:255', 'currency' => 'required|string|max:255']);
+    $data = $request->validated();
+    if ($request->type == 'image') {
+      $adsPriceExists = AdsPrice::where('type', 'image')
+        ->where('currency', $data['currency'])
+        ->first();
+      if ($adsPriceExists) {
+        return redirect()->back()->withErrors(['currency' => __('dashboard.image_price_already_exists')]);
+      }
+    } else {
+      $adsPriceExists = AdsPrice::where('type', 'video')
+        ->where('currency', $data['currency'])
+        ->where('resolution', $data['resolution'])
+        ->first();
+      if ($adsPriceExists) {
+        return redirect()->back()->withErrors(['currency' => __('dashboard.video_price_already_exists')]);
+      }
+    }
+    // dd($data);
     AdsPrice::create($data);
     return redirect()->route('admin.Ads-price.index')->with(['success', __('dashboard.item added successfully')]);
   }
 
   public function edit(AdsPrice $AdsPrice)
-  { 
+  {
     $currencies = [
       "EGP",
       "SAR",
@@ -70,11 +88,29 @@ class AdsPriceController extends Controller
   }
 
 
-  public function update(Request $request, $AdsPrice)
+  public function update(AdsPriceRequest $request, $AdsPrice)
   {
     // dd($request->all());
-    $data = $request->validate(['price' => 'required|string|max:255', 'currency' => 'required|string|max:255']);
+    $data = $request->validated();
     $AdsPrice = AdsPrice::findOrfail($AdsPrice);
+    if ($request->type == 'image') {
+      $adsPriceExists = AdsPrice::where('type', 'image')
+        ->where('currency', $data['currency'])
+        ->where('id', '!=', $AdsPrice->id)
+        ->first();
+      if ($adsPriceExists) {
+        return redirect()->back()->withErrors(['currency' => __('dashboard.image_price_already_exists')]);
+      }
+    } else {
+      $adsPriceExists = AdsPrice::where('type', 'video')
+        ->where('currency', $data['currency'])
+        ->where('resolution', $data['resolution'])
+        ->where('id', '!=', $AdsPrice->id)
+        ->first();
+      if ($adsPriceExists) {
+        return redirect()->back()->withErrors(['currency' => __('dashboard.video_price_already_exists')]);
+      }
+    }
     $AdsPrice->update($data);
     return redirect()->route($this->route . '.' . 'index')->with('success', __('dashboard.updated_AdsPrice'));
   }

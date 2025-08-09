@@ -114,7 +114,7 @@
     <script>
 
       $(document).ready(function () {
-      alert('hello user');
+      // alert('hello user');
        $('#choose_file_type').change(function(){
         var choose_file_type = $('#choose_file_type').val();
           if (choose_file_type === 'video') {
