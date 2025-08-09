@@ -21,18 +21,18 @@ class EmployeeController extends Controller
 
         $member =  Member::where('id', $memberId)->first();
         $isFollowing = $member?->followed()->where('follower_id', auth('api')->id())->exists();
-        $exps = $member->experience;
+        $exps = $member?->experience;
         $totalExpYears = 0;
-        foreach ($exps as $exp) {
+        foreach ($exps ?? [] as $exp) {
             $startYear = $exp->start_date_year;
             $endYear = $exp->end_date_year ?? \Carbon\Carbon::now()->year;
             $totalExpYears += $endYear - $startYear;
         }
         return
             [
-                'user' => $member->type === UserTypeEnum::COMPANY ? $member->load(['Intros', 'followersTotal', 'userCover', 'followedTotal', 'overview']) : $member->load(['followersTotal', 'followedTotal', 'userCover', 'Intros', 'skills', 'employeeOverview']),
-                'totalPosts' => $member->posts()->count(),
-                'currentCompany' =>   $member->type === UserTypeEnum::EMPLOYEE ?  $member->experience()->latest()->with('company')->first() : 'emp!',
+                'user' => $member->type === UserTypeEnum::COMPANY ? $member?->load(['Intros', 'followersTotal', 'userCover', 'followedTotal', 'overview']) : $member?->load(['followersTotal', 'followedTotal', 'userCover', 'Intros', 'skills', 'employeeOverview']),
+                'totalPosts' => $member?->posts()->count(),
+                'currentCompany' =>   $member->type === UserTypeEnum::EMPLOYEE ?  $member?->experience()->latest()->with('company')->first() : 'emp!',
                 'expYearsNumbers' =>   $member->type === UserTypeEnum::EMPLOYEE ? $totalExpYears : 'emp!',
                 'is_following' => $isFollowing ? true : false
             ];
