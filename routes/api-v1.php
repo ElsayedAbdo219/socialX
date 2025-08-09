@@ -41,7 +41,8 @@ use App\Http\Controllers\Api\V1\Client\{
   PostReportController,
   SponserController,
   PromotionController,
-  PollNewsController
+  PollNewsController,
+  AdsPriceController
 
                
 
@@ -423,6 +424,9 @@ Route::name('education.')->prefix('education')->group(function () {
     
     // get search data 
     Route::get('headerSearch', [MemberController::class, 'search']); 
+
+    # ads prices data
+    Route::get('ads-prices', [AdsPriceController::class, 'index']);
 
     
 
