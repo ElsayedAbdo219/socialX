@@ -73,9 +73,9 @@
                                     <div class="form-group col-sm-3">
                                         <label for="type">{{ __('dashboard.type') }}</label>
                                         <select name="type" class="form-control" id="type">
-                                            <option value="">اختر النوع</option>
-                                            <option value="video">فيديو</option>
-                                            <option value="image">صورة</option>
+                                            <option value=""> @lang('dashboard.choose_type')</option>
+                                            <option value="video">@lang('dashboard.video')</option>
+                                            <option value="image">@lang('dashboard.image')</option>
                                         </select>
                                         @error('type')
                                             <span class="text-danger small">{{ $message }}</span>
@@ -86,7 +86,7 @@
                                     <div class="form-group col-sm-3" id="resolution-group">
                                         <label for="resolution">{{ __('dashboard.resolution') }}</label>
                                         <select name="resolution" id="resolution" class="form-control">
-                                            <option value="">اختر الدقة</option>
+                                            <option value=""> @lang('dashboard.choose_resolution')</option>
                                             <option value="720">720p</option>
                                             <option value="1080">1080p</option>
                                             <option value="1440">1440p</option>

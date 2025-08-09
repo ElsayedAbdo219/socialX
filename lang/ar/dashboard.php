@@ -342,6 +342,11 @@ return [
   'ads_price_updated_successfully' => 'تم تحديث سعر الاعلان بنجاح',
   'image_price_already_exists' => 'سعر الاعلان للصورة موجود بالفعل بنفس العملة',
   'video_price_already_exists' => 'سعر الاعلان للفيديو موجود بالفعل بنفس العملة وبنفس الدقة',
+  'choose_type' => 'اختر النوع',
+  'choose_resolution' => 'اختر الدقة',
+  'choose_currency' => 'اختر العملة',
+  'choose_ads_price' => 'اختر سعر الاعلان',
+  'ads_price' => 'سعر الاعلان',
 
 
 

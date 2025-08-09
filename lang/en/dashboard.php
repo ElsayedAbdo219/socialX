@@ -367,6 +367,8 @@ return [
     'image' => 'Image',
     'ads_price_created_successfully' => 'Ads Price created successfully',
     'ads_price_updated_successfully' => 'Ads Price updated successfully',
+    'choose_type' => 'Choose Type',
+    'choose_resolution' => 'Choose Resolution',
 
 
 
