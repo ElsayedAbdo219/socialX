@@ -42,7 +42,7 @@ class PostService
       $filePath = 'posts/' . $dataValidatedChecked['file_name'];
       $fullPath = Storage::disk('public')->path($filePath); // مسار فعلي على السيرفر
 
-      if (file_exists($fullPath)) {
+      //  if (file_exists($fullPath)) {
         $getID3 = new \getID3;
         $analysis = $getID3->analyze($fullPath);
         // dd($analysis);
@@ -52,11 +52,13 @@ class PostService
           ], 422);
         }
         $dataValidatedChecked['file_name'] = basename($fullPath);
-      } else {
-        return response()->json([
-          'message' => 'الملف غير موجود'
-        ], 404);
-      }
+      // } 
+      
+      // else {
+      //   return response()->json([
+      //     'message' => 'الملف غير موجود'
+      //   ], 404);
+      // }
     }
 
 
