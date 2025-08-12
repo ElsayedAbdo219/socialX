@@ -8,7 +8,7 @@
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
-            <x-dashboard.layouts.breadcrumb now="{{ __('dashboard.Complains') }}">
+            <x-dashboard.layouts.breadcrumb now="{{ __('dashboard.adsprice') }}">
                 <li class="breadcrumb-item"><a href="{{ route('admin.Ads-price.index') }}">
                     </a></li>
             </x-dashboard.layouts.breadcrumb>
@@ -24,20 +24,22 @@
                                 @csrf
                                 @method('PATCH')
                                 <div class="row">
-                                    <div class="form-group col-sm-3">
+                                    <div class="form-group col-12">
                                         <label for="title">{{ __('dashboard.price') }}
                                             <input type="text" class="form-control" name="price"
                                                 placeholder="{{ __('dashboard.title') }}"
-                                                value="{{ $AdsPrice->price ?? old('price') }}" />
+                                                value="{{ $AdsPrice->price ?? old('price') }}" style="width: 500px;height:40px"/>
                                             @error('price')
                                                 <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </label>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group  ">
+                                    </div>
+
+                                    <div class="row" >
+                                        <div class="form-group col-12">
                                             <label for="title">{{ __('dashboard.currency') }}
-                                                <select name="currency" class="form-control" id="currency">
+                                                <select name="currency" class="form-control" id="currency" style="width: 500px;height:40px">
                                                     @foreach ($currencies ?? [] as $currency)
                                                         <option value="{{ $currency }}"
                                                             {{ $AdsPrice->currency == $currency ? 'selected' : '' }}>
@@ -52,11 +54,11 @@
                                             </label>
                                         </div>
 
-
                                     </div>
-                                    <div class="form-group col-sm-3">
+                                    <div class="row" >
+                                    <div class="form-group col-12">
                                         <label for="type">{{ __('dashboard.type') }}
-                                            <select name="type" class="form-control" id="type">
+                                            <select name="type" class="form-control" id="type" style="width: 500px;height:40px">
                                                 <option value="video" {{ $AdsPrice->type == 'video' ? 'selected' : '' }}>
                                                     {{ __('dashboard.video') }}</option>
                                                 <option value="image" {{ $AdsPrice->type == 'image' ? 'selected' : '' }}>
@@ -67,9 +69,18 @@
                                             @enderror
                                         </label>
                                     </div>
-                                    <div class="form-group col-sm-3">
+                                    </div>
+                                    <div class="row">
+                                    <div class="col-12 mt-2">
+                                        <button type="submit" class="btn btn-primary mr-1 mb-1"
+                                            class="edit">{{ __('dashboard.edit') }}</button>
+                                    </div>
+                                    </div>
+                                    <div class="row" >
+
+                                    <div class="form-group col-12" id="resolution-group">
                                         <label for="resolution">{{ __('dashboard.resolution') }}
-                                            <select name="resolution" id="resolution" class="form-control">
+                                            <select name="resolution" id="resolution" class="form-control" style="width: 500px;height:40px">
                                                 <option value="">اختر الدقة</option>
                                                 <option value="720" {{ $AdsPrice->resolution == '720' ? 'selected' : '' }}>
                                                     720p</option>
@@ -84,15 +95,12 @@
                                             @enderror
                                         </label>
                                     </div>
-                                </div>
-                            </div>
-                            </div>
-                            </div>
-                            </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary mr-1 mb-1"
-                                            class="edit">{{ __('dashboard.edit') }}</button>
-                                    </div>
+                                 </div>
+                            {{-- </div>  --}}
+                            {{-- </div>
+                            </div> --}}
+                            {{-- </div> --}}
+                            
                             </form>
                         </div>
                     </div>
@@ -102,7 +110,21 @@
     </div>
 @endsection
 @section('script')
-    <script>
-        $(document).ready(function() {})
+      <script>
+        $(document).ready(function() {
+          // alert($('#resolution').val());
+            // Hide resolution input by default
+            //$('#resolution-group').hide();
+            $('#type').change(function() {
+              // alert('Type changed to: ' + $(this).val());
+                if ($('select[name="type"]').val() == 'video') {
+                    $('#resolution-group').show();
+                    $('#resolution').attr('required', 'required');
+                } else {
+                    $('#resolution').removeAttr('required');
+                    $('#resolution-group').hide();
+                }
+            });
+        });
     </script>
 @endsection

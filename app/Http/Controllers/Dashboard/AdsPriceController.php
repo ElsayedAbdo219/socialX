@@ -52,8 +52,9 @@ class AdsPriceController extends Controller
     return redirect()->route('admin.Ads-price.index')->with(['success', __('dashboard.item added successfully')]);
   }
 
-  public function edit(AdsPrice $AdsPrice)
-  {
+  public function edit($AdsPrice)
+  { 
+    $AdsPrice = AdsPrice::findOrFail($AdsPrice);
     $currencies = [
       "EGP",
       "SAR",
@@ -76,7 +77,6 @@ class AdsPriceController extends Controller
       "SOS",
       "PSE",
     ];
-    // return $AdsPrice;
     return view(
       'dashboard.adsprice.edit',
       [
