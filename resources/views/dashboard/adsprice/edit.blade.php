@@ -76,8 +76,8 @@
                                             class="edit">{{ __('dashboard.edit') }}</button>
                                     </div>
                                     </div>
-                                    <div class="row" >
 
+                                    <div class="row" >
                                     <div class="form-group col-12" id="resolution-group">
                                         <label for="resolution">{{ __('dashboard.resolution') }}
                                             <select name="resolution" id="resolution" class="form-control" style="width: 500px;height:40px">
