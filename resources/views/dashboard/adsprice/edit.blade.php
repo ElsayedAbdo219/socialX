@@ -77,6 +77,19 @@
                                     </div>
                                     </div>
 
+                                     <div class="row">
+                                    <div class="form-group col-12">
+                                        <label for="title">{{ __('dashboard.appearence_count_for_time') }}
+                                            <input type="text" class="form-control" name="appearence_count_for_time"
+                                                placeholder="{{ __('dashboard.title') }}"
+                                                value="{{ $AdsPrice->appearence_count_for_time ?? old('appearence_count_for_time') }}" style="width: 500px;height:40px"/>
+                                            @error('appearence_count_for_time')
+                                                <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </label>
+                                    </div>
+                                    </div>
+
                                     <div class="row" >
                                     <div class="form-group col-12" id="resolution-group">
                                         <label for="resolution">{{ __('dashboard.resolution') }}
@@ -96,6 +109,8 @@
                                         </label>
                                     </div>
                                  </div>
+
+                                
                             {{-- </div>  --}}
                             {{-- </div>
                             </div> --}}

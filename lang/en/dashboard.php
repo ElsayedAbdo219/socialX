@@ -369,6 +369,7 @@ return [
     'ads_price_updated_successfully' => 'Ads Price updated successfully',
     'choose_type' => 'Choose Type',
     'choose_resolution' => 'Choose Resolution',
+    'appearence_count_for_time' => 'Price of The Appearence Count For Time'
 
 
 

@@ -16,9 +16,11 @@ class AdsPrice extends Model
     'currency',
     'resolution',
     'type', // video or image
+    'appearence_count_for_time'
   ];
   protected $casts = [
     'price' => 'float',
+    'appearence_count_for_time' => 'integer',
     'created_at' => 'datetime',
     'updated_at' => 'datetime',
   ];

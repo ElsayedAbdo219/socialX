@@ -118,7 +118,7 @@ class AdsPriceController extends Controller
 
   public function destroy(AdsPrice $AdsPrice)
   {
-    // dd($AdsPrice);
+    // dd($AdsPrice->count());
     $AdsPrice->delete();
     if (request()->expectsJson()) {
       return self::apiCode(200)->apiResponse();

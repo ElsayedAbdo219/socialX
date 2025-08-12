@@ -27,6 +27,7 @@ class AdsPriceRequest extends FormRequest
             'type' => ['required', 'string', Rule::in(['video', 'image'])],
             'currency' => ['required', 'string', 'max:3'],
             'resolution' => ['nullable', 'required_if:type,video', 'numeric',Rule::in([ '720', '1080', '1440', '2160'])],
+            'appearence_count_for_time' => ['required','numeric','min:1']
         ];
     }
 }

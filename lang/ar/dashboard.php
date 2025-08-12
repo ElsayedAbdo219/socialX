@@ -347,6 +347,7 @@ return [
   'choose_currency' => 'اختر العملة',
   'choose_ads_price' => 'اختر سعر الاعلان',
   'ads_price' => 'سعر الاعلان',
+  'appearence_count_for_time' => 'سعر الظهور للمرة الواحدة '  ,
 
 
 

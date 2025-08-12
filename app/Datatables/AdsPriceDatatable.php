@@ -34,6 +34,11 @@ class AdsPriceDatatable extends BaseDatatable
                 $title = $model?->type;
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
+            'appearence_count_for_time' => function ($model) {
+                $title = $model?->appearence_count_for_time;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+            
             'created_at' => function ($model) {
                 $title = $model?->created_at;
                 return view('components.datatable.includes.columns.title', compact('title'));
@@ -49,6 +54,7 @@ class AdsPriceDatatable extends BaseDatatable
             Column::computed('currency')->title(__('dashboard.currency'))->className('text-center'),
             Column::computed('resolution')->title(__('dashboard.resolution'))->className('text-center'),
             Column::computed('type')->title(__('dashboard.type'))->className('text-center'),
+            Column::computed('appearence_count_for_time')->title(__('dashboard.appearence_count_for_time'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 
         ];
