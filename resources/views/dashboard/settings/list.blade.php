@@ -294,6 +294,7 @@
                                                 @csrf
                                                 @method('PATCH')
                                                 <div class="row">
+                                                  <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                                     <div class="form-group col-4">
                                                         <textarea name="contentAbout" id="TextAreaAbout" cols="30"
                                                                   rows="10"></textarea>
@@ -305,7 +306,7 @@
                                                  style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
                                                  lang="ar" dir="rtl">
                                                 <div id="editor">
-                                                    {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                                    {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -333,6 +334,7 @@
                                                   action="{{ route('admin.settings.update', $setting->id) }}">
                                                 @csrf
                                                 @method('PATCH')
+                                                <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                                 <div class="row">
                                                     <div class="form-group col-4">
                                                         <textarea name="contentTerms" id="TextAreaUsageTerms" cols="30"
@@ -345,7 +347,7 @@
                                                  style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
                                                  lang="ar" dir="rtl">
                                                 <div id="editor">
-                                                    {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                                    {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -374,6 +376,7 @@
                                                   action="{{ route('admin.settings.update', $setting->id) }}">
                                                 @csrf
                                                 @method('PATCH')
+                                                <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                                 <div class="row">
                                                     <div class="form-group col-4">
                                                         <textarea name="content" id="TextAreaPrivacy" cols="30"
@@ -386,7 +389,7 @@
                                                  style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
                                                  lang="ar" dir="rtl">
                                                 <div id="editor">
-                                                    {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                                    {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -406,16 +409,18 @@
                               @if ($page === 'our-vision' && $setting->key === 'our-vision')
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">رؤيتنا</h4>
+                                        <h4 class="card-title"> {{ app()->getLocale() == 'en' ? 'Our Vision - English' : '  اللغة العربية - رؤيتنا' }}</h4>
                                     </div>
+                                    {{-- <a class="btn btn-primary" data-bs-toggle="collapse" href="#ourVision" role="button" aria-expanded="false" aria-controls="collapseExample">@lang('dashboard.show_data_in_arabic')</a> --}}
                                     <div class="card-content">
-                                        <div class="card-body">
+                                        <div class="card-body" >
                                             {{-- Hidden Form --}}
                                             <form class="form form-vertical d-none" id="formOurVision" method="POST"
                                                   action="{{ route('admin.settings.update', $setting->id) }}">
                                                 @csrf
                                                 @method('PATCH')
                                                 <div class="row">
+                                                  <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                                     <div class="form-group col-4">
                                                         <textarea name="content" id="TextOurVision" cols="30"
                                                                   rows="10"></textarea>
@@ -425,16 +430,19 @@
                                             <!--  Formatted TextArea -->
                                             <div class=""
                                                  style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
-                                                 lang="ar" dir="rtl">
-                                                <div id="editor">
-                                                    {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                                 lang="ar" dir="{{ app()->getLocale() == 'en' ? 'ltr' : 'rtl' }}" >
+                                                <div id="editor" >
+                                                    {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                                 </div>
                                             </div>
+                                            
                                         </div>
+
                                         <div class="d-flex justify-content-center">
                                             <button onclick="submitformOurVision()"
                                                     class="btn btn-primary mr-1 mb-1 m-3">{{ __('dashboard.edit') }}</button>
                                         </div>
+
                                         @error('content')
                                         <div style="font-size: 12px; margin:20px 10px;" class="text-danger ">
                                             {{ $message }}</div>
@@ -451,20 +459,20 @@
                             action="{{ route('admin.settings.update', $setting->id) }}">
                             @csrf
                             @method('PATCH')
-                               
+                            <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                             <div id="repeater1">
                                 <div data-repeater-list="items1">
-                                    @foreach($setting->value['ar'] as $val)
+                                    @foreach($setting->value[app()->getLocale()] as $val)
                                     <div data-repeater-item class="d-flex align-items-center mb-3">
                                         <input type="text" value="{{ $val }}" name="items[][contentSeekers]" class="form-control me-2" placeholder="الوصف" >
-                                        <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>حذف</button>
+                                        <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>@lang('dashboard.delete')</button>
                                     </div>
                                      @endforeach
                                 </div>
-                                <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>إضافة جديد</button>
+                                <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>@lang('dashboard.add_new')</button>
                             </div>
-                        
-                            <button type="submit" class="btn btn-success mt-3">حفظ</button>
+
+                            <button type="submit" class="btn btn-success mt-3">@lang('dashboard.submit')</button>
                         </form>
                         
                         @endif
@@ -478,20 +486,21 @@
                             action="{{ route('admin.settings.update', $setting->id) }}">
                             @csrf
                             @method('PATCH')
+                            <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                
                             <div id="repeater2">
                                 <div data-repeater-list="items2">
-                                    @foreach($setting->value['ar'] as $val)
+                                    @foreach($setting->value[app()->getLocale()] as $val)
                                     <div data-repeater-item class="d-flex align-items-center mb-3">
                                         <input type="text" value="{{ $val }}" name="items[][contentFreelanceAndBusiness]" class="form-control me-2" placeholder="الوصف" required >
-                                        <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>حذف</button>
+                                        <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>@lang('dashboard.delete')</button>
                                     </div>
                                      @endforeach
                                 </div>
-                                <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>إضافة جديد</button>
+                                <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>@lang('dashboard.add_new')</button>
                             </div>
-                        
-                            <button type="submit" class="btn btn-success mt-3">حفظ</button>
+
+                            <button type="submit" class="btn btn-success mt-3">@lang('dashboard.save')</button>
                         </form>
                         
                         @endif
@@ -504,20 +513,21 @@
                             action="{{ route('admin.settings.update', $setting->id) }}">
                             @csrf
                             @method('PATCH')
+                            <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                
                             <div id="repeater3">
                                 <div data-repeater-list="items3">
-                                    @foreach($setting->value['ar'] as $val)
+                                    @foreach($setting->value[app()->getLocale()] as $val)
                                     <div data-repeater-item class="d-flex align-items-center mb-3">
                                         <input type="text" value="{{ $val }}" name="items[][contentKeyFeatures]" class="form-control me-2" placeholder="الوصف" required >
-                                        <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>حذف</button>
+                                        <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>@lang('dashboard.delete')</button>
                                     </div>
                                      @endforeach
                                 </div>
-                                <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>إضافة جديد</button>
+                                <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>@lang('dashboard.add_new')</button>
                             </div>
-                        
-                            <button type="submit" class="btn btn-success mt-3">حفظ</button>
+
+                            <button type="submit" class="btn btn-success mt-3">@lang('dashboard.save')</button>
                         </form>
                         
                         @endif
@@ -531,19 +541,20 @@
                             action="{{ route('admin.settings.update', $setting->id) }}">
                             @csrf
                             @method('PATCH')
+                            <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                             <div id="repeater4">
                                 <div data-repeater-list="items4">
-                                    @foreach($setting->value['ar'] as $val)
+                                    @foreach($setting->value[app()->getLocale()] as $val)
                                     <div data-repeater-item class="d-flex align-items-center mb-3">
                                         <input type="text" value="{{ $val }}" name="items[][contentUserResponsibilities]" class="form-control me-2" placeholder="الوصف" required >
-                                        <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>حذف</button>
+                                        <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>@lang('dashboard.delete')</button>
                                     </div>
                                      @endforeach
                                 </div>
-                                <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>إضافة جديد</button>
+                                <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>@lang('dashboard.add_new')</button>
                             </div>
-                        
-                            <button type="submit" class="btn btn-success mt-3">حفظ</button>
+
+                            <button type="submit" class="btn btn-success mt-3">@lang('dashboard.save')</button>
                         </form>
                         
                         @endif
@@ -557,19 +568,20 @@
                         action="{{ route('admin.settings.update', $setting->id) }}">
                         @csrf
                         @method('PATCH')
+                        <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                         <div id="repeater5">
                             <div data-repeater-list="items5">
-                                @foreach($setting->value['ar'] as $val)
+                                @foreach($setting->value[app()->getLocale()] as $val)
                                 <div data-repeater-item class="d-flex align-items-center mb-3">
                                     <input type="text" value="{{ $val }}" name="items[][contentCompanyResponsibilities]" class="form-control me-2" placeholder="الوصف" required >
-                                    <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>حذف</button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>@lang('dashboard.delete')</button>
                                 </div>
                                  @endforeach
                             </div>
-                            <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>إضافة جديد</button>
+                            <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>@lang('dashboard.add_new')</button>
                         </div>
-                    
-                        <button type="submit" class="btn btn-success mt-3">حفظ</button>
+
+                        <button type="submit" class="btn btn-success mt-3">@lang('dashboard.save')</button>
                     </form>
                     
                     @endif
@@ -579,7 +591,7 @@
                       @if ($page === 'platform-usage' && $setting->key === 'platform-usage')
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">استخدام المنصة</h4>
+                                        <h4 class="card-title">@lang('dashboard.platform-usage')</h4>
                                     </div>
                                     <div class="card-content">
                                         <div class="card-body">
@@ -588,6 +600,7 @@
                                                   action="{{ route('admin.settings.update', $setting->id) }}">
                                                 @csrf
                                                 @method('PATCH')
+                                                <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                                 <div class="row">
                                                     <div class="form-group col-4">
                                                         <textarea name="contentPlatformUsage" id="TextPlatormUsage" cols="30"
@@ -600,7 +613,7 @@
                                                  style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
                                                  lang="ar" dir="rtl">
                                                 <div id="editor">
-                                                    {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                                    {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                                 </div>
                                             </div>
                                         </div>
@@ -620,7 +633,7 @@
                             @if ($page === 'account-suspension-policy' && $setting->key === 'account-suspension-policy')
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title" > سياسة تعليق الحساب </h4>
+                                    <h4 class="card-title" > @lang('dashboard.account_suspension_policy') </h4>
 
                                 </div>
                                     <div class="card-body">
@@ -629,6 +642,7 @@
                                               action="{{ route('admin.settings.update', $setting->id) }}">
                                             @csrf
                                             @method('PATCH')
+                                            <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                             <div class="row">
                                                 <div class="form-group col-4">
                                                     <textarea name="contentAccountSuspensionPolicy" id="TextAccountSuspensionPolicy" cols="30"
@@ -641,7 +655,7 @@
                                              style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
                                              lang="ar" dir="rtl">
                                             <div id="editor">
-                                                {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                                {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                             </div>
                                         </div>
                                     </div>
@@ -663,7 +677,7 @@
                         @if ($page === 'Help-Shape-Anceega' && $setting->key === 'Help-Shape-Anceega')
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">  المساعدة في تشكيل عن ثقة </h4>
+                                <h4 class="card-title"> @lang('dashboard.help_shape_anceega') </h4>
 
                             </div>
                                 <div class="card-body">
@@ -672,6 +686,7 @@
                                           action="{{ route('admin.settings.update', $setting->id) }}">
                                         @csrf
                                         @method('PATCH')
+                                        <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                         <div class="row">
                                             <div class="form-group col-4">
                                                 <textarea name="contentHelpShapeAnceega" id="TextHelpShapeAnceega" cols="30"
@@ -684,7 +699,7 @@
                                          style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
                                          lang="ar" dir="rtl">
                                         <div id="editor">
-                                            {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                            {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                         </div>
                                     </div>
                                 </div>
@@ -710,20 +725,21 @@
                     action="{{ route('admin.settings.update', $setting->id) }}">
                     @csrf
                     @method('PATCH')
+                    <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                     <div id="repeater6">
                         <div data-repeater-list="items6">
                             {{-- @dd($setting) --}}
-                            @foreach($setting->value['ar'] as $val)
+                            @foreach($setting->value[app()->getLocale()] as $val)
                             <div data-repeater-item class="d-flex align-items-center mb-3">
                                 <input type="text" value="{{ $val }}" name="items[][contentCustomSuggestions]" class="form-control me-2" placeholder="الوصف" required >
-                                <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>حذف</button>
+                                <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>@lang('dashboard.delete')</button>
                             </div>
                              @endforeach
                         </div>
-                        <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>إضافة جديد</button>
+                        <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>@lang('dashboard.add_new')</button>
                     </div>
-                
-                    <button type="submit" class="btn btn-success mt-3">حفظ</button>
+
+                    <button type="submit" class="btn btn-success mt-3">@lang('dashboard.save')</button>
                 </form>
                 
                           @endif
@@ -737,20 +753,21 @@
                     action="{{ route('admin.settings.update', $setting->id) }}">
                     @csrf
                     @method('PATCH')
+                    <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                     <div id="repeater7">
                         <div data-repeater-list="items7">
                             {{-- @dd($setting) --}}
-                            @foreach($setting->value['ar'] as $val)
+                            @foreach($setting->value[app()->getLocale()] as $val)
                             <div data-repeater-item class="d-flex align-items-center mb-3">
                                 <input type="text" value="{{ $val }}" name="items[][contentYourRights]" class="form-control me-2" placeholder="الوصف" required >
-                                <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>حذف</button>
+                                <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>@lang('dashboard.delete')</button>
                             </div>
                              @endforeach
                         </div>
-                        <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>إضافة جديد</button>
+                        <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>@lang('dashboard.add_new')</button>
                     </div>
-                
-                    <button type="submit" class="btn btn-success mt-3">حفظ</button>
+
+                    <button type="submit" class="btn btn-success mt-3">@lang('dashboard.save')</button>
                 </form>
                 
                           @endif
@@ -764,20 +781,21 @@
                     action="{{ route('admin.settings.update', $setting->id) }}">
                     @csrf
                     @method('PATCH')
+                    <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                     <div id="repeater8">
                         <div data-repeater-list="items8">
                             {{-- @dd($setting) --}}
-                            @foreach($setting->value['ar'] as $val)
+                            @foreach($setting->value[app()->getLocale()] as $val)
                             <div data-repeater-item class="d-flex align-items-center mb-3">
                                 <input type="text" value="{{ $val }}" name="items[][contentInformationCollect]" class="form-control me-2" placeholder="الوصف" required >
-                                <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>حذف</button>
+                                <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>@lang('dashboard.delete')</button>
                             </div>
                              @endforeach
                         </div>
-                        <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>إضافة جديد</button>
+                        <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>@lang('dashboard.add_new')</button>
                     </div>
-                
-                    <button type="submit" class="btn btn-success mt-3">حفظ</button>
+
+                    <button type="submit" class="btn btn-success mt-3">@lang('dashboard.submit')</button>
                 </form>
                 
                           @endif
@@ -788,7 +806,7 @@
                              @if ($page === 'how-use-data' && $setting->key === 'how-use-data')
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">  كيفية استخدام البيانات </h4>
+                                <h4 class="card-title"> @lang('dashboard.how_use_data') </h4>
 
                             </div>
                                 <div class="card-body">
@@ -797,6 +815,7 @@
                                           action="{{ route('admin.settings.update', $setting->id) }}">
                                         @csrf
                                         @method('PATCH')
+                                        <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                         <div class="row">
                                             <div class="form-group col-4">
                                                 <textarea name="contentHowUseData" id="TextHowUseData" cols="30"
@@ -809,7 +828,7 @@
                                          style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
                                          lang="ar" dir="rtl">
                                         <div id="editor">
-                                            {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                            {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                         </div>
                                     </div>
                                 </div>
@@ -828,7 +847,7 @@
                     @if ($page === 'help-support' && $setting->key === 'help-support')
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">   المساعدة & الدعم  </h4>
+                            <h4 class="card-title">  @lang('dashboard.help_support') </h4>
 
                         </div>
                             <div class="card-body">
@@ -837,6 +856,7 @@
                                       action="{{ route('admin.settings.update', $setting->id) }}">
                                     @csrf
                                     @method('PATCH')
+                                    <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                     <div class="row">
                                         <div class="form-group col-4">
                                             <textarea name="contentHelpAndSupport" id="TextHelpAndSupport" cols="30"
@@ -849,7 +869,7 @@
                                      style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
                                      lang="ar" dir="rtl">
                                     <div id="editor">
-                                        {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                        {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                     </div>
                                 </div>
                             </div>
@@ -868,7 +888,7 @@
                    @if ($page === 'advertise-Anceega' && $setting->key === 'advertise-Anceega')
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">  اعلانات عن ثقة </h4>
+                            <h4 class="card-title">  @lang('dashboard.advertise_Anceega') </h4>
 
                         </div>
                             <div class="card-body">
@@ -877,6 +897,7 @@
                                       action="{{ route('admin.settings.update', $setting->id) }}">
                                     @csrf
                                     @method('PATCH')
+                                    <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                     <div class="row">
                                         <div class="form-group col-4">
                                             <textarea name="contentAdvertiseAnceega" id="TextAdvertiseAnceega" cols="30"
@@ -889,7 +910,7 @@
                                      style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
                                      lang="ar" dir="rtl">
                                     <div id="editor">
-                                        {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                        {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                     </div>
                                 </div>
                             </div>
@@ -913,8 +934,9 @@
                     action="{{ route('admin.settings.update', $setting->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
+                    <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                     <div class="image-container d-flex flex-wrap" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
-                        <label for="">الصور الحالية</label>
+                        <label for="">@lang('dashboard.current_images') </label>
                         <div class="d-flex gap-2" style="display: flex; gap: 10px;">
                         @if(is_array($setting?->value['imagePath']))
                             @foreach($setting?->value['imagePath'] as $img)
@@ -931,17 +953,17 @@
                     <div id="repeater9">
                         <div data-repeater-list="items9">
                             {{-- @dd($setting) --}}
-                            @foreach($setting->value['ar']  ?? [] as $val)
+                            @foreach($setting->value[app()->getLocale()]  ?? [] as $val)
                             <div data-repeater-item class="d-flex align-items-center mb-3">
                                 <input type="text" value="{{ $val }}" name="items[][contentWhyAdvertiseWithUs]" class="form-control me-2" placeholder="الوصف" required >
-                                <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>حذف</button>
+                                <button type="button" class="btn btn-danger btn-sm" data-repeater-delete>@lang('dashboard.delete')</button>
                             </div>
                              @endforeach
                         </div>
-                        <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>إضافة جديد</button>
+                        <button type="button" class="btn btn-primary btn-sm mt-2" data-repeater-create>@lang('dashboard.add_new')</button>
                     </div>
                 
-                    <button type="submit" class="btn btn-success mt-3">حفظ</button>
+                    <button type="submit" class="btn btn-success mt-3">@lang('dashboard.submit')</button>
                 </form>
                 
                           @endif
@@ -952,7 +974,7 @@
                              @if ($page === 'how-advertise-work-for-companies' && $setting->key === 'how-advertise-work-for-companies')
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">   كيف تعمل الاعلانات (للشركات) </h4>
+                            <h4 class="card-title">   @lang('dashboard.how_advertise_work_for_companies') </h4>
 
                         </div>
                             <div class="card-body">
@@ -961,6 +983,7 @@
                                       action="{{ route('admin.settings.update', $setting->id) }}" enctype="multipart/form-data">
                                     @csrf
                                     @method('PATCH')
+                                    <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                     <div class="video-container d-flex flex-wrap" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
                                         <label for="">الفيديوهات الحالية</label>
                                         <div class="d-flex gap-2" style="display: flex; gap: 10px;">
@@ -988,7 +1011,7 @@
                                      style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
                                      lang="ar" dir="rtl">
                                     <div id="editor">
-                                        {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                        {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                     </div>
                                 </div>
                             </div>
@@ -1008,7 +1031,7 @@
                    @if ($page === 'how-advertise-work-for-users' && $setting->key === 'how-advertise-work-for-users')
                    <div class="card">
                        <div class="card-header">
-                           <h4 class="card-title">   كيف تعمل الاعلانات (للمستخدمين) </h4>
+                           <h4 class="card-title">  @lang('dashboard.how_advertise_work_for_users') </h4>
 
                        </div>
                            <div class="card-body">
@@ -1017,8 +1040,9 @@
                                      action="{{ route('admin.settings.update', $setting->id) }}" enctype="multipart/form-data">
                                    @csrf
                                    @method('PATCH')
+                                    <input type="hidden" name="language" value="{{ app()->getLocale() }}">
                                    <div class="video-container d-flex flex-wrap" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
-                                    <label for="">الفيديوهات الحالية</label>
+                                    <label for=""> @lang('dashboard.current_videos')</label>
                                     <div class="d-flex gap-2" style="display: flex; gap: 10px;">
                                         @if(is_array($setting?->value['videoPath']))
                                         @foreach($setting?->value['videoPath'] ?? [] as $video)
@@ -1044,7 +1068,7 @@
                                     style="width:100% !important; height:600px !important; over-flow:scroll; margin:auto"
                                     lang="ar" dir="rtl">
                                    <div id="editor">
-                                       {!! $setting->value['ar'] ?? 'نص اختباري' !!}
+                                       {!! $setting->value[app()->getLocale()] ?? 'نص اختباري' !!}
                                    </div>
                                </div>
                            </div>
@@ -1060,14 +1084,6 @@
                    </div>
                   @endif
 
-
-
-
-
-
-
-
-                  
 
                 @endforeach
                   
@@ -1150,10 +1166,12 @@
                      });
 
 
-
-
+// alert(document.documentElement.lang);
+                    // Initialize Quill editor
                     var toolbarOptions = [
-                        ['bold', 'italic', 'underline'], // toggled buttons
+                        ['bold', 'italic', 'underline'], // toggled buttons 
+                        
+                        // [{ 'size': ['14px', '16px', '18px'] }],
                         [{
                             'list': 'ordered'
                         }, {
@@ -1175,8 +1193,15 @@
                         },
                         theme: 'snow'
                     });
-                    quill.format('align', 'right');
-                    quill.format('direction', 'rtl');
+                     
+                  
+                    if(document.documentElement.lang == 'ar') {
+                        quill.format('direction', 'rtl');
+                          quill.format('align', 'right');
+                    }else{
+                      quill.format('direction', 'ltr');
+                      quill.format('align', 'left');
+                    }
                     // quill.on('text-change', function() {
                     //     $('#TextAreaUsageTerms').val($('#editor .ql-editor').html());
                     // });
