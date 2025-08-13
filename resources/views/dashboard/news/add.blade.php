@@ -54,7 +54,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="title_en">العنوان - باللغة الإنجليزية</label>
-                                            <textarea class="form-control" name="title_en" placeholder="العنوان بالإنجليزية" style="height:100px;">{{ old('title_en') }}</textarea>
+                                            <textarea class="form-control" dir="ltr" name="title_en" placeholder="العنوان بالإنجليزية" style="height:100px;">{{ old('title_en') }}</textarea>
                                             @error('title_en')
                                                 <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -62,7 +62,7 @@
 
                                         <div class="form-group">
                                             <label for="contentNews_en">المحتوي - باللغة الإنجليزية</label>
-                                            <textarea class="form-control" name="contentNews_en" placeholder="المحتوي بالإنجليزية" style="height:150px;">{{ old('contentNews_en') }}</textarea>
+                                            <textarea class="form-control" dir="ltr" name="contentNews_en" placeholder="المحتوي بالإنجليزية" style="height:150px;">{{ old('contentNews_en') }}</textarea>
                                             @error('contentNews_en')
                                                 <span style="font-size: 12px;" class="text-danger">{{ $message }}</span>
                                             @enderror

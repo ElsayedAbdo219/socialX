@@ -49,7 +49,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="title_en">{{ __('dashboard.title_en') }}</label>
-                                                <textarea class="form-control" name="title_en" style="height:100px;">{{ $News->title_en ?? old('title_en') }}</textarea>
+                                                <textarea class="form-control" name="title_en" dir="ltr" style="height:100px;">{{ $News->title_en ?? old('title_en') }}</textarea>
                                                 @error('title_en')
                                                     <span class="text-danger"
                                                         style="font-size:12px;">{{ $message }}</span>
@@ -58,7 +58,7 @@
 
                                             <div class="form-group">
                                                 <label for="contentNews_en">{{ __('dashboard.contentNews_en') }}</label>
-                                                <textarea class="form-control" name="contentNews_en" style="height:150px;">{{ $News->contentNews_en ?? old('contentNews_en') }}</textarea>
+                                                <textarea class="form-control" dir="ltr" name="contentNews_en" style="height:150px;">{{ $News->contentNews_en ?? old('contentNews_en') }}</textarea>
                                                 @error('contentNews_en')
                                                     <span class="text-danger"
                                                         style="font-size:12px;">{{ $message }}</span>
