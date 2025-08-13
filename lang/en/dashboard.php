@@ -412,6 +412,7 @@ return [
     'how_advertise_work_for_companies' => 'How Advertise Work For Companies',
     'advertise_Anceega' => 'Advertise Anceega',
     'save' => 'Save',
+    'title' => 'Title',
 
 
 
