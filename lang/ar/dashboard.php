@@ -387,6 +387,7 @@ return [
   'how_advertise_work_for_companies' => 'كيف تعمل الاعلانات (للشركات)'  ,
   'how_advertise_work_for_users' => 'كيف تعمل الاعلانات (للمستخدمين)',
   'advertise_Anceega' => 'اعلانات Anceega',
+  'save' => 'حفظ',
 
 
 
