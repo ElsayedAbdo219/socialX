@@ -53,6 +53,11 @@ class PostDatatable extends BaseDatatable
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
 
+            'price' => function ($model) {
+                $title = $model?->price ;
+                return view('components.datatable.includes.columns.title', compact('title'));
+            },
+
              'created_at' => function ($model) {
                 $title = Carbon::parse($model->created_at)->format('Y-m-d');
                 return view('components.datatable.includes.columns.title', compact('title'));
@@ -78,6 +83,7 @@ class PostDatatable extends BaseDatatable
             // Column::computed('image')->title(__('dashboard.image'))->className('text-center'),
             Column::computed('period')->title(__('dashboard.period'))->className('text-center'),
             Column::computed('is_published')->title(__('dashboard.is_published'))->className('text-center'),
+            Column::computed('price')->title(__('dashboard.price'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
             Column::computed('is_Active')->title(__('dashboard.is_Active'))->className('text-center'),
         ];
