@@ -29,7 +29,9 @@ class Post extends Model
         return Attribute::make(
             get: fn (mixed $value) => !is_null($value) ? url('storage/posts/'.$value) : null ,
         );
-    }
+    } 
+
+  
 
 
 

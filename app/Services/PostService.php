@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Member;
+use App\Models\AdsPrice;
 use App\Models\Promotion;
 use App\Enum\PostTypeEnum;
 use App\Enum\AdsStatusEnum;
@@ -28,43 +29,38 @@ class PostService
     }
     unset($dataValidatedChecked['type']);
     unset($dataValidatedChecked['coupon_code']);
+
     \DB::beginTransaction();
-
-    # when complete price details overview
-    // if(isset($dataValidatedChecked['coupon_code']) && !empty($dataValidatedChecked['coupon_code'])) {
-    //   $dataValidatedChecked['price'] = $dataValidatedChecked['price'] * ($dataValidatedChecked['coupon_code'] / 100);
-    // }
-
     if (!empty($dataValidatedChecked['image'])) {
       $dataValidatedChecked['image'] = basename(Storage::disk('public')->put('posts', $dataValidatedChecked['image']));
+      $adsPriceImage = AdsPrice::where('type', 'image')->select('price')->first();
+      $dataValidatedChecked['price'] = $adsPriceImage->price;
+
     }
+    
     if (!empty($dataValidatedChecked['file_name'])) {
       $filePath = 'posts/' . $dataValidatedChecked['file_name'];
       $fullPath = Storage::disk('public')->path($filePath); // مسار فعلي على السيرفر
-
-      //  if (file_exists($fullPath)) {
-        $getID3 = new \getID3;
-        $analysis = $getID3->analyze($fullPath);
-        // dd($analysis);
-        if (isset($analysis['playtime_seconds']) && $promotion && $analysis['playtime_seconds'] > $promotion->seconds) {
-          return response()->json([
-            'message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion->seconds . ' ثانية'
-          ], 422);
-        }
-        $dataValidatedChecked['file_name'] = basename($fullPath);
-      // } 
-      
-      // else {
-      //   return response()->json([
-      //     'message' => 'الملف غير موجود'
-      //   ], 404);
-      // }
+   // if (!file_exists($dataValidatedChecked['fullPath'])) {
+      $getID3 = new \getID3;
+      $analysis = $getID3->analyze($fullPath);
+      // dd($analysis);
+      if (isset($analysis['playtime_seconds']) && $promotion && $analysis['playtime_seconds'] > $promotion->seconds) {
+        return response()->json([
+          'message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion->seconds . ' ثانية'
+        ], 422);
+      }
+      $adsResolutionSecond = AdsPrice::where('resolution', $dataValidatedChecked['resolution'])->select('price')->first() ?? null;
+      if(!empty($dataValidatedChecked['coupon_code'])){
+        $dataValidatedChecked['price'] = $adsResolutionSecond->price * $analysis['playtime_seconds'] * $dataValidatedChecked['period']
+         * ($dataValidatedChecked['coupon_code'] / 100);
+      }else{
+        $dataValidatedChecked['price'] = $adsResolutionSecond?->price * $analysis['playtime_seconds'] * $dataValidatedChecked['period'] ;
+      }
+      $dataValidatedChecked['file_name'] = basename($fullPath);
     }
 
-
-
     $post = Post::create($dataValidatedChecked);
-
     $post->adsStatus()->create([
       'status' => AdsStatusEnum::PENDING
     ]);
