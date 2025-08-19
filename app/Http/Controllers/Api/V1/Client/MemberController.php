@@ -161,9 +161,11 @@ public function search(Request $request)
       }
 
       $post->type = 'original';
-      $post->user->is_following = Follow::where('followed_id', $post?->user->id)
-        ->where('follower_id', auth('api')->id())
-        ?->exists() ?? false;
+      if($post->user) {
+        $post->user->is_following = Follow::where('followed_id', $post?->user->id)
+          ->where('follower_id', auth('api')->id())
+          ?->exists() ?? false;
+      }
 
       $post->my_react = $post->reacts()->where('user_id', auth('api')->id())->first();
 
