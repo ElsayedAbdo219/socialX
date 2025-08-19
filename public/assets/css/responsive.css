@@ -10,6 +10,7 @@
     }
     .main-content{
         margin-left: 0;
+        background-color:#3A0CA3;
     }
     .toogle-bar.show{
         left: 270px;
