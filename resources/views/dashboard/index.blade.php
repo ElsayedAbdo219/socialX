@@ -160,7 +160,7 @@
                         <div class="row align-items-start">
                             <div class="col-lg-12" style="align-items: center">
                                <div class="page-title" style="text-align: center; margin-bottom: 10px;">
-                                    <div class="title" style="text-align: center !important; direction: ltr;">
+                                    <div class="title" style="text-align: center !important; float:none; direction: ltr;">
                                         <h3 style="color: white;">{{ __('dashboard.dashboard') }}</h3>
                                         <p style="color: white">{{ __('dashboard.welcome_to_dashboard') }} {{ Auth::user()->name }}</p>
                                     </div>
