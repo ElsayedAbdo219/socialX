@@ -10,7 +10,7 @@
 @section('content')
     <div class="app-content content">
         <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
+        {{-- <div class="header-navbar-shadow"></div> --}}
         <div class="content-wrapper">
             <x-dashboard.layouts.breadcrumb now="{{__('dashboard.add_notification')}}">
                 <li class="breadcrumb-item"><a href="{{route('admin.notification.index')}}">

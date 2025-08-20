@@ -15,7 +15,7 @@
 @section('content')
     <div class="app-content content">
         <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
+        {{-- <div class="header-navbar-shadow"></div> --}}
 
         <div class="content-wrapper">
             <x-dashboard.layouts.breadcrumb now="{{ __('dashboard.app_settings') }}">

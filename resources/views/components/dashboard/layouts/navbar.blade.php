@@ -1,4 +1,5 @@
-<nav class="header-navbar navbar-expand-lg navbar navbar-with-menu floating-nav navbar-light navbar-shadow">
+<nav class="header-navbar navbar-expand-lg navbar navbar-with-menu floating-nav navbar-light" 
+style="box-shadow: none; background-color:#3A0CA3; height: 80px;">
     <div class="navbar-wrapper">
         <div class="navbar-container content">
             <div class="navbar-collapse" id="navbar-mobile">
@@ -7,14 +8,14 @@
                         <li class="nav-item mobile-menu d-xl-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ficon feather icon-menu"></i></a></li>
                     </ul>
                     <ul class="nav navbar-nav bookmark-icons">
-                        <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i class="ficon feather icon-maximize"></i></a></li>
+                        <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i  style="color: white;" class="ficon feather icon-maximize"></i></a></li>
                     </ul>
                     {{-- <input type="text" placeholder="{{__('dashboard.Search')}}" class="search.." style="border-radius: 10px; align: center; border: 1px solid #ccc; width: 300px;height: 40px;margin: 0 90px;"  id="search-input" /> --}}
-                     <span style="font-size: 20px; margin: 0 90px;">
+                     <span style="font-size: 20px; margin: 0 90px; color:white;">
                       @lang('dashboard.welcome_to') 👋</span>
                       {{-- <div class="icon"></div> --}}
-                      <span style="font-size: 20px; font-weight: bold; color: #0073FF;">Admin</span>
-                      
+                      <span style="font-size: 20px; font-weight: bold; color: white;">Admin</span>
+
                   </div>
                 <form action="{{ route('admin.setLanguage') }}" method="POST">
                     @csrf
@@ -29,7 +30,7 @@
                 <ul class="nav navbar-nav float-right">
 
                     @if(auth()->user())
-                        <li class="dropdown dropdown-notification nav-item" id="notifications-icon" ><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span class="badge badge-pill badge-primary badge-up">{{auth()->user()->unreadNotifications()->count()}}</span></a>
+                        <li class="dropdown dropdown-notification nav-item" id="notifications-icon" ><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i style="color: #ccc" class="ficon feather icon-bell"></i><span class="badge badge-pill badge-primary badge-up">{{auth()->user()->unreadNotifications()->count()}}</span></a>
                             <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right" >
                                 <li class="dropdown-menu-header" >
                                     <div class="dropdown-header m-0 p-2">
@@ -77,3 +78,4 @@
         </div>
     </div>
 </nav>
+{{-- .navbar-floating .header-navbar-shadow  --}}

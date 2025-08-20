@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb default-breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{route('admin.home')}}">{{__('dashboard.dashboard')}}</a></li>
+                                <li class="breadcrumb-item" style="color: white;"><a href="{{route('admin.home')}}">{{__('dashboard.dashboard')}}</a></li>
                                 {{$slot}}
                                 <li class="breadcrumb-item active" aria-current="page">{{$now}}</li>
                             </ol>

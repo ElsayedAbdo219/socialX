@@ -1,5 +1,5 @@
 <!-- BEGIN: Footer-->
-<footer class="footer footer-static footer-light">
+<footer class="footer footer-static footer-light" style="color: white">
     <p class="clearfix blue-grey lighten-2 mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT
             &copy; 2025<a class="text-bold-800 grey darken-2" href="#" target="_blank">AnCeega,</a>All rights
             Reserved</span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i

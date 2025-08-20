@@ -5,7 +5,7 @@
 @section('content')
     <div class="app-content content">
         <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
+        {{-- <div class="header-navbar-shadow" style="display: none"></div> --}}
         <div class="content-wrapper">
             <div class="content-header row">
             </div>
@@ -154,16 +154,17 @@
                      --}}
 
 
-                <div class="main-content d-flex justify-content-center align-items-center min-vh-100 dashboard-wrapper">
+                <div class="main-content d-flex justify-content-center align-items-center min-vh-100 dashboard-wrapper"
+                 style="margin-left: 0">
                     <div class="dashboard-content container-fluid px-4">
                         <div class="row align-items-start">
-                            <div class="col-lg-12">
-                                <div class="page-title">
-                                    <div class="title" style="text-align: left; direction: ltr;">
-                                        <h3>{{ __('dashboard.dashboard') }}</h3>
-                                        <p>{{ __('dashboard.welcome_to_dashboard') }} {{ Auth::user()->name }}</p>
+                            <div class="col-lg-12" style="align-items: center">
+                               <div class="page-title" style="text-align: center; margin-bottom: 10px;">
+                                    <div class="title" style="text-align: center !important; direction: ltr;">
+                                        <h3 style="color: white;">{{ __('dashboard.dashboard') }}</h3>
+                                        <p style="color: white">{{ __('dashboard.welcome_to_dashboard') }} {{ Auth::user()->name }}</p>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
 
 
@@ -194,13 +195,22 @@
                                 ];
                             @endphp
                             @foreach ($cards as $card)
-                                <div class="col-lg-3 col-md-6 mb-1">
-                                    <div class="single-details text-center">
+                            {{-- @if($card['text'] ==  __('dashboard.number_of_advertises_this_day'))
+                            @dd($card)
+                            @endif --}}
+                            {{-- @dd($card) --}}
+                                <div class="col-lg-3 col-md-6" >
+                                    <div class="single-details text-center" 
+                                    @if($card['text'] == __('dashboard.number_of_advertises_this_day')) style="background-color:#FF9F43;" 
+                                    @elseif($card['text'] == __('dashboard.number_of_jobs_this_Day')) style="background-color:#FF6384;" 
+                                    @elseif($card['text'] == __('dashboard.number_of_companies')) style="background-color:#6C5CE7;" 
+                                    @elseif($card['text'] == __('dashboard.number_of_employees')) style="background-color:#5B3FFF;" 
+                                    @endif>
                                         <div class="icon mb-2">
                                             <img src="{{ asset('assets/images/' . $card['img']) }}" alt="icon">
                                         </div>
-                                        <h5>{{ $card['value'] }}</h5>
-                                        <span>{{ $card['text'] }}</span>
+                                        <h5 style="color: white">{{ $card['value'] }}</h5>
+                                        <span style="color: white">{{ $card['text'] }}</span>
                                     </div>
                                 </div>
                             @endforeach

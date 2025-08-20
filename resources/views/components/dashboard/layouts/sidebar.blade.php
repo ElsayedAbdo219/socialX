@@ -1,6 +1,6 @@
-<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
-    <div class="navbar-header">
-        <ul class="nav navbar-nav flex-row">
+<div class="main-menu menu-fixed menu-light menu-shadow" data-scroll-to-active="true" style="background-color:#2A2560 !important">
+    <div class="navbar-header" >
+        <ul class="nav navbar-nav flex-row" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;">
             <li class="nav-item mr-auto"><a class="navbar-brand" href="{{ route('admin.home') }}">
                     <div class="brand-logo">
                         {{-- <img style="width: 40px" src="{{ asset('dashboardAssets/app-assets/images/logo/logo.png') }}"> --}}
@@ -27,24 +27,27 @@
         </ul>
     </div>
     <div class="shadow-bottom"></div>
-    <div class="main-menu-content">
-        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" nav-item {{ Route::is('admin.home') ? 'active' : '' }}"><a href="{{ route('admin.home') }}"><i
-                        class="feather icon-home"></i><span class="menu-title"
+    <div class="main-menu-content" style="background: none;">
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" 
+        style="background:none; ">
+            <li class=" nav-item {{ Route::is('admin.home') ? 'active' : '' }}" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  >
+              <a href="{{ route('admin.home') }}" style="background: none"><i
+                        class="feather icon-home" ></i><span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;" 
                         data-i18n="Dashboard">{{ __('dashboard.dashboard') }}</span></a>
             </li>
 
 
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.main_page') }}</span>
+            <li class=" nav-item" style="background: none;"><a href="#"  style="background: none;"><i class="feather icon-layers"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.main_page') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
 
-                    <li class="{{ Route::is('admin.news.index') ? 'active' : '' }}">
-                        <a href="{{ route('admin.news.index') }}">
+                    <li class="{{ Route::is('admin.news.index') ? 'active' : '' }}" style="font-size:18px; 
+                    background: none; font-family:cairo">
+                        <a href="{{ route('admin.news.index') }}" style="background: none;">
                             <i class="feather icon-eye"></i>
-                            <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_news') }}</span>
+                            <span class="menu-item" data-i18n="List View" style="background: none;">{{ __('dashboard.show_news') }}</span>
                         </a>
                     </li>
 
@@ -62,10 +65,10 @@
             </li>
 
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-users"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.companies') }}</span>
+            <li class=" nav-item"><a href="#" style="background: none;" style="background: none;"><i class="feather icon-users"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.companies') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
 
                     <li class="{{ Route::is('admin.companies.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.companies.index') }}">
@@ -77,10 +80,10 @@
                 </ul>
             </li>
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.posts') }}</span>
+            <li class=" nav-item"><a href="#" style="background: none;" style="background: none;"><i class="feather icon-layers"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.posts') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
 
                     <li class="{{ Route::is('admin.posts.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.posts.index') }}">
@@ -92,10 +95,10 @@
                 </ul>
             </li>
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-send"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.advertises') }}</span>
+            <li class=" nav-item" style="background: none;"><a href="#" style="background: none;"><i class="feather icon-send"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.advertises') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
 
                     <li class="{{ Route::is('admin.advertises.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.advertises.index') }}">
@@ -107,10 +110,10 @@
                 </ul>
             </li>
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-dollar-sign"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.adsprice') }}</span>
+            <li class=" nav-item" style="background: none;"><a href="#" style="background: none;" style="background: none;"><i class="feather icon-dollar-sign"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.adsprice') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
 
                     <li class="{{ Route::is('admin.Ads-price.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.Ads-price.index') }}">
@@ -124,10 +127,10 @@
 
 
             {{-- promotions  --}}
-            <li class=" nav-item"><a href="#"><i class="feather icon-target"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.promotions') }}</span>
+            <li class=" nav-item" style="background: none;"><a href="#" style="background: none;" style="background: none;"><i class="feather icon-target"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.promotions') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
 
                     <li class="{{ Route::is('admin.promotions.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.promotions.index') }}">
@@ -141,10 +144,10 @@
 
 
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-user"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.employees') }}</span>
+            <li class=" nav-item" style="background: none;"><a href="#" style="background: none;"><i class="feather icon-user"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.employees') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
 
                     <li class="{{ Route::is('admin.employees.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.employees.index') }}">
@@ -157,10 +160,10 @@
             </li>
 
             {{-- sponsers  --}}
-            <li class=" nav-item"><a href="#"><i class="feather icon-user"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.sponsers') }}</span>
+            <li class=" nav-item" style="background: none;"><a href="#" style="background: none;"><i class="feather icon-user"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.sponsers') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
 
                     <li class="{{ Route::is('admin.sponsers.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.sponsers.index') }}">
@@ -173,10 +176,10 @@
             </li>
 
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.categories') }}</span>
+            <li class=" nav-item" style="background: none;"><a href="#" style="background: none;"><i class="feather icon-layers"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.categories') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
 
                     <li class="{{ Route::is('admin.categories.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.categories.index') }}">
@@ -191,10 +194,10 @@
 
 
 
-            <li class=" nav-item"><a href="#"><i class="feather icon-layers"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.skills') }}</span>
+            <li class=" nav-item" style="background: none;"><a href="#" style="background: none;"><i class="feather icon-layers"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.skills') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
 
                     <li class="{{ Route::is('admin.skills.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.skills.index') }}">
@@ -208,11 +211,11 @@
 
 
 
-            <li class=" nav-item">
-                <a href="#"><i class="feather icon-user-x"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.Complains') }}</span>
+            <li class=" nav-item" style="background: none;">
+                <a href="#" style="background: none;"><i class="feather icon-user-x"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.Complains') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
                     <li class="{{ Route::is('admin.complain.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.complain.index') }}">
                             <i class="feather icon-eye"></i>
@@ -224,10 +227,10 @@
 
             {{-- FQA --}}
             {{--            @can('patients') --}}
-            <li class=" nav-item"><a href="#"><i class="feather icon-help-circle"></i>
-                    <span class="menu-title" data-i18n="Data List">{{ __('dashboard.fqas') }}</span>
+            <li class=" nav-item" style="background: none;"><a href="#" style="background: none;"><i class="feather icon-help-circle"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.fqas') }}</span>
                 </a>
-                <ul class="menu-content">
+                <ul class="menu-content" style="background: none;">
                     <li class="{{ Route::is('admin.fqa.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.fqa.index') }}">
                             <i class="feather icon-eye"></i>
@@ -240,8 +243,8 @@
 
 
             {{-- settings --}}
-            <li class=" nav-item"><a href="{{ route('admin.settings.index') }}"><i
-                        class="feather icon-settings"></i><span class="menu-title"
+            <li class=" nav-item" style="background: none;"><a href="{{ route('admin.settings.index') }}"><i
+                        class="feather icon-settings"></i><span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;" 
                         data-i18n="Data List">{{ __('dashboard.app_settings') }}</span></a></li>
 
 

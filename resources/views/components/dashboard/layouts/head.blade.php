@@ -110,6 +110,17 @@
 
 
     <style>
+      /* body
+      {
+        background: linear-gradient(135deg, #0F1035, #3A0CA3);
+      } */
+       .menu-content {
+           background: none;
+      
+       }
+       .main-menu.menu-light .navigation > li ul li{
+        background: none;
+       }
         .card_stats {
             border: 1px solid #ddd;
             margin-right: 60px;

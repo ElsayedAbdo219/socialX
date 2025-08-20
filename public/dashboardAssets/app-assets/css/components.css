@@ -6,6 +6,7 @@ html {
   height: 100%;
   letter-spacing: .01rem; }
   html body {
+    background-color:#3A0CA3;
     height: 100%;
     background-color: #f8f8f8;
     direction: ltr;

@@ -1,4 +1,5 @@
 body {
+  background-color:#3A0CA3;
   font-size: 16px;
   line-height: 26px;
   font-family: 'Roboto', sans-serif;
@@ -416,6 +417,7 @@ img {
 .main-content {
   margin-left: 250px;
   padding: 40px 25px;
+  
 }
 
 .main-content .order-list {
