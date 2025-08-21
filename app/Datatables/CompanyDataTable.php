@@ -77,22 +77,22 @@ class CompanyDataTable extends BaseDatatable
         $title = $model?->email;
         return view('components.datatable.includes.columns.title', compact('title'));
       },
-      'verfication_account' => function ($model) {
-        $selected = $model->verfication_account;
-        return view('components.datatable.includes.columns.radio-button', [
-          'name' => 'verfication_account_' . $model->id, 
-          'options' => [
-            1 => __('dashboard.yes'),
-            0 =>  __('dashboard.no')
-          ],
-          'selected' => $selected,
-          'userId' => $model->id
-        ]);
-      },
-      'is_Active' => function ($model) {
-        $active = $model?->is_Active;
-        return view('components.datatable.includes.columns.active', compact('active'));
-      },
+      // 'verfication_account' => function ($model) {
+      //   $selected = $model->verfication_account;
+      //   return view('components.datatable.includes.columns.radio-button', [
+      //     'name' => 'verfication_account_' . $model->id, 
+      //     'options' => [
+      //       1 => __('dashboard.yes'),
+      //       0 =>  __('dashboard.no')
+      //     ],
+      //     'selected' => $selected,
+      //     'userId' => $model->id
+      //   ]);
+      // },
+      // 'is_Active' => function ($model) {
+      //   $active = $model?->is_Active;
+      //   return view('components.datatable.includes.columns.active', compact('active'));
+      // },
       'created_at' => function ($model) {
         $title = $model?->created_at;
         return view('components.datatable.includes.columns.title', compact('title'));
@@ -113,8 +113,8 @@ class CompanyDataTable extends BaseDatatable
       Column::computed('address')->title(__('dashboard.address'))->className('text-center'),
       Column::computed('website')->title(__('dashboard.website'))->className('text-center'),
       Column::computed('followers')->title(__('dashboard.followers'))->className('text-center'),
-      Column::computed('verfication_account')->title(__('dashboard.verfication_account'))->className('text-center'),
-      Column::computed('is_Active')->title(__('dashboard.status'))->className('text-center'),
+      // Column::computed('verfication_account')->title(__('dashboard.verfication_account'))->className('text-center'),
+      // Column::computed('is_Active')->title(__('dashboard.status'))->className('text-center'),
       Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 
     ];

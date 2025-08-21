@@ -73,10 +73,10 @@ class EmployeeDataTable extends BaseDatatable
       //     'userId' => $model->id
       //   ]);
       // },
-      'is_Active' => function ($model) {
-        $active = $model?->is_Active;
-        return view('components.datatable.includes.columns.active', compact('active'));
-      },
+      // 'is_Active' => function ($model) {
+      //   $active = $model?->is_Active;
+      //   return view('components.datatable.includes.columns.active', compact('active'));
+      // },
 
 
       'created_at' => function ($model) {
@@ -99,7 +99,7 @@ class EmployeeDataTable extends BaseDatatable
       Column::computed('address')->title(__('dashboard.address'))->className('text-center'),
       Column::computed('website')->title(__('dashboard.website'))->className('text-center'),
       // Column::computed('verfication_account')->title(__('dashboard.verfication_account'))->className('text-center'),
-      Column::computed('is_Active')->title(__('dashboard.status'))->className('text-center'),
+      // Column::computed('is_Active')->title(__('dashboard.status'))->className('text-center'),
       Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 
     ];
