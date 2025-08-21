@@ -51,11 +51,16 @@ class PostService
         ], 422);
       }
       $adsResolutionSecond = AdsPrice::where('resolution', $dataValidatedChecked['resolution'])->select('price')->first() ?? null;
+      $differenceOfDays = $dataValidatedChecked['end_date'] - $dataValidatedChecked['start_date'] > 1 ?
+      ($dataValidatedChecked['end_date'] - $dataValidatedChecked['start_date']) : 1;
+
       if(!empty($dataValidatedChecked['coupon_code'])){
         $dataValidatedChecked['price'] = $adsResolutionSecond->price * $analysis['playtime_seconds'] * $dataValidatedChecked['period']
+         * $differenceOfDays
          * ($dataValidatedChecked['coupon_code'] / 100);
       }else{
-        $dataValidatedChecked['price'] = $adsResolutionSecond?->price * $analysis['playtime_seconds'] * $dataValidatedChecked['period'] ;
+        $dataValidatedChecked['price'] = $adsResolutionSecond?->price * $analysis['playtime_seconds'] * $dataValidatedChecked['period']
+        * $differenceOfDays;
       }
       $dataValidatedChecked['file_name'] = basename($fullPath);
     }
