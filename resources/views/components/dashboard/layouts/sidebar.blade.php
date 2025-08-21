@@ -32,7 +32,7 @@
         </ul>
     </div>
     <div class="shadow-bottom"></div>
-    <div class="main-menu-content" style="background: none;">
+    <div class="main-menu-content" style="background: none; font-family: 'Dubai', sans-serif;"">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" 
         style="background:none; ">
             <li class=" nav-item {{ Route::is('admin.home') ? 'active' : '' }}" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  >

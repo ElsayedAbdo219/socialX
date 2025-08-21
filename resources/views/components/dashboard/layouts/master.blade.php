@@ -3,7 +3,7 @@
     @include('components.dashboard.layouts.head')
 
     <body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static   menu-collapsed" data-open="click" 
-    data-menu="vertical-menu-modern" data-col="2-columns" style="background-color:#1E1B47;">
+    data-menu="vertical-menu-modern" data-col="2-columns" style="background-color:#1E1B47; font-family: 'Dubai', sans-serif;">
         {{-- <input type="email" name="" id=""> --}}
       @include('components.dashboard.layouts.navbar')
 

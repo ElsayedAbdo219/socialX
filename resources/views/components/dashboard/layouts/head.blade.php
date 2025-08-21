@@ -87,7 +87,8 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-
+{{-- dubai font  --}}
+<link href="https://fonts.googleapis.com/css2?family=Dubai:wght@400;500;700&display=swap" rel="stylesheet">
 
 
     <!-- all css -->
@@ -110,10 +111,10 @@
 
 
     <style>
-      /* body
+       body
       {
-        background: linear-gradient(135deg, #0F1035, #3A0CA3);
-      } */
+        font-family: 'Dubai', sans-serif;
+      } 
        .menu-content {
            background: none;
       
