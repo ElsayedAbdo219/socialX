@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Post;
+use App\Enum\PostTypeEnum;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class DeleteExpiredPostsCommand extends Command
 {
@@ -25,6 +28,9 @@ class DeleteExpiredPostsCommand extends Command
      */
     public function handle()
     {
-        //
+        $posts = Post::whereStatus(PostTypeEnum::ADVERTISE)
+            ->where('end_date', '<', now())
+            ->delete();
+        Log::info('Expired posts deleted successfully.');
     }
 }
