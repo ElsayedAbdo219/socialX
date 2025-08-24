@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Post;
 use App\Enum\PostTypeEnum;
-use Google\Service\Storage;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
