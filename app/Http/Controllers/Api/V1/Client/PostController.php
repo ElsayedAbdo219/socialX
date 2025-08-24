@@ -2,16 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1\Client;
 
-use App\Models\Post;
-use App\Models\User;
-use App\Models\Intro;
-use App\Models\Follow;
-use App\Models\Member;
-use App\Models\AdsPrice;
-use App\Models\Promotion;
+use App\Models\{Post,User,Intro,Follow,Member,AdsPrice,Promotion,SharedPost};
 use App\Enum\PostTypeEnum;
 use App\Jobs\UploadAdsJob;
-use App\Models\SharedPost;
 use App\Enum\AdsStatusEnum;
 use Illuminate\Http\Request;
 use App\Services\PostService;
