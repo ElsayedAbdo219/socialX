@@ -30,7 +30,7 @@ class DeleteExpiredPostsCommand extends Command
   public function handle()
   {
     $posts = Post::whereStatus(PostTypeEnum::ADVERTISE)
-      ->where('end_date', '<', now())
+      ->where('end_date', '<=', now())
       ->get();
       // dd($posts->count());
       Log::info($posts);
