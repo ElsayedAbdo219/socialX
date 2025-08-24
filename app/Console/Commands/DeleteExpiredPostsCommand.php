@@ -31,15 +31,16 @@ class DeleteExpiredPostsCommand extends Command
   {
     $posts = Post::whereStatus(PostTypeEnum::ADVERTISE)
       ->where('end_date', '<', now())
-      ->delete();
+      ->get();
       // dd($posts->count());
       Log::info($posts);
-    foreach ($posts as $post) {
+    foreach ($posts ?? [] as $post) {
       if ($post->image)
         Storage::delete('posts/'.$post?->image);
       if ($post->video)
         Storage::delete('posts/'.$post?->file_name);
     }
+    $posts->each->delete();
     Log::info('Expired posts deleted successfully.');
   }
 }
