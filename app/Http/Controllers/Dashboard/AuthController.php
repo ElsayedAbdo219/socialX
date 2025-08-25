@@ -33,6 +33,7 @@ class AuthController extends Controller
 
   public function home()
   {
+    $members = Member::count();
     $companies = Member::where('type', UserTypeEnum::COMPANY)->count();
     $employees = Member::where('type', UserTypeEnum::EMPLOYEE)->count();
 
@@ -96,6 +97,7 @@ class AuthController extends Controller
     return view(
       'dashboard.index',
       [
+        'members' => $members,
         'companies' => $companies,
         'employees' => $employees,
         'activeCompanies' => $activeCompanies,

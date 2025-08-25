@@ -163,7 +163,8 @@
                                     <div class="title" style="text-align: center !important; font-family: 'Dubai', sans-serif; float:none; direction: ltr;">
                                         <h3 style="color: white; font-family: 'Dubai', sans-serif;">{{ __('dashboard.dashboard') }}</h3>
                                         <p style="color: white; font-family: 'Dubai', sans-serif;">{{ __('dashboard.welcome_to_dashboard') }} {{ Auth::user()->name }}</p>
-                                    </div>
+                                       <h3 style="color: white; font-family: 'Dubai', sans-serif;">{{ __('dashboard.number_of_members') }}: {{ $members }}</h3>
+                                      </div>
                                 </div> 
                             </div>
 

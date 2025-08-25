@@ -389,6 +389,7 @@ return [
   'advertise_Anceega' => 'اعلانات Anceega',
   'save' => 'حفظ',
   'title' => 'العنوان',
+  'number_of_members' => 'اجمالي عدد الأعضاء',
 
 
 

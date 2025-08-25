@@ -413,6 +413,7 @@ return [
     'advertise_Anceega' => 'Advertise Anceega',
     'save' => 'Save',
     'title' => 'Title',
+    'number_of_members' => 'Number of Members',
 
 
 
