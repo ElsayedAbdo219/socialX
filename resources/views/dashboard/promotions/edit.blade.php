@@ -187,9 +187,9 @@
     <!-- jquery js -->
     <script>
         $(document).ready(function() {
-            document.getElementById('promotion').addEventListener('input', function(e) {
-                this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
-            });
+            document.getElementById('promotion').addEventListener('input', function() {
+            this.value = this.value.replace(/[\u0600-\u06FF]/g, '');
+         });
 
             var validity = $('#validity').val();
             // console.log(validity);
