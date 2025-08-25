@@ -425,6 +425,9 @@ Route::name('education.')->prefix('education')->group(function () {
     // get search data 
     Route::get('headerSearch', [MemberController::class, 'search']); 
 
+    // check user work in this company or not!
+    Route::get('checkWorkingWithEmployee/{employee}', [MemberController::class, 'checkWorkingWithEmployee']); 
+
     # ads prices data
     Route::get('ads-prices', [AdsPriceController::class, 'index']);
 

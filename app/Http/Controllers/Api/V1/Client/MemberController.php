@@ -11,13 +11,14 @@ use App\Models\SharedPost;
 use App\Enum\AdsStatusEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use PhpOffice\PhpSpreadsheet\Calculation\Logical\Boolean;
 
 class MemberController extends Controller
 {
   private $Relations = ['user', 'views', 'comments.user', 'comments.commentsPeplied.user', 'comments.ReactsTheComment.user', 'reacts.user'];
 
-public function search(Request $request)
-{
+  public function search(Request $request)
+  {
     $paginateSize = (int) ($request->query('paginateSize') ?? 10);
     $type = $request->query('type');
 
@@ -25,16 +26,16 @@ public function search(Request $request)
     $postsLimit = $employeesLimit = $companiesLimit = 0;
 
     if ($type === 'posts') {
-        $postsLimit = $paginateSize;
+      $postsLimit = $paginateSize;
     } elseif ($type === 'employees') {
-        $employeesLimit = $paginateSize;
+      $employeesLimit = $paginateSize;
     } elseif ($type === 'companies') {
-        $companiesLimit = $paginateSize;
+      $companiesLimit = $paginateSize;
     } else {
-        $postsLimit = (int) ceil($paginateSize * 0.6);
-        $remaining = $paginateSize - $postsLimit;
-        $employeesLimit = (int) floor($remaining / 2);
-        $companiesLimit = $remaining - $employeesLimit;
+      $postsLimit = (int) ceil($paginateSize * 0.6);
+      $remaining = $paginateSize - $postsLimit;
+      $employeesLimit = (int) floor($remaining / 2);
+      $companiesLimit = $remaining - $employeesLimit;
     }
 
     // جلب البيانات الأصلية
@@ -44,68 +45,68 @@ public function search(Request $request)
 
     // قص الجزء المطلوب حسب الحد
     $posts = $postsLimit > 0 ? $allPosts->take($postsLimit)->map(function ($item) {
-        $item->group_type = 'posts';
-        return $item;
+      $item->group_type = 'posts';
+      return $item;
     }) : collect();
 
     $employees = $employeesLimit > 0 ? $allEmployees->take($employeesLimit)->map(function ($item) {
-        $item->group_type = 'employees';
-        return $item;
+      $item->group_type = 'employees';
+      return $item;
     }) : collect();
 
     $companies = $companiesLimit > 0 ? $allCompanies->take($companiesLimit)->map(function ($item) {
-        $item->group_type = 'companies';
-        return $item;
+      $item->group_type = 'companies';
+      return $item;
     }) : collect();
 
     // تعويض النقص لو النوع مش متحدد
     if (!$type) {
-        $totalFetched = $posts->count() + $employees->count() + $companies->count();
-        $missing = $paginateSize - $totalFetched;
+      $totalFetched = $posts->count() + $employees->count() + $companies->count();
+      $missing = $paginateSize - $totalFetched;
 
-        if ($missing > 0) {
-            if ($posts->count() < $allPosts->count()) {
-                $extra = $allPosts->slice($posts->count(), $missing)->map(function ($item) {
-                    $item->group_type = 'posts';
-                    return $item;
-                });
-                $posts = $posts->merge($extra);
-                $missing -= $extra->count();
-            }
-
-            if ($missing > 0 && $employees->count() < $allEmployees->count()) {
-                $extra = $allEmployees->slice($employees->count(), $missing)->map(function ($item) {
-                    $item->group_type = 'employees';
-                    return $item;
-                });
-                $employees = $employees->merge($extra);
-                $missing -= $extra->count();
-            }
-
-            if ($missing > 0 && $companies->count() < $allCompanies->count()) {
-                $extra = $allCompanies->slice($companies->count(), $missing)->map(function ($item) {
-                    $item->group_type = 'companies';
-                    return $item;
-                });
-                $companies = $companies->merge($extra);
-            }
+      if ($missing > 0) {
+        if ($posts->count() < $allPosts->count()) {
+          $extra = $allPosts->slice($posts->count(), $missing)->map(function ($item) {
+            $item->group_type = 'posts';
+            return $item;
+          });
+          $posts = $posts->merge($extra);
+          $missing -= $extra->count();
         }
+
+        if ($missing > 0 && $employees->count() < $allEmployees->count()) {
+          $extra = $allEmployees->slice($employees->count(), $missing)->map(function ($item) {
+            $item->group_type = 'employees';
+            return $item;
+          });
+          $employees = $employees->merge($extra);
+          $missing -= $extra->count();
+        }
+
+        if ($missing > 0 && $companies->count() < $allCompanies->count()) {
+          $extra = $allCompanies->slice($companies->count(), $missing)->map(function ($item) {
+            $item->group_type = 'companies';
+            return $item;
+          });
+          $companies = $companies->merge($extra);
+        }
+      }
     }
 
     // الدمج والترتيب
     $merged = collect()
-        ->merge($posts)
-        ->merge($employees)
-        ->merge($companies)
-        ->sortByDesc('created_at')
-        ->values();
+      ->merge($posts)
+      ->merge($employees)
+      ->merge($companies)
+      ->sortByDesc('created_at')
+      ->values();
 
     // احتساب العدد الإجمالي
     $total = match ($type) {
-        'posts' => $allPosts->count(),
-        'employees' => $allEmployees->count(),
-        'companies' => $allCompanies->count(),
-        default => $allPosts->count() + $allEmployees->count() + $allCompanies->count(),
+      'posts' => $allPosts->count(),
+      'employees' => $allEmployees->count(),
+      'companies' => $allCompanies->count(),
+      default => $allPosts->count() + $allEmployees->count() + $allCompanies->count(),
     };
 
     // تنفيذ الباجينيت الصحيح
@@ -113,9 +114,9 @@ public function search(Request $request)
 
     // تحديد المجموعات حسب النوع
     $grouped = [
-        'posts' => $type && $type !== 'posts' ? collect() : $posts->values(),
-        'employees' => $type && $type !== 'employees' ? collect() : $employees->values(),
-        'companies' => $type && $type !== 'companies' ? collect() : $companies->values(),
+      'posts' => $type && $type !== 'posts' ? collect() : $posts->values(),
+      'employees' => $type && $type !== 'employees' ? collect() : $employees->values(),
+      'companies' => $type && $type !== 'companies' ? collect() : $companies->values(),
     ];
 
     // إرجاع البيانات مع تفاصيل الباجينيت
@@ -123,7 +124,7 @@ public function search(Request $request)
     $paginatedArray['data'] = $grouped;
 
     return response()->json($paginatedArray);
-}
+  }
 
   public function searchPosts(Request $request)
   {
@@ -161,7 +162,7 @@ public function search(Request $request)
       }
 
       $post->type = 'original';
-      if($post->user) {
+      if ($post->user) {
         $post->user->is_following = Follow::where('followed_id', $post?->user->id)
           ->where('follower_id', auth('api')->id())
           ?->exists() ?? false;
@@ -260,6 +261,11 @@ public function search(Request $request)
     return $baseQuery->get();
   }
 
-
-  
+  public function checkWorkingWithEmployee($employeeId) : bool
+  {
+    return Member::find($employeeId)?->experience
+      ->pluck('company_id')
+      ->unique()
+      ->contains(auth('api')->user()->id) ? true : false ;
+  }
 }
