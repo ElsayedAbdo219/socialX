@@ -22,7 +22,7 @@ class DeleteExpiredPostsCommand extends Command
    *
    * @var string
    */
-  protected $description = 'Command description';
+  protected $description = 'delete expired posts';
 
   /**
    * Execute the console command.
