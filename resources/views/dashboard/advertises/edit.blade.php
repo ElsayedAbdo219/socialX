@@ -8,7 +8,7 @@
         <div class="content-overlay"></div>
         {{-- <div class="header-navbar-shadow"></div> --}}
         <div class="content-wrapper">
-            <x-dashboard.layouts.breadcrumb now="{{$Advertise?->user->full_name}}">
+            <x-dashboard.layouts.breadcrumb now="{{$Advertise?->user?->full_name}}">
                 <li class="breadcrumb-item"><a href="{{route('admin.advertises.index')}}">
                         {{__('dashboard.edit_advertise')}}
                     </a></li>
