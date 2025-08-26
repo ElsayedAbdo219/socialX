@@ -12,8 +12,9 @@ class AdsArchieveDatatable extends BaseDatatable
     // edit // delete ?
     public function query(): Builder
   {
+    
     return Post::query()->where('status', 'advertise')
-    ->where('deleted_at','!=', null)
+    ->onlyTrashed()
     ->when(request('search')['value'], function ($q) {
       $q->ofName(request('search')['value']);
     })->with('adsStatus')->latest();

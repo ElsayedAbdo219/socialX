@@ -18,6 +18,8 @@ class AdsArchieveController extends Controller
 
     public function index()
     {
+      // dd(Post::withTrashed()->count());
+
         return $this->datatable::create($this->route)
             ->render($this->viewPath);
     }
