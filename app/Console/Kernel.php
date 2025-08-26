@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('app:delete-expired-posts-command')->withoutOverlapping()->daily();
+        $schedule->command('app:control-activation-ads-command')->withoutOverlapping()->everyMinute();
         // $schedule->command('queue:work --daemon --tries=3')
         //     ->cron('* * * * *')->withoutOverlapping(5);
         // $schedule->command('queue:restart')->cron('*/5 * * * *');

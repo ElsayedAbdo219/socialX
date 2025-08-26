@@ -24,21 +24,21 @@ class PostRequest extends FormRequest
     {
         $types = implode(',', array_keys(PostTypeEnum::toArray()));
     
-        $file = $this->file('file_name');
-        $videoExtensions = ['mp4', 'avi', 'mov'];
-        $isVideo = $file && in_array($file->getClientOriginalExtension(), $videoExtensions) && $this->type == PostTypeEnum::ADVERTISE;
+        // $file = $this->file('file_name');
+        // $videoExtensions = ['mp4', 'avi', 'mov'];
+        // $isVideo = $file && in_array($file->getClientOriginalExtension(), $videoExtensions) && $this->type == PostTypeEnum::ADVERTISE;
     
         return [
             'type' => ['required', 'in:'.$types],
             'content' => ['nullable', 'string'],
             'file_name' => ['nullable', 'string'],
             'image'  => ['nullable', 'image','mimes:jpg,jpeg,png,wepb'],
-            'period' => [Rule::requiredIf($isVideo), 'string'],
-            'resolution' => [Rule::requiredIf($isVideo), 'numeric', 'in:720,1080,1440,2160'],
-            'start_time' => [Rule::requiredIf($isVideo), 'date_format:H:i'],
-            'end_time' => [Rule::requiredIf($isVideo), 'date_format:H:i'],
-            'start_date' => [Rule::requiredIf($isVideo), 'date'],
-            'end_date' => [Rule::requiredIf($isVideo), 'date'],
+            'period' => ['required', 'string'],
+            'resolution' => ['required', 'numeric', 'in:720,1080,1440,2160'],
+            'start_time' => ['required', 'date_format:H:i'],
+            'end_time' => ['required', 'date_format:H:i'],
+            'start_date' => ['required', 'date'],
+            'end_date' => ['required', 'date'],
             'coupon_code' => ['nullable', 'string'],
             // 'chunk_number' => ['nullable', 'numeric'],
             
