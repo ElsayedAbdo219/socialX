@@ -158,7 +158,7 @@ class AdvertiseController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        Storage::disk('public')->delete('companies/' . $post->file_name);
+        Storage::disk('public')->delete('posts/' . $post->file_name);
         if (request()->expectsJson()) {
             return self::apiCode(200)->apiResponse();
         }

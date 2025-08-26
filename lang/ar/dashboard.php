@@ -390,6 +390,8 @@ return [
   'save' => 'حفظ',
   'title' => 'العنوان',
   'number_of_members' => 'اجمالي عدد الأعضاء',
+  'ads_archieve' => 'أرشيف الاعلانات',
+  'show_ads_archieve' => 'عرض أرشيف الاعلانات'
 
 
 

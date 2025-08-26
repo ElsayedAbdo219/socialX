@@ -32,7 +32,7 @@
         </ul>
     </div>
     <div class="shadow-bottom"></div>
-    <div class="main-menu-content" style="background: none; font-family: 'Dubai', sans-serif;"">
+    <div class="main-menu-content" style="background: none; font-family: 'Dubai', sans-serif;">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" 
         style="background:none; ">
             <li class=" nav-item {{ Route::is('admin.home') ? 'active' : '' }}" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  >
@@ -94,6 +94,21 @@
                         <a href="{{ route('admin.posts.index') }}">
                             <i class="feather icon-eye"></i>
                             <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_posts') }}</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+              {{-- (ads) archieve  --}}
+              <li class=" nav-item"><a href="#" style="background: none;" style="background: none;"><i class="feather icon-layers"></i>
+                    <span class="menu-title" style="color:white;font-family: 'Cairo', sans-serif; font-weight: bold;"  data-i18n="Data List">{{ __('dashboard.ads_archieve') }}</span>
+                </a>
+                <ul class="menu-content" style="background: none;">
+
+                    <li class="{{ Route::is('admin.ads-archieve.index') ? 'active' : '' }}">
+                        <a href="{{ route('admin.ads-archieve.index') }}">
+                            <i class="feather icon-eye"></i>
+                            <span class="menu-item" data-i18n="List View">{{ __('dashboard.show_ads_archieve') }}</span>
                         </a>
                     </li>
 

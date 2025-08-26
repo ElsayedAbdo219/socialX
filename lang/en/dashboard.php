@@ -414,6 +414,8 @@ return [
     'save' => 'Save',
     'title' => 'Title',
     'number_of_members' => 'Number of Members',
+    'ads_archieve' => 'Ads Archieve',
+    'show_ads_archieve' => 'Show Ads Archieve',
 
 
 

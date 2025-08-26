@@ -22,7 +22,8 @@ use App\Http\Controllers\Dashboard\{
   SponserController,
   PromotionController,
   AdsPriceController,
-  MemberController
+  MemberController,
+  AdsArchieveController
 };
 use App\Jobs\MergeChunkAdsJob;
 use App\Jobs\UploadAdsJob;
@@ -179,6 +180,11 @@ Route::name('admin.')->prefix('admin')->group(function () {
     # advertises
     Route::resource('advertises', AdvertiseController::class);
 
+    # ads-archieve
+    Route::resource('ads-archieve', AdsArchieveController::class);
+
+      
+
     # category
     Route::resource('categories', CategoryController::class);
     # skills
@@ -193,6 +199,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
     # ads price 
     Route::resource('Ads-price', AdsPriceController::class);
+    
 
 // change verification status for users
     Route::post('change-verification-status', [MemberController::class, 'changeVerificationStatus']); 
