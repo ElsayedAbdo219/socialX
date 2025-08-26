@@ -14,9 +14,9 @@ style="box-shadow: none; background-color:#3A0CA3; height: 80px;">
                      <span style="font-size: 20px; margin: 0 90px; color:white;">
                       @lang('dashboard.welcome_to') 👋</span>
                       {{-- <div class="icon"></div> --}}
-                      <span style="font-size: 20px; font-weight: bold; color: white;">Admin</span>
+                      <span style="font-size: 20px; font-weight: bold; color: white;">Admin sayed</span>
 
-                      
+
                   </div>
                 <form action="{{ route('admin.setLanguage') }}" method="POST">
                     @csrf
