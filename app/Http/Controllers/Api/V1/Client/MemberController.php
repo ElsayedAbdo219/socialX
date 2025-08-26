@@ -12,6 +12,7 @@ use App\Enum\AdsStatusEnum;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use PhpOffice\PhpSpreadsheet\Calculation\Logical\Boolean;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MemberController extends Controller
 {
@@ -261,11 +262,14 @@ class MemberController extends Controller
     return $baseQuery->get();
   }
 
-  public function checkWorkingWithEmployee($employeeId) : bool
+  public function checkWorkingWithEmployee($employeeId) 
   {
-    return Member::find($employeeId)?->experience
+    $checkWorked = Member::find($employeeId)?->experience
       ->pluck('company_id')
       ->unique()
-      ->contains(auth('api')->user()->id) ? true : false ;
+      ->contains(auth('api')->user()->id);
+      if($checkWorked) 
+      return response()->json(['status' => true]);
+      return response()->json(['status' => false]);
   }
 }
