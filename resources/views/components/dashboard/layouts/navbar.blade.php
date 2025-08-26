@@ -16,6 +16,7 @@ style="box-shadow: none; background-color:#3A0CA3; height: 80px;">
                       {{-- <div class="icon"></div> --}}
                       <span style="font-size: 20px; font-weight: bold; color: white;">Admin</span>
 
+                      
                   </div>
                 <form action="{{ route('admin.setLanguage') }}" method="POST">
                     @csrf
