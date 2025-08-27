@@ -5,67 +5,89 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use App\Models\Post;
 use App\Enum\PostTypeEnum;
+use Google\Service\Storage;
 use Illuminate\Console\Command;
 
 class ControlActivationAdsCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:control-activation-ads-command';
+  /**
+   * The name and signature of the console command.
+   *
+   * @var string
+   */
+  protected $signature = 'app:control-activation-ads-command';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command to approved or cancel ads (images or videos)';
+  /**
+   * The console command description.
+   *
+   * @var string
+   */
+  protected $description = 'Command to approved or cancel ads (images or videos)';
 
-    /**
-     * Execute the console command.
-     */
-    public function handle()
-    {
-      $now = Carbon::now();
-      $today = $now->format('Y-m-d');
+  /**
+   * Execute the console command.
+   */
+  public function handle()
+  {
+    $now = Carbon::now();
+    $today = $now->format('Y-m-d');
 
-        $ads = Post::where('type', PostTypeEnum::ADVERTISE)
-            ->whereDate('start_date', '<=', $today)
-            ->whereDate('end_date', '>=', $today)
-            ->whereTime('start_time', '<=', $now->format('H:i:s'))
-            ->whereTime('end_time', '>=', $now->format('H:i:s'))
-            ->get();
+    $ads = Post::where('status', PostTypeEnum::ADVERTISE)
+      ->whereDate('start_date', '<=', $today)
+      ->whereDate('end_date', '>=', $today)
+      ->whereTime('start_time', '<=', $now->format('H:i:s'))
+      ->whereTime('end_time', '>=', $now->format('H:i:s'))
+      ->get();
 
-        foreach ($ads as $ad) {
-          if(isset($ad->image) && $ad->image) {
-            $ad->update(['is_Active' => 1 ]);
-            $this->info("Ad {$ad->id} is an image and activated.");
-
-
-          }else{
-            $totalPeriod = Carbon::parse($ad->start_time)->diffInMinutes($ad->end_time);
-            $interval = $totalPeriod / $ad->play_times;
-
-            $lastPlayed = $ad->last_played_at ? Carbon::parse($ad->last_played_at) : null;
-
-            if (!$lastPlayed || $now->diffInMinutes($lastPlayed) >= $interval) {
-                
-                $ad->status = 1;
-                $ad->last_played_at = $now;
-                $ad->save();
-
-                dispatch(function () use ($ad) {
-                    sleep($ad->duration * 60); 
-                    $ad->update(['is_Active' => 0 ]);
-                });
-
-                $this->info("Ad {$ad->id} started at {$now}");
-            }
-        }
-        }
-    
-
+    foreach ($ads as $ad) {
+      $this->generateFlexibleScheduleVideo($ad, $now);
     }
+  }
+
+  # this function to active or not the video control (ad)###
+  private function generateFlexibleScheduleVideo($ad)
+  {
+    $start = Carbon::parse($ad->start_time);
+    $end = Carbon::parse($ad->end_time);
+
+    $totalHours = $start->diffInHours($end);
+    $totalPlays = $ad->period;
+    $basePerHour = intdiv($totalPlays, $totalHours);
+    $extra = $totalPlays % $totalHours;
+
+    for ($i = 0; $i < $totalHours; $i++) {
+      $currentHourStart = $start->copy()->addHours($i);
+      $playsThisHour = $basePerHour + ($i < $extra ? 1 : 0);
+      if ($playsThisHour > 0) {
+        $minutes = collect(range(0, 59))->random($playsThisHour)->sort();
+        foreach ($minutes as $minute) {
+          $playTime = $currentHourStart->copy()->addMinutes($minute);
+          $filePath = 'posts/' . $ad->file_name;
+          $fullPath = Storage::disk('public')->path($filePath);
+          $getID3 = new \getID3;
+          $analysis = $getID3->analyze($fullPath);
+
+          dispatch(function () use ($ad, $playTime) {
+            $delay = now()->diffInSeconds($playTime, false);
+            if ($delay > 0) {
+              sleep($delay);
+            }
+
+            $ad->update(['is_Active' => 1]);
+
+            $videoDuration = $analysis['playtime_seconds'] ?? 1;
+            if (isset($ad->file_name)) {
+              sleep($videoDuration / 60);
+              $ad->update(['is_Active' => 0]);
+            } else {
+              sleep(60);
+              $ad->update(['is_Active' => 0]);
+            }
+          });
+        }
+      }
+    }
+
+    $this->info("Ad {$ad->id} scheduled to run {$totalPlays} times between {$start} and {$end}");
+  }
 }
