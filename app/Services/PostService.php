@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Member;
@@ -51,8 +52,8 @@ class PostService
         ], 422);
       }
       $adsResolutionSecond = AdsPrice::where('resolution', $dataValidatedChecked['resolution'])->select('price')->first() ?? null;
-      $differenceOfDays = $dataValidatedChecked['end_date'] - $dataValidatedChecked['start_date'] > 1 ?
-      ($dataValidatedChecked['end_date'] - $dataValidatedChecked['start_date']) : 1;
+      $differenceOfDays = Carbon::parse($dataValidatedChecked['end_date'])->diffInDays(Carbon::parse($dataValidatedChecked['start_date'])) > 1 ?
+      Carbon::parse($dataValidatedChecked['end_date'])->diffInDays(Carbon::parse($dataValidatedChecked['start_date'])) : 1;
 
       if(!empty($dataValidatedChecked['coupon_code'])){
         $dataValidatedChecked['price'] = $adsResolutionSecond->price * $analysis['playtime_seconds'] * $dataValidatedChecked['period']
