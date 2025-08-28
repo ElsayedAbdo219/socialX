@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use App\Models\Post;
 use App\Enum\PostTypeEnum;
-use Google\Service\Storage;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Console\Command;
 
 class ControlActivationAdsCommand extends Command
