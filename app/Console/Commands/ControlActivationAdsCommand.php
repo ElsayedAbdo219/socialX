@@ -5,8 +5,9 @@ namespace App\Console\Commands;
 use Carbon\Carbon;
 use App\Models\Post;
 use App\Enum\PostTypeEnum;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ControlActivationAdsCommand extends Command
 {
@@ -38,14 +39,17 @@ class ControlActivationAdsCommand extends Command
       ->whereTime('start_time', '<=', $now->format('H:i:s'))
       ->whereTime('end_time', '>=', $now->format('H:i:s'))
       ->get();
+      // dd($ads);
 
     foreach ($ads as $ad) {
+      Log::info("Processing Ad ID: {$ad->id}");
       $this->generateFlexibleScheduleVideo($ad, $now);
     }
   }
 
   # this function to active or not the video control (ad)###
   private function generateFlexibleScheduleVideo($ad)
+  
   {
     $start = Carbon::parse($ad->start_time); # 5
     $end = Carbon::parse($ad->end_time); # 12
@@ -74,6 +78,7 @@ class ControlActivationAdsCommand extends Command
             }
 
             $ad->update(['is_Active' => 1]);
+            Log::info("Ad {$ad->id} activated at {$playTime}");
 
             $videoDuration = $analysis['playtime_seconds'] ?? 1;
             if (isset($ad->file_name)) {
