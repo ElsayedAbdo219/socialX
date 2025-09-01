@@ -2,6 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\{
+  ActivateAdJob,
+  DeactivateAdJob
+};
 use Carbon\Carbon;
 use App\Models\Post;
 use App\Enum\PostTypeEnum;
@@ -29,70 +33,62 @@ class ControlActivationAdsCommand extends Command
    * Execute the console command.
    */
   public function handle()
-  {
+{
     $now = Carbon::now();
-    $today = $now->format('Y-m-d');
 
     $ads = Post::where('status', PostTypeEnum::ADVERTISE)
-      ->whereDate('start_date', '<=', $today)
-      ->whereDate('end_date', '>=', $today)
-      ->whereTime('start_time', '<=', $now->format('H:i:s'))
-      ->whereTime('end_time', '>=', $now->format('H:i:s'))
-      ->get();
-      // dd($ads);
+        ->whereDate('start_date', '<=', $now->toDateString())
+        ->whereDate('end_date', '>=', $now->toDateString())
+        ->whereTime('start_time', '<=', $now->toTimeString())
+        ->whereTime('end_time', '>=', $now->toTimeString())
+        ->get();
 
     foreach ($ads as $ad) {
-      Log::info("Processing Ad ID: {$ad->id}");
-      $this->generateFlexibleScheduleVideo($ad, $now);
+        Log::info("Processing Ad ID: {$ad->id}");
+        $this->scheduleAd($ad);
     }
-  }
+}
 
-  # this function to active or not the video control (ad)###
-  private function generateFlexibleScheduleVideo($ad)
+private function scheduleAd(Post $ad)
+{
+    $start = Carbon::parse("{$ad->start_date} {$ad->start_time}");
+    $end = Carbon::parse("{$ad->end_date} {$ad->end_time}");
 
-  {
-    $start = Carbon::parse($ad->start_time); # 5
-    $end = Carbon::parse($ad->end_time); # 12
+    $totalHours = $start->diffInHours($end);
+    if ($totalHours <= 0) {
+        Log::warning("Ad {$ad->id} has invalid time range.");
+        return;
+    }
 
-    $totalHours = $start->diffInHours($end); # 7
-    $totalPlays = $ad->period; # 10
-    $basePerHour = intdiv($totalPlays, $totalHours); # 1
-    $extra = $totalPlays % $totalHours; # 3
+    $totalPlays = $ad->period;
+    $basePerHour = intdiv($totalPlays, $totalHours);
+    $extra = $totalPlays % $totalHours;
+
     Log::info("Scheduling Ad {$ad->id} - Base Plays/Hour: {$basePerHour}, Extra Plays: {$extra}");
+
+    $filePath = 'posts/' . $ad->file_name;
+    $fullPath = Storage::disk('public')->path($filePath);
+
+    $getID3 = new \getID3;
+    $analysis = $getID3->analyze($fullPath);
+    $videoDuration = $analysis['playtime_seconds'] ?? 60; // seconds
+
     for ($i = 0; $i < $totalHours; $i++) {
-      $currentHourStart = $start->copy()->addHours($i);
-      $playsThisHour = $basePerHour + ($i < $extra ? 1 : 0);
-      if ($playsThisHour > 0) {
-        $minutes = collect(range(0, 59))->random($playsThisHour)->sort();
-        foreach ($minutes as $minute) {
-          $playTime = $currentHourStart->copy()->addMinutes($minute);
-          $filePath = 'posts/' . $ad->file_name;
-          $fullPath = Storage::disk('public')->path($filePath);
-          $getID3 = new \getID3;
-          $analysis = $getID3->analyze($fullPath);
+        $currentHourStart = $start->copy()->addHours($i);
+        $playsThisHour = $basePerHour + ($i < $extra ? 1 : 0);
 
-          dispatch(function () use ($ad, $playTime) {
-            $delay = now()->diffInSeconds($playTime, false);
-            if ($delay > 0) {
-              sleep($delay);
+        if ($playsThisHour > 0) {
+            $minutes = collect(range(0, 59))->shuffle()->take($playsThisHour)->sort();
+
+            foreach ($minutes as $minute) {
+                $playTime = $currentHourStart->copy()->addMinutes($minute);
+                // Dispatch a delayed job for activation
+                ActivateAdJob::dispatch($ad->id, $videoDuration)
+                    ->delay($playTime);
             }
-
-            $ad->update(['is_Active' => 1]);
-            Log::info("Ad {$ad->id} activated at {$playTime}");
-
-            $videoDuration = $analysis['playtime_seconds'] ?? 1;
-            if (isset($ad->file_name)) {
-              sleep($videoDuration / 60);
-              $ad->update(['is_Active' => 0]);
-            } else {
-              sleep(60);
-              $ad->update(['is_Active' => 0]);
-            }
-          });
         }
-      }
     }
 
-    $this->info("Ad {$ad->id} scheduled to run {$totalPlays} times between {$start} and {$end}");
-  }
+    Log::info("Ad {$ad->id} scheduled to run {$totalPlays} times between {$start} and {$end}");
+}
 }
