@@ -49,7 +49,7 @@ class ControlActivationAdsCommand extends Command
 
   # this function to active or not the video control (ad)###
   private function generateFlexibleScheduleVideo($ad)
-  
+
   {
     $start = Carbon::parse($ad->start_time); # 5
     $end = Carbon::parse($ad->end_time); # 12
@@ -58,7 +58,7 @@ class ControlActivationAdsCommand extends Command
     $totalPlays = $ad->period; # 10
     $basePerHour = intdiv($totalPlays, $totalHours); # 1
     $extra = $totalPlays % $totalHours; # 3
-
+    Log::info("Scheduling Ad {$ad->id} - Base Plays/Hour: {$basePerHour}, Extra Plays: {$extra}");
     for ($i = 0; $i < $totalHours; $i++) {
       $currentHourStart = $start->copy()->addHours($i);
       $playsThisHour = $basePerHour + ($i < $extra ? 1 : 0);
