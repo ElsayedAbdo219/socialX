@@ -556,7 +556,7 @@ class PostController extends Controller
     ->toDisk('public')
     ->inFormat(
         (new \FFMpeg\Format\Video\X264('aac', 'libx264'))
-            ->setKiloBitrate(1000) 
+            ->setKiloBitrate(1000)  # تقليل جودة الفيديو ل 480
     )
     ->save($convertedPath);
 
