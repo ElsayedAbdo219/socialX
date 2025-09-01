@@ -42,10 +42,11 @@ class PostService
     if (!empty($dataValidatedChecked['file_name'])) {
       $filePath = 'posts/' . $dataValidatedChecked['file_name'];
       $fullPath = Storage::disk('public')->path($filePath); // مسار فعلي على السيرفر
-   // if (!file_exists($dataValidatedChecked['fullPath'])) {
+      // dd($fullPath);
+   if (file_exists($fullPath)) {
       $getID3 = new \getID3;
       $analysis = $getID3->analyze($fullPath);
-      // dd($analysis);
+      dd($analysis);
       if (isset($analysis['playtime_seconds']) && $promotion && $analysis['playtime_seconds'] > $promotion->seconds) {
         return response()->json([
           'message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion->seconds . ' ثانية'
@@ -60,10 +61,12 @@ class PostService
          * $differenceOfDays
          * ($dataValidatedChecked['coupon_code'] / 100);
       }else{
-        $dataValidatedChecked['price'] = $adsResolutionSecond?->price * $analysis['playtime_seconds'] * $dataValidatedChecked['period']
+        $dataValidatedChecked['price'] = $adsResolutionSecond?->price * $analysis['playtime_seconds'] 
+        * $dataValidatedChecked['period']
         * $differenceOfDays;
       }
       $dataValidatedChecked['file_name'] = basename($fullPath);
+    }
     }
 
     $post = Post::create($dataValidatedChecked);
