@@ -551,12 +551,15 @@ class PostController extends Controller
     $convertedPath = 'posts/' . $convertedFileName;
 
     \FFMpeg::fromDisk('public')
-      ->open($file)
-      ->export()
-      ->toDisk('public')
-      ->inFormat(new \FFMpeg\Format\Video\X264('aac', 'libx264'))
-      ->resize(854, 480)
-      ->save($convertedPath);
+    ->open($file)
+    ->export()
+    ->toDisk('public')
+    ->inFormat(
+        (new \FFMpeg\Format\Video\X264('aac', 'libx264'))
+            ->setKiloBitrate(1000) 
+    )
+    ->save($convertedPath);
+
 
     Storage::disk('public')->delete($file);
 
