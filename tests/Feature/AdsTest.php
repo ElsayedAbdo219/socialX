@@ -7,7 +7,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;PostService
+use Illuminate\Http\UploadedFile;
 
 class AdsTest extends TestCase
 {
