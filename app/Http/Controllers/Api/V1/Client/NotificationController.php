@@ -34,6 +34,20 @@ class NotificationController extends Controller
         
         return response()->json(['message' => 'تم تحديث الإشعار بنجاح'], 200);
     }
+
+     public function markAllRead(Request $request)
+    {
+        $user = $request->user(); // authenticated user
+        $unreadNotifications = Notification::where('notifiable_id', $user->id)
+        ->where('read_at', null)
+        ->get();
+        $unreadNotifications->markAsRead();
+
+        return response()->json(['message' => 'تم تحديث الاشعارات بنجاح'], 200);
+    }
+
+
+
     public function countNotifications()
     {
       return 
