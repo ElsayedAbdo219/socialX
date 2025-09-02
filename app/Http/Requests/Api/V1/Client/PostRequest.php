@@ -30,15 +30,15 @@ class PostRequest extends FormRequest
     
         return [
             'type' => ['required', 'in:'.$types],
-            'content' => ['nullable', 'string'],
+            'content' => ['required_if:type,'.PostTypeEnum::NORMAL, 'string'],
             'file_name' => ['nullable', 'string'],
             'image'  => ['nullable', 'image','mimes:jpg,jpeg,png,wepb'],
-            'period' => ['required', 'string'],
-            'resolution' => ['required', 'numeric', 'in:720,1080,1440,2160'],
-            'start_time' => ['required', 'date_format:H:i'],
-            'end_time' => ['required', 'date_format:H:i'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['required', 'date'],
+            'period' => ['required_if:type,'.PostTypeEnum::ADVERTISE, 'string'],
+            'resolution' => ['required_if:type,'.PostTypeEnum::ADVERTISE, 'numeric', 'in:720,1080,1440,2160'],
+            'start_time' => ['required_if:type,'.PostTypeEnum::ADVERTISE, 'date_format:H:i'],
+            'end_time' => ['required_if:type,'.PostTypeEnum::ADVERTISE, 'date_format:H:i'],
+            'start_date' => ['required_if:type,'.PostTypeEnum::ADVERTISE, 'date'],
+            'end_date' => ['required_if:type,'.PostTypeEnum::ADVERTISE, 'date'],
             'coupon_code' => ['nullable', 'string'],
             // 'chunk_number' => ['nullable', 'numeric'],
             
