@@ -4,17 +4,20 @@ namespace App\Http\Controllers\Api\V1\Client;
 
 use App\Models\News;
 use Illuminate\Http\Request;
-use Torann\GeoIP\Facades\GeoIP;
+use GeoIP;
 use App\Http\Controllers\Controller;
 
 class NewsController extends Controller
 {
   public function index(Request $request)
   {
-    $location = GeoIP::getLocation(); 
-    return $location;
     $paginateSize = $request->query('paginateSize', 10);
-    return response()->json(News::with('poll')->orderBy('id', 'desc')->paginate($paginateSize));
+    $location = GeoIP::getLocation(request()->ip())->country;
+    $newsLocation = News::with('poll')
+    ->whereJsonContains('countries', $location)
+    ->orderBy('id', 'desc')
+    ->paginate($paginateSize);
+    return response()->json($newsLocation);
   }
 
 }

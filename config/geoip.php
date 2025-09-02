@@ -36,7 +36,7 @@ return [
     |
     */
 
-    'service' => null,
+    'service' => 'ipapi',
 
     /*
     |--------------------------------------------------------------------------
@@ -48,6 +48,10 @@ return [
     */
 
     'services' => [
+       'ipapi' => [
+        'class' => \Torann\GeoIP\Services\IPApi::class,
+        'secure' => true,
+    ],
 
         'maxmind_database' => [
             'class' => \Torann\GeoIP\Services\MaxMindDatabase::class,
