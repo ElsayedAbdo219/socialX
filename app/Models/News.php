@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class News extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+    protected $fillable=['title', 'contentNews', 'title_en', 'contentNews_en', 'is_poll', 'ip', 'countries'];
     protected $casts = [
         'is_poll' => 'boolean',
+        'countries' => 'array'
     ];
 
     # Relations

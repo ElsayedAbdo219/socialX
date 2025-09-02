@@ -43,6 +43,10 @@ class NewDatatable extends BaseDatatable
                 $title = $model?->is_poll == 1 ? __('dashboard.yes') : __('dashboard.no');
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
+              'countries' => function ($model) {
+                $countries = $model->countries;
+                return view('components.datatable.includes.columns.array', compact('countries'));
+            },
             'created_at' => function ($model) {
                 $title = $model?->created_at;
                 return view('components.datatable.includes.columns.title', compact('title'));
@@ -59,6 +63,7 @@ class NewDatatable extends BaseDatatable
             Column::computed('contentNews')->title(__('dashboard.contentNews_ar'))->className('text-center'),
             Column::computed('contentNews_en')->title(__('dashboard.contentNews_en'))->className('text-center'),
             Column::computed('is_poll')->title(__('dashboard.is_poll'))->className('text-center'),
+            Column::computed('countries')->title(__('dashboard.countries'))->className('text-center'),
             Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
 
         ];

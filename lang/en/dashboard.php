@@ -416,6 +416,9 @@ return [
     'number_of_members' => 'Number of Members',
     'ads_archieve' => 'Ads Archieve',
     'show_ads_archieve' => 'Show Ads Archieve',
+    'all' => 'All',
+    'certain_countries' => 'Certain Countries',
+    'countries' => 'Countries',
 
 
 
