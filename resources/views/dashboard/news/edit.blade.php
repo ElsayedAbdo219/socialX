@@ -93,8 +93,10 @@
                     <div class="form-group">
                       <select class="form-select countries" style="display: none; padding:15px" id="countries"
                         name="countries[]" aria-label="select Countries" multiple>
-                        @foreach($arabicCountries as $country)
-                        <option value="{{ $country }}">{{ $country }}</option>
+                        @foreach($arabicCountries ?? [] as $country)
+                        <option value="{{ $country }}"
+                          {{ isset($countriesThisNews) ? (in_array($country, $countriesThisNews) ? 'selected' : '') : '' }} multiple>
+                          {{ $country }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -124,6 +126,11 @@
     // alert($('#countries').val());
       $('#countries_status').select2();
       // $('#countries').select2();
+      if($('#countries').val()){
+         $('#countries_status').val('certain_countries').change();
+        //  $('#countries_status').html('certain_countries');
+          $('#countries').show();
+      }
 
       $('#countries_status').on('change',function(){
         console.log($(this).val());

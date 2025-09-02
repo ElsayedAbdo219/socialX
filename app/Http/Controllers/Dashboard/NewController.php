@@ -84,11 +84,19 @@ class NewController extends Controller
   public function edit(News $News)
   {
     $arabicCountries = $this->getArabCountries();
+    $countriesThisNews = $News->countries;
+    // dd($countriesThisNews);
+    // foreach($arabicCountries as $country){
+    //   if(in_array($country, $countriesThisNews)){
+    //     dd($country);
+    //   }
+    // }
     return view(
       'dashboard.news.edit',
       [
         'News' => $News,
-        'arabicCountries' => $arabicCountries
+        'arabicCountries' => $arabicCountries,
+        'countriesThisNews' => $countriesThisNews
       ]
 
     );
