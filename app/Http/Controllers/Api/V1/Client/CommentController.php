@@ -13,35 +13,37 @@ use App\Http\Requests\Api\V1\Client\CommentRequest;
 class CommentController extends Controller
 {
 
-public function add(CommentRequest $request)
-{
+  public function add(CommentRequest $request)
+  {
     $requestDataValidated = $request->validated();
     \DB::beginTransaction();
     $requestDataValidated['user_id'] = auth('api')->id();
     Comment::create($requestDataValidated);
+
     $postId = $request->post_id;
     $post = Post::where('id', $postId)->first();
-    $notifabels = Member::where('id', $post->user_id)->first();
-
-    $notificationData = [
+    $notifabel = Member::where('id', $post->user_id)->first();
+    if (auth('api')->id() != $post->user_id) {
+      $notificationData = [
         'title' => "تعليق جديد علي منشور",
         'body' => "تم التعليق علي منشورك من " . (
-            auth('api')->user()->full_name
-            ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
+          auth('api')->user()->full_name
+          ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
         ),
         'type' => 'comment_post',
         'id_link' => $request->post_id,
-    ];
-          // dd($notificationData, 'ClientNotification');
-    $status = \Illuminate\Support\Facades\Notification::send(
-        $notifabels,
+      ];
+      // dd($notificationData, 'ClientNotification');
+      $status = \Illuminate\Support\Facades\Notification::send(
+        $notifabel,
         new ClientNotification($notificationData, ['database', 'firebase'])
-    );
+      );
+    }
     // dd($status, 'ClientNotification');
 
     \DB::commit();
     return response()->json(['message' => 'تم التعليق علي المنشور بنجاح'], 200);
-}
+  }
 
 
   public function update(CommentRequest $request, $Comment_Id): JsonResponse
@@ -58,11 +60,11 @@ public function add(CommentRequest $request)
     $notificationData = [
       'title' => " تحديث تعليق جديد علي منشور ",
       'body' =>  "  تم تحديث تعليق علي منشورك من " . (
-            auth('api')->user()->full_name
-            ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
-        ),
-        'type' => 'comment_post',
-        'id_link' => $request->post_id,
+        auth('api')->user()->full_name
+        ?? auth('api')->user()->first_name . ' ' . auth('api')->user()->last_name
+      ),
+      'type' => 'comment_post',
+      'id_link' => $request->post_id,
     ];
     \Illuminate\Support\Facades\Notification::send(
       $notifabels,
