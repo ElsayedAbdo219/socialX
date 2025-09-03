@@ -82,7 +82,7 @@ public function getLeftDaysAttribute()
         }
     } else {
         if ($this->days_count) {
-            return $this->days_count;
+            return (Carbon::now())->diffInDays(Carbon::parse($this->days_count));
         } elseif ($this->start_date && $this->end_date) {
             $now = now();
             $start = \Carbon\Carbon::parse($this->start_date);
