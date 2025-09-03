@@ -83,7 +83,7 @@ public function getLeftDaysAttribute()
         }
     } else {
         if ($this->days_count) {
-            dd(Carbon::today(),$this->days_count);
+            // dd(Carbon::today(),$this->days_count);
             Log::info('Current Time: ' . Carbon::now());
             return (Carbon::now())->diffInDays(Carbon::today());
         } elseif ($this->start_date && $this->end_date) {
