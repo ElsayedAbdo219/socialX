@@ -85,7 +85,8 @@ public function getLeftDaysAttribute()
         if ($this->days_count) {
             // dd(Carbon::today(),$this->days_count);
             Log::info('Current Time: ' . Carbon::now());
-            return (Carbon::now())->diffInDays(Carbon::today());
+            $differenceBetweenDates = Carbon::now()->diffInDays($this->created_at);
+            return $this->days_count - $differenceBetweenDates;
         } elseif ($this->start_date && $this->end_date) {
             $now = now();
             $start = \Carbon\Carbon::parse($this->start_date);
