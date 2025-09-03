@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -83,6 +84,7 @@ public function getLeftDaysAttribute()
     } else {
         if ($this->days_count) {
             dd(Carbon::now(),$this->days_count);
+            Log::info('Current Time: ' . Carbon::now());
             return (Carbon::now())->diffInDays(Carbon::parse($this->days_count));
         } elseif ($this->start_date && $this->end_date) {
             $now = now();
