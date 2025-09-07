@@ -30,22 +30,23 @@ class EmployeeDataTable extends BaseDatatable
         return view('components.datatable.includes.columns.title', compact('title'));
       },
 
-      'personal_photo' => function ($model) {
-        // return $model->personal_photo ;
-        if (is_null($model->personal_photo)) {
-          return __('<span class="text-danger">' . __("dashboard.No_Personal_Photo") . '</span>');
+        'avatar' => function ($model) {
+        if (is_null($model->avatar_path)) {
+          return __('<span class="text-danger">' . __("dashboard.No_Avatar") . '</span>');
+        } else {
+          $image = asset($model->avatar_path);
         }
-        $image = asset($model->personal_photo);
+        $image = asset($model->avatar_path);
         return view('components.datatable.includes.columns.image', compact('image'));
       },
 
-      'coverletter' => function ($model) {
-        if (is_null($model->coverletter)) {
-          return __('<span class="text-danger">' . __("dashboard.No_Cover_Letter") . '</span>');
-        }
-        $image = asset($model->coverletter);
-        return view('components.datatable.includes.columns.image', compact('image'));
-      },
+      // 'coverletter' => function ($model) {
+      //   if (is_null($model->coverletter)) {
+      //     return __('<span class="text-danger">' . __("dashboard.No_Cover_Letter") . '</span>');
+      //   }
+      //   $image = asset($model->coverletter);
+      //   return view('components.datatable.includes.columns.image', compact('image'));
+      // },
       'email' => function ($model) {
         $title = $model?->email;
         return view('components.datatable.includes.columns.title', compact('title'));
@@ -93,8 +94,8 @@ class EmployeeDataTable extends BaseDatatable
   {
     return [
       Column::computed('name')->title(__('dashboard.name'))->className('text-center'),
-      Column::computed('personal_photo')->title(__('dashboard.image'))->className('text-center'),
-      Column::computed('coverletter')->title(__('dashboard.coverletter'))->className('text-center'),
+      // Column::computed('personal_photo')->title(__('dashboard.image'))->className('text-center'),
+      Column::computed('avatar')->title(__('dashboard.avatar'))->className('text-center'),
       Column::computed('email')->title(__('dashboard.email'))->className('text-center'),
       Column::computed('address')->title(__('dashboard.address'))->className('text-center'),
       Column::computed('website')->title(__('dashboard.website'))->className('text-center'),
