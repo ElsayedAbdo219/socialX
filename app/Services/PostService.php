@@ -46,7 +46,7 @@ class PostService
    if (file_exists($fullPath)) {
       $getID3 = new \getID3;
       $analysis = $getID3->analyze($fullPath);
-      dd($analysis);
+      // dd($analysis);
       if (isset($analysis['playtime_seconds']) && $promotion && $analysis['playtime_seconds'] > $promotion->seconds) {
         return response()->json([
           'message' => 'مدة الفيديو يجب أن لا تتجاوز ' . $promotion->seconds . ' ثانية'
