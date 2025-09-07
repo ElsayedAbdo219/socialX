@@ -13,22 +13,23 @@ class NewsController extends Controller
   {
     $paginateSize = $request->query('paginateSize', 10);
     $location = GeoIP::getLocation(request()->ip())->country;
-    dd($location);
     $newsLocation = [];
+    $newsWithoutLocation = [];
     foreach (News::all() as $news) {
       if ($news->countries == "all") {
-        $newsLocation = News::with('poll')
+        $newsWithoutLocation [] = News::with('poll')
           ->orderBy('id', 'desc')
           ->where('countries', 'all')
           ->paginate($paginateSize);
       } else {
-        $newsLocation = News::with('poll')
+        $newsLocation [] = News::with('poll')
           ->whereJsonContains('countries', $location)
           ->orderBy('id', 'desc')
           ->paginate($paginateSize);
       }
     }
+    $newsTotal = array_merge($newsLocation, $newsWithoutLocation);
 
-    return response()->json($newsLocation);
+    return response()->json($newsTotal);
   }
 }
