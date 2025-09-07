@@ -398,6 +398,7 @@ return [
   'current_videos' => 'الفيديوهات الحالية',
   'custom-suggestions' => 'اقتراحات مخصصة',
   'No_Avatar' => 'لا يوجد صورة شخصية',
+  'avatar' => 'الصورة الشخصية',
 
 
 

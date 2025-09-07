@@ -422,6 +422,7 @@ return [
     'current_videos' => 'Current Videos',
     'custom-suggestions' => 'Custom Suggestions',
     'No_Avatar' => 'No Avatar',
+    'avatar' => 'Avatar',
 
 
 
