@@ -30,7 +30,7 @@ class PostRequest extends FormRequest
     
         return [
             'type' => ['required', 'in:'.$types],
-            'content' => ['required_if:type,'.PostTypeEnum::NORMAL, 'string'],
+            'content' => ['nullable','required_if:type,'.PostTypeEnum::NORMAL, 'string'],
             'file_name' => ['nullable', 'string'],
             'image'  => ['nullable', 'image','mimes:jpg,jpeg,png,wepb'],
             'period' => ['required_if:type,'.PostTypeEnum::ADVERTISE, 'string'],
