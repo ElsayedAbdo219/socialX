@@ -13,6 +13,7 @@ class NewsController extends Controller
   {
     $paginateSize = $request->query('paginateSize', 10);
     $location = GeoIP::getLocation(request()->ip())->country;
+    dd($location);
     $newsLocation = [];
     foreach (News::all() as $news) {
       if ($news->countries == "all") {
