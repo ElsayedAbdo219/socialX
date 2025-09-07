@@ -18,6 +18,7 @@ class NewsController extends Controller
       if ($news->countries == "all") {
         $newsLocation = News::with('poll')
           ->orderBy('id', 'desc')
+          ->where('countries', 'all')
           ->paginate($paginateSize);
       } else {
         $newsLocation = News::with('poll')
