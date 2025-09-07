@@ -44,7 +44,7 @@ class NewDatatable extends BaseDatatable
                 return view('components.datatable.includes.columns.title', compact('title'));
             },
               'countries' => function ($model) {
-                $countries = $model->countries;
+                $countries = is_array($model->countries) ? $model->countries : [__('dashboard.all_countries')];
                 return view('components.datatable.includes.columns.array', compact('countries'));
             },
             'created_at' => function ($model) {

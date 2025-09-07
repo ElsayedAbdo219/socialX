@@ -423,6 +423,7 @@ return [
     'custom-suggestions' => 'Custom Suggestions',
     'No_Avatar' => 'No Avatar',
     'avatar' => 'Avatar',
+    'all_countries' => 'All Countries',
 
 
 

@@ -399,6 +399,7 @@ return [
   'custom-suggestions' => 'اقتراحات مخصصة',
   'No_Avatar' => 'لا يوجد صورة شخصية',
   'avatar' => 'الصورة الشخصية',
+  'all_countries' => 'كل الدول',
 
 
 

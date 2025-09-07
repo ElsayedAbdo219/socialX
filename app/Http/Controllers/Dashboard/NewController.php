@@ -75,7 +75,7 @@ class NewController extends Controller
       ]
     );
     if ($request->countries_status == self::$all) {
-      $data['countries'] = $this->getArabCountries();
+      $data['countries'] = self::$all;
     }
     News::create($data);
     return redirect()->route($this->route . '.' . 'index')->with('success', __('dashboard.created_news'));
@@ -119,7 +119,7 @@ class NewController extends Controller
       ]
     );
     if ($request->countries_status == self::$all) {
-      $data['countries'] = $this->getArabCountries();
+      $data['countries'] = self::$all;
     }
     $News = News::findOrfail($News);
     $News->update($data);

@@ -93,11 +93,13 @@
                     <div class="form-group">
                       <select class="form-select countries" style="display: none; padding:15px" id="countries"
                         name="countries[]" aria-label="select Countries" multiple>
+                        @if (is_array($arabicCountries))
                         @foreach($arabicCountries ?? [] as $country)
                         <option value="{{ $country }}"
-                          {{ isset($countriesThisNews) ? (in_array($country, $countriesThisNews) ? 'selected' : '') : '' }} multiple>
+                          {{ isset($countriesThisNews) && is_array($countriesThisNews) ? (in_array($country, $countriesThisNews) ? 'selected' : '') : '' }} multiple>
                           {{ $country }}</option>
                         @endforeach
+                        @endif
                       </select>
                     </div>
                   </div>
