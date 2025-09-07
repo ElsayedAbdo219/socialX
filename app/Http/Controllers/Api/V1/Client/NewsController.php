@@ -14,7 +14,7 @@ class NewsController extends Controller
     $paginateSize = $request->query('paginateSize', 10);
     $location = GeoIP::getLocation(request()->ip())->country;
     $newsLocation = [];
-    foreach (News::chunk(100) as $news) {
+    foreach (News::all() as $news) {
       if ($news->countries == "all") {
         $newsLocation = News::with('poll')
           ->orderBy('id', 'desc')
