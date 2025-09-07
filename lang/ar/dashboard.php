@@ -397,6 +397,7 @@ return [
   'countries' => 'الدول',
   'current_videos' => 'الفيديوهات الحالية',
   'custom-suggestions' => 'اقتراحات مخصصة',
+  'No_Avatar' => 'لا يوجد صورة شخصية',
 
 
 
