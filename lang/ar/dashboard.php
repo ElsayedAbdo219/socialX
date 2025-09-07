@@ -394,8 +394,9 @@ return [
   'show_ads_archieve' => 'عرض أرشيف الاعلانات',
   'all' => 'الكل',
   'certain_countries' => 'دول معينة',
-  'countries' => 'الدول'
-
+  'countries' => 'الدول',
+  'current_videos' => 'الفيديوهات الحالية',
+  'custom-suggestions' => 'اقتراحات مخصصة',
 
 
 

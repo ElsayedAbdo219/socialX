@@ -28,7 +28,7 @@ class SettingController extends Controller
 
     if ($setting->key == 'terms-and-conditions') {
       $settingRequest = $request->validate([
-        'contentTerms' => ['required', 'string', 'max:500'],
+        'contentTerms' => ['required', 'string'],
       ]);
 
       if($request->language  ==  'ar') {
@@ -52,7 +52,7 @@ class SettingController extends Controller
     } elseif ($setting->key === 'about-app') {
 
       $settingRequest = $request->validate([
-        'contentAbout' => ['required', 'string', 'max:500'],
+        'contentAbout' => ['required', 'string'],
       ]);
       if($request->language  ==  'ar') {
         $setting->update([
@@ -126,7 +126,7 @@ class SettingController extends Controller
       // return "dfgdfg";
 
       $settingRequest = $request->validate([
-        'content' => ['required', 'string', 'max:500'],
+        'content' => ['required', 'string'],
       ]);
       if($request->language  ==  'ar')
       {
@@ -285,7 +285,7 @@ class SettingController extends Controller
       // return "dfgdfg";
 
       $settingRequest = $request->validate([
-        'contentPlatformUsage' => ['required', 'string', 'max:500'],
+        'contentPlatformUsage' => ['required', 'string'],
       ]);
 
       if($request->language  ==  'ar') {
@@ -311,7 +311,7 @@ class SettingController extends Controller
       // return "dfgdfg";
 
       $settingRequest = $request->validate([
-        'contentAccountSuspensionPolicy' => ['required', 'string', 'max:500'],
+        'contentAccountSuspensionPolicy' => ['required', 'string'],
       ]);
 
       if($request->language  ==  'ar') {
@@ -337,7 +337,7 @@ class SettingController extends Controller
       // return "dfgdfg";
 
       $settingRequest = $request->validate([
-        'contentHelpShapeAnceega' => ['required', 'string', 'max:500'],
+        'contentHelpShapeAnceega' => ['required', 'string'],
       ]);
 
       if($request->language  ==  'ar') {
@@ -444,7 +444,7 @@ class SettingController extends Controller
       // return "dfgdfg";
 
       $settingRequest = $request->validate([
-        'contentHowUseData' => ['required', 'string', 'max:500'],
+        'contentHowUseData' => ['required', 'string'],
       ]);
 
       if($request->language  ==  'ar') {
@@ -470,7 +470,7 @@ class SettingController extends Controller
       // return "dfgdfg";
 
       $settingRequest = $request->validate([
-        'contentHelpAndSupport' => ['required', 'string', 'max:500'],
+        'contentHelpAndSupport' => ['required', 'string'],
       ]);
 
       if($request->language  ==  'ar') {
@@ -492,11 +492,11 @@ class SettingController extends Controller
       return redirect()->route('admin.settings.index', ['page' => 'help-support'])
         ->with(['success' => __('dashboard.help-support updated successfully')]);
     } elseif ($setting->key === 'advertise-Anceega') {
-      //   dd($request) ;     
+        // dd($request) ;     
       // return "dfgdfg";
 
       $settingRequest = $request->validate([
-        'contentAdvertiseAnceega' => ['required', 'string', 'max:500'],
+        'contentAdvertiseAnceega' => ['required', 'string'],
       ]);
 
       if($request->language  ==  'ar') {

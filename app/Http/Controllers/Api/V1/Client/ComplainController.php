@@ -1,37 +1,41 @@
 <?php
 
 namespace App\Http\Controllers\Api\V1\Client;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponseTrait;
 use App\Models\Complain;
 use App\Notifications\DashboardNotification;
 use App\Models\User;
+
 class ComplainController extends Controller
 {
-    use ApiResponseTrait;
+  use ApiResponseTrait;
 
-    public function send(Request $request){
+  public function send(Request $request)
+  {
 
-    $request->validate([ "message"=>"required|string"]);
+    $request->validate(["message" => "required|string"]);
 
-    $complain=Complain::create(["message"=>$request->message]);
-    
+    $complain = Complain::create(["message" => $request->message]);
+
 
     $notifabel = User::whereType('admin')->first();
-    
+
     $notificationData = [
-      'title' => __('dashboard.complain_send_from') . ' '. 
-      ($complain?->user?->full_name ?? $complain?->user?->first_name." ".$complain?->user?->last_name ?? 'Client'),
+      'title' => __('dashboard.complain_send_from') . ' ' .
+        ($complain?->user?->full_name ?? $complain?->user?->first_name . " " . $complain?->user?->last_name ?? 'Client'),
       'body' => $complain->message,
     ];
-   // return $notificationData;
+    // return $notificationData;
     # sending a notification to the user
-    \Illuminate\Support\Facades\Notification::send($notifabel,
-    new DashboardNotification($notificationData, ['database', 'firebase']));
-      
+    \Illuminate\Support\Facades\Notification::send(
+      $notifabel,
+      new DashboardNotification($notificationData, ['database', 'firebase'])
+    );
+
 
     return $this->respondWithSuccess(__('messages.Complain added successfully'));
-
-    }
+  }
 }

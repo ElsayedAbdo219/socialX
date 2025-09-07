@@ -29,27 +29,27 @@ class CompanyDataTable extends BaseDatatable
         return view('components.datatable.includes.columns.title', compact('title'));
       },
 
-      'logo' => function ($model) {
-        if (is_null($model->logo)) {
-          return __('<span class="text-danger">' . __("dashboard.No_Logo") . '</span>');
+      'avatar' => function ($model) {
+        if (is_null($model->avatar_path)) {
+          return __('<span class="text-danger">' . __("dashboard.No_Avatar") . '</span>');
         } else {
-          $image = asset($model->logo);
+          $image = asset($model->avatar_path);
         }
-        $image = asset($model->logo);
+        $image = asset($model->avatar_path);
         return view('components.datatable.includes.columns.image', compact('image'));
       },
 
 
-      'coverletter' => function ($model) {
+      // 'coverletter' => function ($model) {
 
-        if (is_null($model->coverletter)) {
-          return __('<span class="text-danger">' . __("dashboard.No_Cover_Letter") . '</span>');
-        } else {
-          $image = asset($model->coverletter);
-        }
-        $image = asset($model->coverletter);
-        return view('components.datatable.includes.columns.image', compact('image'));
-      },
+      //   if (is_null($model->coverletter)) {
+      //     return __('<span class="text-danger">' . __("dashboard.No_Cover_Letter") . '</span>');
+      //   } else {
+      //     $image = asset($model->coverletter);
+      //   }
+      //   $image = asset($model->coverletter);
+      //   return view('components.datatable.includes.columns.image', compact('image'));
+      // },
 
       'email' => function ($model) {
         $title = $model?->email;
@@ -107,8 +107,8 @@ class CompanyDataTable extends BaseDatatable
   {
     return [
       Column::computed('name')->title(__('dashboard.name'))->className('text-center'),
-      Column::computed('logo')->title(__('dashboard.logo_image'))->className('text-center'),
-      Column::computed('coverletter')->title(__('dashboard.coverletter'))->className('text-center'),
+      Column::computed('avatar')->title(__('dashboard.avatar'))->className('text-center'),
+      // Column::computed('coverletter')->title(__('dashboard.coverletter'))->className('text-center'),
       Column::computed('email')->title(__('dashboard.email'))->className('text-center'),
       Column::computed('address')->title(__('dashboard.address'))->className('text-center'),
       Column::computed('website')->title(__('dashboard.website'))->className('text-center'),

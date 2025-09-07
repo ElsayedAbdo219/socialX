@@ -419,6 +419,8 @@ return [
     'all' => 'All',
     'certain_countries' => 'Certain Countries',
     'countries' => 'Countries',
+    'current_videos' => 'Current Videos',
+    'custom-suggestions' => 'Custom Suggestions',
 
 
 
