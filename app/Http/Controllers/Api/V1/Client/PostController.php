@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Client;
 
-use App\Models\{Post,User,Intro,Follow,Member,AdsPrice,Promotion,SharedPost};
+use App\Models\{Post, User, Intro, Follow, Member, AdsPrice, Promotion, SharedPost};
 use App\Enum\PostTypeEnum;
 use App\Jobs\UploadAdsJob;
 use App\Enum\AdsStatusEnum;
@@ -45,12 +45,8 @@ class PostController extends Controller
     $fileName = $request->input('file_name');
     $chunkNumber = $request->input('chunk_number');
     $chunk = $request->file('chunk');
-    // dd($chunk);
     $tempPath = $chunk->storeAs("temp/chunks/{$fileName}", $chunkNumber);
-    // dd($tempPath);
-
     UploadAdsJob::dispatch(storage_path("app/{$tempPath}"), $fileName, $chunkNumber);
-    // return $tempPath;
     return response()->json(['message' => 'Chunk uploaded']);
   }
 
@@ -64,15 +60,8 @@ class PostController extends Controller
     $fileName = basename($request->input('file_name'));
     $cleanName = preg_replace('/_\d+$/', '', $fileName);
     $chunkPath = storage_path("app/temp/chunks/{$fileName}");
-    // dd($cleanName, $chunkPath);
     $finalPath = storage_path("app/public/posts/{$cleanName}");
-    // dd($finalPath , $request->input('file_name'));
-    // if (!file_exists($chunkPath)) {
-    //   return response()->json(['error' => 'لم يتم العثور على الأجزاء'], 404);
-    // }
-
     MergeChunkAdsJob::dispatch($chunkPath, $finalPath);
-
     return response()->json([
       'message' => 'جاري الدمج',
       'file_path' => "storage/posts/{$cleanName}"
@@ -146,8 +135,8 @@ class PostController extends Controller
           $sharedClone->type = 'shared';
           $sharedClone->my_react = $sharedClone->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
           $sharedClone->reacts = $sharedClone->reacts->map(function ($react) {
-          $react->user->is_following = Follow::where('followed_id', $react->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
-        });
+            $react->user->is_following = Follow::where('followed_id', $react->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+          });
           $sharedClone->comments = $sharedClone->comments->map(function ($comment) {
             $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
             $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())?->first() ?? null;
@@ -309,15 +298,15 @@ class PostController extends Controller
       $post->unique_id = 'shared_' . $post->id . '_by_' . $post->user_id . '_order_' . $order;
       $post->my_react = $post->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
       $post->reacts = $post->reacts->map(function ($react) {
-          $react->user->is_following = Follow::where('followed_id', $react->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+        $react->user->is_following = Follow::where('followed_id', $react->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+      });
+      $post->comments = $post->comments->map(function ($comment) {
+        $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+        $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())?->first() ?? null;
+        $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
+          $react->user->is_following =  Follow::where('followed_id', $react?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
         });
-          $post->comments = $post->comments->map(function ($comment) {
-            $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
-            $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())?->first() ?? null;
-            $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
-              $react->user->is_following =  Follow::where('followed_id', $react?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
-            });
-          });
+      });
       $post->sharedPerson = $post->shares->map(function ($share) {
         return $share->userShared;
       })->first();
@@ -407,15 +396,15 @@ class PostController extends Controller
           $sharedClone->type = 'shared';
           $sharedClone->my_react = $sharedClone->reacts()->where('user_id', auth('api')->id())?->first() ?? null;
           $sharedClone->reacts = $sharedClone->reacts->map(function ($react) {
-          $react->user->is_following = Follow::where('followed_id', $react->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
-        });
-        $sharedClone->comments = $sharedClone->comments->map(function ($comment) {
-          $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
-          $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())?->first() ?? null;
-          $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
-            $react->user->is_following =  Follow::where('followed_id', $react?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+            $react->user->is_following = Follow::where('followed_id', $react->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
           });
-        });
+          $sharedClone->comments = $sharedClone->comments->map(function ($comment) {
+            $comment->user->is_following = Follow::where('followed_id', $comment?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+            $comment->my_react = $comment->ReactsTheComment()->where('user_id', auth('api')->id())?->first() ?? null;
+            $comment->reacts_the_comment = $comment->ReactsTheComment->map(function ($react) {
+              $react->user->is_following =  Follow::where('followed_id', $react?->user_id)->where('follower_id', auth('api')->id())?->first()?->exists() ? true : false;
+            });
+          });
           $sharedClone->unique_id = 'shared_' . $shared->id . '_by_' . $sharedPost->user_id . '_order_' . $sharedPostId;
           $sharedClone->comment = $sharedPost->comment;
           $sharedClone->sharedPerson = $sharedPost->userShared;
@@ -551,14 +540,14 @@ class PostController extends Controller
     $convertedPath = 'posts/' . $convertedFileName;
 
     \FFMpeg::fromDisk('public')
-    ->open($file)
-    ->export()
-    ->toDisk('public')
-    ->inFormat(
+      ->open($file)
+      ->export()
+      ->toDisk('public')
+      ->inFormat(
         (new \FFMpeg\Format\Video\X264('aac', 'libx264'))
-            ->setKiloBitrate(1000)  # تقليل جودة الفيديو ل 480
-    )
-    ->save($convertedPath);
+          ->setKiloBitrate(1000)  # تقليل جودة الفيديو ل 480
+      )
+      ->save($convertedPath);
 
 
     Storage::disk('public')->delete($file);

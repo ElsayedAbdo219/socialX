@@ -1,13 +1,14 @@
 <?php
 namespace App\Jobs;
 
+use App\Models\Post;
+use App\Enum\AdsStatusEnum;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use App\Models\Post;
-use Illuminate\Support\Facades\Log;
 
 class ActivateAdJob implements ShouldQueue
 {
@@ -31,7 +32,7 @@ class ActivateAdJob implements ShouldQueue
         }
 
         // Activate
-        $ad->update(['is_Active' => 1]);
+        $ad->adsStatus()?->update(['status' => AdsStatusEnum::APPROVED]);
         Log::info("Ad {$ad->id} activated.");
 
         // Schedule deactivation after duration
