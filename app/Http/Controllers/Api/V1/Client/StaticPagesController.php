@@ -58,6 +58,13 @@ class StaticPagesController extends Controller
         $accountSuspensionPolicy= collect(Setting::where('key','account-suspension-policy')->get())->toArray();
 
         $data['status'] = 200;
+        // $termsAndConditions[0]['value']['ar'] = strip_tags($termsAndConditions[0]['value']['ar']);
+        // $termsAndConditions[0]['value']['en'] = strip_tags($termsAndConditions[0]['value']['en']);
+        // $platformUsage[0]['value']['ar'] = strip_tags($platformUsage[0]['value']['ar']);
+        // $platformUsage[0]['value']['en'] = strip_tags($platformUsage[0]['value']['en']);
+        // $accountSuspensionPolicy[0]['value']['ar'] = strip_tags($accountSuspensionPolicy[0]['value']['ar']);
+        // $accountSuspensionPolicy[0]['value']['en'] = strip_tags($accountSuspensionPolicy[0]['value']['en']);
+        
         return $this->respondWithArray([
             'termsAndConditions' => $termsAndConditions,
             'userResponsibilities' => $userResponsibilities,

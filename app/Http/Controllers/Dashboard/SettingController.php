@@ -34,7 +34,7 @@ class SettingController extends Controller
       if($request->language  ==  'ar') {
         $setting->update([
           "value" => [
-            "ar" => strip_tags($settingRequest['contentTerms']),
+            "ar" => $settingRequest['contentTerms'],
             "en" => $setting->value['en'] ?? '',
           ]
         ]);
@@ -42,7 +42,7 @@ class SettingController extends Controller
         $setting->update([
           "value" => [
             "ar" => $setting->value['ar'] ?? '',
-            "en" => strip_tags($settingRequest['contentTerms']),
+            "en" => $settingRequest['contentTerms'],
           ]
         ]);
       }
@@ -57,7 +57,7 @@ class SettingController extends Controller
       if($request->language  ==  'ar') {
         $setting->update([
           "value" => [
-            "ar" => strip_tags($settingRequest['contentAbout']),
+            "ar" => $settingRequest['contentAbout'],
             "en" => $setting->value['en'] ?? '',
           ]
         ]);
@@ -65,7 +65,7 @@ class SettingController extends Controller
         $setting->update([
           "value" => [
             "ar" => $setting->value['ar'] ?? '',
-            "en" => strip_tags($settingRequest['contentAbout']),
+            "en" => $settingRequest['contentAbout'],
           ]
         ]);
       }
@@ -80,7 +80,7 @@ class SettingController extends Controller
       if($request->language  ==  'ar') {
         $setting->update([
           "value" => [
-            "ar" => strip_tags($settingRequest['content']),
+            "ar" => $settingRequest['content'],
             "en" => $setting->value['en'] ?? '',
           ]
         ]);
@@ -88,7 +88,7 @@ class SettingController extends Controller
         $setting->update([
           "value" => [
             "ar" => $setting->value['ar'] ?? '',
-            "en" => strip_tags($settingRequest['content']),
+            "en" => $settingRequest['content'],
           ]
         ]);
       }
@@ -132,15 +132,15 @@ class SettingController extends Controller
       {
         $setting->update([
         "value" => [
-          "ar" => strip_tags($settingRequest['content']),
+          "ar" => $settingRequest['content'],
           "en" => $setting->value['en'] ?? '', 
         ]
       ]);
       }else{
         $setting->update([
           "value" => [
-            "ar" => $setting->value['ar'] ?? '', 
-            "en" => strip_tags($settingRequest['content']),
+            "ar" => $setting->value['ar'] ?? '',
+            "en" => $settingRequest['content'],
           ]
         ]);
       }
@@ -291,7 +291,7 @@ class SettingController extends Controller
       if($request->language  ==  'ar') {
         $setting->update([
           "value" => [
-            "ar" => strip_tags($settingRequest['contentPlatformUsage']),
+            "ar" => $settingRequest['contentPlatformUsage'],
             "en" => $setting->value['en'] ?? '',
           ]
         ]);
@@ -299,7 +299,7 @@ class SettingController extends Controller
         $setting->update([
           "value" => [
             "ar" => $setting->value['ar'] ?? '',
-            "en" => strip_tags($settingRequest['contentPlatformUsage']),
+            "en" => $settingRequest['contentPlatformUsage'],
           ]
         ]);
       }
@@ -317,7 +317,7 @@ class SettingController extends Controller
       if($request->language  ==  'ar') {
         $setting->update([
           "value" => [
-            "ar" => strip_tags($settingRequest['contentAccountSuspensionPolicy']),
+            "ar" => $settingRequest['contentAccountSuspensionPolicy'],
             "en" => $setting->value['en'] ?? '',
           ]
         ]);
@@ -325,7 +325,7 @@ class SettingController extends Controller
         $setting->update([
           "value" => [
             "ar" => $setting->value['ar'] ?? '',
-            "en" => strip_tags($settingRequest['contentAccountSuspensionPolicy']),
+            "en" => $settingRequest['contentAccountSuspensionPolicy'],
           ]
         ]);
       } 
@@ -343,7 +343,7 @@ class SettingController extends Controller
       if($request->language  ==  'ar') {
         $setting->update([
           "value" => [
-            "ar" => strip_tags($settingRequest['contentHelpShapeAnceega']),
+            "ar" => $settingRequest['contentHelpShapeAnceega'],
             "en" => $setting->value['en'] ?? '',
           ]
         ]);
@@ -351,7 +351,7 @@ class SettingController extends Controller
         $setting->update([
           "value" => [
             "ar" => $setting->value['ar'] ?? '',
-            "en" => strip_tags($settingRequest['contentHelpShapeAnceega']),
+            "en" => $settingRequest['contentHelpShapeAnceega'],
           ]
         ]);
       }
@@ -450,7 +450,7 @@ class SettingController extends Controller
       if($request->language  ==  'ar') {
         $setting->update([
           "value" => [
-            "ar" => strip_tags($settingRequest['contentHowUseData']),
+            "ar" => $settingRequest['contentHowUseData'],
             "en" => $setting->value['en'] ?? '',
           ]
         ]);
@@ -458,7 +458,7 @@ class SettingController extends Controller
         $setting->update([
           "value" => [
             "ar" => $setting->value['ar'] ?? '',
-            "en" => strip_tags($settingRequest['contentHowUseData']),
+            "en" => $settingRequest['contentHowUseData'],
           ]
         ]);
       }
@@ -476,7 +476,7 @@ class SettingController extends Controller
       if($request->language  ==  'ar') {
         $setting->update([
           "value" => [
-            "ar" => strip_tags($settingRequest['contentHelpAndSupport']),
+            "ar" => $settingRequest['contentHelpAndSupport'],
             "en" => $setting->value['en'] ?? '',
           ]
         ]);
@@ -484,7 +484,7 @@ class SettingController extends Controller
         $setting->update([
           "value" => [
             "ar" => $setting->value['ar'] ?? '',
-            "en" => strip_tags($settingRequest['contentHelpAndSupport']),
+            "en" => $settingRequest['contentHelpAndSupport'],
           ]
         ]);
       }
@@ -502,7 +502,7 @@ class SettingController extends Controller
       if($request->language  ==  'ar') {
         $setting->update([
           "value" => [
-            "ar" => strip_tags($settingRequest['contentAdvertiseAnceega']),
+            "ar" => $settingRequest['contentAdvertiseAnceega'],
             "en" => $setting->value['en'] ?? '',
           ]
         ]);
@@ -510,7 +510,7 @@ class SettingController extends Controller
         $setting->update([
           "value" => [
             "ar" => $setting->value['ar'] ?? '',
-            "en" => strip_tags($settingRequest['contentAdvertiseAnceega']),
+            "en" => $settingRequest['contentAdvertiseAnceega'],
           ]
         ]);
       }
@@ -578,7 +578,7 @@ class SettingController extends Controller
     if($request->language  ==  'ar') {
       $setting->update([
         "value" => [
-          "ar" =>  strip_tags($settingRequest['contentAdvertiseForCompanies']),
+          "ar" =>  $settingRequest['contentAdvertiseForCompanies'],
           "en" => $setting->value['en'] ?? '',
           'videoPath' => !empty($videos) ? $videos : ($setting->value['videoPath'] ?? [])
         ]
@@ -587,7 +587,7 @@ class SettingController extends Controller
       $setting->update([
         "value" => [
           "ar" => $setting->value['ar'] ?? '',
-          "en" => strip_tags($settingRequest['contentAdvertiseForCompanies']),
+          "en" => $settingRequest['contentAdvertiseForCompanies'],
           'videoPath' => !empty($videos) ? $videos : ($setting->value['videoPath'] ?? [])
         ]
       ]);
@@ -613,7 +613,7 @@ class SettingController extends Controller
       if($request->language  ==  'ar') {
         $setting->update([
           "value" => [
-            "ar" => strip_tags($settingRequest['contentAdvertiseForUsers']),
+            "ar" => $settingRequest['contentAdvertiseForUsers'],
             "en" => $setting->value['en'] ?? '',
             'videoPath' => !empty($videos) ? $videos : ($setting->value['videoPath'] ?? [])
           ]
@@ -622,7 +622,7 @@ class SettingController extends Controller
         $setting->update([
           "value" => [
             "ar" => $setting->value['ar'] ?? '',
-            "en" => strip_tags($settingRequest['contentAdvertiseForUsers']),
+            "en" => $settingRequest['contentAdvertiseForUsers'],
             'videoPath' => !empty($videos) ? $videos : ($setting->value['videoPath'] ?? [])
           ]
         ]);
