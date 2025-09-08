@@ -42,7 +42,7 @@ class Setting extends Model
                    $result['ar'] = $trimmedAr;
                }
            }else{
-               $result['ar'] = $decodedValue['ar'];
+               $result['ar'] = isset($decodedValue['ar']) ? $decodedValue['ar'] : '';
            }
    
            // التحقق من وجود 'en' وكونه نصًا قبل المعالجة
@@ -55,7 +55,7 @@ class Setting extends Model
                    $result['en'] = $trimmedEn;
                }
            }else{
-               $result['en'] = $decodedValue['en'];
+               $result['en'] = isset($decodedValue['en']) ? $decodedValue['en'] : '';
            }
    
            // إضافة أي بيانات أخرى في `value` مثل `imagePath`
