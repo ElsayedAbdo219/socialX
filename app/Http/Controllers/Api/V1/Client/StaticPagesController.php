@@ -39,6 +39,12 @@ class StaticPagesController extends Controller
         $keyFeatures = collect(Setting::where('key','key-features')->get())->toArray();
 
         $data['status'] = 200;
+        $aboutApp[0]['value']['ar'] = strip_tags($aboutApp[0]['value']['ar']); 
+        $aboutApp[0]['value']['en'] = strip_tags($aboutApp[0]['value']['en']); 
+
+        $ourVision[0]['value']['ar'] = strip_tags($ourVision[0]['value']['ar']); 
+        $ourVision[0]['value']['en'] = strip_tags($ourVision[0]['value']['en']); 
+
         // return $data ;
         return $this->respondWithArray([
             'aboutApp' => $aboutApp,
@@ -58,13 +64,15 @@ class StaticPagesController extends Controller
         $accountSuspensionPolicy= collect(Setting::where('key','account-suspension-policy')->get())->toArray();
 
         $data['status'] = 200;
-        // $termsAndConditions[0]['value']['ar'] = strip_tags($termsAndConditions[0]['value']['ar']);
-        // $termsAndConditions[0]['value']['en'] = strip_tags($termsAndConditions[0]['value']['en']);
-        // $platformUsage[0]['value']['ar'] = strip_tags($platformUsage[0]['value']['ar']);
-        // $platformUsage[0]['value']['en'] = strip_tags($platformUsage[0]['value']['en']);
-        // $accountSuspensionPolicy[0]['value']['ar'] = strip_tags($accountSuspensionPolicy[0]['value']['ar']);
-        // $accountSuspensionPolicy[0]['value']['en'] = strip_tags($accountSuspensionPolicy[0]['value']['en']);
-        
+        $termsAndConditions[0]['value']['ar'] = strip_tags($termsAndConditions[0]['value']['ar']);
+        $termsAndConditions[0]['value']['en'] = strip_tags($termsAndConditions[0]['value']['en']);
+
+        $platformUsage[0]['value']['ar'] = strip_tags($platformUsage[0]['value']['ar']);
+        $platformUsage[0]['value']['en'] = strip_tags($platformUsage[0]['value']['en']);
+
+        $accountSuspensionPolicy[0]['value']['ar'] = strip_tags($accountSuspensionPolicy[0]['value']['ar']);
+        $accountSuspensionPolicy[0]['value']['en'] = strip_tags($accountSuspensionPolicy[0]['value']['en']);
+
         return $this->respondWithArray([
             'termsAndConditions' => $termsAndConditions,
             'userResponsibilities' => $userResponsibilities,
@@ -81,6 +89,11 @@ class StaticPagesController extends Controller
         $yourRights= collect(Setting::where('key','your-rights')->get())->toArray();
         $howUseData = collect(Setting::where('key','how-use-data')->get())->toArray();
         $data['status'] = 200;
+        $appPrivacy[0]['value']['ar'] = strip_tags($appPrivacy[0]['value']['ar']);
+        $appPrivacy[0]['value']['en'] = strip_tags($appPrivacy[0]['value']['en']);
+        $howUseData[0]['value']['ar'] = strip_tags($howUseData[0]['value']['ar']);
+        $howUseData[0]['value']['en'] = strip_tags($howUseData[0]['value']['en']);
+
         return $this->respondWithArray([
             'appPrivacy' => $appPrivacy,
             'informationCollect' => $informationCollect,
@@ -94,6 +107,8 @@ class StaticPagesController extends Controller
         $helpShape = collect(Setting::where('key','Help-Shape-Anceega')->get())->toArray();
         $customSuggestions = collect(Setting::where('key','custom-suggestions')->get())->toArray();
         $data['status'] = 200;
+        $helpShape[0]['value']['ar'] = strip_tags($helpShape[0]['value']['ar']);
+        $helpShape[0]['value']['en'] = strip_tags($helpShape[0]['value']['en']);
         return $this->respondWithArray([
             'helpShape' => $helpShape,
             'customSuggestions' => $customSuggestions,
@@ -166,7 +181,15 @@ class StaticPagesController extends Controller
             }
         }
         $howAdvertiseWorkforUsersArray['videoPathValue'] = $videoAdsForUser;
-    
+        $advertiseAnceega[0]['value']['ar'] = strip_tags($advertiseAnceega[0]['value']['ar']);
+        $advertiseAnceega[0]['value']['en'] = strip_tags($advertiseAnceega[0]['value']['en']);
+         
+        $howAdvertiseWorkforCompaniesArray[0]['value']['ar'] = strip_tags($howAdvertiseWorkforCompaniesArray[0]['value']['ar']);
+        $howAdvertiseWorkforCompaniesArray[0]['value']['en'] = strip_tags($howAdvertiseWorkforCompaniesArray[0]['value']['en']);
+
+        $howAdvertiseWorkforUsersArray[0]['value']['ar'] = strip_tags($howAdvertiseWorkforUsersArray[0]['value']['ar']);
+        $howAdvertiseWorkforUsersArray[0]['value']['en'] = strip_tags($howAdvertiseWorkforUsersArray[0]['value']['en']);
+
         return $this->respondWithArray([
             'advertiseAnceega' => $advertiseAnceega,
             'whyAdvertiseWithAnceega' => $whyAdvertiseWithAnceegaArray,
