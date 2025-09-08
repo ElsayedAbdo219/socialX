@@ -58,12 +58,21 @@ class AdvertiseDatatable extends BaseDatatable
         $title = $model?->period;
         return view('components.datatable.includes.columns.title', compact('title'));
       },
-      'is_published' => function ($model) {
-        $title = $model?->is_published;
+      'start_date' => function ($model) {
+        $title = $model?->start_date;
         return view('components.datatable.includes.columns.title', compact('title'));
       },
+      'end_date' => function ($model) {
+        $title = $model?->end_date;
+        return view('components.datatable.includes.columns.title', compact('title'));
+      },
+
       'price' => function ($model) {
         $title = $model?->price;
+        return view('components.datatable.includes.columns.title', compact('title'));
+      },
+      'coupon_code' => function ($model) {
+        $title = $model?->coupon_code ?? __('dashboard.no_coupon_code');
         return view('components.datatable.includes.columns.title', compact('title'));
       },
 
@@ -91,9 +100,11 @@ class AdvertiseDatatable extends BaseDatatable
       Column::computed('content')->title(__('dashboard.content'))->className('text-center'),
       Column::computed('file_name')->title(__('dashboard.video'))->className('text-center'),
       Column::computed('image')->title(__('dashboard.image'))->className('text-center'),
-      Column::computed('period')->title(__('dashboard.period'))->className('text-center'),
-      Column::computed('is_published')->title(__('dashboard.is_published'))->className('text-center'),
+      Column::computed('period')->title(__('dashboard.nums_of_times'))->className('text-center'),
+      Column::computed('start_date')->title(__('dashboard.start_date'))->className('text-center'),
+      Column::computed('end_date')->title(__('dashboard.end_date'))->className('text-center'),
       Column::computed('price')->title(__('dashboard.price'))->className('text-center'),
+      Column::computed('coupon_code')->title(__('dashboard.coupon_code'))->className('text-center'),
       Column::computed('created_at')->title(__('dashboard.created_at'))->className('text-center'),
       Column::computed('active')->title(__('dashboard.is_Active'))->className('text-center'),
       Column::computed('reason_cancelled')->title(__('dashboard.reason_cancelled'))->className('text-center'),

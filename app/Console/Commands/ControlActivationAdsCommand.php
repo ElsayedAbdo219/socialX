@@ -83,8 +83,13 @@ private function scheduleAd(Post $ad)
             foreach ($minutes as $minute) {
                 $playTime = $currentHourStart->copy()->addMinutes($minute);
                 // Dispatch a delayed job for activation
-                ActivateAdJob::dispatch($ad->id, $videoDuration)
-                    ->delay($playTime);
+                if (isset($ad->file_name)) {
+                    ActivateAdJob::dispatch($ad->id, $videoDuration)
+                        ->delay($playTime);
+                } elseif (isset($ad->image)) {
+                    ActivateAdJob::dispatch($ad->id, 60 * 5) // assuming 5 minutes for images
+                        ->delay($playTime);
+                }
             }
         }
     }

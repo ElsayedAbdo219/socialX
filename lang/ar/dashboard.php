@@ -400,6 +400,9 @@ return [
   'No_Avatar' => 'لا يوجد صورة شخصية',
   'avatar' => 'الصورة الشخصية',
   'all_countries' => 'كل الدول',
+  'nums_of_times' => 'عدد المرات',
+  'coupon_code' => 'كود الخصم',
+  'no_coupon_code' => 'لا يوجد كود خصم',
 
 
 

@@ -424,6 +424,9 @@ return [
     'No_Avatar' => 'No Avatar',
     'avatar' => 'Avatar',
     'all_countries' => 'All Countries',
+    'nums_of_times' => 'Nums of times',
+    'coupon_code' => 'Coupon Code',
+    'no_coupon_code' => 'No Coupon Code',
 
 
 
