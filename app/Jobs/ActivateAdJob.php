@@ -4,6 +4,7 @@ namespace App\Jobs;
 use App\Models\Post;
 use App\Enum\AdsStatusEnum;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -32,11 +33,22 @@ class ActivateAdJob implements ShouldQueue
         }
 
         // Activate
-        $ad->adsStatus()?->update(['status' => AdsStatusEnum::APPROVED]);
-        Log::info("Ad {$ad->id} activated.");
+        if($ad->adsStatus?->status === AdsStatusEnum::CANCELLED) {
+            Log::info("Ad NOT ACTIVATED {$ad->id} is cancelled, skipping activation.");
+        } 
+         DB::transaction(function () use ($ad) {
+            // Activate
+            $ad->adsStatus()?->update(['status' => AdsStatusEnum::APPROVED]);
+            $ad?->controlAds()?->updateOrCreate(
+                ['ads_id' => $ad->id],
+                ['play_on' => now()->toTimeString()]
+            );
+            Log::info("Ad {$ad->id} activated.");
 
-        // Schedule deactivation after duration
-        DeactivateAdJob::dispatch($ad->id)
-            ->delay(now()->addSeconds($this->duration));
+            // Schedule deactivation after duration
+            DeactivateAdJob::dispatch($ad->id)
+                ->delay(now()->addSeconds($this->duration));
+        });
+      
     }
 }

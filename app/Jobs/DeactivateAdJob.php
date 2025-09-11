@@ -4,6 +4,7 @@ namespace App\Jobs;
 use App\Models\Post;
 use App\Enum\AdsStatusEnum;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -25,8 +26,11 @@ class DeactivateAdJob implements ShouldQueue
     {
         $ad = Post::find($this->adId);
         if (!$ad) return;
-
-        $ad->adsStatus()?->update(['status' => AdsStatusEnum::CANCELLED]);
-        Log::info("Ad {$ad->id} deactivated.");
+        DB::transaction(function () use ($ad) {
+            // Deactivate
+            $ad->adsStatus()?->update(['status' => AdsStatusEnum::CANCELLED]);
+            $ad?->controlAds->delete();
+            Log::info("Ad {$ad->id} deactivated.");
+        });
     }
 }

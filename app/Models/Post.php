@@ -103,6 +103,11 @@ class Post extends Model
         return $this->hasMany(VideoView::class, 'video_id');
     }
 
+    public function controlAds()
+    {
+        return $this->hasOne(ControlAds::class, 'ads_id');
+    }
+
 
        # SCOPES
 

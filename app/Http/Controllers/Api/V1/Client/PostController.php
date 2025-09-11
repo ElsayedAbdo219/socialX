@@ -83,7 +83,9 @@ class PostController extends Controller
               });
           });
       })
-      ->orderByDesc('id')
+      ->whereHas('controlAds', function ($q3) {
+        $q3->orderByDesc('play_on');
+      })
       ->get()
       ->map(function ($post) {
         if ($post->status === PostTypeEnum::NORMAL) {
