@@ -33,7 +33,7 @@ class ActivateAdJob implements ShouldQueue
         }
 
         // Activate
-        if($ad->adsStatus?->status === AdsStatusEnum::CANCELLED) {
+        if($ad->adsStatus?->status === AdsStatusEnum::CANCELLED ||  $ad->adsStatus?->status === AdsStatusEnum::PENDING  ) {
             Log::info("Ad NOT ACTIVATED {$ad->id} is cancelled, skipping activation.");
         } 
          DB::transaction(function () use ($ad) {

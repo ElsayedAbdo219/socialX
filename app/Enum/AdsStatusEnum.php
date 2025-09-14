@@ -25,6 +25,16 @@ enum AdsStatusEnum: string
     ];
   }
 
+    public static function PendingAndCancelled()
+  {
+    return [
+      self::PENDING => 'pending',
+      self::CANCELLED => 'cancelled',
+    ];
+  }
+
+
+  
   public static function Cancelled()
   {
     return [

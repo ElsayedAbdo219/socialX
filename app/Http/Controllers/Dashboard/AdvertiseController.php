@@ -87,7 +87,7 @@ class AdvertiseController extends Controller
 
   public function edit(Post $Advertise)
   {
-    $adsStatus = AdsStatusEnum::Cancelled();
+    $adsStatus = AdsStatusEnum::PendingAndCancelled();
     // dd($Advertise?->adsStatus);
     return view(
       'dashboard.advertises.edit',
@@ -126,23 +126,23 @@ class AdvertiseController extends Controller
 
 
   # function Approved the post
-  // public function approved($Advertise)
-  // {
-  //   $notifabels = Member::where('id', $Advertise->user_id)->first();
-  //   if ($notifabels) {
-  //     $notificationData = [
-  //       'title' => "تفعيل اعلان جديدة",
-  //       'body' => "تم تفعيل اعلان لك من ثقه",
-  //       'type' => 'advertise',
-  //       'id_link' => $Advertise->id,
-  //     ];
+  public function approved($Advertise)
+  {
+    $notifabels = Member::where('id', $Advertise->user_id)->first();
+    if ($notifabels) {
+      $notificationData = [
+        'title' => "تفعيل اعلان جديدة",
+        'body' => "تم تفعيل اعلان لك من ثقه",
+        'type' => 'advertise',
+        'id_link' => $Advertise->id,
+      ];
 
-  //     \Illuminate\Support\Facades\Notification::send(
-  //       $notifabels,
-  //       new ClientNotification($notificationData, ['database', 'firebase'])
-  //     );
-  //   }
-  // }
+      \Illuminate\Support\Facades\Notification::send(
+        $notifabels,
+        new ClientNotification($notificationData, ['database', 'firebase'])
+      );
+    }
+  }
 
   # function cancelled the post
   public function cancelled($Advertise)
