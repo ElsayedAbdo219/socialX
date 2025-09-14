@@ -117,7 +117,7 @@ class AdvertiseController extends Controller
     );
     return match ($request->status) {
       AdsStatusEnum::PENDING => $this->pending($Advertise),
-      AdsStatusEnum::APPROVED => $this->approved($Advertise),
+      // AdsStatusEnum::APPROVED => $this->approved($Advertise),
       AdsStatusEnum::CANCELLED => $this->cancelled($Advertise),
       default => null,
     };
@@ -145,26 +145,26 @@ class AdvertiseController extends Controller
 
   }
 
-  # function pending the post
-  public function approved($Advertise)
-  {
-    $notifabels = Member::where('id', $Advertise->user_id)->first();
-    if ($notifabels) {
-      $notificationData = [
-        'title' => " اعلان جديد فالانتظار",
-        'body' => "تم تحديث اعلان لك من ثقة فالانتظار ",
-        'type' => 'advertise',
-        'id_link' => $Advertise->id,
-      ];
+  // # function pending the post
+  // public function approved($Advertise)
+  // {
+  //   $notifabels = Member::where('id', $Advertise->user_id)->first();
+  //   if ($notifabels) {
+  //     $notificationData = [
+  //       'title' => " اعلان جديد فالانتظار",
+  //       'body' => "تم تحديث اعلان لك من ثقة فالانتظار ",
+  //       'type' => 'advertise',
+  //       'id_link' => $Advertise->id,
+  //     ];
 
-      \Illuminate\Support\Facades\Notification::send(
-        $notifabels,
-        new ClientNotification($notificationData, ['database', 'firebase'])
-      );
-    }
-      return redirect()->route('admin.advertises.index')->with(['success', __('dashboard.item updated successfully')]);
+  //     \Illuminate\Support\Facades\Notification::send(
+  //       $notifabels,
+  //       new ClientNotification($notificationData, ['database', 'firebase'])
+  //     );
+  //   }
+  //     return redirect()->route('admin.advertises.index')->with(['success', __('dashboard.item updated successfully')]);
 
-  }
+  // }
 
   # function cancelled the post
   public function cancelled($Advertise)
