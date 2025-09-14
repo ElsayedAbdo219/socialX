@@ -116,23 +116,22 @@ class AdvertiseController extends Controller
       ]
     );
     return match ($request->status) {
-      // AdsStatusEnum::APPROVED => $this->approved($Advertise),
+      AdsStatusEnum::PENDING => $this->pending($Advertise),
+      AdsStatusEnum::APPROVED => $this->approved($Advertise),
       AdsStatusEnum::CANCELLED => $this->cancelled($Advertise),
       default => null,
     };
 
-    return redirect()->route('admin.advertises.index')->with(['success', __('dashboard.item updated successfully')]);
+  
   }
-
-
-  # function Approved the post
-  public function approved($Advertise)
+    # function pending the post
+  public function pending($Advertise)
   {
     $notifabels = Member::where('id', $Advertise->user_id)->first();
     if ($notifabels) {
       $notificationData = [
-        'title' => "تفعيل اعلان جديدة",
-        'body' => "تم تفعيل اعلان لك من ثقه",
+        'title' => " اعلان جديد فالانتظار",
+        'body' => "تم تحديث اعلان لك من ثقة فالانتظار ",
         'type' => 'advertise',
         'id_link' => $Advertise->id,
       ];
@@ -142,6 +141,29 @@ class AdvertiseController extends Controller
         new ClientNotification($notificationData, ['database', 'firebase'])
       );
     }
+      return redirect()->route('admin.advertises.index')->with(['success', __('dashboard.item updated successfully')]);
+
+  }
+
+  # function pending the post
+  public function approved($Advertise)
+  {
+    $notifabels = Member::where('id', $Advertise->user_id)->first();
+    if ($notifabels) {
+      $notificationData = [
+        'title' => " اعلان جديد فالانتظار",
+        'body' => "تم تحديث اعلان لك من ثقة فالانتظار ",
+        'type' => 'advertise',
+        'id_link' => $Advertise->id,
+      ];
+
+      \Illuminate\Support\Facades\Notification::send(
+        $notifabels,
+        new ClientNotification($notificationData, ['database', 'firebase'])
+      );
+    }
+      return redirect()->route('admin.advertises.index')->with(['success', __('dashboard.item updated successfully')]);
+
   }
 
   # function cancelled the post
@@ -161,6 +183,7 @@ class AdvertiseController extends Controller
         new ClientNotification($notificationData, ['database', 'firebase'])
       );
     }
+      return redirect()->route('admin.advertises.index')->with(['success', __('dashboard.item updated successfully')]);
   }
 
 
