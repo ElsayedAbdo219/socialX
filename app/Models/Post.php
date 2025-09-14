@@ -9,122 +9,135 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
-    use HasFactory,
+  use HasFactory,
     SoftDeletes;
 
-    protected $guarded=[];
-    protected $hidden = ['is_published'];
-    protected $appends = ['total_shares'];
-    protected $with = ['adsStatus'];
-    protected $casts = [
-        'is_Active' => 'boolean'
-    ];
+  protected $guarded = [];
+  protected $hidden = ['is_published'];
+  protected $appends = ['total_shares'];
+  protected $with = ['adsStatus'];
+  protected $casts = [
+    'is_Active' => 'boolean'
+  ];
 
-      protected function FileName(): Attribute
-    {
-        return Attribute::make(
-            get: fn (mixed $value) => !is_null($value) ? url('storage/posts/'.$value) : null ,
-        );
-    }
+  protected function FileName(): Attribute
+  {
+    return Attribute::make(
+      get: fn(mixed $value) => !is_null($value) ? url('storage/posts/' . $value) : null,
+    );
+  }
 
-      protected function Image(): Attribute
-    {
-        return Attribute::make(
-            get: fn (mixed $value) => !is_null($value) ? url('storage/posts/'.$value) : null ,
-        );
-    } 
-
-  
+  protected function Image(): Attribute
+  {
+    return Attribute::make(
+      get: fn(mixed $value) => !is_null($value) ? url('storage/posts/' . $value) : null,
+    );
+  }
 
 
 
-    public function user(){
-        return $this->belongsTo(Member::class,'user_id');
-    }
 
-    /* public function creator(){
+
+  public function user()
+  {
+    return $this->belongsTo(Member::class, 'user_id');
+  }
+
+  /* public function creator(){
         return $this->belongsTo(Member::class,'user_id')->hidden(['job','email','is_Active','phone']);
     } */
 
-    public function review(){
-        return $this->hasMany(Review::class,'post_id');
-    }
+  public function review()
+  {
+    return $this->hasMany(Review::class, 'post_id');
+  }
 
-    public function likes(){
-        return $this->hasMany(Like::class,'post_id');
-    }
-
-
-    public function likesSum()
-    {
-        return $this->hasMany(Like::class, 'post_id')
-                    ->selectRaw('post_id, sum(likes) as total_likes')
-                    ->groupBy('post_id');
-    }
+  public function likes()
+  {
+    return $this->hasMany(Like::class, 'post_id');
+  }
 
 
-    public function dislikes(){
-        return $this->hasMany(Dislike::class,'post_id');
-    }
+  public function likesSum()
+  {
+    return $this->hasMany(Like::class, 'post_id')
+      ->selectRaw('post_id, sum(likes) as total_likes')
+      ->groupBy('post_id');
+  }
 
 
-    public function dislikesSum()
-    {
-        return $this->hasMany(Dislike::class, 'post_id')
-                    ->selectRaw('post_id, sum(dislikes) as total_likes')
-                    ->groupBy('post_id');
-    }
-   
-
-    public function shares()
-    {
-        return $this->hasMany(SharedPost::class,'post_id');
-    }
+  public function dislikes()
+  {
+    return $this->hasMany(Dislike::class, 'post_id');
+  }
 
 
-    public function comments()
-    {
-        return $this->hasMany(Comment::class,'post_id');
-    }
+  public function dislikesSum()
+  {
+    return $this->hasMany(Dislike::class, 'post_id')
+      ->selectRaw('post_id, sum(dislikes) as total_likes')
+      ->groupBy('post_id');
+  }
 
 
-    public function reacts()
-    {
-        return $this->hasMany(React::class,'post_id');
-    }
-    
-    public function adsStatus()
-    {
-        return $this->hasOne(AdsStatus::class, 'ads_id');
-    }
-
-    public function views()
-    {
-        return $this->hasMany(VideoView::class, 'video_id');
-    }
-
-    public function controlAds()
-    {
-        return $this->hasOne(ControlAds::class, 'ads_id');
-    }
+  public function shares()
+  {
+    return $this->hasMany(SharedPost::class, 'post_id');
+  }
 
 
-       # SCOPES
+  public function comments()
+  {
+    return $this->hasMany(Comment::class, 'post_id');
+  }
 
-       public function scopeOfName($query,$value){
 
-        return $query->whereHas('user',function($query ) use ($value){
+  public function reacts()
+  {
+    return $this->hasMany(React::class, 'post_id');
+  }
 
-            $query->where('full_name','like',"%$value%");
+  public function adsStatus()
+  {
+    return $this->hasOne(AdsStatus::class, 'ads_id');
+  }
 
-        });
-    }
+  public function views()
+  {
+    return $this->hasMany(VideoView::class, 'video_id');
+  }
 
-      public function gettotalSharesAttribute()
-      {
-        // dd($this->withCount($this->shares()));
-        return $this->shares()->count();
-      }
+  public function controlAds()
+  {
+    return $this->hasMany(ControlAds::class, 'ads_id');
+  }
 
+
+  # SCOPES
+
+  public function scopeOfName($query, $value)
+  {
+
+    return $query->whereHas('user', function ($query) use ($value) {
+
+      $query->where('full_name', 'like', "%$value%");
+    });
+  }
+
+  public function gettotalSharesAttribute()
+  {
+    // dd($this->withCount($this->shares()));
+    return $this->shares()->count();
+  }
+
+public function scopeOfcontrolAds($q)
+{
+    return $q->orderByDesc(
+        \DB::raw('(select play_on 
+                   from control_ads 
+                   where control_ads.ads_id = posts.id 
+                   limit 1)')
+    );
+}
 
 }
