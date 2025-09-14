@@ -83,7 +83,7 @@ class PostController extends Controller
               });
           });
       })
-      ->whereHas('controlAds', function ($q3) {
+      ->OrwhereHas('controlAds', function ($q3) {
         $q3->orderByDesc('play_on');
       })
       ->get()
